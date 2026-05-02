@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#050507" />
+
+  <title>UMBRA by CFX — Comms tácticos para gaming serio</title>
+  <meta name="description" content="Plataforma de comunicación de voz para gaming táctico. Whisper cross-canal, hotkeys globales con gamepad, multi-sala simultánea. Construido para squads competitivos y orgs que coordinan ops reales." />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="UMBRA — Comms tácticos para gaming serio" />
+  <meta property="og:description" content="Whisper cross-canal, hotkeys globales, multi-sala. La voz de las orgs serias." />
+  <meta property="og:image" content="assets/logo-umbra-cfx.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <!-- Favicon (usa el logo cuadrado) -->
+  <link rel="icon" type="image/png" href="assets/logo-cfx.png" />
+
+  <!-- Preload assets críticos -->
+  <link rel="preload" as="video" href="assets/logo-loading.mp4" type="video/mp4" />
+
+  <!-- API base — cambiar al dominio del server en producción.
+       Ejemplo: https://api.umbra.cfx-studio.com  -->
+  <meta name="umbra-api-base" content="http://localhost:3000" />
+
+  <link rel="stylesheet" href="css/styles.css" />
+
+  <!-- Prevenir flash de contenido sin traducir si el idioma del browser
+       no es el por defecto del HTML (es). Se revela cuando i18n.js corre. -->
+  <script>
+    (function () {
+      var SUP = ['es','en','fr','de','pt','zh'];
+      var saved = null;
+      try { saved = localStorage.getItem('umbra:lang'); } catch (e) {}
+      var lang = saved || (navigator.language || 'en').split('-')[0].toLowerCase();
+      if (SUP.indexOf(lang) === -1) lang = 'en';
+      document.documentElement.lang = lang;
+      if (lang !== 'es') document.documentElement.classList.add('lang-pending');
+    })();
+  </script>
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       VIDEO DE FONDO GLOBAL — atmósfera detrás de todas las secciones
+       (el #hero tiene su propia capa con el triángulo y lo tapa)
+       ═══════════════════════════════════════════════════════════ -->
+
+  <video class="global-bg-video" autoplay muted loop playsinline preload="auto" aria-hidden="true">
+    <source src="assets/bg-video.mp4" type="video/mp4" />
+  </video>
+
+
+  <!-- ═══════════════════════════════════════════════════════════
+       SPLASH DE CARGA — efecto cinematográfico (video + glow + vignette)
+       Mismo lenguaje visual que el hero, transición continua.
+       ═══════════════════════════════════════════════════════════ -->
+
+  <div id="splash" role="status" aria-label="Cargando UMBRA">
+    <div class="splash-bg" aria-hidden="true">
+      <video src="assets/logo-loading.mp4" autoplay muted playsinline loop preload="auto"></video>
+    </div>
+    <div class="splash-content">
+      <div class="splash-mark">UMBRA</div>
+      <div class="splash-sub" data-i18n="splash.online">SYSTEMS · ONLINE</div>
+      <div class="splash-progress" aria-hidden="true"></div>
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════════════════
+       NAVIGATION
+       ═══════════════════════════════════════════════════════════ -->
+
+  <nav class="main-nav" aria-label="Navegación principal">
+    <div class="container">
+      <a href="#" class="logo" aria-label="UMBRA inicio">
+        <img class="triangle-mark" src="assets/logo-triangle.png" alt="" aria-hidden="true" />
+        <span>UMBRA</span>
+        <span class="by-cfx">by CFX</span>
+      </a>
+
+      <ul class="links" role="list">
+        <li><a href="#problem"    data-i18n="nav.problem">El problema</a></li>
+        <li><a href="#features"   data-i18n="nav.product">Producto</a></li>
+        <li><a href="#tactical"   data-i18n="nav.tactical">Tactical</a></li>
+        <li><a href="#mobile"     data-i18n="nav.mobile">Mobile</a></li>
+        <li><a href="#pricing"    data-i18n="nav.pricing">Precios</a></li>
+        <li><a href="#about-cfx"  data-i18n="nav.cfx">CFX</a></li>
+      </ul>
+
+      <div class="nav-cta">
+        <!-- Selector de idioma -->
+        <div class="lang-selector">
+          <button class="lang-toggle"
+                  data-i18n-attr="aria-label:nav.lang"
+                  aria-label="Cambiar idioma"
+                  aria-haspopup="true"
+                  aria-expanded="false">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+              <circle cx="7" cy="7" r="6" />
+              <path d="M1 7 H13 M7 1 C 9.5 4, 9.5 10, 7 13 M7 1 C 4.5 4, 4.5 10, 7 13" />
+            </svg>
+            <span class="lang-current">ES</span>
+            <svg class="lang-chevron" width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+              <polyline points="1,1 5,5 9,1" />
+            </svg>
+          </button>
+          <div class="lang-dropdown" role="listbox">
+            <button class="lang-option" data-lang="es" role="option"><span class="lang-code">ES</span><span class="lang-name">Español</span></button>
+            <button class="lang-option" data-lang="en" role="option"><span class="lang-code">EN</span><span class="lang-name">English</span></button>
+            <button class="lang-option" data-lang="fr" role="option"><span class="lang-code">FR</span><span class="lang-name">Français</span></button>
+            <button class="lang-option" data-lang="de" role="option"><span class="lang-code">DE</span><span class="lang-name">Deutsch</span></button>
+            <button class="lang-option" data-lang="pt" role="option"><span class="lang-code">PT</span><span class="lang-name">Português</span></button>
+            <button class="lang-option" data-lang="zh" role="option"><span class="lang-code">ZH</span><span class="lang-name">中文</span></button>
+          </div>
+        </div>
+
+        <!-- Login (cuando el usuario no está autenticado) -->
+        <button class="btn-login" type="button" aria-label="Login">
+          <span data-i18n="auth.login">Iniciar sesión</span>
+        </button>
+
+        <!-- User menu (cuando hay sesión) — hidden por defecto -->
+        <div class="user-menu" hidden>
+          <button class="user-toggle" aria-haspopup="true" aria-expanded="false">
+            <span class="user-avatar" aria-hidden="true"></span>
+            <span class="user-name"></span>
+            <svg class="user-chevron" width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+              <polyline points="1,1 5,5 9,1" />
+            </svg>
+          </button>
+          <div class="user-dropdown" role="menu">
+            <button class="user-option" data-action="signout" role="menuitem">
+              <span data-i18n="auth.user.signout">Cerrar sesión</span>
+            </button>
+          </div>
+        </div>
+
+        <a href="#cta-final" class="btn btn-primary">
+          <span data-i18n="nav.cta">Únete a la beta</span>
+          <span class="arrow" aria-hidden="true">→</span>
+        </a>
+
+        <button class="menu-toggle"
+                data-i18n-attr="aria-label:nav.menu"
+                aria-label="Abrir menú"
+                aria-expanded="false">
+          <svg width="18" height="14" viewBox="0 0 18 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+            <line x1="0" y1="2"  x2="18" y2="2" />
+            <line x1="0" y1="7"  x2="18" y2="7" />
+            <line x1="0" y1="12" x2="18" y2="12" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Mobile drawer -->
+  <div class="mobile-drawer" aria-label="Menú móvil">
+    <a href="#problem"   data-i18n="nav.problem">El problema</a>
+    <a href="#features"  data-i18n="nav.product">Producto</a>
+    <a href="#tactical"  data-i18n="nav.tactical">Tactical</a>
+    <a href="#mobile"    data-i18n="nav.mobile">Mobile</a>
+    <a href="#pricing"   data-i18n="nav.pricing">Precios</a>
+    <a href="#about-cfx" data-i18n="nav.cfx">CFX</a>
+    <a href="#cta-final" class="btn btn-primary" data-i18n="nav.cta">Únete a la beta</a>
+
+    <!-- Login en el drawer (cuando no hay sesión) -->
+    <button class="drawer-login" type="button">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+        <path d="M10 2 H13 A1 1 0 0 1 14 3 V13 A1 1 0 0 1 13 14 H10 M7 4 L11 8 L7 12 M2 8 H11" />
+      </svg>
+      <span data-i18n="auth.login">Iniciar sesión</span>
+    </button>
+
+    <!-- User info en el drawer (cuando hay sesión) -->
+    <div class="drawer-user" hidden>
+      <div class="drawer-user-info">
+        <span class="user-avatar" aria-hidden="true"></span>
+        <div class="drawer-user-meta">
+          <span class="drawer-user-name"></span>
+          <span class="drawer-user-email"></span>
+        </div>
+      </div>
+      <button class="drawer-user-signout" data-action="signout">
+        <span data-i18n="auth.user.signout">Cerrar sesión</span>
+      </button>
+    </div>
+
+    <!-- Selector de idioma dentro del drawer (más táctil) -->
+    <div class="drawer-lang">
+      <span class="drawer-lang-label" data-i18n="nav.lang">Cambiar idioma</span>
+      <div class="drawer-lang-grid">
+        <button class="lang-option drawer-lang-opt" data-lang="es"><span class="lang-code">ES</span><span class="lang-name">Español</span></button>
+        <button class="lang-option drawer-lang-opt" data-lang="en"><span class="lang-code">EN</span><span class="lang-name">English</span></button>
+        <button class="lang-option drawer-lang-opt" data-lang="fr"><span class="lang-code">FR</span><span class="lang-name">Français</span></button>
+        <button class="lang-option drawer-lang-opt" data-lang="de"><span class="lang-code">DE</span><span class="lang-name">Deutsch</span></button>
+        <button class="lang-option drawer-lang-opt" data-lang="pt"><span class="lang-code">PT</span><span class="lang-name">Português</span></button>
+        <button class="lang-option drawer-lang-opt" data-lang="zh"><span class="lang-code">ZH</span><span class="lang-name">中文</span></button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════════════════
+       HERO
+       ═══════════════════════════════════════════════════════════ -->
+
+  <section id="hero">
+    <div class="hero-bg" aria-hidden="true">
+      <video src="assets/logo-loading.mp4" autoplay muted playsinline loop preload="auto"></video>
+    </div>
+
+    <div class="container">
+      <div class="hero-content">
+        <div class="hero-badge">
+          <span class="dot" aria-hidden="true"></span>
+          <span data-i18n="hero.badge">BETA · ACCESO ANTICIPADO 2026</span>
+        </div>
+
+        <h1 data-i18n-html="hero.h1.html">
+          La voz que tu <span class="stroke">squad</span> necesita.
+        </h1>
+
+        <p class="lead" data-i18n="hero.lead">
+          Comms tácticos con whisper cross-canal, hotkeys globales (incluso con
+          gamepad) y multi-sala simultánea. Construido para gaming serio —
+          para los squads que coordinan ops reales.
+        </p>
+
+        <div class="hero-cta">
+          <a href="#cta-final" class="btn btn-primary">
+            <span data-i18n="hero.cta1">Descargar Beta</span>
+            <span class="arrow" aria-hidden="true">↓</span>
+          </a>
+          <a href="#features" class="btn btn-secondary">
+            <span data-i18n="hero.cta2">Ver el producto</span>
+            <span class="arrow" aria-hidden="true">→</span>
+          </a>
+        </div>
+
+        <div class="hero-meta">
+          <div class="stat">
+            <span class="num">&lt;40<small>ms</small></span>
+            <span class="label" data-i18n="hero.stat1.label">Latencia táctica</span>
+          </div>
+          <div class="stat">
+            <span class="num">∞</span>
+            <span class="label" data-i18n="hero.stat2.label">Salas simultáneas</span>
+          </div>
+          <div class="stat">
+            <span class="num">3<small>/3</small></span>
+            <span class="label" data-i18n="hero.stat3.label">Plataformas pronto</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-visual" aria-hidden="true">
+        <div class="logo-frame">
+          <img src="assets/logo-umbra-cfx.png" alt="UMBRA by CFX" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════════════════
+       PROBLEM / DIFFERENTIATION
+       ═══════════════════════════════════════════════════════════ -->
+
+  <section id="problem">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="text">
+          <div class="eyebrow"><span class="num">01</span> <span data-i18n="problem.eyebrow">El problema</span></div>
+          <h2 data-i18n-html="problem.h2.html">Las apps de chat son buenas para hablar.<br />Umbra es para coordinar.</h2>
+        </div>
+        <div class="text">
+          <p data-i18n="problem.lead">
+            Hay una diferencia gigante entre charlar con amigos y comandar 50
+            personas en una operación de varias squads. Las apps de comms
+            generalistas nunca fueron diseñadas para lo segundo. Nosotros sí.
+          </p>
+        </div>
+      </div>
+
+      <div class="quote-block reveal">
+        <div class="versus">
+          <div class="side">
+            <h4 data-i18n="problem.casual.title">Lo que hacen las apps casuales</h4>
+            <p data-i18n="problem.casual.text">
+              Una sala. Una voz. Si querés escuchar a otra squad,
+              te vas. Si querés coordinar entre dos, abrís dos
+              ventanas y rezás.
+            </p>
+          </div>
+
+          <div class="divider" aria-hidden="true">
+            <span data-i18n="problem.vs">vs</span>
+          </div>
+
+          <div class="side umbra">
+            <h4 data-i18n="problem.umbra.title">Lo que hace UMBRA</h4>
+            <p data-i18n="problem.umbra.text">
+              Estás en tu sala. Mantenés apretado un botón y hablás
+              a otra sala — o a todas al mismo tiempo — sin moverte.
+              Soltás y volvés al instante. Tu squad nunca te perdió.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════════════════
+       FEATURES
+       ═══════════════════════════════════════════════════════════ -->
+
+  <section id="features">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="text">
+          <div class="eyebrow"><span class="num">02</span> <span data-i18n="features.eyebrow">Producto</span></div>
+          <h2 data-i18n="features.h2">Pensado para el caos del combate.</h2>
+        </div>
+        <div class="text">
+          <p data-i18n="features.lead">
+            Cuatro decisiones de diseño que ningún competidor ofrece junto.
+            Cada una nace de un dolor real de coordinar squads en juegos
+            tácticos.
+          </p>
+        </div>
+      </div>
+
+      <div class="features-grid">
+        <!-- Feature destacado: Whisper cross-canal -->
+        <div class="feature-card large reveal">
+          <div class="feature-num" data-i18n="features.f1.label">01 · DIFERENCIADOR</div>
+          <h3 data-i18n="features.f1.title">Whisper cross-canal en tiempo real</h3>
+          <p data-i18n="features.f1.text">
+            Mantenés apretado un atajo y tu voz llega a otra sala
+            sin abandonar la tuya. Los miembros de la sala destino te
+            escuchan etiquetado como whisper, sin interrumpir su
+            conversación. Soltás el atajo y todo vuelve a su sitio.
+          </p>
+
+          <div class="visual-mock" aria-hidden="true">
+            <div class="room active">
+              <span class="room-dot"></span>
+              <span>Bridge / Mando</span>
+              <span class="members">4</span>
+            </div>
+            <div class="whisper-arrow" data-i18n="features.f1.arrow">— whisper →</div>
+            <div class="room">
+              <span class="room-dot"></span>
+              <span>Squad Alpha</span>
+              <span class="members">8</span>
+            </div>
+            <div class="room">
+              <span class="room-dot"></span>
+              <span>Squad Bravo</span>
+              <span class="members">7</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Feature: Global hotkeys -->
+        <div class="feature-card reveal">
+          <div class="feature-num">02</div>
+          <h3 data-i18n="features.f2.title">Hotkeys globales reales</h3>
+          <p data-i18n="features.f2.text">
+            Tu PTT funciona aunque el juego tenga el foco. Bindeás
+            cualquier botón de tu teclado, mouse o gamepad — incluso
+            esos que el juego ignora.
+          </p>
+          <div class="footnote" data-i18n-html="features.f2.note.html">
+            Compatible con <kbd>Mouse 4/5</kbd> · <kbd>Stick R3</kbd> · <kbd>Pedales</kbd> · <kbd>HOTAS</kbd>
+          </div>
+        </div>
+
+        <!-- Feature: Multi-sala simultánea -->
+        <div class="feature-card reveal">
+          <div class="feature-num">03</div>
+          <h3 data-i18n="features.f3.title">Presencia multi-sala</h3>
+          <p data-i18n="features.f3.text">
+            Ves a quién hay en cada sala del canal en tiempo real.
+            Asignás un atajo distinto a cada destino y disparás
+            whispers como si fuera selección de target en un HUD.
+          </p>
+          <div class="footnote" data-i18n-html="features.f3.note.html">
+            <kbd>1</kbd> → Alpha · <kbd>2</kbd> → Bravo · <kbd>3</kbd> → Recon
+          </div>
+        </div>
+
+        <!-- Feature: Audio HD low-latency -->
+        <div class="feature-card reveal">
+          <div class="feature-num">04</div>
+          <h3 data-i18n="features.f4.title">Audio Opus 48 kHz</h3>
+          <p data-i18n="features.f4.text">
+            SFU dedicado con codec Opus a calidad táctica. Sin
+            compresión salvaje, sin pérdida de inteligibilidad
+            cuando todos hablan al mismo tiempo. Latencia bajo 40 ms
+            en condiciones normales.
+          </p>
+          <div class="footnote" data-i18n="features.f4.note">
+            Mediasoup · WebRTC · UDP nativo
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════════════════
+       WHISPER — HOW IT WORKS
+       ═══════════════════════════════════════════════════════════ -->
+
+  <section id="whisper">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="text">
+          <div class="eyebrow"><span class="num">03</span> <span data-i18n="whisper.eyebrow">Cómo funciona</span></div>
+          <h2 data-i18n="whisper.h2">El whisper, paso a paso.</h2>
+        </div>
+        <div class="text">
+          <p data-i18n="whisper.lead">
+            Sin abandonar tu sala, tu voz llega a otra etiquetada como
+            whisper. Los miembros del destino la escuchan superpuesta a
+            su conversación normal, con un indicador visual de quién y
+            desde dónde habla.
+          </p>
+        </div>
+      </div>
+
+      <div class="whisper-diagram reveal">
+        <!-- Sala origen -->
+        <div class="whisper-room source">
+          <div class="room-label" data-i18n="whisper.r1.label">Sala origen · BRIDGE</div>
+          <h4 data-i18n="whisper.r1.title">Mando táctico</h4>
+          <div class="members-list">
+            <div class="member speaking">
+              <span class="avatar">X</span>
+              <span data-i18n="whisper.r1.m1">Xolii · hablando</span>
+            </div>
+            <div class="member">
+              <span class="avatar">C</span>
+              <span>Chuker</span>
+            </div>
+            <div class="member">
+              <span class="avatar">F</span>
+              <span>Frost</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Flecha -->
+        <div class="whisper-arrow-wrap" aria-hidden="true">
+          <span class="arrow-line">━━━━▶</span>
+          <span class="arrow-label" data-i18n="whisper.arrow">Whisper</span>
+        </div>
+
+        <!-- Sala destino -->
+        <div class="whisper-room">
+          <div class="room-label" data-i18n="whisper.r2.label">Sala destino · SQUAD ALPHA</div>
+          <h4 data-i18n="whisper.r2.title">Pelotón en combate</h4>
+          <div class="members-list">
+            <div class="member">
+              <span class="avatar">A</span>
+              <span>Anvil_01</span>
+            </div>
+            <div class="member">
+              <span class="avatar">A</span>
+              <span>Anvil_02</span>
+            </div>
+            <div class="member whisper-tag">
+              <span class="avatar">X</span>
+              <span>Xolii [whisper from Bridge]</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════════════════
+       TACTICAL — para orgs y squads que coordinan ops reales
+       ═══════════════════════════════════════════════════════════ -->
+
+  <section id="tactical">
+    <div class="container">
+      <div class="sc-grid">
+        <div class="sc-content reveal">
+          <div class="eyebrow"><span class="num">04</span> <span data-i18n="tactical.eyebrow">Para gaming serio</span></div>
+          <h2 data-i18n="tactical.h2">Construido para ops multi-squad de verdad.</h2>
+          <p class="lead" data-i18n="tactical.lead">
+            Las orgs grandes que hacen operaciones reales sufren con apps
+            generalistas: una sala por squad, comandantes con cinco ventanas
+            abiertas, llegando tarde a las jugadas. Umbra resuelve ese
+            problema en su raíz, sin importar el juego.
+          </p>
+
+          <ul class="sc-points">
+            <li>
+              <span data-i18n-html="tactical.p1.html"><strong>Operaciones multi-squad reales.</strong> Un comandante
+              puede hablar simultáneamente a Alpha, Bravo, Recon o Capital con
+              un atajo por escuadrón.</span>
+            </li>
+            <li>
+              <span data-i18n-html="tactical.p2.html"><strong>Roles jerárquicos integrados.</strong> Squad leader,
+              officer, miembro — los permisos reflejan tu org, no la app de
+              chat de turno.</span>
+            </li>
+            <li>
+              <span data-i18n-html="tactical.p3.html"><strong>Privacidad para tu org.</strong> Servidor dedicado o
+              self-hosted. Tus comms no se mezclan con el resto de la
+              comunidad de internet.</span>
+            </li>
+            <li>
+              <span data-i18n-html="tactical.p4.html"><strong>Pronto: integraciones con APIs de juegos.</strong>
+              Ver a tus miembros in-game, su estado, sus stats — directamente
+              en Umbra.</span>
+            </li>
+          </ul>
+
+          <a href="#cta-final" class="btn btn-secondary">
+            <span data-i18n="tactical.cta">Reservar lugar para tu org</span>
+            <span class="arrow" aria-hidden="true">→</span>
+          </a>
+        </div>
+
+        <div class="sc-visual reveal" aria-hidden="true">
+          <div class="grid-bg"></div>
+          <div class="visual-content">
+            <div class="ops-tag">OP // NIGHTFALL · MIC-04</div>
+            <div class="ops-formation">
+              <div class="ops-row"><span>BRIDGE · 4 op</span><span class="ping">28ms</span></div>
+              <div class="ops-row highlight"><span>SQUAD ALPHA · 8 op</span><span class="ping">31ms</span></div>
+              <div class="ops-row"><span>SQUAD BRAVO · 7 op</span><span class="ping">29ms</span></div>
+              <div class="ops-row"><span>RECON FOX · 3 op</span><span class="ping">35ms</span></div>
+              <div class="ops-row"><span>CAPITAL · 2 op</span><span class="ping">26ms</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════════════════
+       MOBILE / BEYOND GAMING — la app móvil + use cases del mundo real
+       ═══════════════════════════════════════════════════════════ -->
+
+  <section id="mobile">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="text">
+          <div class="eyebrow"><span class="num">05</span> <span data-i18n="mobile.eyebrow">App móvil</span></div>
+          <h2 data-i18n="mobile.h2">Cuando la sala de squad es un campo real.</h2>
+        </div>
+        <div class="text">
+          <p data-i18n="mobile.lead">
+            La app móvil de Umbra (próximamente iOS y Android) lleva las
+            mismas comms tácticas a cualquier escenario. Donde tu equipo
+            opera, ahí estamos — el whisper cross-canal funciona donde haya
+            señal.
+          </p>
+        </div>
+      </div>
+
+      <div class="mobile-cards-grid">
+
+        <!-- 1. Airsoft & Milsim -->
+        <div class="use-case-card reveal">
+          <div class="uc-icon" aria-hidden="true">
+            <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="16" cy="16" r="12"/>
+              <circle cx="16" cy="16" r="6"/>
+              <line x1="16" y1="2"  x2="16" y2="8"/>
+              <line x1="16" y1="24" x2="16" y2="30"/>
+              <line x1="2"  y1="16" x2="8"  y2="16"/>
+              <line x1="24" y1="16" x2="30" y2="16"/>
+              <circle cx="16" cy="16" r="1.5" fill="currentColor"/>
+            </svg>
+          </div>
+          <h3 data-i18n="mobile.c1.title">Airsoft & Milsim</h3>
+          <p data-i18n="mobile.c1.text">Cinco squads dispersas en el campo. El comandante coordina por sectores con whisper sin saturar el canal general. La radio se queda en el bolsillo.</p>
+        </div>
+
+        <!-- 2. Paintball -->
+        <div class="use-case-card reveal">
+          <div class="uc-icon" aria-hidden="true">
+            <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="16" cy="16" r="11"/>
+              <circle cx="11" cy="11" r="2.2" fill="currentColor"/>
+              <circle cx="21" cy="13" r="1.6" fill="currentColor"/>
+              <circle cx="14" cy="20" r="1.8" fill="currentColor"/>
+              <circle cx="22" cy="21" r="2"   fill="currentColor"/>
+            </svg>
+          </div>
+          <h3 data-i18n="mobile.c2.title">Paintball táctico</h3>
+          <p data-i18n="mobile.c2.text">Coordinación rápida entre flancos. Llamás cobertura a tu compañero del otro lado del campo sin que el resto del equipo escuche el setup.</p>
+        </div>
+
+        <!-- 3. Producción audiovisual -->
+        <div class="use-case-card reveal">
+          <div class="uc-icon" aria-hidden="true">
+            <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="11" width="26" height="18" rx="1.5"/>
+              <path d="M3 11 L8 6 L13 11 M11 11 L16 6 L21 11 M19 11 L24 6 L29 11"/>
+            </svg>
+          </div>
+          <h3 data-i18n="mobile.c3.title">Producción audiovisual</h3>
+          <p data-i18n="mobile.c3.text">Director, cámara, sonido y luces — cada uno en su sala, con whispers privados al talento sin interrumpir la toma. Sin walkie clásico.</p>
+        </div>
+
+        <!-- 4. FPV / Drone Racing -->
+        <div class="use-case-card reveal">
+          <div class="uc-icon" aria-hidden="true">
+            <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="8"  cy="8"  r="3.5"/>
+              <circle cx="24" cy="8"  r="3.5"/>
+              <circle cx="8"  cy="24" r="3.5"/>
+              <circle cx="24" cy="24" r="3.5"/>
+              <line x1="11" y1="11" x2="21" y2="21"/>
+              <line x1="21" y1="11" x2="11" y2="21"/>
+              <circle cx="16" cy="16" r="2.5" fill="currentColor"/>
+            </svg>
+          </div>
+          <h3 data-i18n="mobile.c4.title">FPV & Drone racing</h3>
+          <p data-i18n="mobile.c4.text">Piloto en goggles, spotter relayando obstáculos en tiempo real. Latencia bajo 40 ms — la diferencia entre cruzar el gate o estrellar el quad.</p>
+        </div>
+
+        <!-- 5. Outdoor sports -->
+        <div class="use-case-card reveal">
+          <div class="uc-icon" aria-hidden="true">
+            <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 26 L11 14 L17 22 L22 16 L29 26 Z"/>
+              <line x1="11" y1="14" x2="11" y2="14.5"/>
+              <circle cx="22" cy="9" r="2"/>
+            </svg>
+          </div>
+          <h3 data-i18n="mobile.c5.title">Outdoor & expediciones</h3>
+          <p data-i18n="mobile.c5.text">Esquí off-piste, vela, escalada de equipo. Grupos divididos en posiciones, líder coordinando rutas y emergencias sin gritar al viento.</p>
+        </div>
+
+        <!-- 6. Equipos profesionales -->
+        <div class="use-case-card reveal">
+          <div class="uc-icon" aria-hidden="true">
+            <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M16 3 L27 7 V16 C27 22 22 27 16 29 C10 27 5 22 5 16 V7 Z"/>
+              <path d="M11 16 L15 20 L22 12"/>
+            </svg>
+          </div>
+          <h3 data-i18n="mobile.c6.title">Equipos profesionales</h3>
+          <p data-i18n="mobile.c6.text">Security en eventos, training de respuesta, coaching deportivo. Donde haya equipos coordinándose, Umbra reemplaza al chat WhatsApp con algo serio.</p>
+        </div>
+
+      </div>
+
+      <!-- Mobile coming soon callout -->
+      <div class="mobile-coming reveal">
+        <div class="mobile-coming-inner">
+          <svg class="mobile-coming-icon" viewBox="0 0 32 48" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" aria-hidden="true">
+            <rect x="3" y="2" width="26" height="44" rx="4"/>
+            <line x1="13" y1="42" x2="19" y2="42"/>
+            <rect x="6" y="6" width="20" height="32" rx="1" stroke-opacity="0.4"/>
+          </svg>
+          <div class="mobile-coming-text">
+            <span class="mobile-coming-label" data-i18n="mobile.coming.label">App móvil</span>
+            <span class="mobile-coming-value" data-i18n="mobile.coming.value">iOS y Android · Próximamente</span>
+          </div>
+          <div class="mobile-coming-tags">
+            <span class="mobile-tag">iOS</span>
+            <span class="mobile-tag">Android</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════════════════
+       PRICING
+       ═══════════════════════════════════════════════════════════ -->
+
+  <section id="pricing">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="text">
+          <div class="eyebrow"><span class="num">06</span> <span data-i18n="pricing.eyebrow">Precios</span></div>
+          <h2 data-i18n="pricing.h2">Free para gamers. Suscripción para orgs.</h2>
+        </div>
+        <div class="text">
+          <p data-i18n="pricing.lead">
+            Si jugás casual, Umbra es gratis para siempre. La org paga, los
+            miembros se conectan. Sin ads, sin cosmetics, sin tonterías —
+            tu suscripción cubre infraestructura y equipo.
+          </p>
+        </div>
+      </div>
+
+      <div class="pricing-grid">
+        <!-- Tier Free -->
+        <div class="price-card reveal">
+          <div class="tier-name">Community</div>
+          <div class="tier-tagline" data-i18n="pricing.community.tagline">Para grupos pequeños y squads casuales.</div>
+          <div class="price">
+            <span class="amount">$0</span>
+            <span class="period" data-i18n="pricing.period">/ mes</span>
+          </div>
+          <div class="price-note" data-i18n="pricing.community.note">Para siempre · sin tarjeta</div>
+          <ul class="features-list">
+            <li data-i18n-html="pricing.community.f1.html">Hasta <strong>10 miembros</strong> por canal</li>
+            <li data-i18n="pricing.community.f2">Salas de voz ilimitadas</li>
+            <li data-i18n="pricing.community.f3">Whisper limitado a 2 destinos simultáneos</li>
+            <li data-i18n="pricing.community.f4">Hotkeys globales (teclado y mouse)</li>
+            <li data-i18n="pricing.community.f5">Audio Opus standard</li>
+            <li data-i18n="pricing.community.f6">Login con Google</li>
+          </ul>
+          <a href="#cta-final" class="btn btn-secondary" data-i18n="pricing.community.cta">Empezar gratis</a>
+        </div>
+
+        <!-- Tier Org -->
+        <div class="price-card featured reveal">
+          <span class="featured-tag" data-i18n="pricing.org.featured">Más elegido</span>
+          <div class="tier-name">Org</div>
+          <div class="tier-tagline" data-i18n="pricing.org.tagline">Para orgs y clanes que coordinan ops reales.</div>
+          <div class="price">
+            <span class="amount">$30</span>
+            <span class="period" data-i18n="pricing.period">/ mes</span>
+          </div>
+          <div class="price-note" data-i18n="pricing.org.note">El líder paga · miembros gratis</div>
+          <ul class="features-list">
+            <li data-i18n-html="pricing.org.f1.html">Hasta <strong>100 miembros</strong> por canal</li>
+            <li data-i18n="pricing.org.f2">Whisper sin límites de destinos</li>
+            <li data-i18n-html="pricing.org.f3.html">Soporte de <strong>gamepad / HOTAS</strong> en hotkeys</li>
+            <li data-i18n="pricing.org.f4">Roles jerárquicos (owner / officer / squad leader / member)</li>
+            <li data-i18n="pricing.org.f5">Audio Opus HD (32–64 kbps adaptativo)</li>
+            <li data-i18n="pricing.org.f6">Audit log básico de la org</li>
+            <li data-i18n="pricing.org.f7">Branding del invite (logo, color, nombre)</li>
+          </ul>
+          <a href="#cta-final" class="btn btn-primary">
+            <span data-i18n="pricing.org.cta">Reservar org</span>
+            <span class="arrow" aria-hidden="true">→</span>
+          </a>
+        </div>
+
+        <!-- Tier Enterprise -->
+        <div class="price-card reveal">
+          <div class="tier-name">Enterprise</div>
+          <div class="tier-tagline" data-i18n="pricing.enterprise.tagline">Para esports, grandes orgs y producción.</div>
+          <div class="price">
+            <span class="amount">$149</span>
+            <span class="period" data-i18n="pricing.period">/ mes</span>
+          </div>
+          <div class="price-note" data-i18n="pricing.enterprise.note">Anual con descuento</div>
+          <ul class="features-list">
+            <li data-i18n-html="pricing.enterprise.f1.html">Hasta <strong>500 miembros</strong> por canal</li>
+            <li data-i18n="pricing.enterprise.f2">Región dedicada (latencia garantizada)</li>
+            <li data-i18n="pricing.enterprise.f3">Grabación de ops + transcripción para AAR</li>
+            <li data-i18n="pricing.enterprise.f4">SLA 99.9% y soporte directo</li>
+            <li data-i18n="pricing.enterprise.f5">SSO empresarial (SAML / OIDC)</li>
+            <li data-i18n="pricing.enterprise.f6">Audit log avanzado y métricas</li>
+          </ul>
+          <a href="#cta-final" class="btn btn-secondary" data-i18n="pricing.enterprise.cta">Hablar con ventas</a>
+        </div>
+
+        <!-- Tier Custom -->
+        <div class="price-card reveal">
+          <div class="tier-name">Custom</div>
+          <div class="tier-tagline" data-i18n="pricing.custom.tagline">Para orgs masivas, federaciones y proyectos especiales.</div>
+          <div class="price">
+            <span class="amount price-custom" data-i18n="pricing.custom.amount">Contactenos</span>
+          </div>
+          <div class="price-note" data-i18n="pricing.custom.note">Contrato anual · self-hosted disponible</div>
+          <ul class="features-list">
+            <li data-i18n-html="pricing.custom.f1.html">Miembros <strong>ilimitados</strong> (+500)</li>
+            <li data-i18n="pricing.custom.f2">Multi-región global</li>
+            <li data-i18n-html="pricing.custom.f3.html">Opción <strong>self-hosted</strong> con licencia</li>
+            <li data-i18n="pricing.custom.f4">White-label completo (dominio, branding, app)</li>
+            <li data-i18n="pricing.custom.f5">Integraciones custom (APIs de juegos, BI)</li>
+            <li data-i18n="pricing.custom.f6">Account manager dedicado</li>
+          </ul>
+          <a href="mailto:hola@cfx-studio.com" class="btn btn-secondary" data-i18n="pricing.custom.cta">Contactanos</a>
+        </div>
+      </div>
+
+      <p class="pricing-note reveal" data-i18n-html="pricing.note.html">
+        <span class="highlight">PRECIOS FUNDADORES</span> · Las primeras 50 orgs en
+        suscribirse al plan Org mantienen este precio de por vida.
+      </p>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════════════════
+       ABOUT CFX
+       ═══════════════════════════════════════════════════════════ -->
+
+  <section id="about-cfx">
+    <div class="container">
+      <div class="about-grid">
+        <div class="about-text reveal">
+          <div class="eyebrow"><span class="num">07</span> <span data-i18n="about.eyebrow">CFX</span></div>
+          <h2 data-i18n="about.h2">Construido por gamers, para gamers.</h2>
+          <p class="lead" data-i18n-html="about.lead.html">
+            UMBRA es un producto de <strong>CFX</strong>, un estudio de
+            tecnología fundado por tres jugadores que pasaron demasiadas
+            noches gritando coordenadas en cinco ventanas a la vez.
+          </p>
+
+          <p data-i18n="about.p2">
+            Vivimos dentro de las comunidades que usan Umbra y somos parte de
+            las orgs que la prueban a diario. Cada decisión de producto la
+            tomamos desde el lado del que se calza el casco y entra al
+            combate, no desde una sala de juntas.
+          </p>
+
+          <p data-i18n="about.p3">
+            No vamos a vender data, no vamos a meter ads en tus comms, no vamos
+            a pivotar a NFTs cuando estemos aburridos. Esto es un negocio
+            simple: hacés un producto que funciona, lo cobrás justo, lo
+            mantenés vivo.
+          </p>
+
+          <ul class="team-roster">
+            <li class="role">
+              <span class="name">Xolii</span>
+              <span class="title" data-i18n="about.role.title">Co-founder · All-rounder</span>
+            </li>
+            <li class="role">
+              <span class="name">Chuker</span>
+              <span class="title" data-i18n="about.role.title">Co-founder · All-rounder</span>
+            </li>
+            <li class="role">
+              <span class="name">Frost</span>
+              <span class="title" data-i18n="about.role.title">Co-founder · All-rounder</span>
+            </li>
+          </ul>
+
+          <div class="signature" data-i18n="about.signature">CFX · 2026 · Independent studio</div>
+        </div>
+
+        <div class="about-visual reveal" aria-hidden="true">
+          <div class="cfx-logo-frame">
+            <img src="assets/logo-cfx.png" alt="CFX" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════════════════
+       FAQ
+       ═══════════════════════════════════════════════════════════ -->
+
+  <section id="faq">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="text">
+          <div class="eyebrow"><span class="num">08</span> <span data-i18n="faq.eyebrow">FAQ</span></div>
+          <h2 data-i18n="faq.h2">Preguntas que ya nos hicieron.</h2>
+        </div>
+      </div>
+
+      <div class="faq-list">
+        <details class="faq-item reveal">
+          <summary data-i18n="faq.q1">¿Por qué usar Umbra en lugar de las apps que ya conozco?</summary>
+          <div class="answer" data-i18n-html="faq.a1.html">
+            <p>No tenés que dejar de usar las apps de chat de siempre — esas seguirán siendo donde el mundo charla. Umbra entra cuando hay coordinación seria de por medio: ops multi-squad, eventos competitivos, comms tácticos donde la fluidez vale la pena.</p>
+            <p>Muchas orgs lo usan en paralelo: la app generalista para lo casual, Umbra para las ops.</p>
+          </div>
+        </details>
+
+        <details class="faq-item reveal">
+          <summary data-i18n="faq.q2">¿Funciona con anti-cheat (EAC, BattlEye)?</summary>
+          <div class="answer" data-i18n-html="faq.a2.html">
+            <p>Sí. Umbra es una app desktop independiente que no se inyecta en el proceso del juego. No usa hooks ni overlays in-game, así que es 100% compatible con cualquier anti-cheat.</p>
+            <p>Los hotkeys globales se manejan al nivel del sistema operativo, no del juego.</p>
+          </div>
+        </details>
+
+        <details class="faq-item reveal">
+          <summary data-i18n="faq.q3">¿Mi org necesita auto-hostearlo?</summary>
+          <div class="answer" data-i18n-html="faq.a3.html">
+            <p>No. Por defecto Umbra es SaaS — corre en nuestra infra. Te suscribís y empezás a usarlo en menos de un minuto.</p>
+            <p>El plan Enterprise ofrece self-hosting con licencia para orgs que requieren control total sobre su infraestructura (privacidad estricta, compliance, latencia regional muy específica).</p>
+          </div>
+        </details>
+
+        <details class="faq-item reveal">
+          <summary data-i18n="faq.q4">¿Hay versión Mac y Linux?</summary>
+          <div class="answer" data-i18n-html="faq.a4.html">
+            <p>Windows está disponible en beta hoy. Mac y Linux están en la hoja de ruta para los próximos meses. La base de Umbra (Tauri + Rust) es cross-platform por diseño, así que el port es directo, no un rewrite.</p>
+          </div>
+        </details>
+
+        <details class="faq-item reveal">
+          <summary data-i18n="faq.q5">¿Mis llamadas son privadas?</summary>
+          <div class="answer" data-i18n-html="faq.a5.html">
+            <p>Sí. Tu audio pasa por nuestro SFU y se reenvía a los miembros de la sala — no se graba ni se almacena. La única persistencia es metadata mínima (quién entró, quién hizo whisper a quién, para que el dueño de la org tenga visibilidad de su comunidad).</p>
+            <p>El plan Enterprise con grabación opt-in es explícito y solo funciona si el dueño lo activa para una sesión específica.</p>
+          </div>
+        </details>
+
+        <details class="faq-item reveal">
+          <summary data-i18n="faq.q7">¿Por qué se llama Umbra?</summary>
+          <div class="answer" data-i18n-html="faq.a7.html">
+            <p>Umbra es la sombra más oscura de un eclipse — donde la luz está completamente bloqueada. Para nosotros simboliza el espacio privado donde tu org coordina sin que se filtre nada hacia afuera. El triángulo del logo (un Penrose imposible) representa los flujos de audio que conectan salas que en teoría no deberían poder conectarse.</p>
+          </div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════════════════
+       CTA FINAL
+       ═══════════════════════════════════════════════════════════ -->
+
+  <section id="cta-final">
+    <div class="container-narrow">
+      <div class="reveal">
+        <div class="eyebrow" style="justify-content:center"><span class="num">09</span> <span data-i18n="cta.eyebrow">Beta</span></div>
+        <h2 data-i18n="cta.h2">Reservá tu lugar en la beta cerrada.</h2>
+        <p class="lead" data-i18n="cta.lead">
+          Les damos prioridad a las orgs activas con ops periódicas. Dejanos
+          tu email y te avisamos cuando se abra el slot para tu equipo.
+        </p>
+
+        <form class="signup-form" autocomplete="email">
+          <input
+            type="email"
+            placeholder="comandante@tu-org.com"
+            required
+            data-i18n-attr="placeholder:cta.email.placeholder, aria-label:cta.email.label"
+            aria-label="Email" />
+          <button type="submit" class="btn btn-primary">
+            <span data-i18n="cta.button">Reservar acceso</span>
+            <span class="arrow" aria-hidden="true">→</span>
+          </button>
+        </form>
+
+        <div class="signup-success" role="status" data-i18n="cta.success">
+          Reservado. Te avisamos en cuanto liberemos slots para tu org.
+        </div>
+
+        <p class="signup-note" data-i18n="cta.note">
+          SIN SPAM · SIN VENTA DE DATOS · SOLO TE AVISAMOS CUANDO ABRA TU CUPO
+        </p>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════════════════
+       FOOTER
+       ═══════════════════════════════════════════════════════════ -->
+
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="logo">
+            <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <defs>
+                <linearGradient id="metalGrad2" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%"  stop-color="#e0e0e8" />
+                  <stop offset="50%" stop-color="#888892" />
+                  <stop offset="100%" stop-color="#c9c9d4" />
+                </linearGradient>
+              </defs>
+              <path d="M16 3 L29 27 L3 27 Z M16 9 L24.5 24 L7.5 24 Z"
+                    fill="url(#metalGrad2)"
+                    stroke="#5a5a60" stroke-width="0.5"
+                    fill-rule="evenodd" />
+            </svg>
+            UMBRA
+          </div>
+          <p data-i18n="footer.brand">
+            Comms tácticos para gaming serio. Producto de CFX, un estudio de
+            tecnología independiente fundado por gamers de carrera.
+          </p>
+        </div>
+
+        <div class="footer-col">
+          <h5 data-i18n="footer.col1.title">Producto</h5>
+          <ul role="list">
+            <li><a href="#features"  data-i18n="footer.col1.l1">Features</a></li>
+            <li><a href="#whisper"   data-i18n="footer.col1.l2">Whisper</a></li>
+            <li><a href="#pricing"   data-i18n="footer.col1.l3">Precios</a></li>
+            <li><a href="#cta-final" data-i18n="footer.col1.l4">Beta</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h5 data-i18n="footer.col2.title">Recursos</h5>
+          <ul role="list">
+            <li><a href="#tactical" data-i18n="footer.col2.l1">Para orgs</a></li>
+            <li><a href="#" aria-disabled="true" data-i18n="footer.col2.l2">Roadmap (pronto)</a></li>
+            <li><a href="#" aria-disabled="true" data-i18n="footer.col2.l3">Estado del servicio</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h5 data-i18n="footer.col3.title">CFX</h5>
+          <ul role="list">
+            <li><a href="#about-cfx" data-i18n="footer.col3.l1">Quiénes somos</a></li>
+            <li><a href="mailto:hola@cfx-studio.com" data-i18n="footer.col3.l2">Contacto</a></li>
+            <li><a href="mailto:soporte@cfx-studio.com" data-i18n="footer.col3.l3">Soporte</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>
+          © <span id="current-year">2026</span> CFX <span data-i18n="footer.copyright">· Todos los derechos reservados</span>
+        </div>
+        <div class="legal">
+          <a href="#" data-i18n="footer.legal.privacy">Privacidad</a>
+          <a href="#" data-i18n="footer.legal.terms">Términos</a>
+          <a href="#" data-i18n="footer.legal.status">Estado</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       LOGIN MODAL — overlay con flujo Google OAuth
+       ═══════════════════════════════════════════════════════════ -->
+
+  <div id="login-modal" class="login-modal" role="dialog" aria-modal="true" aria-labelledby="login-modal-title" hidden>
+    <div class="login-modal-backdrop" aria-hidden="true"></div>
+    <div class="login-modal-content">
+      <button class="login-modal-close"
+              data-i18n-attr="aria-label:auth.modal.close"
+              aria-label="Cerrar">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+          <line x1="4" y1="4" x2="12" y2="12" />
+          <line x1="12" y1="4" x2="4" y2="12" />
+        </svg>
+      </button>
+
+      <div class="login-modal-header">
+        <img src="assets/logo-triangle.png" alt="" class="login-modal-mark" />
+        <h3 id="login-modal-title" data-i18n="auth.modal.title">Iniciar sesión en UMBRA</h3>
+        <p data-i18n="auth.modal.subtitle">Empezá con tu cuenta</p>
+      </div>
+
+      <button class="btn-google-signin">
+        <!-- Logo de Google oficial (multicolor) -->
+        <svg width="18" height="18" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.874 2.684-6.615z"/>
+          <path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.836.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332C2.438 15.983 5.482 18 9 18z"/>
+          <path fill="#FBBC05" d="M3.964 10.71A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.042l3.007-2.332z"/>
+          <path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0 5.482 0 2.438 2.017.957 4.958L3.964 7.29C4.672 5.163 6.656 3.58 9 3.58z"/>
+        </svg>
+        <span data-i18n="auth.modal.google_btn">Iniciar sesión con Google</span>
+      </button>
+
+      <p class="login-error" role="alert" hidden></p>
+
+      <p class="login-modal-note" data-i18n="auth.modal.note">
+        Usamos Google para login seguro sin contraseña. Nunca vemos tu contraseña.
+      </p>
+    </div>
+  </div>
+
+
+  <script src="js/i18n.js" defer></script>
+  <script src="js/auth.js" defer></script>
+  <script src="js/app.js"  defer></script>
+</body>
+</html>
