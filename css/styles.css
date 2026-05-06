@@ -1607,6 +1607,7 @@ nav .menu-toggle {
 .price-card .features-list li strong {
   color: var(--text-primary);
   font-weight: 600;
+  white-space: nowrap;
 }
 
 .price-card .btn { width: 100%; }
