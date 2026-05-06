@@ -1470,7 +1470,7 @@ nav .menu-toggle {
   background: var(--bg-elevated);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
-  padding: 2rem;
+  padding: 2rem 1.5rem;
   display: flex;
   flex-direction: column;
   position: relative;
@@ -1583,9 +1583,8 @@ nav .menu-toggle {
 }
 
 .price-card .features-list li {
-  display: flex;
-  gap: 0.75rem;
-  align-items: flex-start;
+  position: relative;
+  padding-left: 1.75rem;
   font-size: 0.92rem;
   color: var(--text-secondary);
   line-height: 1.45;
@@ -1593,11 +1592,13 @@ nav .menu-toggle {
 
 .price-card .features-list li::before {
   content: '';
-  flex-shrink: 0;
+  position: absolute;
+  left: 0;
+  top: 5px;
   width: 16px;
   height: 16px;
-  margin-top: 3px;
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23a8a8b2' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'><polyline points='3,8 7,12 13,4'/></svg>");
+  background-repeat: no-repeat;
 }
 
 .price-card.featured .features-list li::before {
