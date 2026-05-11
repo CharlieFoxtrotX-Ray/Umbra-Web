@@ -1522,6 +1522,22 @@ nav .menu-toggle {
 
 .price-card.featured .tier-name { color: var(--amber); }
 
+/* "Nuevo" / "New" badge junto al nombre del tier (Squad) */
+.price-card .tier-name .tier-badge {
+  display: inline-block;
+  margin-left: 0.5rem;
+  padding: 0.15rem 0.5rem;
+  background: var(--amber);
+  color: #1a1208;
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  border-radius: 999px;
+  vertical-align: middle;
+}
+
 .price-card .tier-tagline {
   font-size: 0.92rem;
   color: var(--text-tertiary);
@@ -1625,6 +1641,63 @@ nav .menu-toggle {
 .pricing-note .highlight {
   color: var(--amber);
   font-weight: 500;
+}
+
+/* ─── Pricing extras (UMBRA Pro / Boost UMBRA) ────────────────── */
+
+.pricing-extras {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  margin-top: 2.5rem;
+}
+
+@media (min-width: 768px) {
+  .pricing-extras {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.extra-card {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem 1.75rem;
+}
+
+.extra-head {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.extra-title {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--text-primary);
+}
+
+.extra-eta {
+  padding: 0.15rem 0.55rem;
+  background: rgba(168, 168, 178, 0.12);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+}
+
+.extra-desc {
+  font-size: 0.92rem;
+  color: var(--text-secondary);
+  line-height: 1.55;
+  margin: 0;
 }
 
 /* ─── About CFX ───────────────────────────────────────────────── */
