@@ -210,16 +210,37 @@
        ═══════════════════════════════════════════════════════════ -->
 
   <section id="hero">
-    <div class="hero-bg" aria-hidden="true">
-      <video src="assets/logo-loading.mp4" autoplay muted playsinline loop preload="auto"></video>
+    <div class="hero-bg" aria-hidden="true"></div>
+    <div class="hero-scanline" aria-hidden="true"></div>
+
+    <!-- HUD corner decorations (tactical telemetry) -->
+    <div class="hud-corner hud-tr" aria-hidden="true">
+      <div>// SECTOR <span class="v">ALPHA-7</span></div>
+      <div>UMBRA <span class="v">v0.9.4-beta</span></div>
+    </div>
+    <div class="hud-corner hud-bl" aria-hidden="true">
+      <div>COMMS STATUS</div>
+      <div class="v">● ONLINE</div>
+    </div>
+    <div class="hud-corner hud-br" aria-hidden="true">
+      <div>// LAT 38.47°N · LON 04°W</div>
+      <div>BUILD <span class="v">2026.05.r3</span></div>
     </div>
 
     <div class="container">
-      <div class="hero-content">
+      <!-- LEFT: tactical window with headline -->
+      <div class="hero-content tactical-window">
+        <span class="tw-bracket tw-bracket-tl" aria-hidden="true"></span>
+        <span class="tw-bracket tw-bracket-tr" aria-hidden="true"></span>
+        <span class="tw-bracket tw-bracket-bl" aria-hidden="true"></span>
+        <span class="tw-bracket tw-bracket-br" aria-hidden="true"></span>
+
         <div class="hero-badge">
           <span class="dot" aria-hidden="true"></span>
           <span data-i18n="hero.badge">BETA · ACCESO ANTICIPADO 2026</span>
         </div>
+
+        <div class="hero-label-line" aria-hidden="true">// COMMS SYSTEM</div>
 
         <h1 data-i18n-html="hero.h1.html">
           La voz que tu <span class="stroke">squad</span> necesita.
@@ -241,26 +262,38 @@
             <span class="arrow" aria-hidden="true">→</span>
           </a>
         </div>
-
-        <div class="hero-meta">
-          <div class="stat">
-            <span class="num">&lt;40<small>ms</small></span>
-            <span class="label" data-i18n="hero.stat1.label">Latencia táctica</span>
-          </div>
-          <div class="stat">
-            <span class="num">∞</span>
-            <span class="label" data-i18n="hero.stat2.label">Salas simultáneas</span>
-          </div>
-          <div class="stat">
-            <span class="num">3<small>/3</small></span>
-            <span class="label" data-i18n="hero.stat3.label">Plataformas pronto</span>
-          </div>
-        </div>
       </div>
 
-      <div class="hero-visual" aria-hidden="true">
-        <div class="logo-frame">
-          <img src="assets/logo-umbra-cfx.png" alt="UMBRA by CFX" />
+      <!-- RIGHT: telemetry HUD panels (replace the previous logo block) -->
+      <div class="hero-telemetry" aria-hidden="true">
+        <div class="tel-panel">
+          <div class="tel-top">
+            <span class="tel-label">// LATENCY-MS</span>
+            <span class="tel-status"><span class="dot"></span>LIVE</span>
+          </div>
+          <div class="tel-val">&lt;40<small>ms</small></div>
+          <div class="tel-bar"><div class="tel-fill"></div></div>
+          <div class="tel-caption" data-i18n="hero.stat1.label">Latencia táctica</div>
+        </div>
+
+        <div class="tel-panel">
+          <div class="tel-top">
+            <span class="tel-label">// CONCURRENT-ROOMS</span>
+            <span class="tel-status"><span class="dot"></span>UNLIMITED</span>
+          </div>
+          <div class="tel-val">∞</div>
+          <div class="tel-bar"><div class="tel-fill" style="animation-duration:5s"></div></div>
+          <div class="tel-caption" data-i18n="hero.stat2.label">Salas simultáneas</div>
+        </div>
+
+        <div class="tel-panel">
+          <div class="tel-top">
+            <span class="tel-label">// PLATFORMS-DEPLOY</span>
+            <span class="tel-status"><span class="dot"></span>READY</span>
+          </div>
+          <div class="tel-val">3<small>/3</small></div>
+          <div class="tel-bar"><div class="tel-fill" style="animation-duration:3s"></div></div>
+          <div class="tel-caption" data-i18n="hero.stat3.label">Plataformas pronto</div>
         </div>
       </div>
     </div>
@@ -292,9 +325,9 @@
           <div class="side">
             <h4 data-i18n="problem.casual.title">Lo que hacen las apps casuales</h4>
             <p data-i18n="problem.casual.text">
-              Una sala. Una voz. Si querés escuchar a otra squad,
-              te vas. Si querés coordinar entre dos, abrís dos
-              ventanas y rezás.
+              Una sala. Una voz. Si quieres escuchar a otra squad,
+              te vas. Si quieres coordinar entre dos, abres dos
+              ventanas y rezas.
             </p>
           </div>
 
@@ -305,9 +338,9 @@
           <div class="side umbra">
             <h4 data-i18n="problem.umbra.title">Lo que hace UMBRA</h4>
             <p data-i18n="problem.umbra.text">
-              Estás en tu sala. Mantenés apretado un botón y hablás
+              Estás en tu sala. Mantienes pulsado un botón y hablas
               a otra sala — o a todas al mismo tiempo — sin moverte.
-              Soltás y volvés al instante. Tu squad nunca te perdió.
+              Sueltas y vuelves al instante. Tu squad nunca te perdió.
             </p>
           </div>
         </div>
@@ -342,10 +375,10 @@
           <div class="feature-num" data-i18n="features.f1.label">01 · DIFERENCIADOR</div>
           <h3 data-i18n="features.f1.title">Whisper cross-canal en tiempo real</h3>
           <p data-i18n="features.f1.text">
-            Mantenés apretado un atajo y tu voz llega a otra sala
+            Mantienes pulsado un atajo y tu voz llega a otra sala
             sin abandonar la tuya. Los miembros de la sala destino te
             escuchan etiquetado como whisper, sin interrumpir su
-            conversación. Soltás el atajo y todo vuelve a su sitio.
+            conversación. Sueltas el atajo y todo vuelve a su sitio.
           </p>
 
           <div class="visual-mock" aria-hidden="true">
@@ -373,8 +406,8 @@
           <div class="feature-num">02</div>
           <h3 data-i18n="features.f2.title">Hotkeys globales reales</h3>
           <p data-i18n="features.f2.text">
-            Tu PTT funciona aunque el juego tenga el foco. Bindeás
-            cualquier botón de tu teclado, mouse o gamepad — incluso
+            Tu PTT funciona aunque el juego tenga el foco. Vinculas
+            cualquier botón de tu teclado, ratón o gamepad — incluso
             esos que el juego ignora.
           </p>
           <div class="footnote" data-i18n-html="features.f2.note.html">
@@ -388,7 +421,7 @@
           <h3 data-i18n="features.f3.title">Presencia multi-sala</h3>
           <p data-i18n="features.f3.text">
             Ves a quién hay en cada sala del canal en tiempo real.
-            Asignás un atajo distinto a cada destino y disparás
+            Asignas un atajo distinto a cada destino y disparas
             whispers como si fuera selección de target en un HUD.
           </p>
           <div class="footnote" data-i18n-html="features.f3.note.html">
@@ -603,7 +636,7 @@
             </svg>
           </div>
           <h3 data-i18n="mobile.c2.title">Paintball táctico</h3>
-          <p data-i18n="mobile.c2.text">Coordinación rápida entre flancos. Llamás cobertura a tu compañero del otro lado del campo sin que el resto del equipo escuche el setup.</p>
+          <p data-i18n="mobile.c2.text">Coordinación rápida entre flancos. Llamas cobertura a tu compañero al otro lado del campo sin que el resto del equipo escuche el setup.</p>
         </div>
 
         <!-- 3. Producción audiovisual -->
@@ -697,7 +730,7 @@
         </div>
         <div class="text">
           <p data-i18n="pricing.lead">
-            Si jugás casual, Umbra es gratis para siempre. La org paga, los
+            Si juegas casual, Umbra es gratis para siempre. La org paga, los
             miembros se conectan. Sin ads, sin cosmetics, sin tonterías —
             tu suscripción cubre infraestructura y equipo.
           </p>
@@ -708,7 +741,7 @@
         <!-- Tier Community -->
         <div class="price-card reveal">
           <div class="tier-name">Community</div>
-          <div class="tier-tagline" data-i18n="pricing.community.tagline">Para squads casuales y grupos chicos.</div>
+          <div class="tier-tagline" data-i18n="pricing.community.tagline">Para squads casuales y grupos pequeños.</div>
           <div class="price">
             <span class="amount">$0</span>
           </div>
@@ -716,7 +749,7 @@
           <ul class="features-list">
             <li data-i18n="pricing.community.f1">Hasta 10 miembros</li>
             <li data-i18n="pricing.community.f2">Whisper limitado (2 destinos)</li>
-            <li data-i18n="pricing.community.f3">Hotkeys teclado/mouse</li>
+            <li data-i18n="pricing.community.f3">Hotkeys teclado/ratón</li>
             <li data-i18n="pricing.community.f4">Audio Opus standard</li>
           </ul>
           <a href="#cta-final" class="btn btn-secondary" data-i18n="pricing.community.cta">Empezar gratis</a>
@@ -733,7 +766,7 @@
             <span class="amount">$12</span>
             <span class="period" data-i18n="pricing.period">/mes</span>
           </div>
-          <div class="price-note" data-i18n="pricing.squad.note">o $120/año · ahorrá $24</div>
+          <div class="price-note" data-i18n="pricing.squad.note">o $120/año · ahorra $24</div>
           <ul class="features-list">
             <li data-i18n="pricing.squad.f1">Hasta 25 miembros</li>
             <li data-i18n="pricing.squad.f2">Whisper sin límites</li>
@@ -831,8 +864,8 @@
           <p data-i18n="about.p3">
             No vamos a vender data, no vamos a meter ads en tus comms, no vamos
             a pivotar a NFTs cuando estemos aburridos. Esto es un negocio
-            simple: hacés un producto que funciona, lo cobrás justo, lo
-            mantenés vivo.
+            simple: haces un producto que funciona, lo cobras justo, lo
+            mantienes vivo.
           </p>
 
           <ul class="team-roster">
@@ -880,7 +913,7 @@
         <details class="faq-item reveal">
           <summary data-i18n="faq.q1">¿Por qué usar Umbra en lugar de las apps que ya conozco?</summary>
           <div class="answer" data-i18n-html="faq.a1.html">
-            <p>No tenés que dejar de usar las apps de chat de siempre — esas seguirán siendo donde el mundo charla. Umbra entra cuando hay coordinación seria de por medio: ops multi-squad, eventos competitivos, comms tácticos donde la fluidez vale la pena.</p>
+            <p>No tienes que dejar de usar las apps de chat de siempre — esas seguirán siendo donde el mundo charla. Umbra entra cuando hay coordinación seria de por medio: ops multi-squad, eventos competitivos, comms tácticos donde la fluidez vale la pena.</p>
             <p>Muchas orgs lo usan en paralelo: la app generalista para lo casual, Umbra para las ops.</p>
           </div>
         </details>
@@ -896,7 +929,7 @@
         <details class="faq-item reveal">
           <summary data-i18n="faq.q3">¿Mi org necesita auto-hostearlo?</summary>
           <div class="answer" data-i18n-html="faq.a3.html">
-            <p>No. Por defecto Umbra es SaaS — corre en nuestra infra. Te suscribís y empezás a usarlo en menos de un minuto.</p>
+            <p>No. Por defecto Umbra es SaaS — corre en nuestra infra. Te suscribes y empiezas a usarlo en menos de un minuto.</p>
             <p>El plan Enterprise ofrece self-hosting con licencia para orgs que requieren control total sobre su infraestructura (privacidad estricta, compliance, latencia regional muy específica).</p>
           </div>
         </details>
@@ -935,10 +968,10 @@
     <div class="container-narrow">
       <div class="reveal">
         <div class="eyebrow" style="justify-content:center"><span class="num">09</span> <span data-i18n="cta.eyebrow">Beta</span></div>
-        <h2 data-i18n="cta.h2">Reservá tu lugar en la beta cerrada.</h2>
+        <h2 data-i18n="cta.h2">Reserva tu plaza en la beta cerrada.</h2>
         <p class="lead" data-i18n="cta.lead">
-          Les damos prioridad a las orgs activas con ops periódicas. Dejanos
-          tu email y te avisamos cuando se abra el slot para tu equipo.
+          Les damos prioridad a las orgs activas con ops periódicas. Déjanos
+          tu email y te avisamos cuando se abra el cupo para tu equipo.
         </p>
 
         <form class="signup-form" autocomplete="email">
@@ -1057,7 +1090,7 @@
       <div class="login-modal-header">
         <img src="assets/logo-triangle.png" alt="" class="login-modal-mark" />
         <h3 id="login-modal-title" data-i18n="auth.modal.title">Iniciar sesión en UMBRA</h3>
-        <p data-i18n="auth.modal.subtitle">Empezá con tu cuenta</p>
+        <p data-i18n="auth.modal.subtitle">Empieza con tu cuenta</p>
       </div>
 
       <button class="btn-google-signin">

@@ -542,199 +542,407 @@ nav .menu-toggle {
 
 /* ─── Hero ────────────────────────────────────────────────────── */
 
+/* ─────────────────────────────────────────────────────────────────
+   HERO — Tactical command center
+   Layout asimétrico HUD: ventana con brackets + panel de telemetría.
+   Blueprint grid bg + scan line + horizonte ámbar + esquinas HUD.
+   ──────────────────────────────────────────────────────────────── */
+
 #hero {
   min-height: 100vh;
-  padding-top: calc(var(--nav-height) + 4rem);
+  padding-top: calc(var(--nav-height) + 3.5rem);
   padding-bottom: 4rem;
   position: relative;
   display: flex;
   align-items: center;
   overflow: hidden;
-  /* bg sólido para tapar el video global y dejar al triángulo Penrose
-     ser el único protagonista de esta sección                       */
   background: var(--bg-base);
 }
 
+/* Blueprint grid background — muy sutil, mask radial al centro */
 #hero .hero-bg {
   position: absolute;
   inset: 0;
   z-index: 0;
   pointer-events: none;
+  background-image:
+    linear-gradient(rgba(212, 160, 106, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(212, 160, 106, 0.045) 1px, transparent 1px);
+  background-size: 48px 48px;
+  -webkit-mask-image: radial-gradient(ellipse 100% 80% at 50% 55%, #000 35%, transparent 80%);
+          mask-image: radial-gradient(ellipse 100% 80% at 50% 55%, #000 35%, transparent 80%);
 }
 
-#hero .hero-bg::before {
+/* Horizonte ámbar inferior + viñeta hacia el bg-base */
+#hero::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse at 50% 30%, rgba(212, 160, 106, 0.08) 0%, transparent 60%);
-}
-
-#hero .hero-bg::after {
-  content: '';
-  position: absolute;
-  inset: 0;
+  z-index: 0;
+  pointer-events: none;
   background:
-    linear-gradient(180deg, transparent 0%, var(--bg-base) 90%),
-    radial-gradient(ellipse at center, transparent 0%, var(--bg-base) 75%);
+    radial-gradient(ellipse 95% 42% at 50% 100%, rgba(212, 160, 106, 0.20) 0%, transparent 70%),
+    radial-gradient(ellipse 70% 50% at 50% 18%, rgba(212, 160, 106, 0.10) 0%, transparent 65%),
+    linear-gradient(180deg, transparent 70%, var(--bg-base) 100%);
 }
 
-#hero .hero-bg video {
+/* Grain overlay — film noise sutil */
+#hero::after {
+  content: '';
   position: absolute;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  width: min(90vw, 900px);
-  height: auto;
-  opacity: 0.35;
-  filter: blur(1px) brightness(0.7) contrast(1.05);
-  mix-blend-mode: screen;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.03;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' seed='5'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 1 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
 }
 
+/* Scan line vertical cruzando el hero */
+.hero-scanline {
+  position: absolute;
+  top: 0;
+  left: -10%;
+  width: 1px;
+  height: 100%;
+  background: linear-gradient(180deg, transparent, var(--amber), transparent);
+  box-shadow: 0 0 12px var(--amber);
+  opacity: 0.45;
+  z-index: 1;
+  pointer-events: none;
+  animation: hero-scan 9s ease-in-out infinite;
+}
+
+@keyframes hero-scan {
+  0%      { left: -10%; }
+  50%     { left: 110%; }
+  50.01%  { left: -10%; }
+  100%    { left: -10%; }
+}
+
+/* HUD corner overlays — coordenadas decorativas en las esquinas */
+.hud-corner {
+  position: absolute;
+  z-index: 2;
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+  line-height: 1.65;
+  pointer-events: none;
+}
+
+.hud-corner .v { color: var(--amber); font-weight: 600; }
+
+.hud-corner.hud-tr { top: calc(var(--nav-height) + 1rem); right: 1.75rem; text-align: right; }
+.hud-corner.hud-bl { bottom: 1.5rem; left: 1.75rem; }
+.hud-corner.hud-br { bottom: 1.5rem; right: 1.75rem; text-align: right; }
+
+@media (max-width: 900px) {
+  .hud-corner { display: none; }
+}
+
+/* Container: asimétrico 60/40 en desktop */
 #hero .container {
+  position: relative;
+  z-index: 3;
   display: grid;
   grid-template-columns: 1fr;
-  gap: 3rem;
+  gap: 2.5rem;
   align-items: center;
 }
 
 @media (min-width: 1024px) {
   #hero .container {
-    grid-template-columns: 1.1fr 0.9fr;
+    grid-template-columns: 1.15fr 0.85fr;
     gap: 4rem;
   }
 }
 
-.hero-content { max-width: 640px; }
+/* ─── Tactical window (lado izquierdo) ────────────────────────── */
 
+.tactical-window {
+  position: relative;
+  padding: 2.25rem 2.5rem;
+  max-width: 640px;
+}
+
+.tw-bracket {
+  position: absolute;
+  width: 56px;
+  height: 56px;
+  pointer-events: none;
+  filter: drop-shadow(0 0 6px var(--amber-glow));
+}
+
+.tw-bracket-tl { top: 0; left: 0; border-top: 1.5px solid var(--amber); border-left: 1.5px solid var(--amber); opacity: 0.9; }
+.tw-bracket-tr { top: 0; right: 0; border-top: 1.5px solid var(--amber); border-right: 1.5px solid var(--amber); opacity: 0.6; }
+.tw-bracket-bl { bottom: 0; left: 0; border-bottom: 1.5px solid var(--amber); border-left: 1.5px solid var(--amber); opacity: 0.6; }
+.tw-bracket-br { bottom: 0; right: 0; border-bottom: 1.5px solid var(--amber); border-right: 1.5px solid var(--amber); opacity: 0.9; }
+
+@media (max-width: 640px) {
+  .tactical-window { padding: 1.5rem 1.25rem; }
+  .tw-bracket { width: 36px; height: 36px; }
+}
+
+/* Label line — // COMMS SYSTEM */
+.hero-label-line {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+  margin-bottom: 1.25rem;
+}
+
+.hero-label-line::before {
+  content: '';
+  width: 36px;
+  height: 1px;
+  background: var(--amber);
+}
+
+.hero-label-line::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, var(--border-bright), transparent);
+}
+
+/* Badge premium */
 .hero-badge {
   display: inline-flex;
   align-items: center;
-  gap: 0.625rem;
-  padding: 0.4rem 0.875rem;
-  border-radius: 999px;
-  border: 1px solid var(--border-bright);
-  background: var(--bg-elevated);
+  gap: 0.55rem;
+  padding: 0.4rem 0.9rem;
+  border-radius: 4px;
+  background: rgba(212, 160, 106, 0.07);
+  border: 1px solid rgba(212, 160, 106, 0.3);
   font-family: var(--font-mono);
-  font-size: 0.72rem;
-  letter-spacing: 0.12em;
-  color: var(--text-secondary);
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  color: var(--amber);
   text-transform: uppercase;
-  margin-bottom: 1.75rem;
+  margin-bottom: 1.5rem;
 }
 
 .hero-badge .dot {
-  width: 7px; height: 7px;
+  width: 7px;
+  height: 7px;
   background: var(--amber);
   border-radius: 50%;
-  box-shadow: 0 0 8px var(--amber-glow);
-  animation: pulse 2.4s ease-in-out infinite;
+  box-shadow: 0 0 8px var(--amber);
+  animation: pulse 2.2s ease-in-out infinite;
 }
 
 @keyframes pulse {
   0%, 100% { opacity: 1; transform: scale(1); }
-  50%      { opacity: 0.55; transform: scale(0.9); }
+  50%      { opacity: 0.5;  transform: scale(0.92); }
 }
 
-.hero-content h1 { margin-bottom: 1.5rem; }
+/* H1 */
+.hero-content h1 {
+  margin-bottom: 1.5rem;
+  font-size: clamp(2.4rem, 5vw, 4.4rem);
+  letter-spacing: -0.035em;
+  line-height: 1.02;
+}
+
 .hero-content h1 .stroke {
   background: var(--gradient-metal);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+  filter: drop-shadow(0 0 20px rgba(212, 160, 106, 0.18));
 }
 
-.hero-content .lead { margin-bottom: 2.25rem; max-width: 560px; }
+.hero-content .lead {
+  color: var(--text-secondary);
+  font-size: 1.05rem;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+  max-width: 56ch;
+}
 
+/* CTA — shape con corners cortados estilo HUD */
 .hero-cta {
   display: flex;
   flex-wrap: wrap;
   gap: 0.875rem;
-  margin-bottom: 2.5rem;
 }
 
-.hero-meta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1.5rem 2.5rem;
-  padding-top: 1.75rem;
-  border-top: 1px solid var(--border);
-}
-
-.hero-meta .stat .num {
-  font-family: var(--font-display);
-  font-weight: 600;
-  font-size: 1.4rem;
-  color: var(--text-primary);
-  display: block;
-  line-height: 1;
-}
-
-.hero-meta .stat .num small {
-  font-family: var(--font-mono);
-  font-size: 0.65rem;
-  color: var(--amber);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  margin-left: 0.25rem;
-  vertical-align: middle;
-}
-
-.hero-meta .stat .label {
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  color: var(--text-tertiary);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  margin-top: 0.4rem;
-  display: block;
-}
-
-/* Hero visual — el logo grande */
-.hero-visual {
+.hero-cta .btn {
   position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 2rem;
+  overflow: hidden;
+  clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 14px 100%, 0 calc(100% - 14px));
+  transition: transform 200ms ease, background 200ms ease, color 200ms ease;
 }
 
-.hero-visual .logo-frame {
-  position: relative;
-  width: 100%;
-  max-width: 460px;
-  aspect-ratio: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.hero-cta .btn-primary {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    0 14px 36px -10px rgba(212, 160, 106, 0.45);
 }
 
-.hero-visual .logo-frame img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  filter: drop-shadow(0 0 80px rgba(212, 160, 106, 0.18)) drop-shadow(0 24px 48px rgba(0,0,0,0.6));
-}
-
-/* Decoración HUD: corner brackets en el frame del logo */
-.hero-visual .logo-frame::before,
-.hero-visual .logo-frame::after {
+.hero-cta .btn-primary::after {
   content: '';
   position: absolute;
-  width: 32px;
-  height: 32px;
-  border: 1px solid var(--amber);
-  opacity: 0.5;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.28), transparent);
+  animation: hero-shimmer 4s ease-in-out infinite;
+  pointer-events: none;
 }
 
-.hero-visual .logo-frame::before {
-  top: 0; left: 0;
-  border-right: none;
-  border-bottom: none;
+@keyframes hero-shimmer {
+  0%, 100% { left: -100%; }
+  50%      { left: 120%; }
 }
 
-.hero-visual .logo-frame::after {
-  bottom: 0; right: 0;
-  border-left: none;
-  border-top: none;
+.hero-cta .btn-primary:hover { transform: translateY(-2px); }
+.hero-cta .btn-secondary:hover { transform: translateY(-2px); color: var(--amber); }
+
+/* ─── Telemetry panels (lado derecho) ─────────────────────────── */
+
+.hero-telemetry {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+  width: 100%;
+}
+
+.tel-panel {
+  position: relative;
+  padding: 1.1rem 1.4rem 1.3rem;
+  background: linear-gradient(180deg, rgba(12, 12, 16, 0.92), rgba(12, 12, 16, 0.65));
+  border: 1px solid var(--border);
+  backdrop-filter: blur(6px);
+  clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 14px 100%, 0 calc(100% - 14px));
+  transition: border-color 250ms ease, transform 250ms ease;
+}
+
+.tel-panel:hover {
+  border-color: var(--border-bright);
+  transform: translateY(-1px);
+}
+
+.tel-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+  margin-bottom: 0.65rem;
+}
+
+.tel-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: #7dd3a0;
+  font-weight: 600;
+}
+
+.tel-status .dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #7dd3a0;
+  box-shadow: 0 0 8px #7dd3a0;
+  animation: pulse 1.9s ease-in-out infinite;
+}
+
+.tel-val {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.9rem, 2.6vw, 2.4rem);
+  letter-spacing: -0.03em;
+  line-height: 1;
+  background: linear-gradient(180deg, var(--text-primary), var(--silver-dim));
+  -webkit-background-clip: text;
+          background-clip: text;
+  color: transparent;
+}
+
+.tel-val small {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  color: var(--amber);
+  letter-spacing: 0.1em;
+  margin-left: 0.35rem;
+  -webkit-background-clip: initial;
+          background-clip: initial;
+}
+
+.tel-bar {
+  margin-top: 0.75rem;
+  height: 3px;
+  background: var(--border);
+  overflow: hidden;
+  border-radius: 1px;
+}
+
+.tel-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--amber), var(--amber-bright));
+  box-shadow: 0 0 8px var(--amber);
+  animation: tel-pulse 4s ease-in-out infinite;
+}
+
+@keyframes tel-pulse {
+  0%, 100% { width: 78%; }
+  50%      { width: 88%; }
+}
+
+.tel-caption {
+  margin-top: 0.65rem;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+}
+
+/* ─── Entrada escalonada ─────────────────────────────────────── */
+
+.hero-badge,
+.hero-label-line,
+.hero-content h1,
+.hero-content .lead,
+.hero-cta,
+.tel-panel {
+  opacity: 0;
+  transform: translateY(14px);
+  animation: hero-rise 700ms cubic-bezier(0.2, 0.65, 0.3, 1) forwards;
+}
+
+.hero-badge        { animation-delay: 80ms;  }
+.hero-label-line   { animation-delay: 160ms; }
+.hero-content h1   { animation-delay: 240ms; }
+.hero-content .lead{ animation-delay: 380ms; }
+.hero-cta          { animation-delay: 520ms; }
+.tel-panel:nth-child(1) { animation-delay: 340ms; }
+.tel-panel:nth-child(2) { animation-delay: 480ms; }
+.tel-panel:nth-child(3) { animation-delay: 620ms; }
+
+@keyframes hero-rise {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-badge, .hero-label-line, .hero-content h1, .hero-content .lead,
+  .hero-cta, .tel-panel { opacity: 1; transform: none; animation: none; }
+  .hero-scanline { animation: none; opacity: 0.25; }
+  .tel-fill { animation: none; width: 80%; }
 }
 
 /* ─── Section general — eyebrow numbering ─────────────────────── */
