@@ -1,1120 +1,2152 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <meta name="theme-color" content="#050507" />
+  <meta charset="utf-8" />
+  <title>UMBRA · Tu voz, tu gente</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" href="assets/logo-triangle.png" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap');
 
-  <title>UMBRA by CFX — Comms tácticos para gaming serio</title>
-  <meta name="description" content="Plataforma de comunicación de voz para gaming táctico. Whisper cross-canal, hotkeys globales con gamepad, multi-sala simultánea. Construido para squads competitivos y orgs que coordinan ops reales." />
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 
-  <!-- Open Graph -->
-  <meta property="og:type" content="website" />
-  <meta property="og:title" content="UMBRA — Comms tácticos para gaming serio" />
-  <meta property="og:description" content="Whisper cross-canal, hotkeys globales, multi-sala. La voz de las orgs serias." />
-  <meta property="og:image" content="assets/logo-umbra-cfx.png" />
-  <meta name="twitter:card" content="summary_large_image" />
+    :root{
+      /* Paleta — base navy + tríada del ámbar (sage / lavender) + complementario (sky) */
+      --ink:        #0c1224;     /* navy profundo (vault / footer) */
+      --ink-2:      #131a32;
+      --ink-3:      #1d2545;
 
-  <!-- Favicon (usa el logo cuadrado) -->
-  <link rel="icon" type="image/png" href="assets/logo-cfx.png" />
+      /* Fondos de sección (todos teñidos, ninguno crudo blanco) */
+      --bg-sky:     #e3edf9;     /* complementario del ámbar - body / hero */
+      --bg-sky-2:   #c8d8ee;
+      --bg-warm:    #fbe9c8;     /* ámbar familia */
+      --bg-warm-2:  #f5d488;
+      --bg-sage:    #e0efe1;     /* tríada 1 — audiences */
+      --bg-sage-2:  #b8dcc0;
+      --bg-lila:    #ece5fa;     /* tríada 2 — faq */
+      --bg-lila-2:  #c9b8f0;
+      --bg-coral:   #ffd2bf;     /* acento split-complement */
+      --bg-coral-2: #ff9b7a;
+      --bg-mint:    #d8f5e8;
+      --bg-rose:    #ffe3ec;
 
-  <!-- Preload assets críticos -->
-  <link rel="preload" as="video" href="assets/logo-loading.mp4" type="video/mp4" />
+      /* Aliases legacy del proto v1 */
+      --paper:      var(--bg-sky);
+      --paper-2:    var(--bg-sky-2);
+      --paper-warm: var(--bg-warm);
+      --paper-mint: var(--bg-mint);
+      --paper-lila: var(--bg-lila);
+      --paper-rose: var(--bg-rose);
 
-  <!-- API base — cambiar al dominio del server en producción.
-       Ejemplo: https://api.umbra.cfx-studio.com  -->
-  <meta name="umbra-api-base" content="https://umbra-voip.duckdns.org" />
+      --line:       rgba(26,26,38,0.08);
+      --line-dark:  rgba(255,255,255,0.08);
 
-  <link rel="stylesheet" href="css/styles.css" />
+      --text:       #1a1a26;
+      --text-mid:   #5a5a6b;
+      --text-mute:  #9293a4;
 
-  <!-- Prevenir flash de contenido sin traducir si el idioma del browser
-       no es el por defecto del HTML (es). Se revela cuando i18n.js corre. -->
-  <script>
-    (function () {
-      var SUP = ['es','en','fr','de','pt','zh'];
-      var saved = null;
-      try { saved = localStorage.getItem('umbra:lang'); } catch (e) {}
-      var lang = saved || (navigator.language || 'en').split('-')[0].toLowerCase();
-      if (SUP.indexOf(lang) === -1) lang = 'en';
-      document.documentElement.lang = lang;
-      if (lang !== 'es') document.documentElement.classList.add('lang-pending');
-    })();
-  </script>
+      /* Marca */
+      --gold:       #d4a06a;
+      --gold-hi:    #f4cc89;
+      --gold-deep:  #a07440;
+      --gold-shine: #ffeac1;
+
+      /* Acentos vivos */
+      --grape:      #7b6cf6;
+      --mint:       #3ed1bd;
+      --rose:       #ff6fa6;
+      --sky:        #6cb4f6;
+      --lemon:      #f7d36c;
+      --tomato:     #ff7a5c;
+
+      /* Sombra */
+      --shadow-soft: 0 1px 0 rgba(0,0,0,0.02), 0 10px 30px -10px rgba(0,0,0,0.08);
+      --shadow-pop:  0 1px 0 rgba(0,0,0,0.02), 0 30px 60px -20px rgba(0,0,0,0.18);
+      --shadow-glow: 0 0 0 1px rgba(212,160,106,0.18), 0 30px 60px -20px rgba(212,160,106,0.45);
+
+      /* Radios */
+      --r-sm: 10px;
+      --r:    18px;
+      --r-lg: 28px;
+      --r-xl: 36px;
+      --r-pill: 999px;
+
+      --container: 1280px;
+    }
+
+    body{
+      font-family:'Inter',sans-serif;
+      background:#0e1530;
+      color:#f0f0f5;
+      line-height:1.5;
+      -webkit-font-smoothing:antialiased;
+      overflow-x:hidden;
+      position:relative;
+    }
+    body > *{position:relative;z-index:1}
+
+    /* ═══════════════════════════════════════════════════════════
+       UNIVERSE — fondo animado con capas reales
+       - Stars: pinpricks blancos dispersos
+       - Aurora: 2 conic gradients rotando lentos
+       - Goo blobs: 5 manchas líquidas que se mezclan al tocarse
+       - Penrose float: triángulos flotando con parallax
+       ═══════════════════════════════════════════════════════════ */
+
+    .universe{
+      position:fixed;inset:0;z-index:0;
+      overflow:hidden;pointer-events:none;
+    }
+
+    /* CAPA 1 — Gradiente base con depth */
+    .universe::before{
+      content:'';position:absolute;inset:0;
+      background:
+        radial-gradient(ellipse 100% 80% at 50% 0%, #1c2c54 0%, #0e1530 60%),
+        radial-gradient(ellipse 80% 60% at 50% 100%, #1a2050 0%, #0a0f24 70%);
+    }
+
+    /* CAPA 2 — Aurora con conic gradients rotando */
+    .aurora-a, .aurora-b{
+      position:absolute;
+      width:1400px;height:1400px;
+      border-radius:50%;
+      filter:blur(80px);
+      opacity:0.55;mix-blend-mode:screen;
+      will-change:transform;
+    }
+    .aurora-a{
+      top:-30%;left:-15%;
+      background:conic-gradient(
+        from 0deg,
+        rgba(212,160,106,0.65) 0deg,
+        rgba(80,120,240,0.55) 90deg,
+        rgba(180,80,220,0.50) 180deg,
+        rgba(60,200,180,0.55) 270deg,
+        rgba(212,160,106,0.65) 360deg
+      );
+      animation:auroraSpin 80s linear infinite;
+    }
+    .aurora-b{
+      bottom:-30%;right:-20%;
+      background:conic-gradient(
+        from 180deg,
+        rgba(255,150,90,0.45) 0deg,
+        rgba(123,108,246,0.60) 120deg,
+        rgba(80,200,255,0.45) 240deg,
+        rgba(255,150,90,0.45) 360deg
+      );
+      animation:auroraSpin 110s linear infinite reverse;
+    }
+    @keyframes auroraSpin{to{transform:rotate(360deg)}}
+
+    /* CAPA 3 — Stars (SVG noise inline como bg) */
+    .universe-stars{
+      position:absolute;inset:0;
+      background-image:
+        radial-gradient(1.5px 1.5px at 12% 18%, rgba(255,255,255,0.9), transparent),
+        radial-gradient(1px 1px at 25% 7%, rgba(255,240,200,0.7), transparent),
+        radial-gradient(1.5px 1.5px at 38% 22%, rgba(255,255,255,0.8), transparent),
+        radial-gradient(1px 1px at 52% 12%, rgba(180,210,255,0.7), transparent),
+        radial-gradient(2px 2px at 68% 24%, rgba(255,255,255,0.85), transparent),
+        radial-gradient(1px 1px at 82% 9%, rgba(255,220,180,0.6), transparent),
+        radial-gradient(1.5px 1.5px at 93% 19%, rgba(255,255,255,0.7), transparent),
+        radial-gradient(1px 1px at 7% 35%, rgba(255,255,255,0.6), transparent),
+        radial-gradient(2px 2px at 21% 42%, rgba(255,240,200,0.85), transparent),
+        radial-gradient(1px 1px at 33% 38%, rgba(255,255,255,0.5), transparent),
+        radial-gradient(1.5px 1.5px at 47% 47%, rgba(200,220,255,0.8), transparent),
+        radial-gradient(1px 1px at 61% 41%, rgba(255,255,255,0.65), transparent),
+        radial-gradient(2px 2px at 76% 50%, rgba(255,255,255,0.9), transparent),
+        radial-gradient(1px 1px at 88% 38%, rgba(255,220,180,0.6), transparent),
+        radial-gradient(1.5px 1.5px at 15% 62%, rgba(255,255,255,0.7), transparent),
+        radial-gradient(1px 1px at 28% 70%, rgba(180,210,255,0.6), transparent),
+        radial-gradient(2px 2px at 42% 58%, rgba(255,255,255,0.85), transparent),
+        radial-gradient(1px 1px at 55% 67%, rgba(255,240,200,0.7), transparent),
+        radial-gradient(1.5px 1.5px at 71% 72%, rgba(255,255,255,0.75), transparent),
+        radial-gradient(1px 1px at 84% 64%, rgba(200,220,255,0.5), transparent),
+        radial-gradient(1.5px 1.5px at 9% 85%, rgba(255,255,255,0.7), transparent),
+        radial-gradient(2px 2px at 24% 92%, rgba(255,240,200,0.85), transparent),
+        radial-gradient(1px 1px at 38% 88%, rgba(255,255,255,0.6), transparent),
+        radial-gradient(1.5px 1.5px at 52% 95%, rgba(180,210,255,0.7), transparent),
+        radial-gradient(1px 1px at 67% 87%, rgba(255,255,255,0.55), transparent),
+        radial-gradient(2px 2px at 81% 93%, rgba(255,255,255,0.8), transparent),
+        radial-gradient(1px 1px at 95% 84%, rgba(255,220,180,0.6), transparent);
+      background-repeat:no-repeat;
+      animation:starTwinkle 6s ease-in-out infinite;
+    }
+    @keyframes starTwinkle{0%,100%{opacity:0.85}50%{opacity:0.55}}
+
+    /* CAPA 4 — Goo blobs líquidos */
+    .universe-goo{
+      position:absolute;inset:0;
+      filter:url(#goo-filter);
+      mix-blend-mode:screen;
+      opacity:0.85;
+    }
+    .goo-blob{
+      position:absolute;border-radius:50%;
+      filter:blur(2px);
+    }
+    .gb-1{
+      width:380px;height:380px;
+      background:radial-gradient(circle,rgba(212,160,106,0.85),rgba(212,160,106,0.3) 60%,transparent 80%);
+      top:15%;left:10%;
+      animation:blobDrift1 28s ease-in-out infinite;
+    }
+    .gb-2{
+      width:420px;height:420px;
+      background:radial-gradient(circle,rgba(123,108,246,0.85),rgba(123,108,246,0.3) 60%,transparent 80%);
+      top:30%;right:5%;
+      animation:blobDrift2 36s ease-in-out infinite;
+    }
+    .gb-3{
+      width:340px;height:340px;
+      background:radial-gradient(circle,rgba(62,209,189,0.80),rgba(62,209,189,0.25) 60%,transparent 80%);
+      bottom:25%;left:25%;
+      animation:blobDrift3 32s ease-in-out infinite;
+    }
+    .gb-4{
+      width:380px;height:380px;
+      background:radial-gradient(circle,rgba(255,122,92,0.75),rgba(255,122,92,0.25) 60%,transparent 80%);
+      bottom:10%;right:20%;
+      animation:blobDrift4 40s ease-in-out infinite;
+    }
+    .gb-5{
+      width:300px;height:300px;
+      background:radial-gradient(circle,rgba(247,211,108,0.85),rgba(247,211,108,0.3) 60%,transparent 80%);
+      top:55%;left:45%;
+      animation:blobDrift5 30s ease-in-out infinite;
+    }
+    @keyframes blobDrift1{
+      0%,100%{transform:translate(0,0) scale(1)}
+      25%{transform:translate(120px,80px) scale(1.15)}
+      50%{transform:translate(60px,-100px) scale(0.9)}
+      75%{transform:translate(-80px,40px) scale(1.1)}
+    }
+    @keyframes blobDrift2{
+      0%,100%{transform:translate(0,0) scale(1)}
+      33%{transform:translate(-150px,90px) scale(1.1)}
+      66%{transform:translate(100px,-70px) scale(0.92)}
+    }
+    @keyframes blobDrift3{
+      0%,100%{transform:translate(0,0) scale(1)}
+      30%{transform:translate(140px,-60px) scale(1.18)}
+      60%{transform:translate(-70px,80px) scale(0.95)}
+    }
+    @keyframes blobDrift4{
+      0%,100%{transform:translate(0,0) scale(1)}
+      35%{transform:translate(-100px,-80px) scale(1.05)}
+      70%{transform:translate(80px,60px) scale(1.15)}
+    }
+    @keyframes blobDrift5{
+      0%,100%{transform:translate(0,0) scale(1)}
+      40%{transform:translate(-130px,70px) scale(1.2)}
+      80%{transform:translate(110px,-40px) scale(0.88)}
+    }
+
+    /* CAPA 5 — Penrose triangles flotantes parallax */
+    .universe-penrose{
+      position:absolute;
+      opacity:0.10;
+      filter:drop-shadow(0 0 20px rgba(212,160,106,0.6));
+      will-change:transform;
+    }
+    .universe-penrose img{width:100%;height:100%;object-fit:contain}
+    .up-1{top:12%;left:8%;width:90px;height:90px;animation:penFloat1 22s ease-in-out infinite}
+    .up-2{top:30%;right:12%;width:140px;height:140px;animation:penFloat2 28s ease-in-out infinite,penSpin 90s linear infinite}
+    .up-3{top:60%;left:18%;width:110px;height:110px;animation:penFloat3 26s ease-in-out infinite,penSpin 120s linear infinite reverse}
+    .up-4{bottom:15%;right:8%;width:160px;height:160px;animation:penFloat4 32s ease-in-out infinite,penSpin 100s linear infinite}
+    .up-5{top:45%;left:48%;width:80px;height:80px;animation:penFloat5 24s ease-in-out infinite,penSpin 80s linear infinite reverse;opacity:0.06}
+    @keyframes penFloat1{0%,100%{transform:translate(0,0)}50%{transform:translate(40px,-30px)}}
+    @keyframes penFloat2{0%,100%{transform:translate(0,0)}50%{transform:translate(-30px,40px)}}
+    @keyframes penFloat3{0%,100%{transform:translate(0,0)}50%{transform:translate(50px,30px)}}
+    @keyframes penFloat4{0%,100%{transform:translate(0,0)}50%{transform:translate(-40px,-40px)}}
+    @keyframes penFloat5{0%,100%{transform:translate(0,0)}50%{transform:translate(20px,-20px)}}
+    @keyframes penSpin{to{transform:rotate(360deg)}}
+    /* Combinar float + spin: usamos doble animación encadenada — la rotación va en el img dentro */
+    .universe-penrose.up-2 img,
+    .universe-penrose.up-3 img,
+    .universe-penrose.up-4 img,
+    .universe-penrose.up-5 img{
+      animation:penSpinImg 100s linear infinite;
+    }
+    .universe-penrose.up-3 img{animation-direction:reverse;animation-duration:120s}
+    .universe-penrose.up-4 img{animation-duration:80s}
+    .universe-penrose.up-5 img{animation-duration:60s;animation-direction:reverse}
+    @keyframes penSpinImg{to{transform:rotate(360deg)}}
+
+    /* CAPA 6 — Grain ligero para suavizar el bandeo */
+    .universe-grain{
+      position:absolute;inset:0;
+      opacity:0.04;mix-blend-mode:overlay;
+      background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' seed='5'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 1 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+    }
+
+    /* Texto sobre fondo azul oscuro: claro */
+    section{color:#e8e8f0}
+    section h1, section h2, section h3, section h4, section h5, section h6{color:#fff}
+    section p:not([class]){color:#b8bcd0}
+
+    /* Cards con bg propio claro: forzamos texto oscuro dentro */
+    .c-hero{color:#1a1a26}
+    .c-hero h1{color:#1a1a26}
+    .c-hero .sub{color:#4a4458}
+    .c-devices{color:#3a1a0d}
+    .c-devices h3{color:#3a1a0d}
+    .c-lingote h3{color:#3a2418}
+    .c-lingote p{color:rgba(58,36,24,0.7)}
+    .c-audiences{color:#0a3f2c}
+    .story-item{color:#1a1a26}
+    .story-item h5{color:#1a1a26}
+    .story-item p{color:#5a5a6b}
+    .orbit-item{color:#1a1a26}
+    .orbit-item h6{color:#1a1a26}
+    .orbit-item p{color:#5a5a6b}
+    .bubble:not(.you){color:#5a5a6b}
+    .bubble:not(.you) strong{color:#1a1a26}
+    a{color:inherit;text-decoration:none}
+    ul{list-style:none}
+    button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
+    img{max-width:100%;display:block}
+
+    /* ─────────────────────────────────────────────────────────────
+       NAV — cápsula flotante minimal
+       ──────────────────────────────────────────────────────────── */
+    .nav{
+      position:fixed;top:1rem;left:50%;transform:translateX(-50%);
+      z-index:100;width:calc(100% - 2rem);max-width:var(--container);
+      display:flex;align-items:center;justify-content:space-between;
+      padding:0.5rem 0.6rem 0.5rem 1.4rem;
+      background:rgba(14,14,20,0.85);
+      backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+      border:1px solid rgba(255,255,255,0.06);
+      border-radius:var(--r-pill);
+      color:#fff;
+    }
+    .nav-logo{display:flex;align-items:center;gap:0.55rem;font-family:'Space Grotesk',sans-serif;font-weight:700;letter-spacing:-0.015em}
+    .nav-logo svg{width:26px;height:26px}
+    .nav-links{display:none;gap:0.25rem}
+    @media(min-width:980px){.nav-links{display:flex}}
+    .nav-links a{padding:0.4rem 0.9rem;font-size:0.9rem;color:rgba(255,255,255,0.7);border-radius:var(--r-pill);transition:background 180ms,color 180ms}
+    .nav-links a:hover{background:rgba(255,255,255,0.08);color:#fff}
+    .nav-cta{
+      padding:0.55rem 1.1rem;border-radius:var(--r-pill);
+      background:var(--gold);color:#1a1208;font-weight:700;font-size:0.88rem;
+      transition:transform 180ms,background 180ms;
+      display:inline-flex;align-items:center;gap:0.35rem;
+    }
+    .nav-cta:hover{background:var(--gold-hi);transform:translateY(-1px)}
+
+    /* ─────────────────────────────────────────────────────────────
+       HERO BENTO — primera pantalla con grid asimétrico
+       ──────────────────────────────────────────────────────────── */
+    .hero{
+      padding:5.5rem 1rem 2rem;
+      background:transparent;
+      min-height:100vh;
+      display:flex;align-items:center;
+    }
+    .bento{
+      max-width:var(--container);margin:0 auto;width:100%;
+      display:grid;
+      grid-template-columns:repeat(12, 1fr);
+      grid-auto-rows:minmax(110px, auto);
+      gap:0.85rem;
+    }
+    @media(max-width:880px){
+      .bento{grid-template-columns:repeat(6,1fr);grid-auto-rows:minmax(90px,auto)}
+    }
+    .card{
+      position:relative;overflow:hidden;
+      border-radius:var(--r-lg);
+      padding:1.5rem;
+      background:#fff;border:1px solid var(--line);
+      box-shadow:var(--shadow-soft);
+      transition:transform 260ms cubic-bezier(0.2,0.7,0.3,1), box-shadow 260ms;
+    }
+    .card:hover{transform:translateY(-3px);box-shadow:var(--shadow-pop)}
+
+    .c-hero        { grid-column: span 7; grid-row: span 4; padding:2.5rem; background:linear-gradient(155deg, #f4f8fd 0%, var(--bg-sky-2) 100%); position:relative; }
+    .c-devices     { grid-column: span 5; grid-row: span 2; background:linear-gradient(155deg,var(--bg-coral) 0%,var(--bg-coral-2) 100%);color:#3a1a0d}
+    .c-lingote     { grid-column: span 3; grid-row: span 2; background:linear-gradient(155deg,var(--bg-warm),var(--bg-warm-2)); display:flex;flex-direction:column;justify-content:space-between; padding:1.5rem; }
+    .c-mascot      { grid-column: span 2; grid-row: span 2; background:linear-gradient(155deg,#3a2418 0%,#1f160a 60%,#2a1c0e 100%);color:#fff; display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding-top:3rem;overflow:visible;border:1px solid rgba(212,160,106,0.25);box-shadow:0 18px 40px -12px rgba(212,160,106,0.20), var(--shadow-soft)}
+    .c-mascot .lingo{margin-top:0.5rem}
+    .mascot-trio{display:flex;align-items:flex-end;justify-content:center;gap:0.5rem;margin:0.5rem 0;min-height:150px}
+    .c-audiences   { grid-column: span 12; grid-row: span 1; background:linear-gradient(135deg,var(--bg-sage),var(--bg-sage-2));color:#0a3f2c;display:flex;align-items:center;gap:0.55rem;flex-wrap:wrap;padding:1rem 1.5rem}
+
+    @media(max-width:1100px){
+      .c-hero{grid-column:span 12}
+      .c-devices{grid-column:span 7}
+      .c-lingote{grid-column:span 5}
+      .c-mascot{grid-column:span 12;grid-row:span 1;flex-direction:row;justify-content:space-around;padding:1rem 1.5rem}
+      .c-mascot .lingo{margin:0}
+      .c-audiences{grid-column:span 12}
+    }
+    @media(max-width:880px){
+      .c-hero{grid-column:span 6;grid-row:span 3;padding:1.75rem}
+      .c-devices{grid-column:span 6;grid-row:span 2}
+      .c-lingote{grid-column:span 3;grid-row:span 2}
+      .c-mascot{grid-column:span 3;grid-row:span 2;flex-direction:column;padding:1.5rem}
+      .c-audiences{grid-column:span 6}
+    }
+
+    /* Hero card */
+    .c-hero > *{position:relative;z-index:1}
+    .hero-penrose{
+      position:absolute;
+      top:-30px;right:-50px;
+      width:340px;height:340px;
+      z-index:0;
+      pointer-events:none;
+      opacity:0.85;
+      animation:penroseSpin 80s linear infinite;
+      filter:drop-shadow(0 30px 60px rgba(212,160,106,0.35)) drop-shadow(0 0 40px rgba(212,160,106,0.25));
+    }
+    .hero-penrose img{width:100%;height:100%;object-fit:contain}
+    @media(max-width:880px){
+      .hero-penrose{width:220px;height:220px;top:-20px;right:-30px;opacity:0.6}
+    }
+    @keyframes penroseSpin{to{transform:rotate(360deg)}}
+
+    .c-hero h1{
+      font-family:'Space Grotesk',sans-serif;
+      font-size:clamp(2.4rem, 5.5vw, 4.5rem);
+      font-weight:800;letter-spacing:-0.04em;line-height:0.98;
+      margin-bottom:1rem;
+    }
+    .c-hero h1 .ink-blob{
+      position:relative;display:inline-block;padding:0.05em 0.25em 0.1em;
+      background:var(--ink);color:var(--gold-hi);
+      border-radius:14px;
+      transform:rotate(-2deg);
+      box-shadow:0 6px 0 rgba(0,0,0,0.04);
+    }
+    .c-hero .sub{font-size:1.06rem;color:var(--text-mid);max-width:46ch;margin-bottom:1.5rem}
+    .c-hero .row{display:flex;flex-wrap:wrap;gap:0.65rem;margin-bottom:1.25rem}
+
+    .btn{
+      display:inline-flex;align-items:center;gap:0.5rem;
+      padding:0.95rem 1.5rem;border-radius:var(--r-pill);font-weight:700;font-size:0.95rem;
+      transition:transform 180ms, background 180ms, box-shadow 180ms;
+      white-space:nowrap;
+    }
+    .btn-gold{background:var(--gold);color:#1a1208;box-shadow:0 0 0 1px rgba(212,160,106,0.25), 0 12px 28px -10px rgba(212,160,106,0.5)}
+    .btn-gold:hover{background:var(--gold-hi);transform:translateY(-2px);box-shadow:0 0 0 1px rgba(212,160,106,0.4), 0 16px 36px -8px rgba(212,160,106,0.6)}
+    .btn-ink{background:var(--ink);color:#fff}
+    .btn-ink:hover{background:#000;transform:translateY(-2px)}
+    .btn-ghost{background:transparent;color:var(--text);border:1.5px solid rgba(0,0,0,0.12)}
+    .btn-ghost:hover{border-color:var(--ink);transform:translateY(-2px)}
+    .btn-light{background:#fff;color:var(--text)}
+    .btn-light:hover{transform:translateY(-2px);box-shadow:0 12px 24px -8px rgba(0,0,0,0.18)}
+
+    .meta-tags{display:flex;flex-wrap:wrap;gap:0.4rem;font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:var(--text-mid)}
+    .meta-tags span{display:inline-flex;align-items:center;gap:0.35rem;padding:0.3rem 0.7rem;background:rgba(0,0,0,0.04);border-radius:var(--r-pill)}
+    .meta-tags .ok::before{content:"✓";color:var(--mint);font-weight:900}
+
+    /* Devices card — móvil con UMBRA dentro (CORAL) */
+    .c-devices{padding:1.5rem 1.5rem 1rem;display:flex;align-items:stretch;justify-content:space-between;gap:1rem;color:#3a1a0d;position:relative;overflow:hidden}
+    .c-devices .label{font-family:'Inter',sans-serif;font-size:0.78rem;font-weight:700;color:#b6371a;margin-bottom:0.4rem}
+    .c-devices-text{display:flex;flex-direction:column;justify-content:space-between;flex:1}
+    .c-devices h3{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.45rem;letter-spacing:-0.02em;margin-bottom:0.4rem;line-height:1.1}
+    .c-devices p{font-size:0.88rem;color:rgba(58,26,13,0.72);max-width:30ch}
+    .c-devices .badges{display:flex;flex-wrap:wrap;gap:0.35rem;margin-top:0.65rem}
+    .c-devices .badges span{padding:0.22rem 0.55rem;background:rgba(255,255,255,0.55);border-radius:999px;font-size:0.7rem;font-weight:700;color:#7a2a14}
+
+    /* Móvil mockup con UMBRA running */
+    .phone-mock{
+      flex-shrink:0;width:148px;height:240px;
+      background:#1a1a26;border:3px solid #0e0e14;border-radius:22px;
+      padding:6px;position:relative;
+      box-shadow:0 20px 40px -10px rgba(0,0,0,0.4),inset 0 0 0 1px rgba(255,255,255,0.05);
+      transform:rotate(4deg);
+    }
+    .phone-mock::before{
+      content:'';position:absolute;top:8px;left:50%;transform:translateX(-50%);
+      width:36px;height:14px;background:#0e0e14;border-radius:0 0 10px 10px;
+    }
+    .phone-screen{
+      width:100%;height:100%;background:linear-gradient(180deg,#161620 0%,#0e0e14 100%);
+      border-radius:16px;overflow:hidden;
+      padding:18px 8px 8px;display:flex;flex-direction:column;gap:5px;
+    }
+    .pm-top{display:flex;align-items:center;justify-content:space-between;padding:2px 4px;font-family:'JetBrains Mono',monospace;font-size:6px;color:rgba(255,255,255,0.55);letter-spacing:0.08em}
+    .pm-title{display:flex;align-items:center;gap:4px;padding:0 4px}
+    .pm-title img{width:14px;height:14px}
+    .pm-title span{font-family:'Space Grotesk',sans-serif;font-size:9px;font-weight:800;color:#fff;letter-spacing:-0.01em}
+    .pm-title .av{margin-left:auto;width:14px;height:14px;border-radius:50%;background:linear-gradient(135deg,var(--gold-hi),var(--gold-deep))}
+    .pm-section{font-size:6px;color:rgba(255,255,255,0.45);text-transform:uppercase;letter-spacing:0.12em;padding:3px 4px 0;font-weight:700}
+    .pm-room{
+      display:flex;align-items:center;gap:4px;padding:5px 6px;
+      background:rgba(255,255,255,0.05);border-radius:8px;
+    }
+    .pm-room.active{background:rgba(212,160,106,0.18);box-shadow:inset 0 0 0 1px rgba(212,160,106,0.4)}
+    .pm-room .dot{width:5px;height:5px;border-radius:50%;flex-shrink:0}
+    .pm-room .dot.teal{background:#3ed1bd;box-shadow:0 0 4px #3ed1bd}
+    .pm-room .dot.amber{background:var(--gold);box-shadow:0 0 4px var(--gold)}
+    .pm-room .dot.mute{background:#3a3a48}
+    .pm-room .name{font-size:7.5px;font-weight:600;color:#fff;flex:1}
+    .pm-room .num{font-size:5.5px;color:rgba(255,255,255,0.5);font-family:'JetBrains Mono',monospace;font-weight:600}
+    .pm-avs{display:flex;gap:1px}
+    .pm-avs span{width:9px;height:9px;border-radius:50%;border:1.2px solid #161620;display:inline-block}
+    .pm-whisper-tag{
+      position:absolute;top:60px;right:-12px;
+      padding:3px 7px;background:var(--gold);color:#1a1208;
+      font-family:'Space Grotesk',sans-serif;font-size:6.5px;font-weight:800;
+      border-radius:999px;letter-spacing:0.04em;
+      box-shadow:0 4px 8px rgba(212,160,106,0.5);
+      transform:rotate(-6deg);
+    }
+    .pm-bot{
+      margin-top:auto;display:flex;align-items:center;justify-content:space-around;
+      padding:4px 0 2px;border-top:1px solid rgba(255,255,255,0.06);
+    }
+    .pm-bot .tab{width:14px;height:14px;border-radius:5px;background:rgba(255,255,255,0.06)}
+    .pm-bot .tab.on{background:var(--gold);box-shadow:0 0 8px rgba(212,160,106,0.4)}
+
+    @media(max-width:560px){
+      .phone-mock{width:120px;height:200px}
+    }
+
+    /* Lingote card */
+    .c-lingote .label{font-family:'Inter',sans-serif;font-size:0.78rem;font-weight:700;color:var(--gold-deep)}
+    .c-lingote h3{font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:1.4rem;letter-spacing:-0.02em;color:var(--text);line-height:1.1;margin:0.4rem 0}
+    .c-lingote p{font-size:0.85rem;color:var(--text-mid)}
+    .lingote-stack{position:absolute;right:-10px;bottom:-10px;width:170px;height:130px;transform:rotate(-12deg)}
+    .lingote{position:absolute;width:140px;height:54px;border-radius:6px;background:linear-gradient(180deg,var(--gold-shine) 0%, var(--gold-hi) 30%, var(--gold) 60%, var(--gold-deep) 100%);box-shadow:0 8px 20px -4px rgba(160,116,64,0.5), inset 0 -3px 0 rgba(0,0,0,0.12), inset 0 2px 0 rgba(255,255,255,0.4);transform-style:preserve-3d}
+    .lingote::before{content:'';position:absolute;top:5px;left:50%;transform:translateX(-50%);width:32px;height:18px;border-radius:5px;background:rgba(0,0,0,0.08)}
+    .lingote::after{content:'';position:absolute;top:5px;left:50%;transform:translateX(-50%);width:32px;height:18px;background-image:url("assets/logo-triangle.png");background-size:18px 18px;background-position:center;background-repeat:no-repeat;opacity:0.7;filter:brightness(0.4) sepia(1) saturate(3) hue-rotate(-12deg)}
+    .lingote.l1{bottom:0;left:0;z-index:3}
+    .lingote.l2{bottom:24px;left:14px;z-index:2;opacity:0.85}
+    .lingote.l3{bottom:48px;left:28px;z-index:1;opacity:0.7;width:120px;height:46px}
+
+    /* Mascot card — Lingo */
+    .c-mascot .label{font-family:'Inter',sans-serif;font-size:0.78rem;font-weight:700;color:var(--gold-hi);opacity:0.85;margin-bottom:0.8rem}
+    .c-mascot h4{font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:1.05rem;letter-spacing:0.02em;color:#fff;margin-top:0.7rem}
+    .c-mascot p{font-size:0.8rem;color:rgba(255,255,255,0.55);margin-top:0.25rem}
+
+    /* ═══════════════════════════════════════════════════════════
+       MASCOTAS v3 — PNGs generadas con IA (Krea)
+       Lingo, Pip, Gemmi (Stash temporalmente como Lingo grande)
+       ═══════════════════════════════════════════════════════════ */
+    .mascot-img{
+      display:inline-block;position:relative;
+      animation:beingBob 5s ease-in-out infinite;
+      will-change:transform;
+    }
+    .mascot-img img{
+      width:100%;height:100%;display:block;
+      object-fit:contain;
+      filter:drop-shadow(0 14px 28px rgba(0,0,0,0.45));
+    }
+    /* Halo de color detrás de cada mascota */
+    .mascot-img::before{
+      content:'';position:absolute;
+      inset:10% 10% 0 10%;z-index:-1;
+      border-radius:50%;
+      filter:blur(32px);
+      animation:beingPulse 3.5s ease-in-out infinite;
+      pointer-events:none;
+      opacity:0.85;
+    }
+    .mascot-img.halo-gold::before{background:rgba(212,160,106,0.65)}
+    .mascot-img.halo-copper::before{background:rgba(220,130,80,0.55)}
+    .mascot-img.halo-crystal::before{background:rgba(150,110,240,0.60)}
+    .mascot-img.halo-mint::before{background:rgba(80,210,180,0.55)}
+
+    /* Tamaños — width + height para que el contain funcione bien */
+    .mascot-xl{width:240px;height:300px}
+    .mascot-l{width:180px;height:230px}
+    .mascot-m{width:130px;height:165px}
+    .mascot-s{width:100px;height:130px}
+    .mascot-xs{width:75px;height:95px}
+
+    /* Stash temporal: Lingo con hue shift hacia menta/teal */
+    .mascot-img.as-stash img{
+      filter:drop-shadow(0 14px 28px rgba(0,0,0,0.45)) hue-rotate(110deg) saturate(0.85);
+    }
+
+    /* === Legacy v2 (Penrose Beings) — ocultar todo === */
+    .being{display:none !important}
+
+    /* ═══════════════════════════════════════════════════════════
+       PENROSE BEINGS legacy v2 (oculto)
+       ═══════════════════════════════════════════════════════════ */
+
+    .being{
+      position:relative;
+      display:inline-block;
+      animation:beingBob 5s ease-in-out infinite;
+    }
+    .being-l{width:160px;height:160px}
+    .being-m{width:120px;height:120px}
+    .being-s{width:90px;height:90px}
+
+    .being .form{
+      width:100%;height:100%;display:block;
+    }
+    .being .glow{
+      position:absolute;inset:-20%;z-index:-1;
+      border-radius:50%;
+      opacity:0.7;
+      animation:beingPulse 3.5s ease-in-out infinite;
+    }
+    /* Cara — eye-l, eye-r, smile como children */
+    .being .eye{
+      position:absolute;border-radius:50%;z-index:3;
+      background:
+        radial-gradient(circle at 30% 26%, #fff 0%, #fff 24%, transparent 26%),
+        radial-gradient(circle at 50% 55%, #1a1a22 0%, #0a0a14 100%);
+      box-shadow:0 2px 0 rgba(0,0,0,0.35), inset -1px 1px 1px rgba(255,255,255,0.1);
+    }
+    .being-l .eye{width:22px;height:22px}
+    .being-m .eye{width:17px;height:17px}
+    .being-s .eye{width:13px;height:13px}
+    .being .eye.left{left:32%}
+    .being .eye.right{right:32%}
+    .being-l .eye.left{bottom:30%}
+    .being-l .eye.right{bottom:30%}
+    .being-m .eye{bottom:28%}
+    .being-s .eye{bottom:26%}
+
+    .being .smile{
+      position:absolute;left:50%;transform:translateX(-50%);z-index:3;
+      border-bottom:3px solid #1a1a22;
+      border-radius:0 0 30px 30px;
+    }
+    .being-l .smile{bottom:18%;width:30px;height:12px}
+    .being-m .smile{bottom:17%;width:22px;height:10px;border-bottom-width:2.5px}
+    .being-s .smile{bottom:16%;width:16px;height:7px;border-bottom-width:2px}
+
+    .being .blush{
+      position:absolute;border-radius:50%;z-index:3;
+      background:radial-gradient(ellipse,rgba(255,111,166,0.7),rgba(255,111,166,0.25) 60%,transparent);
+    }
+    .being-l .blush{width:14px;height:8px;bottom:22%}
+    .being-m .blush{width:11px;height:6px;bottom:20%}
+    .being-s .blush{width:8px;height:4px;bottom:19%}
+    .being .blush.left{left:22%}
+    .being .blush.right{right:22%}
+
+    /* Variantes de color via filter aplicado al form (la PNG silver) */
+    /* Lingo — dorado */
+    .being-gold .form{
+      filter:sepia(1) saturate(3.5) hue-rotate(-15deg) brightness(1.15)
+             drop-shadow(0 12px 24px rgba(212,160,106,0.55));
+    }
+    .being-gold .glow{
+      background:radial-gradient(circle,rgba(212,160,106,0.5) 0%,transparent 60%);
+    }
+
+    /* Pip — cobre/bronce más oscuro */
+    .being-copper .form{
+      filter:sepia(1) saturate(2.4) hue-rotate(-32deg) brightness(0.92)
+             drop-shadow(0 10px 20px rgba(184,114,72,0.55));
+    }
+    .being-copper .glow{
+      background:radial-gradient(circle,rgba(255,140,90,0.4) 0%,transparent 60%);
+    }
+
+    /* Gemmi — cristal lila/púrpura */
+    .being-crystal .form{
+      filter:sepia(0.5) saturate(2.5) hue-rotate(225deg) brightness(1.1)
+             drop-shadow(0 12px 24px rgba(123,108,246,0.55));
+    }
+    .being-crystal .glow{
+      background:radial-gradient(circle,rgba(140,120,255,0.5) 0%,transparent 60%);
+    }
+
+    /* Stash — verde menta (más friendly, fresco) */
+    .being-mint .form{
+      filter:sepia(0.4) saturate(2.2) hue-rotate(120deg) brightness(1.05)
+             drop-shadow(0 12px 24px rgba(62,209,189,0.5));
+    }
+    .being-mint .glow{
+      background:radial-gradient(circle,rgba(80,220,200,0.45) 0%,transparent 60%);
+    }
+
+    /* Animaciones */
+    @keyframes beingBob{
+      0%,100%{transform:translateY(0) rotate(-3deg)}
+      45%{transform:translateY(-10px) rotate(0deg)}
+      50%{transform:translateY(-12px) rotate(3deg)}
+      55%{transform:translateY(-10px) rotate(2deg)}
+    }
+    @keyframes beingPulse{
+      0%,100%{opacity:0.55;transform:scale(1)}
+      50%{opacity:0.85;transform:scale(1.12)}
+    }
+
+    /* === MASCOTAS legacy v1 — siguen disponibles pero ocultas
+           para evitar mezclas mientras hacemos el switch === */
+    .lingo, .pip:not(.being), .gemmi:not(.being), .stash:not(.being){
+      display:none !important;
+    }
+
+    /* Lingo — el lingote dorado (más 3D) */
+    .lingo{
+      width:106px;height:74px;border-radius:14px;
+      position:relative;
+      background:
+        radial-gradient(ellipse 65% 45% at 32% 22%, rgba(255,245,210,0.85) 0%, transparent 55%),
+        linear-gradient(180deg,var(--gold-shine) 0%, var(--gold-hi) 28%, var(--gold) 62%, var(--gold-deep) 100%);
+      box-shadow:
+        0 18px 36px -8px rgba(160,116,64,0.55),
+        0 8px 14px -4px rgba(0,0,0,0.35),
+        inset 0 -6px 0 rgba(0,0,0,0.22),
+        inset 0 3px 0 rgba(255,255,255,0.6),
+        inset 4px 0 0 rgba(255,255,255,0.20),
+        inset -4px 0 0 rgba(0,0,0,0.14);
+      animation:bob 4s ease-in-out infinite;
+    }
+    .lingo::before, .lingo::after{
+      /* Ojos */
+      content:'';position:absolute;top:18px;width:20px;height:20px;border-radius:50%;
+      background:
+        radial-gradient(circle at 30% 26%, #fff 0%, #fff 22%, transparent 24%),
+        radial-gradient(circle at 50% 50%, #232333 0%, #0e0e18 100%);
+      box-shadow:inset -1px 1.5px 1px rgba(255,255,255,0.08), 0 1.5px 0 rgba(0,0,0,0.25);
+    }
+    .lingo::before{left:22px}
+    .lingo::after{right:22px}
+    .lingo .smile{
+      position:absolute;bottom:12px;left:50%;transform:translateX(-50%);
+      width:32px;height:14px;
+      border-bottom:3px solid #1a1a22;
+      border-radius:0 0 30px 30px;
+    }
+    .lingo .blush-l, .lingo .blush-r{
+      position:absolute;bottom:16px;width:14px;height:8px;border-radius:50%;
+      background:radial-gradient(ellipse,rgba(255,111,166,0.75),rgba(255,111,166,0.3) 65%,transparent);
+    }
+    .lingo .blush-l{left:12px}
+    .lingo .blush-r{right:12px}
+    .lingo .crown{
+      position:absolute;top:-52px;left:50%;transform:translateX(-50%);
+      width:62px;height:56px;
+      filter:drop-shadow(0 6px 14px rgba(160,116,64,0.55)) drop-shadow(0 0 20px rgba(212,160,106,0.4));
+      animation:crownFloat 3s ease-in-out infinite;
+    }
+    @keyframes bob{
+      0%,100%{transform:translateY(0) rotate(-3deg) scaleY(1) scaleX(1)}
+      45%{transform:translateY(-9px) rotate(0deg) scaleY(1.03) scaleX(0.98)}
+      50%{transform:translateY(-10px) rotate(3deg) scaleY(0.98) scaleX(1.02)}
+      55%{transform:translateY(-9px) rotate(2deg) scaleY(1.02) scaleX(0.99)}
+    }
+    @keyframes crownFloat{0%,100%{transform:translateX(-50%) translateY(0) rotate(-6deg)}50%{transform:translateX(-50%) translateY(-4px) rotate(6deg)}}
+
+    /* Audiences card (sage/triadic verde) */
+    .c-audiences .label{font-family:'Inter',sans-serif;font-size:0.78rem;font-weight:700;color:#0a4f3d;margin-right:0.4rem}
+    .pill{padding:0.4rem 0.85rem;background:#fff;border:1.5px solid rgba(10,46,35,0.10);border-radius:var(--r-pill);font-size:0.86rem;font-weight:600;display:inline-flex;align-items:center;gap:0.4rem;transition:transform 180ms}
+    .pill:hover{transform:translateY(-2px)}
+    .pill .e{font-size:1rem}
+
+    /* ─────────────────────────────────────────────────────────────
+       SHOWCASE — escritorio gigante mostrando UMBRA con mascotas
+       flotando alrededor (la pieza visual "de un vistazo")
+       ──────────────────────────────────────────────────────────── */
+    .showcase{
+      padding:5rem 1.5rem 6rem;
+      position:relative;
+      perspective:1400px;
+    }
+    .showcase-head{max-width:780px;margin:0 auto 3rem;text-align:center}
+    .showcase-head h2{font-family:'Space Grotesk',sans-serif;font-size:clamp(2.2rem,5vw,3.6rem);font-weight:800;letter-spacing:-0.035em;line-height:1.02;margin-bottom:1rem}
+    .showcase-head h2 .gold{color:var(--gold-deep)}
+    .showcase-head p{color:var(--text-mid);font-size:1.1rem;max-width:50ch;margin:0 auto}
+
+    .showcase-stage{
+      position:relative;max-width:1100px;margin:0 auto;
+      min-height:560px;
+      display:flex;align-items:center;justify-content:center;
+    }
+
+    /* Desktop mockup — ventana grande tilteada con UMBRA real dentro */
+    .desktop{
+      width:min(960px,95%);aspect-ratio:16/10;
+      background:#0b0b14;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,0.08);
+      box-shadow:
+        0 60px 100px -30px rgba(0,0,0,0.6),
+        0 30px 60px -20px rgba(212,160,106,0.20),
+        inset 0 1px 0 rgba(255,255,255,0.06);
+      transform:perspective(1800px) rotateY(-9deg) rotateX(4deg);
+      transform-style:preserve-3d;
+      overflow:hidden;
+      position:relative;
+      animation:desktopFloat 9s ease-in-out infinite;
+    }
+    @keyframes desktopFloat{
+      0%,100%{transform:perspective(1800px) rotateY(-9deg) rotateX(4deg) translateY(0)}
+      50%   {transform:perspective(1800px) rotateY(-7deg) rotateX(3deg) translateY(-10px)}
+    }
+    /* Watermark Penrose enorme detrás de la UI */
+    .desktop::before{
+      content:'';position:absolute;inset:0;z-index:0;pointer-events:none;
+      background-image:url("assets/logo-triangle.png");
+      background-size:80% auto;background-position:60% center;background-repeat:no-repeat;
+      opacity:0.10;filter:blur(0.5px);
+    }
+    .desktop::after{
+      content:'';position:absolute;inset:0;z-index:0;pointer-events:none;
+      background:
+        radial-gradient(ellipse 70% 40% at 60% 30%,rgba(212,160,106,0.18),transparent 65%),
+        radial-gradient(ellipse 50% 30% at 30% 80%,rgba(123,108,246,0.12),transparent 70%);
+    }
+
+    /* Titlebar tipo Windows */
+    .dt-titlebar{
+      position:relative;z-index:2;
+      height:30px;display:flex;align-items:center;justify-content:space-between;
+      padding:0 0.6rem 0 0.8rem;
+      background:rgba(0,0,0,0.45);
+      border-bottom:1px solid rgba(255,255,255,0.05);
+    }
+    .dt-titlebar .t-left{display:flex;align-items:center;gap:0.5rem;font-size:0.72rem;color:rgba(255,255,255,0.7);font-weight:500}
+    .dt-titlebar .t-left img{width:14px;height:14px}
+    .dt-titlebar .t-ctrls{display:flex;gap:0;color:rgba(255,255,255,0.5);font-size:0.7rem}
+    .dt-titlebar .t-ctrls span{width:30px;height:30px;display:grid;place-items:center}
+    .dt-titlebar .t-ctrls span:hover{background:rgba(255,255,255,0.08)}
+    .dt-titlebar .t-ctrls span:last-child:hover{background:#e81123;color:#fff}
+
+    /* Body real de la app */
+    .dt-body{position:relative;z-index:2;display:flex;height:calc(100% - 30px)}
+
+    /* Rail vertical de orgs (izquierda estrecha) */
+    .dt-orgs{
+      width:54px;background:rgba(0,0,0,0.35);
+      border-right:1px solid rgba(255,255,255,0.05);
+      padding:0.7rem 0;
+      display:flex;flex-direction:column;align-items:center;gap:0.45rem;
+    }
+    .dt-org{
+      width:36px;height:36px;border-radius:10px;
+      display:grid;place-items:center;
+      font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:0.78rem;
+      color:rgba(255,255,255,0.85);
+      transition:border-radius 180ms,transform 180ms;
+      cursor:pointer;
+    }
+    .dt-org.active{
+      border-radius:14px;
+      background:rgba(212,160,106,0.15);
+      box-shadow:inset 0 0 0 2px var(--gold);
+    }
+    .dt-org img{width:22px;height:22px}
+    .dt-org.o1{background:linear-gradient(135deg,#3a2418,#1a1208)}
+    .dt-org.o2{background:linear-gradient(135deg,#5a1c1c,#2a0c0c);color:#ff8888}
+    .dt-org.o3{background:linear-gradient(135deg,#1e3a5c,#0c1c2e);color:#88c8ff}
+    .dt-org.o4{background:linear-gradient(135deg,#3a3a3a,#1a1a1a)}
+    .dt-org.add{
+      background:transparent;border:1.5px dashed rgba(255,255,255,0.15);color:rgba(255,255,255,0.4);
+    }
+    .dt-org .badge-num{position:absolute;width:14px;height:14px;background:#ff5470;color:#fff;border-radius:50%;font-size:0.55rem;font-weight:700;display:grid;place-items:center;border:2px solid #0b0b14}
+
+    /* User card top: usuario actual + audio status */
+    .dt-user{
+      position:absolute;top:38px;left:62px;z-index:5;
+      padding:0.45rem 0.7rem;
+      background:rgba(15,15,28,0.92);
+      border:1px solid rgba(255,255,255,0.08);
+      border-radius:10px;
+      display:flex;align-items:center;gap:0.55rem;
+      backdrop-filter:blur(8px);
+      box-shadow:0 8px 16px rgba(0,0,0,0.3);
+    }
+    .dt-user .channel-name{display:flex;align-items:center;gap:0.35rem;font-size:0.7rem;font-weight:700;color:#fff}
+    .dt-user .channel-name .dot{width:6px;height:6px;border-radius:50%;background:#3ed1bd;box-shadow:0 0 6px #3ed1bd}
+    .dt-user .sep{width:1px;height:14px;background:rgba(255,255,255,0.10);margin:0 0.3rem}
+    .dt-user .audio-ok{color:#3ed1bd;font-size:0.62rem;font-weight:700;letter-spacing:0.05em;font-family:'JetBrains Mono',monospace}
+    .dt-user .me{display:flex;align-items:center;gap:0.35rem}
+    .dt-user .me .av{width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,#f4cc89,#a07440);box-shadow:0 0 0 1.5px #0b0b14, 0 0 0 2.5px var(--gold)}
+    .dt-user .me .nick{font-size:0.78rem;font-weight:700;color:#fff}
+    .dt-user .controls{display:flex;gap:0.2rem;margin-left:0.3rem}
+    .dt-user .ctrl{width:22px;height:22px;border-radius:6px;background:rgba(255,255,255,0.06);display:grid;place-items:center;font-size:0.78rem;color:rgba(255,255,255,0.7)}
+    .dt-user .ctrl.on{background:var(--gold);color:#1a1208}
+
+    /* Panel "Salas de voz" */
+    .dt-channels{
+      flex:1;padding:1.25rem 1.5rem;display:flex;flex-direction:column;gap:0.5rem;
+      position:relative;
+    }
+    .dt-ch-title{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:0.92rem;color:#fff;margin-bottom:0.6rem;display:flex;align-items:center;justify-content:space-between}
+    .dt-ch-title .pin{color:rgba(255,255,255,0.4);font-size:0.85rem}
+
+    /* Whisper a flota banner */
+    .dt-whisper-banner{
+      padding:0.55rem 0.85rem;background:rgba(255,255,255,0.04);
+      border:1px solid rgba(255,255,255,0.08);border-radius:8px;
+      font-family:'JetBrains Mono',monospace;font-size:0.72rem;letter-spacing:0.08em;
+      color:rgba(255,255,255,0.65);font-weight:700;
+      display:flex;align-items:center;justify-content:center;gap:0.5rem;
+      text-transform:uppercase;
+    }
+    .dt-whisper-banner::before{content:'▶';color:var(--gold);font-size:0.65rem}
+
+    /* Channel item con WHISPER button */
+    .dt-channel{
+      display:flex;align-items:center;gap:0.5rem;padding:0.4rem 0.6rem;
+      border-radius:6px;
+      transition:background 180ms;
+    }
+    .dt-channel:not(.active):hover{background:rgba(255,255,255,0.03)}
+    .dt-channel.active{
+      background:rgba(62,209,189,0.10);
+      border:1px solid rgba(62,209,189,0.45);
+      box-shadow:0 0 0 1px rgba(62,209,189,0.18), inset 0 1px 0 rgba(62,209,189,0.08);
+    }
+    .dt-channel .arrow{color:rgba(255,255,255,0.35);font-size:0.7rem;width:10px;text-align:center;flex-shrink:0}
+    .dt-channel .arrow.parent{color:rgba(255,255,255,0.5)}
+    .dt-channel .indent{width:14px;flex-shrink:0;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.18)}
+    .dt-channel .indent::before{content:'─';font-size:0.7rem}
+    .dt-channel .star{color:var(--gold);font-size:0.65rem;flex-shrink:0}
+    .dt-channel .dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+    .dt-channel .dot.live{background:#3ed1bd;box-shadow:0 0 6px #3ed1bd}
+    .dt-channel .dot.mute{background:rgba(255,255,255,0.20)}
+    .dt-channel .name{font-size:0.84rem;font-weight:600;color:#fff;flex:1}
+    .dt-channel.active .name{color:#fff}
+    .dt-channel .whisper-btn{
+      padding:0.18rem 0.55rem;background:var(--gold);color:#1a1208;
+      font-family:'JetBrains Mono',monospace;font-size:0.6rem;font-weight:800;
+      letter-spacing:0.12em;border-radius:4px;text-transform:uppercase;
+    }
+    .dt-channel .ctx-btn{color:rgba(255,255,255,0.4);font-size:0.85rem;padding-left:0.3rem}
+    .dt-channel .ch-count{
+      font-family:'JetBrains Mono',monospace;font-size:0.62rem;
+      padding:0.12rem 0.45rem;border-radius:999px;
+      background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.55);
+      font-weight:700;letter-spacing:0.04em;
+    }
+    .dt-channel:not(.active) .dot.live ~ .ch-count{
+      background:rgba(62,209,189,0.15);color:#7ee5d5;
+    }
+
+    /* Miembros pill (avatares horizontales bajo la sala activa) */
+    .dt-members-pills{
+      display:flex;align-items:center;gap:0.5rem;padding:0.4rem 1rem 0.4rem 2rem;
+      margin-bottom:0.3rem;
+    }
+    .dt-pill{
+      display:inline-flex;align-items:center;gap:0.35rem;
+      padding:0.18rem 0.5rem 0.18rem 0.2rem;
+      background:rgba(255,255,255,0.06);border-radius:999px;
+    }
+    .dt-pill .av{width:18px;height:18px;border-radius:50%;display:grid;place-items:center;font-size:0.55rem;font-weight:800}
+    .dt-pill .av.amber{background:linear-gradient(135deg,#f4cc89,#a07440);color:#1a1208}
+    .dt-pill .av.purple{background:linear-gradient(135deg,#a394ff,#7b6cf6);color:#fff}
+    .dt-pill .av.teal{background:linear-gradient(135deg,#7ee5d5,#3ed1bd);color:#0d3833}
+    .dt-pill .nick{font-size:0.7rem;font-weight:600;color:#fff}
+    .dt-pill .nick small{color:rgba(255,255,255,0.45);margin-left:0.2rem;font-weight:500}
+
+    /* Whisper toast (notificación de audio entrante) */
+    .dt-toast{
+      position:absolute;bottom:1.25rem;right:1.5rem;
+      padding:0.7rem 0.95rem 0.7rem 0.75rem;
+      background:linear-gradient(135deg,#3a2418,#1a1208);
+      border:1px solid rgba(212,160,106,0.5);
+      border-radius:12px;
+      display:flex;align-items:center;gap:0.7rem;
+      box-shadow:0 14px 30px -8px rgba(0,0,0,0.6), 0 0 24px -4px rgba(212,160,106,0.4);
+      animation:toastSlide 5s ease-in-out infinite;
+      max-width:340px;
+    }
+    @keyframes toastSlide{
+      0%,5%{opacity:0;transform:translateX(40px)}
+      10%,80%{opacity:1;transform:translateX(0)}
+      90%,100%{opacity:0;transform:translateX(40px)}
+    }
+    .dt-toast .ic{
+      width:36px;height:36px;border-radius:50%;
+      background:linear-gradient(180deg,var(--gold-hi),var(--gold-deep));
+      display:grid;place-items:center;font-size:1rem;flex-shrink:0;
+      box-shadow:0 0 0 3px rgba(212,160,106,0.15);
+      animation:micPulse 1.4s ease-in-out infinite;
+    }
+    @keyframes micPulse{0%,100%{box-shadow:0 0 0 3px rgba(212,160,106,0.15)}50%{box-shadow:0 0 0 6px rgba(212,160,106,0.0)}}
+    .dt-toast .body{display:flex;flex-direction:column;gap:0.1rem;flex:1}
+    .dt-toast .label{font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:0.14em;color:var(--gold-hi);font-weight:800;text-transform:uppercase}
+    .dt-toast .msg{font-size:0.82rem;color:#fff;line-height:1.3}
+    .dt-toast .msg strong{font-weight:700}
+    .dt-toast .wave{display:flex;align-items:flex-end;gap:2px;height:18px;margin-left:0.3rem}
+    .dt-toast .wave span{
+      width:2.5px;background:var(--gold-hi);border-radius:2px;
+      animation:waveBar 0.9s ease-in-out infinite;
+    }
+    .dt-toast .wave span:nth-child(1){animation-delay:-0.4s;height:60%}
+    .dt-toast .wave span:nth-child(2){animation-delay:-0.2s;height:80%}
+    .dt-toast .wave span:nth-child(3){animation-delay:-0.6s;height:50%}
+    .dt-toast .wave span:nth-child(4){animation-delay:-0.1s;height:90%}
+    .dt-toast .wave span:nth-child(5){animation-delay:-0.5s;height:65%}
+    @keyframes waveBar{0%,100%{transform:scaleY(0.4)}50%{transform:scaleY(1)}}
+
+    /* Mascotas asomando por la izquierda del escritorio */
+    .float-mascot{position:absolute;z-index:2;animation:floatBob 5s ease-in-out infinite}
+    @keyframes floatBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+    .float-pip{top:-20px;left:-30px;animation-delay:-1s}
+    .float-gem{bottom:-30px;left:-20px;animation-delay:-2s}
+
+    @media(max-width:760px){
+      .float-mascot{display:none}
+      .desktop{transform:none;animation:none}
+      .dt-members{grid-template-columns:repeat(2,1fr)}
+      .showcase-stage{min-height:auto}
+    }
+
+    /* ─────────────────────────────────────────────────────────────
+       STORY — sticky scroll con Lingo guiándote (fondo cálido ámbar)
+       ──────────────────────────────────────────────────────────── */
+    .story{
+      background:transparent;
+      padding:6rem 1.5rem 5rem;
+      position:relative;
+    }
+    .story-grid{
+      max-width:var(--container);margin:0 auto;
+      display:grid;grid-template-columns:1fr;gap:3rem;
+      position:relative;
+    }
+    @media(min-width:980px){.story-grid{grid-template-columns:0.45fr 0.55fr;gap:5rem}}
+    .story-sticky{position:sticky;top:7rem;align-self:start;height:max-content}
+    .story-stage{
+      background:linear-gradient(155deg,var(--ink-2),var(--ink));
+      border-radius:var(--r-xl);padding:2.5rem 2rem;
+      display:flex;flex-direction:column;align-items:center;justify-content:center;
+      text-align:center;color:#fff;min-height:380px;
+      box-shadow:var(--shadow-pop);position:relative;overflow:hidden;
+    }
+    .story-stage::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 50% 30%,rgba(247,211,108,0.22),transparent 65%)}
+    .story-stage > *{position:relative}
+    .story-stage .lingo{width:120px;height:80px;margin-bottom:1.5rem}
+    .story-stage h4{font-family:'Space Grotesk',sans-serif;font-size:1.4rem;font-weight:700;letter-spacing:-0.02em}
+    .story-stage p{font-size:0.95rem;color:rgba(255,255,255,0.65);margin-top:0.65rem;max-width:32ch}
+
+    .story-list{display:flex;flex-direction:column;gap:1.25rem}
+    .story-item{
+      padding:1.75rem 1.75rem;border-radius:var(--r-lg);background:#fff;border:1px solid var(--line);
+      box-shadow:var(--shadow-soft);
+      display:flex;gap:1.25rem;align-items:flex-start;
+      transition:transform 220ms,box-shadow 220ms;
+    }
+    .story-item:hover{transform:translateY(-3px);box-shadow:var(--shadow-pop)}
+    .story-item .num{
+      flex-shrink:0;width:48px;height:48px;border-radius:14px;display:grid;place-items:center;
+      font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:1.15rem;
+    }
+    .story-item h5{font-family:'Space Grotesk',sans-serif;font-size:1.2rem;font-weight:700;letter-spacing:-0.015em;margin-bottom:0.35rem}
+    .story-item p{color:var(--text-mid);font-size:0.95rem}
+    .story-item:nth-child(1) .num{background:var(--paper-warm);color:var(--gold-deep)}
+    .story-item:nth-child(2) .num{background:var(--paper-lila);color:var(--grape)}
+    .story-item:nth-child(3) .num{background:var(--paper-mint);color:#0e9e8c}
+    .story-item:nth-child(4) .num{background:var(--paper-rose);color:#cf3a72}
+
+    .section-eyebrow{
+      display:inline-flex;align-items:center;gap:0.4rem;
+      padding:0.35rem 0.9rem;border-radius:var(--r-pill);
+      background:var(--ink);color:var(--gold-hi);
+      font-family:'JetBrains Mono',monospace;font-size:0.72rem;letter-spacing:0.16em;font-weight:700;text-transform:uppercase;
+      margin-bottom:1.25rem;
+    }
+
+    /* ─────────────────────────────────────────────────────────────
+       AUDIENCES — orbita radial en sage (tríada del ámbar)
+       ──────────────────────────────────────────────────────────── */
+    .audiences{
+      padding:6rem 1.5rem;
+      background:transparent;
+      position:relative;
+    }
+    .audiences .head{max-width:560px;margin:0 auto 4rem;text-align:center}
+    .audiences h2{font-family:'Space Grotesk',sans-serif;font-size:clamp(2rem,4.5vw,3.2rem);font-weight:800;letter-spacing:-0.03em;line-height:1.05;margin-bottom:1rem}
+    .audiences .lead{color:var(--text-mid);font-size:1.1rem}
+
+    .orbit{
+      position:relative;max-width:900px;height:680px;margin:0 auto;
+    }
+    @media(max-width:880px){.orbit{height:auto;display:grid;grid-template-columns:1fr 1fr;gap:0.85rem;padding:0 0.5rem}}
+
+    .orbit-core{
+      position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+      width:180px;height:180px;border-radius:50%;
+      background:linear-gradient(155deg,var(--ink),var(--ink-2));
+      display:flex;flex-direction:column;align-items:center;justify-content:center;
+      color:#fff;text-align:center;
+      box-shadow:0 30px 60px -20px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.05);
+    }
+    .orbit-core::before{
+      content:'';position:absolute;inset:-20px;border-radius:50%;
+      background:radial-gradient(circle, rgba(212,160,106,0.30),transparent 70%);
+      z-index:-1;
+    }
+    .orbit-watermark{
+      position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+      width:380px;height:380px;
+      z-index:0;pointer-events:none;
+      opacity:0.07;
+      animation:penroseSpin 140s linear infinite;
+    }
+    .orbit-watermark img{width:100%;height:100%;object-fit:contain}
+    @media(max-width:880px){.orbit-watermark{display:none}}
+    .orbit-core .lingo{width:72px;height:48px;margin-bottom:0.4rem}
+    .orbit-core span{font-family:'Space Grotesk',sans-serif;font-size:0.85rem;letter-spacing:0.04em;color:var(--gold-hi);font-weight:800}
+    @media(max-width:880px){.orbit-core{position:relative;top:auto;left:auto;transform:none;grid-column:span 2;margin:0 auto 0.5rem}}
+
+    .orbit-ring{
+      position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+      width:520px;height:520px;border-radius:50%;
+      border:1.5px dashed rgba(26,26,38,0.10);
+      animation:slowSpin 60s linear infinite;
+    }
+    .orbit-ring.r2{width:680px;height:680px;border-style:dotted;opacity:0.7;animation-direction:reverse;animation-duration:80s}
+    @media(max-width:880px){.orbit-ring{display:none}}
+    @keyframes slowSpin{to{transform:translate(-50%,-50%) rotate(360deg)}}
+
+    .orbit-item{
+      position:absolute;width:170px;
+      background:#fff;border-radius:var(--r-lg);padding:1.1rem 1.2rem;
+      border:1px solid var(--line);box-shadow:var(--shadow-soft);
+      display:flex;flex-direction:column;gap:0.4rem;
+      transition:transform 240ms,box-shadow 240ms;
+    }
+    .orbit-item:hover{transform:scale(1.06);box-shadow:var(--shadow-pop);z-index:10}
+    .orbit-item .e{font-size:1.6rem;display:block}
+    .orbit-item h6{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:0.98rem;letter-spacing:-0.01em}
+    .orbit-item p{font-size:0.78rem;color:var(--text-mid);line-height:1.4}
+    /* Posicionamiento en círculo (desktop) */
+    .o-1{top:0;left:50%;transform:translateX(-50%)}
+    .o-2{top:18%;right:0}
+    .o-3{bottom:18%;right:0}
+    .o-4{bottom:0;left:50%;transform:translateX(-50%)}
+    .o-5{bottom:18%;left:0}
+    .o-6{top:18%;left:0}
+    @media(max-width:880px){.orbit-item{position:relative;width:auto;top:auto;left:auto;right:auto;bottom:auto;transform:none}}
+
+    /* ─────────────────────────────────────────────────────────────
+       ACCESS — 4 puertas de entrada (cómo entrar al producto)
+       Fondo navy con mascotas dorada / cobre / diamante / pila
+       ──────────────────────────────────────────────────────────── */
+    .access{
+      padding:6rem 1.5rem 5rem;background:transparent;color:#fff;
+      position:relative;
+    }
+    .access::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 40% at 50% 0%,rgba(212,160,106,0.15),transparent 70%);pointer-events:none}
+    .access-penrose{position:absolute;pointer-events:none;opacity:0.08;filter:drop-shadow(0 0 30px rgba(212,160,106,0.5))}
+    .access-penrose.vp1{top:5%;left:-100px;width:380px;height:380px;animation:penroseSpin 90s linear infinite reverse;opacity:0.14}
+    .access-penrose.vp2{bottom:5%;right:-120px;width:460px;height:460px;animation:penroseSpin 110s linear infinite;opacity:0.12}
+    .access-penrose.vp3{top:55%;left:30%;width:150px;height:150px;animation:penroseSpin 60s linear infinite;opacity:0.10}
+    .access-penrose.vp4{top:20%;right:25%;width:120px;height:120px;animation:penroseSpin 50s linear infinite reverse;opacity:0.10}
+    .access-penrose img{width:100%;height:100%;object-fit:contain}
+    @media(max-width:880px){.access-penrose{display:none}}
+
+    .access-head{max-width:var(--container);margin:0 auto 3rem;text-align:center;position:relative}
+    .access-head h2{font-family:'Space Grotesk',sans-serif;font-size:clamp(2rem,4.5vw,3.2rem);font-weight:800;letter-spacing:-0.03em;line-height:1.05;margin-bottom:1rem}
+    .access-head h2 .gold{color:var(--gold-hi)}
+    .access-head p{color:rgba(255,255,255,0.65);font-size:1.05rem;max-width:52ch;margin:0 auto}
+
+    .access-grid{
+      max-width:1100px;margin:0 auto;
+      display:grid;grid-template-columns:1fr;gap:1.25rem;position:relative;
+    }
+    @media(min-width:900px){.access-grid{grid-template-columns:repeat(3,1fr);align-items:stretch}}
+
+    .access-card{
+      position:relative;
+      padding:2.5rem 1.5rem 1.75rem;
+      border-radius:var(--r-lg);
+      background:linear-gradient(180deg,#1d2540,#141a31);
+      border:1px solid rgba(255,255,255,0.06);
+      display:flex;flex-direction:column;align-items:center;text-align:center;gap:0.75rem;
+      transition:transform 240ms,border-color 240ms,box-shadow 240ms;
+      overflow:visible; /* para que la corona se vea */
+    }
+    .access-card:hover{transform:translateY(-6px);border-color:rgba(212,160,106,0.3);box-shadow:0 30px 60px -20px rgba(0,0,0,0.6)}
+    .access-card.featured{
+      background:linear-gradient(180deg,#3a2a18,#1f160a);
+      border-color:rgba(212,160,106,0.45);
+      box-shadow:0 0 0 1px rgba(212,160,106,0.25),0 30px 60px -20px rgba(212,160,106,0.35);
+    }
+    .access-card .ribbon{
+      position:absolute;top:-12px;left:50%;transform:translateX(-50%);
+      padding:0.3rem 0.85rem;background:var(--gold);color:#1a1208;
+      font-family:'Inter',sans-serif;font-size:0.7rem;font-weight:800;letter-spacing:0.02em;
+      border-radius:var(--r-pill);white-space:nowrap;
+      box-shadow:0 8px 18px -6px rgba(212,160,106,0.6);
+    }
+    .access-card .mascot-wrap{
+      height:240px;display:flex;align-items:flex-end;justify-content:center;margin-bottom:0.5rem;
+      position:relative;
+    }
+    .access-card h3{font-family:'Space Grotesk',sans-serif;font-size:1.35rem;font-weight:800;letter-spacing:-0.02em;line-height:1.05}
+    .access-card .tag-line{
+      font-family:'Space Grotesk',sans-serif;font-size:0.92rem;font-weight:700;
+      color:var(--gold-hi);letter-spacing:-0.005em;line-height:1.2;
+    }
+    .access-card.featured .tag-line{color:var(--gold-shine)}
+    .access-card .desc{font-size:0.92rem;color:rgba(255,255,255,0.65);line-height:1.45;min-height:3.4em}
+    .access-card .btn-access{
+      margin-top:auto;display:inline-flex;align-items:center;gap:0.4rem;
+      padding:0.75rem 1.25rem;border-radius:var(--r-pill);
+      background:rgba(255,255,255,0.08);color:#fff;font-weight:700;font-size:0.9rem;
+      transition:background 180ms,transform 180ms;
+    }
+    .access-card .btn-access:hover{background:rgba(255,255,255,0.16);transform:translateY(-2px)}
+    .access-card.featured .btn-access{background:var(--gold);color:#1a1208}
+    .access-card.featured .btn-access:hover{background:var(--gold-hi)}
+
+    .access-foot{
+      max-width:var(--container);margin:2.5rem auto 0;text-align:center;
+      color:rgba(255,255,255,0.6);font-size:0.95rem;
+    }
+    .access-foot a{color:var(--gold-hi);font-weight:700;text-decoration:underline;text-underline-offset:3px}
+    .access-foot a:hover{color:var(--gold-shine)}
+
+    /* === MASCOT FAMILY: Pip, Lingo, Gemmi, Stash === */
+    .mascot-base{position:relative;animation:bob 4s ease-in-out infinite}
+    .mascot-base .crown{
+      position:absolute;top:-50px;left:50%;transform:translateX(-50%);
+      width:62px;height:56px;pointer-events:none;
+      filter:drop-shadow(0 6px 14px rgba(160,116,64,0.5)) drop-shadow(0 0 20px rgba(212,160,106,0.4));
+      animation:crownFloat 3s ease-in-out infinite;
+    }
+
+    /* Pip — moneda cobre, redonda, cartoon */
+    .pip{
+      width:88px;height:88px;border-radius:50%;
+      background:
+        radial-gradient(circle at 30% 22%, #fff2d9 0%, transparent 50%),
+        radial-gradient(circle at 35% 30%,#ffd9a6 0%,#c98a4a 50%,#7a4e22 100%);
+      box-shadow:
+        0 16px 30px -6px rgba(122,78,34,0.55),
+        0 8px 14px -4px rgba(0,0,0,0.35),
+        inset 0 -6px 0 rgba(0,0,0,0.22),
+        inset 0 3px 0 rgba(255,255,255,0.6);
+    }
+    .pip::before,.pip::after{
+      content:'';position:absolute;top:30px;width:16px;height:16px;border-radius:50%;
+      background:
+        radial-gradient(circle at 30% 26%, #fff 0%, #fff 22%, transparent 24%),
+        radial-gradient(circle at 50% 50%, #232333 0%, #0e0e18 100%);
+      box-shadow:inset -1px 1.5px 1px rgba(255,255,255,0.08), 0 1.5px 0 rgba(0,0,0,0.25);
+    }
+    .pip::before{left:22px}
+    .pip::after{right:22px}
+    .pip .smile{position:absolute;bottom:22px;left:50%;transform:translateX(-50%);width:24px;height:10px;border-bottom:2.8px solid #3a1a05;border-radius:0 0 26px 26px}
+    .pip .blush-l,.pip .blush-r{position:absolute;bottom:26px;width:11px;height:6px;border-radius:50%;background:radial-gradient(ellipse,rgba(255,111,166,0.7),rgba(255,111,166,0.3) 65%,transparent)}
+    .pip .blush-l{left:14px}
+    .pip .blush-r{right:14px}
+
+    /* Gemmi — diamante lila con brillo, cartoon */
+    .gemmi{
+      width:84px;height:104px;
+      background:
+        radial-gradient(ellipse 50% 30% at 35% 18%, rgba(255,255,255,0.5) 0%, transparent 60%),
+        linear-gradient(180deg,#dfd4ff 0%,#a394ff 30%,#7b6cf6 60%,#4d3edb 100%);
+      clip-path:polygon(50% 0%,100% 35%,82% 100%,18% 100%,0% 35%);
+      box-shadow:0 16px 30px -6px rgba(77,62,219,0.5);
+      position:relative;
+      filter:drop-shadow(0 6px 8px rgba(0,0,0,0.25));
+    }
+    .gemmi::before,.gemmi::after{
+      content:'';position:absolute;top:42px;width:16px;height:16px;border-radius:50%;
+      background:
+        radial-gradient(circle at 30% 26%, #fff 0%, #fff 22%, transparent 24%),
+        radial-gradient(circle at 50% 50%, #2a1e6a 0%, #0d0726 100%);
+      box-shadow:inset -1px 1.5px 1px rgba(255,255,255,0.1);
+    }
+    .gemmi::before{left:22px}
+    .gemmi::after{right:22px}
+    .gemmi .smile{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);width:22px;height:10px;border-bottom:2.8px solid #1a1144;border-radius:0 0 26px 26px}
+    .gemmi .blush-l,.gemmi .blush-r{position:absolute;bottom:22px;width:11px;height:6px;border-radius:50%;background:radial-gradient(ellipse,rgba(255,111,166,0.75),rgba(255,111,166,0.3) 65%,transparent)}
+    .gemmi .blush-l{left:14px}
+    .gemmi .blush-r{right:14px}
+    .gemmi .facet{
+      position:absolute;inset:0;
+      clip-path:polygon(50% 0%,100% 35%,82% 100%,18% 100%,0% 35%);
+      background:
+        linear-gradient(115deg,transparent 35%,rgba(255,255,255,0.30) 42%,transparent 50%,rgba(255,255,255,0.15) 60%,transparent 68%);
+      pointer-events:none;
+      animation:gemShimmer 4s ease-in-out infinite;
+    }
+    @keyframes gemShimmer{0%,100%{opacity:0.7}50%{opacity:1}}
+
+    /* Stash — pila de 3 lingotes, el de arriba tiene cara */
+    .stash{width:110px;height:108px;position:relative}
+    .stash .bar{
+      position:absolute;width:96px;height:36px;border-radius:5px;
+      background:linear-gradient(180deg,var(--gold-shine) 0%,var(--gold-hi) 30%,var(--gold) 60%,var(--gold-deep) 100%);
+      box-shadow:0 6px 14px -4px rgba(160,116,64,0.45),inset 0 -3px 0 rgba(0,0,0,0.12),inset 0 2px 0 rgba(255,255,255,0.4);
+    }
+    .stash .b1{bottom:0;left:7px;width:100px}
+    .stash .b2{bottom:32px;left:14px;width:90px}
+    .stash .b3{bottom:60px;left:21px;width:80px}
+    .stash .b3::before,.stash .b3::after{
+      content:'';position:absolute;top:11px;width:9px;height:9px;border-radius:50%;
+      background:#3a1a05;box-shadow:inset -1px 1.5px 0 rgba(255,255,255,0.5);
+    }
+    .stash .b3::before{left:18px}
+    .stash .b3::after{right:18px}
+    .stash .smile{position:absolute;top:42px;left:50%;transform:translateX(-50%);width:12px;height:5px;border-bottom:2px solid #3a1a05;border-radius:0 0 14px 14px}
+    .vault .head{max-width:var(--container);margin:0 auto;padding:0 1.5rem;display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:1.5rem;margin-bottom:3rem;position:relative}
+    .vault h2{font-family:'Space Grotesk',sans-serif;font-size:clamp(2rem,4.5vw,3.2rem);font-weight:800;letter-spacing:-0.03em;line-height:1.05;max-width:18ch}
+    .vault h2 .gold{color:var(--gold-hi)}
+    .vault .head-side{display:flex;flex-direction:column;gap:0.75rem;max-width:340px}
+    .vault .head-side p{color:rgba(255,255,255,0.65);font-size:0.95rem}
+
+    /* Tabs free vs premium */
+    .vault-tabs{display:inline-flex;gap:0.2rem;padding:0.3rem;background:rgba(255,255,255,0.06);border:1px solid var(--line-dark);border-radius:var(--r-pill);font-family:'JetBrains Mono',monospace;font-size:0.78rem;font-weight:700;letter-spacing:0.06em}
+    .vault-tabs button{padding:0.5rem 1rem;border-radius:var(--r-pill);color:rgba(255,255,255,0.55);transition:background 180ms,color 180ms}
+    .vault-tabs button.active{background:var(--gold);color:#1a1208}
+
+    .vault-shelf{
+      position:relative;
+      max-width:var(--container);margin:0 auto;
+      overflow-x:auto;overflow-y:visible;
+      scroll-snap-type:x mandatory;
+      padding:0 1.5rem 1.5rem;
+      scrollbar-width:none;
+    }
+    .vault-shelf::-webkit-scrollbar{display:none}
+    .vault-row{
+      display:grid;grid-auto-flow:column;grid-auto-columns:300px;
+      gap:1rem;padding-bottom:0.5rem;
+    }
+    .drawer{
+      scroll-snap-align:start;
+      position:relative;
+      background:linear-gradient(180deg,#21212e,#181822);
+      border:1px solid rgba(255,255,255,0.06);
+      border-radius:var(--r-lg);
+      padding:1.5rem 1.5rem 1.75rem;
+      display:flex;flex-direction:column;gap:0.85rem;
+      transition:transform 240ms,box-shadow 240ms,border-color 240ms;
+    }
+    .drawer:hover{transform:translateY(-6px);border-color:rgba(212,160,106,0.35);box-shadow:0 30px 60px -20px rgba(0,0,0,0.6)}
+    .drawer.featured{
+      background:linear-gradient(180deg,#2a2417,#1a1208);
+      border-color:rgba(212,160,106,0.4);
+      box-shadow:0 0 0 1px rgba(212,160,106,0.25), 0 30px 60px -20px rgba(212,160,106,0.4);
+    }
+    .drawer .ribbon{
+      position:absolute;top:-10px;right:1.5rem;
+      padding:0.3rem 0.8rem;background:var(--gold);color:#1a1208;
+      font-family:'JetBrains Mono',monospace;font-size:0.65rem;letter-spacing:0.15em;font-weight:800;
+      border-radius:var(--r-pill);text-transform:uppercase;
+    }
+    .drawer-head{display:flex;align-items:center;justify-content:space-between}
+    .drawer-name{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.15rem;letter-spacing:-0.01em}
+    .drawer-tier{
+      font-family:'JetBrains Mono',monospace;font-size:0.62rem;letter-spacing:0.18em;
+      padding:0.2rem 0.55rem;border-radius:var(--r-pill);background:rgba(255,255,255,0.06);color:var(--gold-hi);font-weight:700;
+    }
+    .drawer-price{font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:2rem;letter-spacing:-0.025em;line-height:1}
+    .drawer-price small{font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:rgba(255,255,255,0.55);font-weight:500;margin-left:0.25rem;letter-spacing:0.05em}
+    .drawer-price.free{color:var(--mint)}
+    .drawer-members{font-family:'JetBrains Mono',monospace;font-size:0.78rem;color:rgba(255,255,255,0.6);display:flex;align-items:center;gap:0.4rem}
+    .drawer-members::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--gold);box-shadow:0 0 6px var(--gold)}
+    .drawer-desc{font-size:0.88rem;color:rgba(255,255,255,0.65);line-height:1.5;min-height:3em}
+    .drawer-feats{display:flex;flex-direction:column;gap:0.4rem;padding-top:0.85rem;border-top:1px solid rgba(255,255,255,0.06)}
+    .drawer-feats li{font-size:0.82rem;color:rgba(255,255,255,0.75);display:flex;align-items:center;gap:0.5rem}
+    .drawer-feats li::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--gold);flex-shrink:0}
+    .drawer-cta{
+      margin-top:auto;padding:0.65rem 0;border-radius:var(--r-pill);
+      background:rgba(255,255,255,0.08);text-align:center;font-size:0.85rem;font-weight:700;color:#fff;
+      transition:background 180ms;
+    }
+    .drawer-cta:hover{background:rgba(255,255,255,0.16)}
+    .drawer.featured .drawer-cta{background:var(--gold);color:#1a1208}
+    .drawer.featured .drawer-cta:hover{background:var(--gold-hi)}
+
+    .vault-foot{max-width:var(--container);margin:1.5rem auto 0;padding:0 1.5rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
+    .vault-foot a{color:var(--gold-hi);font-size:0.88rem;font-weight:600;display:inline-flex;align-items:center;gap:0.35rem}
+    .vault-foot a:hover{text-decoration:underline}
+    .vault-scrollhint{font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:rgba(255,255,255,0.4);letter-spacing:0.12em}
+
+    /* ─────────────────────────────────────────────────────────────
+       FAQ — chat con Lingo (fondo lila tríada)
+       ──────────────────────────────────────────────────────────── */
+    .faq{
+      background:transparent;
+      padding:6rem 1.5rem;
+      position:relative;
+    }
+    .faq-inner{max-width:var(--container);margin:0 auto;position:relative}
+    .faq-head{display:grid;grid-template-columns:1fr;gap:2rem;margin-bottom:3rem;align-items:end}
+    @media(min-width:880px){.faq-head{grid-template-columns:1.2fr 0.8fr}}
+    .faq h2{font-family:'Space Grotesk',sans-serif;font-size:clamp(2rem,4.5vw,3.2rem);font-weight:800;letter-spacing:-0.03em;line-height:1.05;max-width:18ch}
+    .faq .head-aside{color:var(--text-mid);font-size:1rem;max-width:38ch}
+
+    .chat{
+      display:flex;flex-direction:column;gap:1rem;
+      max-width:760px;margin:0 auto;
+    }
+    .bubble-row{display:flex;gap:0.85rem;align-items:flex-start}
+    .bubble-row.you{flex-direction:row-reverse}
+    .bubble-avatar{
+      flex-shrink:0;width:48px;height:48px;
+      display:flex;align-items:center;justify-content:center;
+      position:relative;
+      filter:drop-shadow(0 6px 12px rgba(0,0,0,0.35));
+    }
+    .bubble-avatar img{width:100%;height:100%;object-fit:contain}
+    /* Halo dorado detrás del avatar de Lingo */
+    .bubble-row:not(.you) .bubble-avatar::before{
+      content:'';position:absolute;inset:10% 10% 0 10%;z-index:-1;
+      background:rgba(212,160,106,0.45);border-radius:50%;filter:blur(12px);
+    }
+    /* Avatar "tú" — círculo lila simple */
+    .bubble-row.you .bubble-avatar{
+      width:34px;height:34px;border-radius:50%;
+      background:linear-gradient(135deg,#a394ff,#7b6cf6);
+      box-shadow:0 4px 10px -2px rgba(123,108,246,0.45);
+    }
+    .bubble-row.you .bubble-avatar img{display:none}
+    .bubble{
+      padding:0.95rem 1.2rem;border-radius:var(--r);
+      background:#fff;border:1px solid var(--line);
+      max-width:520px;font-size:0.95rem;line-height:1.5;
+      box-shadow:var(--shadow-soft);
+      position:relative;
+    }
+    .bubble.you{background:var(--ink);color:#fff;border-color:transparent;border-radius:var(--r) var(--r) 4px var(--r)}
+    .bubble:not(.you){border-radius:var(--r) var(--r) var(--r) 4px}
+    .bubble strong{font-family:'Space Grotesk',sans-serif;font-weight:700;color:var(--text);display:block;margin-bottom:0.3rem}
+    .bubble.you strong{color:#fff}
+    .bubble small{display:block;margin-top:0.35rem;font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:var(--text-mute);letter-spacing:0.06em}
+    .bubble.you small{color:rgba(255,255,255,0.45)}
+
+    /* ─────────────────────────────────────────────────────────────
+       CTA FINAL — coral cálido con halos
+       ──────────────────────────────────────────────────────────── */
+    .cta-final{
+      padding:5rem 1.5rem 6rem;
+      background:transparent;
+      text-align:center;position:relative;
+    }
+    .cta-final::before{
+      content:'';position:absolute;top:-150px;right:-150px;width:400px;height:400px;border-radius:50%;
+      background:radial-gradient(circle,rgba(212,160,106,0.35),transparent 70%);
+    }
+    .cta-final::after{
+      content:'';position:absolute;bottom:-100px;left:-100px;width:300px;height:300px;border-radius:50%;
+      background:radial-gradient(circle,rgba(123,108,246,0.18),transparent 70%);
+    }
+    .cta-final-wrap{position:relative;max-width:760px;margin:0 auto}
+    .cta-final h2{font-family:'Space Grotesk',sans-serif;font-size:clamp(2.4rem,5.5vw,4.4rem);font-weight:800;letter-spacing:-0.035em;line-height:1.02;margin-bottom:1.25rem}
+    .cta-final p{color:var(--text-mid);font-size:1.1rem;max-width:48ch;margin:0 auto 2rem}
+    .cta-final .row{display:flex;flex-wrap:wrap;gap:0.7rem;justify-content:center}
+
+    .cta-family{
+      display:flex;align-items:flex-end;justify-content:center;gap:1.25rem;
+      margin:0 auto 2.5rem;flex-wrap:wrap;
+    }
+
+    /* ─────────────────────────────────────────────────────────────
+       FOOTER
+       ──────────────────────────────────────────────────────────── */
+    footer{background:rgba(0,0,0,0.35);color:rgba(255,255,255,0.55);padding:3.5rem 1.5rem 2rem;backdrop-filter:blur(8px);border-top:1px solid rgba(255,255,255,0.06)}
+    .foot-grid{max-width:var(--container);margin:0 auto;display:grid;grid-template-columns:1fr;gap:2rem}
+    @media(min-width:768px){.foot-grid{grid-template-columns:1.4fr repeat(3,1fr)}}
+    .foot-brand .nav-logo{font-size:1.15rem;color:#fff}
+    .foot-brand p{margin-top:0.85rem;font-size:0.9rem;max-width:32ch}
+    .foot-col h4{color:#fff;font-size:0.74rem;font-weight:800;letter-spacing:0.14em;text-transform:uppercase;margin-bottom:0.9rem}
+    .foot-col ul{display:flex;flex-direction:column;gap:0.5rem}
+    .foot-col a{font-size:0.9rem;transition:color 180ms}
+    .foot-col a:hover{color:#fff}
+    .foot-bottom{max-width:var(--container);margin:2.5rem auto 0;padding-top:1.5rem;border-top:1px solid var(--line-dark);display:flex;flex-wrap:wrap;gap:0.85rem;justify-content:space-between;font-size:0.82rem}
+
+    /* Reveal */
+    .reveal{opacity:0;transform:translateY(20px);transition:opacity 700ms cubic-bezier(0.2,0.65,0.3,1),transform 700ms cubic-bezier(0.2,0.65,0.3,1)}
+    .reveal.in{opacity:1;transform:translateY(0)}
+
+    /* Back link */
+    .back-link{
+      position:fixed;bottom:1rem;right:1rem;z-index:80;
+      padding:0.55rem 1rem;border-radius:var(--r-pill);
+      background:var(--ink);color:#fff;font-size:0.82rem;font-weight:600;
+      box-shadow:var(--shadow-pop);
+    }
+    .back-link:hover{background:#000}
+  </style>
 </head>
 <body>
 
-  <!-- ═══════════════════════════════════════════════════════════
-       VIDEO DE FONDO GLOBAL — atmósfera detrás de todas las secciones
-       (el #hero tiene su propia capa con el triángulo y lo tapa)
-       ═══════════════════════════════════════════════════════════ -->
+  <!-- SVG defs para el goo filter (no se ve) -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <filter id="goo-filter">
+        <feGaussianBlur in="SourceGraphic" stdDeviation="14" result="blur" />
+        <feColorMatrix in="blur" type="matrix" values="
+          1 0 0 0 0
+          0 1 0 0 0
+          0 0 1 0 0
+          0 0 0 18 -7
+        " result="goo" />
+        <feComposite in="SourceGraphic" in2="goo" operator="atop" />
+      </filter>
+    </defs>
+  </svg>
 
-  <video class="global-bg-video" autoplay muted loop playsinline preload="auto" aria-hidden="true">
-    <source src="assets/bg-video.mp4" type="video/mp4" />
-  </video>
-
-
-  <!-- ═══════════════════════════════════════════════════════════
-       SPLASH DE CARGA — efecto cinematográfico (video + glow + vignette)
-       Mismo lenguaje visual que el hero, transición continua.
-       ═══════════════════════════════════════════════════════════ -->
-
-  <div id="splash" role="status" aria-label="Cargando UMBRA">
-    <div class="splash-bg" aria-hidden="true">
-      <video src="assets/logo-loading.mp4" autoplay muted playsinline loop preload="auto"></video>
+  <!-- UNIVERSE — fondo animado con todas las capas -->
+  <div class="universe" aria-hidden="true">
+    <div class="aurora-a"></div>
+    <div class="aurora-b"></div>
+    <div class="universe-goo">
+      <span class="goo-blob gb-1"></span>
+      <span class="goo-blob gb-2"></span>
+      <span class="goo-blob gb-3"></span>
+      <span class="goo-blob gb-4"></span>
+      <span class="goo-blob gb-5"></span>
     </div>
-    <div class="splash-content">
-      <div class="splash-mark">UMBRA</div>
-      <div class="splash-sub" data-i18n="splash.online">SYSTEMS · ONLINE</div>
-      <div class="splash-progress" aria-hidden="true"></div>
-    </div>
+    <div class="universe-stars"></div>
+    <div class="universe-penrose up-1"><img src="assets/logo-triangle.png" alt="" /></div>
+    <div class="universe-penrose up-2"><img src="assets/logo-triangle.png" alt="" /></div>
+    <div class="universe-penrose up-3"><img src="assets/logo-triangle.png" alt="" /></div>
+    <div class="universe-penrose up-4"><img src="assets/logo-triangle.png" alt="" /></div>
+    <div class="universe-penrose up-5"><img src="assets/logo-triangle.png" alt="" /></div>
+    <div class="universe-grain"></div>
   </div>
 
-
-  <!-- ═══════════════════════════════════════════════════════════
-       NAVIGATION
-       ═══════════════════════════════════════════════════════════ -->
-
-  <nav class="main-nav" aria-label="Navegación principal">
-    <div class="container">
-      <a href="#" class="logo" aria-label="UMBRA inicio">
-        <img class="triangle-mark" src="assets/logo-triangle.png" alt="" aria-hidden="true" />
-        <span>UMBRA</span>
-        <span class="by-cfx">by CFX</span>
-      </a>
-
-      <ul class="links" role="list">
-        <li><a href="#problem"    data-i18n="nav.problem">El problema</a></li>
-        <li><a href="#features"   data-i18n="nav.product">Producto</a></li>
-        <li><a href="#tactical"   data-i18n="nav.tactical">Tactical</a></li>
-        <li><a href="#mobile"     data-i18n="nav.mobile">Mobile</a></li>
-        <li><a href="#pricing"    data-i18n="nav.pricing">Precios</a></li>
-        <li><a href="#about-cfx"  data-i18n="nav.cfx">CFX</a></li>
-      </ul>
-
-      <div class="nav-cta">
-        <!-- Selector de idioma -->
-        <div class="lang-selector">
-          <button class="lang-toggle"
-                  data-i18n-attr="aria-label:nav.lang"
-                  aria-label="Cambiar idioma"
-                  aria-haspopup="true"
-                  aria-expanded="false">
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
-              <circle cx="7" cy="7" r="6" />
-              <path d="M1 7 H13 M7 1 C 9.5 4, 9.5 10, 7 13 M7 1 C 4.5 4, 4.5 10, 7 13" />
-            </svg>
-            <span class="lang-current">ES</span>
-            <svg class="lang-chevron" width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
-              <polyline points="1,1 5,5 9,1" />
-            </svg>
-          </button>
-          <div class="lang-dropdown" role="listbox">
-            <button class="lang-option" data-lang="es" role="option"><span class="lang-code">ES</span><span class="lang-name">Español</span></button>
-            <button class="lang-option" data-lang="en" role="option"><span class="lang-code">EN</span><span class="lang-name">English</span></button>
-            <button class="lang-option" data-lang="fr" role="option"><span class="lang-code">FR</span><span class="lang-name">Français</span></button>
-            <button class="lang-option" data-lang="de" role="option"><span class="lang-code">DE</span><span class="lang-name">Deutsch</span></button>
-            <button class="lang-option" data-lang="pt" role="option"><span class="lang-code">PT</span><span class="lang-name">Português</span></button>
-            <button class="lang-option" data-lang="zh" role="option"><span class="lang-code">ZH</span><span class="lang-name">中文</span></button>
-          </div>
-        </div>
-
-        <!-- Login (cuando el usuario no está autenticado) -->
-        <button class="btn-login" type="button" aria-label="Login">
-          <span data-i18n="auth.login">Iniciar sesión</span>
-        </button>
-
-        <!-- User menu (cuando hay sesión) — hidden por defecto -->
-        <div class="user-menu" hidden>
-          <button class="user-toggle" aria-haspopup="true" aria-expanded="false">
-            <span class="user-avatar" aria-hidden="true"></span>
-            <span class="user-name"></span>
-            <svg class="user-chevron" width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
-              <polyline points="1,1 5,5 9,1" />
-            </svg>
-          </button>
-          <div class="user-dropdown" role="menu">
-            <button class="user-option" data-action="signout" role="menuitem">
-              <span data-i18n="auth.user.signout">Cerrar sesión</span>
-            </button>
-          </div>
-        </div>
-
-        <a href="#cta-final" class="btn btn-primary">
-          <span data-i18n="nav.cta">Únete a la beta</span>
-          <span class="arrow" aria-hidden="true">→</span>
-        </a>
-
-        <button class="menu-toggle"
-                data-i18n-attr="aria-label:nav.menu"
-                aria-label="Abrir menú"
-                aria-expanded="false">
-          <svg width="18" height="14" viewBox="0 0 18 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
-            <line x1="0" y1="2"  x2="18" y2="2" />
-            <line x1="0" y1="7"  x2="18" y2="7" />
-            <line x1="0" y1="12" x2="18" y2="12" />
-          </svg>
-        </button>
-      </div>
+  <!-- NAV -->
+  <nav class="nav">
+    <a class="nav-logo" href="/prototipo-v2.html">
+      <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M16 5L27 26H5L16 5Z" stroke="url(#g)" stroke-width="2.5" stroke-linejoin="round"/>
+        <defs>
+          <linearGradient id="g" x1="0" y1="0" x2="32" y2="32"><stop stop-color="#f4cc89"/><stop offset="1" stop-color="#a07440"/></linearGradient>
+        </defs>
+      </svg>
+      <span>UMBRA</span>
+    </a>
+    <div class="nav-links">
+      <a href="#story">Cómo va</a>
+      <a href="#orbita">Para quién</a>
+      <a href="#planes">Planes</a>
+      <a href="#faq">FAQ</a>
     </div>
+    <a class="nav-cta" href="#descarga">Abrir UMBRA →</a>
   </nav>
 
-  <!-- Mobile drawer -->
-  <div class="mobile-drawer" aria-label="Menú móvil">
-    <a href="#problem"   data-i18n="nav.problem">El problema</a>
-    <a href="#features"  data-i18n="nav.product">Producto</a>
-    <a href="#tactical"  data-i18n="nav.tactical">Tactical</a>
-    <a href="#mobile"    data-i18n="nav.mobile">Mobile</a>
-    <a href="#pricing"   data-i18n="nav.pricing">Precios</a>
-    <a href="#about-cfx" data-i18n="nav.cfx">CFX</a>
-    <a href="#cta-final" class="btn btn-primary" data-i18n="nav.cta">Únete a la beta</a>
+  <!-- HERO BENTO -->
+  <section class="hero">
+    <div class="bento">
 
-    <!-- Login en el drawer (cuando no hay sesión) -->
-    <button class="drawer-login" type="button">
-      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
-        <path d="M10 2 H13 A1 1 0 0 1 14 3 V13 A1 1 0 0 1 13 14 H10 M7 4 L11 8 L7 12 M2 8 H11" />
-      </svg>
-      <span data-i18n="auth.login">Iniciar sesión</span>
-    </button>
-
-    <!-- User info en el drawer (cuando hay sesión) -->
-    <div class="drawer-user" hidden>
-      <div class="drawer-user-info">
-        <span class="user-avatar" aria-hidden="true"></span>
-        <div class="drawer-user-meta">
-          <span class="drawer-user-name"></span>
-          <span class="drawer-user-email"></span>
+      <div class="card c-hero">
+        <div class="hero-penrose" aria-hidden="true">
+          <img src="assets/logo-triangle.png" alt="" />
         </div>
-      </div>
-      <button class="drawer-user-signout" data-action="signout">
-        <span data-i18n="auth.user.signout">Cerrar sesión</span>
-      </button>
-    </div>
-
-    <!-- Selector de idioma dentro del drawer (más táctil) -->
-    <div class="drawer-lang">
-      <span class="drawer-lang-label" data-i18n="nav.lang">Cambiar idioma</span>
-      <div class="drawer-lang-grid">
-        <button class="lang-option drawer-lang-opt" data-lang="es"><span class="lang-code">ES</span><span class="lang-name">Español</span></button>
-        <button class="lang-option drawer-lang-opt" data-lang="en"><span class="lang-code">EN</span><span class="lang-name">English</span></button>
-        <button class="lang-option drawer-lang-opt" data-lang="fr"><span class="lang-code">FR</span><span class="lang-name">Français</span></button>
-        <button class="lang-option drawer-lang-opt" data-lang="de"><span class="lang-code">DE</span><span class="lang-name">Deutsch</span></button>
-        <button class="lang-option drawer-lang-opt" data-lang="pt"><span class="lang-code">PT</span><span class="lang-name">Português</span></button>
-        <button class="lang-option drawer-lang-opt" data-lang="zh"><span class="lang-code">ZH</span><span class="lang-name">中文</span></button>
-      </div>
-    </div>
-  </div>
-
-
-  <!-- ═══════════════════════════════════════════════════════════
-       HERO
-       ═══════════════════════════════════════════════════════════ -->
-
-  <section id="hero">
-    <div class="hero-bg" aria-hidden="true"></div>
-    <div class="hero-scanline" aria-hidden="true"></div>
-
-    <!-- HUD corner decorations (tactical telemetry) -->
-    <div class="hud-corner hud-tr" aria-hidden="true">
-      <div>// SECTOR <span class="v">ALPHA-7</span></div>
-      <div>UMBRA <span class="v">v0.9.4-beta</span></div>
-    </div>
-    <div class="hud-corner hud-bl" aria-hidden="true">
-      <div>COMMS STATUS</div>
-      <div class="v">● ONLINE</div>
-    </div>
-    <div class="hud-corner hud-br" aria-hidden="true">
-      <div>// LAT 38.47°N · LON 04°W</div>
-      <div>BUILD <span class="v">2026.05.r3</span></div>
-    </div>
-
-    <div class="container">
-      <!-- LEFT: tactical window with headline -->
-      <div class="hero-content tactical-window">
-        <span class="tw-bracket tw-bracket-tl" aria-hidden="true"></span>
-        <span class="tw-bracket tw-bracket-tr" aria-hidden="true"></span>
-        <span class="tw-bracket tw-bracket-bl" aria-hidden="true"></span>
-        <span class="tw-bracket tw-bracket-br" aria-hidden="true"></span>
-
-        <div class="hero-badge">
-          <span class="dot" aria-hidden="true"></span>
-          <span data-i18n="hero.badge">BETA · ACCESO ANTICIPADO 2026</span>
+        <h1>Tu voz,<br/>tu gente, <span class="ink-blob">en su sitio.</span></h1>
+        <p class="sub">UMBRA es donde tu grupo se junta, charla y se organiza — sin abrir cinco apps ni gritar por WhatsApp. Salas ilimitadas, whisper entre canales, voz nítida, y un sitio que te cuida.</p>
+        <div class="row">
+          <a class="btn btn-gold" href="#descarga">↓ Descargar</a>
+          <a class="btn btn-ghost" href="#web-tablet">Abrir en navegador</a>
         </div>
-
-        <div class="hero-label-line" aria-hidden="true">// COMMS SYSTEM</div>
-
-        <h1 data-i18n-html="hero.h1.html">
-          La voz que tu <span class="stroke">squad</span> necesita.
-        </h1>
-
-        <p class="lead" data-i18n="hero.lead">
-          Comms tácticos con whisper cross-canal, hotkeys globales (incluso con
-          gamepad) y multi-sala simultánea. Construido para gaming serio —
-          para los squads que coordinan ops reales.
-        </p>
-
-        <div class="hero-cta">
-          <a href="#cta-final" class="btn btn-primary">
-            <span data-i18n="hero.cta1">Descargar Beta</span>
-            <span class="arrow" aria-hidden="true">↓</span>
-          </a>
-          <a href="#features" class="btn btn-secondary">
-            <span data-i18n="hero.cta2">Ver el producto</span>
-            <span class="arrow" aria-hidden="true">→</span>
-          </a>
+        <div class="meta-tags">
+          <span class="ok">Sin instalación</span>
+          <span class="ok">Móvil y tablet viejos</span>
+          <span class="ok">Sin tarjeta para empezar</span>
         </div>
       </div>
 
-      <!-- RIGHT: telemetry HUD panels (replace the previous logo block) -->
-      <div class="hero-telemetry" aria-hidden="true">
-        <div class="tel-panel">
-          <div class="tel-top">
-            <span class="tel-label">// LATENCY-MS</span>
-            <span class="tel-status"><span class="dot"></span>LIVE</span>
+      <div class="card c-devices" id="web-tablet">
+        <div class="c-devices-text">
+          <div>
+            <span class="label">Multiplataforma</span>
+            <h3>Lo abres y ya.</h3>
+            <p>App completa en Windows, versión web sin instalar, y app ligera para móviles y tablets viejos.</p>
           </div>
-          <div class="tel-val">&lt;40<small>ms</small></div>
-          <div class="tel-bar"><div class="tel-fill"></div></div>
-          <div class="tel-caption" data-i18n="hero.stat1.label">Latencia táctica</div>
-        </div>
-
-        <div class="tel-panel">
-          <div class="tel-top">
-            <span class="tel-label">// CONCURRENT-ROOMS</span>
-            <span class="tel-status"><span class="dot"></span>UNLIMITED</span>
-          </div>
-          <div class="tel-val">∞</div>
-          <div class="tel-bar"><div class="tel-fill" style="animation-duration:5s"></div></div>
-          <div class="tel-caption" data-i18n="hero.stat2.label">Salas simultáneas</div>
-        </div>
-
-        <div class="tel-panel">
-          <div class="tel-top">
-            <span class="tel-label">// PLATFORMS-DEPLOY</span>
-            <span class="tel-status"><span class="dot"></span>READY</span>
-          </div>
-          <div class="tel-val">3<small>/3</small></div>
-          <div class="tel-bar"><div class="tel-fill" style="animation-duration:3s"></div></div>
-          <div class="tel-caption" data-i18n="hero.stat3.label">Plataformas pronto</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-
-  <!-- ═══════════════════════════════════════════════════════════
-       PROBLEM / DIFFERENTIATION
-       ═══════════════════════════════════════════════════════════ -->
-
-  <section id="problem">
-    <div class="container">
-      <div class="section-header reveal">
-        <div class="text">
-          <div class="eyebrow"><span class="num">01</span> <span data-i18n="problem.eyebrow">El problema</span></div>
-          <h2 data-i18n-html="problem.h2.html">Las apps de chat son buenas para hablar.<br />Umbra es para coordinar.</h2>
-        </div>
-        <div class="text">
-          <p data-i18n="problem.lead">
-            Hay una diferencia gigante entre charlar con amigos y comandar 50
-            personas en una operación de varias squads. Las apps de comms
-            generalistas nunca fueron diseñadas para lo segundo. Nosotros sí.
-          </p>
-        </div>
-      </div>
-
-      <div class="quote-block reveal">
-        <div class="versus">
-          <div class="side">
-            <h4 data-i18n="problem.casual.title">Lo que hacen las apps casuales</h4>
-            <p data-i18n="problem.casual.text">
-              Una sala. Una voz. Si quieres escuchar a otra squad,
-              te vas. Si quieres coordinar entre dos, abres dos
-              ventanas y rezas.
-            </p>
-          </div>
-
-          <div class="divider" aria-hidden="true">
-            <span data-i18n="problem.vs">vs</span>
-          </div>
-
-          <div class="side umbra">
-            <h4 data-i18n="problem.umbra.title">Lo que hace UMBRA</h4>
-            <p data-i18n="problem.umbra.text">
-              Estás en tu sala. Mantienes pulsado un botón y hablas
-              a otra sala — o a todas al mismo tiempo — sin moverte.
-              Sueltas y vuelves al instante. Tu squad nunca te perdió.
-            </p>
+          <div class="badges">
+            <span>Win</span>
+            <span>Web</span>
+            <span>iOS</span>
+            <span>Android</span>
           </div>
         </div>
-      </div>
-    </div>
-  </section>
 
-
-  <!-- ═══════════════════════════════════════════════════════════
-       FEATURES
-       ═══════════════════════════════════════════════════════════ -->
-
-  <section id="features">
-    <div class="container">
-      <div class="section-header reveal">
-        <div class="text">
-          <div class="eyebrow"><span class="num">02</span> <span data-i18n="features.eyebrow">Producto</span></div>
-          <h2 data-i18n="features.h2">Pensado para el caos del combate.</h2>
-        </div>
-        <div class="text">
-          <p data-i18n="features.lead">
-            Cuatro decisiones de diseño que ningún competidor ofrece junto.
-            Cada una nace de un dolor real de coordinar squads en juegos
-            tácticos.
-          </p>
-        </div>
-      </div>
-
-      <div class="features-grid">
-        <!-- Feature destacado: Whisper cross-canal -->
-        <div class="feature-card large reveal">
-          <div class="feature-num" data-i18n="features.f1.label">01 · DIFERENCIADOR</div>
-          <h3 data-i18n="features.f1.title">Whisper cross-canal en tiempo real</h3>
-          <p data-i18n="features.f1.text">
-            Mantienes pulsado un atajo y tu voz llega a otra sala
-            sin abandonar la tuya. Los miembros de la sala destino te
-            escuchan etiquetado como whisper, sin interrumpir su
-            conversación. Sueltas el atajo y todo vuelve a su sitio.
-          </p>
-
-          <div class="visual-mock" aria-hidden="true">
-            <div class="room active">
-              <span class="room-dot"></span>
-              <span>Bridge / Mando</span>
-              <span class="members">4</span>
+        <!-- Móvil con UMBRA funcionando dentro -->
+        <div class="phone-mock" aria-hidden="true">
+          <div class="pm-whisper-tag">whisper →</div>
+          <div class="phone-screen">
+            <div class="pm-top"><span>09:42</span><span>●●●●</span></div>
+            <div class="pm-title">
+              <img src="assets/logo-triangle.png" alt="" />
+              <span>UMBRA</span>
+              <span class="av"></span>
             </div>
-            <div class="whisper-arrow" data-i18n="features.f1.arrow">— whisper →</div>
-            <div class="room">
-              <span class="room-dot"></span>
-              <span>Squad Alpha</span>
-              <span class="members">8</span>
+            <div class="pm-section">Tus salas · 3</div>
+            <div class="pm-room active">
+              <span class="dot teal"></span>
+              <span class="name">Squad Alpha</span>
+              <span class="pm-avs">
+                <span style="background:linear-gradient(135deg,#f4cc89,#a07440)"></span>
+                <span style="background:linear-gradient(135deg,#a394ff,#7b6cf6)"></span>
+                <span style="background:linear-gradient(135deg,#7ee5d5,#3ed1bd)"></span>
+              </span>
+              <span class="num">4</span>
             </div>
-            <div class="room">
-              <span class="room-dot"></span>
-              <span>Squad Bravo</span>
-              <span class="members">7</span>
+            <div class="pm-room">
+              <span class="dot amber"></span>
+              <span class="name">Bridge</span>
+              <span class="pm-avs">
+                <span style="background:linear-gradient(135deg,#ffaecf,#ff6fa6)"></span>
+                <span style="background:linear-gradient(135deg,#f4cc89,#a07440)"></span>
+              </span>
+              <span class="num">2</span>
             </div>
-          </div>
-        </div>
-
-        <!-- Feature: Global hotkeys -->
-        <div class="feature-card reveal">
-          <div class="feature-num">02</div>
-          <h3 data-i18n="features.f2.title">Hotkeys globales reales</h3>
-          <p data-i18n="features.f2.text">
-            Tu PTT funciona aunque el juego tenga el foco. Vinculas
-            cualquier botón de tu teclado, ratón o gamepad — incluso
-            esos que el juego ignora.
-          </p>
-          <div class="footnote" data-i18n-html="features.f2.note.html">
-            Compatible con <kbd>Mouse 4/5</kbd> · <kbd>Stick R3</kbd> · <kbd>Pedales</kbd> · <kbd>HOTAS</kbd>
-          </div>
-        </div>
-
-        <!-- Feature: Multi-sala simultánea -->
-        <div class="feature-card reveal">
-          <div class="feature-num">03</div>
-          <h3 data-i18n="features.f3.title">Presencia multi-sala</h3>
-          <p data-i18n="features.f3.text">
-            Ves a quién hay en cada sala del canal en tiempo real.
-            Asignas un atajo distinto a cada destino y disparas
-            whispers como si fuera selección de target en un HUD.
-          </p>
-          <div class="footnote" data-i18n-html="features.f3.note.html">
-            <kbd>1</kbd> → Alpha · <kbd>2</kbd> → Bravo · <kbd>3</kbd> → Recon
-          </div>
-        </div>
-
-        <!-- Feature: Audio HD low-latency -->
-        <div class="feature-card reveal">
-          <div class="feature-num">04</div>
-          <h3 data-i18n="features.f4.title">Audio Opus 48 kHz</h3>
-          <p data-i18n="features.f4.text">
-            SFU dedicado con codec Opus a calidad táctica. Sin
-            compresión salvaje, sin pérdida de inteligibilidad
-            cuando todos hablan al mismo tiempo. Latencia bajo 40 ms
-            en condiciones normales.
-          </p>
-          <div class="footnote" data-i18n="features.f4.note">
-            Mediasoup · WebRTC · UDP nativo
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-
-  <!-- ═══════════════════════════════════════════════════════════
-       WHISPER — HOW IT WORKS
-       ═══════════════════════════════════════════════════════════ -->
-
-  <section id="whisper">
-    <div class="container">
-      <div class="section-header reveal">
-        <div class="text">
-          <div class="eyebrow"><span class="num">03</span> <span data-i18n="whisper.eyebrow">Cómo funciona</span></div>
-          <h2 data-i18n="whisper.h2">El whisper, paso a paso.</h2>
-        </div>
-        <div class="text">
-          <p data-i18n="whisper.lead">
-            Sin abandonar tu sala, tu voz llega a otra etiquetada como
-            whisper. Los miembros del destino la escuchan superpuesta a
-            su conversación normal, con un indicador visual de quién y
-            desde dónde habla.
-          </p>
-        </div>
-      </div>
-
-      <div class="whisper-diagram reveal">
-        <!-- Sala origen -->
-        <div class="whisper-room source">
-          <div class="room-label" data-i18n="whisper.r1.label">Sala origen · BRIDGE</div>
-          <h4 data-i18n="whisper.r1.title">Mando táctico</h4>
-          <div class="members-list">
-            <div class="member speaking">
-              <span class="avatar">X</span>
-              <span data-i18n="whisper.r1.m1">Xolii · hablando</span>
+            <div class="pm-room">
+              <span class="dot mute"></span>
+              <span class="name">Recon</span>
+              <span class="num">0</span>
             </div>
-            <div class="member">
-              <span class="avatar">C</span>
-              <span>Chuker</span>
-            </div>
-            <div class="member">
-              <span class="avatar">F</span>
-              <span>Frost</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Flecha -->
-        <div class="whisper-arrow-wrap" aria-hidden="true">
-          <span class="arrow-line">━━━━▶</span>
-          <span class="arrow-label" data-i18n="whisper.arrow">Whisper</span>
-        </div>
-
-        <!-- Sala destino -->
-        <div class="whisper-room">
-          <div class="room-label" data-i18n="whisper.r2.label">Sala destino · SQUAD ALPHA</div>
-          <h4 data-i18n="whisper.r2.title">Pelotón en combate</h4>
-          <div class="members-list">
-            <div class="member">
-              <span class="avatar">A</span>
-              <span>Anvil_01</span>
-            </div>
-            <div class="member">
-              <span class="avatar">A</span>
-              <span>Anvil_02</span>
-            </div>
-            <div class="member whisper-tag">
-              <span class="avatar">X</span>
-              <span>Xolii [whisper from Bridge]</span>
+            <div class="pm-bot">
+              <span class="tab on"></span>
+              <span class="tab"></span>
+              <span class="tab"></span>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  </section>
 
-
-  <!-- ═══════════════════════════════════════════════════════════
-       TACTICAL — para orgs y squads que coordinan ops reales
-       ═══════════════════════════════════════════════════════════ -->
-
-  <section id="tactical">
-    <div class="container">
-      <div class="sc-grid">
-        <div class="sc-content reveal">
-          <div class="eyebrow"><span class="num">04</span> <span data-i18n="tactical.eyebrow">Para gaming serio</span></div>
-          <h2 data-i18n="tactical.h2">Construido para ops multi-squad de verdad.</h2>
-          <p class="lead" data-i18n="tactical.lead">
-            Las orgs grandes que hacen operaciones reales sufren con apps
-            generalistas: una sala por squad, comandantes con cinco ventanas
-            abiertas, llegando tarde a las jugadas. Umbra resuelve ese
-            problema en su raíz, sin importar el juego.
-          </p>
-
-          <ul class="sc-points">
-            <li>
-              <span data-i18n-html="tactical.p1.html"><strong>Operaciones multi-squad reales.</strong> Un comandante
-              puede hablar simultáneamente a Alpha, Bravo, Recon o Capital con
-              un atajo por escuadrón.</span>
-            </li>
-            <li>
-              <span data-i18n-html="tactical.p2.html"><strong>Roles jerárquicos integrados.</strong> Squad leader,
-              officer, miembro — los permisos reflejan tu org, no la app de
-              chat de turno.</span>
-            </li>
-            <li>
-              <span data-i18n-html="tactical.p3.html"><strong>Privacidad para tu org.</strong> Servidor dedicado o
-              self-hosted. Tus comms no se mezclan con el resto de la
-              comunidad de internet.</span>
-            </li>
-            <li>
-              <span data-i18n-html="tactical.p4.html"><strong>Pronto: integraciones con APIs de juegos.</strong>
-              Ver a tus miembros in-game, su estado, sus stats — directamente
-              en Umbra.</span>
-            </li>
-          </ul>
-
-          <a href="#cta-final" class="btn btn-secondary">
-            <span data-i18n="tactical.cta">Reservar lugar para tu org</span>
-            <span class="arrow" aria-hidden="true">→</span>
-          </a>
-        </div>
-
-        <div class="sc-visual reveal" aria-hidden="true">
-          <div class="grid-bg"></div>
-          <div class="visual-content">
-            <div class="ops-tag">OP // NIGHTFALL · MIC-04</div>
-            <div class="ops-formation">
-              <div class="ops-row"><span>BRIDGE · 4 op</span><span class="ping">28ms</span></div>
-              <div class="ops-row highlight"><span>SQUAD ALPHA · 8 op</span><span class="ping">31ms</span></div>
-              <div class="ops-row"><span>SQUAD BRAVO · 7 op</span><span class="ping">29ms</span></div>
-              <div class="ops-row"><span>RECON FOX · 3 op</span><span class="ping">35ms</span></div>
-              <div class="ops-row"><span>CAPITAL · 2 op</span><span class="ping">26ms</span></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-
-  <!-- ═══════════════════════════════════════════════════════════
-       MOBILE / BEYOND GAMING — la app móvil + use cases del mundo real
-       ═══════════════════════════════════════════════════════════ -->
-
-  <section id="mobile">
-    <div class="container">
-      <div class="section-header reveal">
-        <div class="text">
-          <div class="eyebrow"><span class="num">05</span> <span data-i18n="mobile.eyebrow">App móvil</span></div>
-          <h2 data-i18n="mobile.h2">Cuando la sala de squad es un campo real.</h2>
-        </div>
-        <div class="text">
-          <p data-i18n="mobile.lead">
-            La app móvil de Umbra (próximamente iOS y Android) lleva las
-            mismas comms tácticas a cualquier escenario. Donde tu equipo
-            opera, ahí estamos — el whisper cross-canal funciona donde haya
-            señal.
-          </p>
-        </div>
-      </div>
-
-      <div class="mobile-cards-grid">
-
-        <!-- 1. Airsoft & Milsim -->
-        <div class="use-case-card reveal">
-          <div class="uc-icon" aria-hidden="true">
-            <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="16" cy="16" r="12"/>
-              <circle cx="16" cy="16" r="6"/>
-              <line x1="16" y1="2"  x2="16" y2="8"/>
-              <line x1="16" y1="24" x2="16" y2="30"/>
-              <line x1="2"  y1="16" x2="8"  y2="16"/>
-              <line x1="24" y1="16" x2="30" y2="16"/>
-              <circle cx="16" cy="16" r="1.5" fill="currentColor"/>
-            </svg>
-          </div>
-          <h3 data-i18n="mobile.c1.title">Airsoft & Milsim</h3>
-          <p data-i18n="mobile.c1.text">Cinco squads dispersas en el campo. El comandante coordina por sectores con whisper sin saturar el canal general. La radio se queda en el bolsillo.</p>
-        </div>
-
-        <!-- 2. Paintball -->
-        <div class="use-case-card reveal">
-          <div class="uc-icon" aria-hidden="true">
-            <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="16" cy="16" r="11"/>
-              <circle cx="11" cy="11" r="2.2" fill="currentColor"/>
-              <circle cx="21" cy="13" r="1.6" fill="currentColor"/>
-              <circle cx="14" cy="20" r="1.8" fill="currentColor"/>
-              <circle cx="22" cy="21" r="2"   fill="currentColor"/>
-            </svg>
-          </div>
-          <h3 data-i18n="mobile.c2.title">Paintball táctico</h3>
-          <p data-i18n="mobile.c2.text">Coordinación rápida entre flancos. Llamas cobertura a tu compañero al otro lado del campo sin que el resto del equipo escuche el setup.</p>
-        </div>
-
-        <!-- 3. Producción audiovisual -->
-        <div class="use-case-card reveal">
-          <div class="uc-icon" aria-hidden="true">
-            <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="3" y="11" width="26" height="18" rx="1.5"/>
-              <path d="M3 11 L8 6 L13 11 M11 11 L16 6 L21 11 M19 11 L24 6 L29 11"/>
-            </svg>
-          </div>
-          <h3 data-i18n="mobile.c3.title">Producción audiovisual</h3>
-          <p data-i18n="mobile.c3.text">Director, cámara, sonido y luces — cada uno en su sala, con whispers privados al talento sin interrumpir la toma. Sin walkie clásico.</p>
-        </div>
-
-        <!-- 4. FPV / Drone Racing -->
-        <div class="use-case-card reveal">
-          <div class="uc-icon" aria-hidden="true">
-            <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="8"  cy="8"  r="3.5"/>
-              <circle cx="24" cy="8"  r="3.5"/>
-              <circle cx="8"  cy="24" r="3.5"/>
-              <circle cx="24" cy="24" r="3.5"/>
-              <line x1="11" y1="11" x2="21" y2="21"/>
-              <line x1="21" y1="11" x2="11" y2="21"/>
-              <circle cx="16" cy="16" r="2.5" fill="currentColor"/>
-            </svg>
-          </div>
-          <h3 data-i18n="mobile.c4.title">FPV & Drone racing</h3>
-          <p data-i18n="mobile.c4.text">Piloto en goggles, spotter relayando obstáculos en tiempo real. Latencia bajo 40 ms — la diferencia entre cruzar el gate o estrellar el quad.</p>
-        </div>
-
-        <!-- 5. Outdoor sports -->
-        <div class="use-case-card reveal">
-          <div class="uc-icon" aria-hidden="true">
-            <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M3 26 L11 14 L17 22 L22 16 L29 26 Z"/>
-              <line x1="11" y1="14" x2="11" y2="14.5"/>
-              <circle cx="22" cy="9" r="2"/>
-            </svg>
-          </div>
-          <h3 data-i18n="mobile.c5.title">Outdoor & expediciones</h3>
-          <p data-i18n="mobile.c5.text">Esquí off-piste, vela, escalada de equipo. Grupos divididos en posiciones, líder coordinando rutas y emergencias sin gritar al viento.</p>
-        </div>
-
-        <!-- 6. Equipos profesionales -->
-        <div class="use-case-card reveal">
-          <div class="uc-icon" aria-hidden="true">
-            <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M16 3 L27 7 V16 C27 22 22 27 16 29 C10 27 5 22 5 16 V7 Z"/>
-              <path d="M11 16 L15 20 L22 12"/>
-            </svg>
-          </div>
-          <h3 data-i18n="mobile.c6.title">Equipos profesionales</h3>
-          <p data-i18n="mobile.c6.text">Security en eventos, training de respuesta, coaching deportivo. Donde haya equipos coordinándose, Umbra reemplaza al chat WhatsApp con algo serio.</p>
-        </div>
-
-      </div>
-
-      <!-- Mobile coming soon callout -->
-      <div class="mobile-coming reveal">
-        <div class="mobile-coming-inner">
-          <svg class="mobile-coming-icon" viewBox="0 0 32 48" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" aria-hidden="true">
-            <rect x="3" y="2" width="26" height="44" rx="4"/>
-            <line x1="13" y1="42" x2="19" y2="42"/>
-            <rect x="6" y="6" width="20" height="32" rx="1" stroke-opacity="0.4"/>
-          </svg>
-          <div class="mobile-coming-text">
-            <span class="mobile-coming-label" data-i18n="mobile.coming.label">App móvil</span>
-            <span class="mobile-coming-value" data-i18n="mobile.coming.value">iOS y Android · Próximamente</span>
-          </div>
-          <div class="mobile-coming-tags">
-            <span class="mobile-tag">iOS</span>
-            <span class="mobile-tag">Android</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-
-  <!-- ═══════════════════════════════════════════════════════════
-       PRICING
-       ═══════════════════════════════════════════════════════════ -->
-
-  <section id="pricing">
-    <div class="container">
-      <div class="section-header reveal">
-        <div class="text">
-          <div class="eyebrow"><span class="num">06</span> <span data-i18n="pricing.eyebrow">Precios</span></div>
-          <h2 data-i18n="pricing.h2">Free para gamers. Suscripción para orgs.</h2>
-        </div>
-        <div class="text">
-          <p data-i18n="pricing.lead">
-            Si juegas casual, Umbra es gratis para siempre. La org paga, los
-            miembros se conectan. Sin ads, sin cosmetics, sin tonterías —
-            tu suscripción cubre infraestructura y equipo.
-          </p>
-        </div>
-      </div>
-
-      <div class="pricing-grid">
-        <!-- Tier Community -->
-        <div class="price-card reveal">
-          <div class="tier-name">Community</div>
-          <div class="tier-tagline" data-i18n="pricing.community.tagline">Para squads casuales y grupos pequeños.</div>
-          <div class="price">
-            <span class="amount">$0</span>
-          </div>
-          <div class="price-note" data-i18n="pricing.community.note">Free para siempre</div>
-          <ul class="features-list">
-            <li data-i18n="pricing.community.f1">Hasta 10 miembros</li>
-            <li data-i18n="pricing.community.f2">Whisper limitado (2 destinos)</li>
-            <li data-i18n="pricing.community.f3">Hotkeys teclado/ratón</li>
-            <li data-i18n="pricing.community.f4">Audio Opus standard</li>
-          </ul>
-          <a href="#cta-final" class="btn btn-secondary" data-i18n="pricing.community.cta">Empezar gratis</a>
-        </div>
-
-        <!-- Tier Squad (nuevo) -->
-        <div class="price-card reveal">
-          <div class="tier-name">
-            Squad
-            <span class="tier-badge" data-i18n="pricing.squad.badge">Nuevo</span>
-          </div>
-          <div class="tier-tagline" data-i18n="pricing.squad.tagline">Para squads competitivos con coach.</div>
-          <div class="price">
-            <span class="amount">$12</span>
-            <span class="period" data-i18n="pricing.period">/mes</span>
-          </div>
-          <div class="price-note" data-i18n="pricing.squad.note">o $120/año · ahorra $24</div>
-          <ul class="features-list">
-            <li data-i18n="pricing.squad.f1">Hasta 25 miembros</li>
-            <li data-i18n="pricing.squad.f2">Whisper sin límites</li>
-            <li data-i18n="pricing.squad.f3">Soporte gamepad/HOTAS</li>
-            <li data-i18n="pricing.squad.f4">Audio Opus HD</li>
-          </ul>
-          <a href="#cta-final" class="btn btn-secondary" data-i18n="pricing.squad.cta">Probar 30 días</a>
-        </div>
-
-        <!-- Tier Org (featured) -->
-        <div class="price-card featured reveal">
-          <span class="featured-tag" data-i18n="pricing.org.featured">Más elegido</span>
-          <div class="tier-name">Org</div>
-          <div class="tier-tagline" data-i18n="pricing.org.tagline">Para orgs y clanes con ops reales.</div>
-          <div class="price">
-            <span class="amount">$30</span>
-            <span class="period" data-i18n="pricing.period">/mes</span>
-          </div>
-          <div class="price-note" data-i18n="pricing.org.note">o $300/año · 2 meses gratis</div>
-          <ul class="features-list">
-            <li data-i18n="pricing.org.f1">Hasta 100 miembros</li>
-            <li data-i18n="pricing.org.f2">Stream Deck nativo</li>
-            <li data-i18n="pricing.org.f3">Roles jerárquicos completos</li>
-            <li data-i18n="pricing.org.f4">Branding del invite</li>
-            <li data-i18n="pricing.org.f5">Audit log</li>
-          </ul>
-          <a href="#cta-final" class="btn btn-primary">
-            <span data-i18n="pricing.org.cta">Reservar org</span>
-          </a>
-        </div>
-
-        <!-- Tier Enterprise -->
-        <div class="price-card reveal">
-          <div class="tier-name">Enterprise</div>
-          <div class="tier-tagline" data-i18n="pricing.enterprise.tagline">Esports, milsim grande, producción.</div>
-          <div class="price">
-            <span class="amount">$249</span>
-            <span class="period" data-i18n="pricing.period">/mes</span>
-          </div>
-          <div class="price-note" data-i18n="pricing.enterprise.note">Anual con descuento</div>
-          <ul class="features-list">
-            <li data-i18n="pricing.enterprise.f1">Hasta 500 miembros</li>
-            <li data-i18n="pricing.enterprise.f2">Región dedicada · SLA 99.9%</li>
-            <li data-i18n="pricing.enterprise.f3">Grabación + transcripción AAR</li>
-            <li data-i18n="pricing.enterprise.f4">SSO (SAML/OIDC) · Audit avanzado</li>
-          </ul>
-          <a href="#cta-final" class="btn btn-secondary" data-i18n="pricing.enterprise.cta">Hablar con ventas</a>
-        </div>
-      </div>
-
-      <!-- Add-ons / roadmap: UMBRA Pro + Boost UMBRA -->
-      <div class="pricing-extras reveal">
-        <div class="extra-card">
-          <div class="extra-head">
-            <span class="extra-title">UMBRA Pro</span>
-            <span class="extra-eta" data-i18n="pricing.pro.eta">Q3 2026</span>
-          </div>
-          <p class="extra-desc" data-i18n="pricing.pro.desc">$4.99/mes individual. Hotkey profiles cloud-sync entre PC + tablet + Stream Deck, soundboard personal, badge founder. Sin features pay-to-win.</p>
-        </div>
-        <div class="extra-card">
-          <div class="extra-head">
-            <span class="extra-title">Boost UMBRA</span>
-            <span class="extra-eta" data-i18n="pricing.boost.eta">Q4 2026</span>
-          </div>
-          <p class="extra-desc" data-i18n="pricing.boost.desc">$3.99/mes por boost. Un miembro aporta al plan de su org. 5 boosts = upgrade automático del tier. Como Server Boost de Discord, pero para algo que importa.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-
-  <!-- ═══════════════════════════════════════════════════════════
-       ABOUT CFX
-       ═══════════════════════════════════════════════════════════ -->
-
-  <section id="about-cfx">
-    <div class="container">
-      <div class="about-grid">
-        <div class="about-text reveal">
-          <div class="eyebrow"><span class="num">07</span> <span data-i18n="about.eyebrow">CFX</span></div>
-          <h2 data-i18n="about.h2">Construido por gamers, para gamers.</h2>
-          <p class="lead" data-i18n-html="about.lead.html">
-            UMBRA es un producto de <strong>CFX</strong>, un estudio de
-            tecnología fundado por tres jugadores que pasaron demasiadas
-            noches gritando coordenadas en cinco ventanas a la vez.
-          </p>
-
-          <p data-i18n="about.p2">
-            Vivimos dentro de las comunidades que usan Umbra y somos parte de
-            las orgs que la prueban a diario. Cada decisión de producto la
-            tomamos desde el lado del que se calza el casco y entra al
-            combate, no desde una sala de juntas.
-          </p>
-
-          <p data-i18n="about.p3">
-            No vamos a vender data, no vamos a meter ads en tus comms, no vamos
-            a pivotar a NFTs cuando estemos aburridos. Esto es un negocio
-            simple: haces un producto que funciona, lo cobras justo, lo
-            mantienes vivo.
-          </p>
-
-          <ul class="team-roster">
-            <li class="role">
-              <span class="name">Xolii</span>
-              <span class="title" data-i18n="about.role.title">Co-founder · All-rounder</span>
-            </li>
-            <li class="role">
-              <span class="name">Chuker</span>
-              <span class="title" data-i18n="about.role.title">Co-founder · All-rounder</span>
-            </li>
-            <li class="role">
-              <span class="name">Frost</span>
-              <span class="title" data-i18n="about.role.title">Co-founder · All-rounder</span>
-            </li>
-          </ul>
-
-          <div class="signature" data-i18n="about.signature">CFX · 2026 · Independent studio</div>
-        </div>
-
-        <div class="about-visual reveal" aria-hidden="true">
-          <div class="cfx-logo-frame">
-            <img src="assets/logo-cfx.png" alt="CFX" />
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-
-  <!-- ═══════════════════════════════════════════════════════════
-       FAQ
-       ═══════════════════════════════════════════════════════════ -->
-
-  <section id="faq">
-    <div class="container">
-      <div class="section-header reveal">
-        <div class="text">
-          <div class="eyebrow"><span class="num">08</span> <span data-i18n="faq.eyebrow">FAQ</span></div>
-          <h2 data-i18n="faq.h2">Preguntas que ya nos hicieron.</h2>
-        </div>
-      </div>
-
-      <div class="faq-list">
-        <details class="faq-item reveal">
-          <summary data-i18n="faq.q1">¿Por qué usar Umbra en lugar de las apps que ya conozco?</summary>
-          <div class="answer" data-i18n-html="faq.a1.html">
-            <p>No tienes que dejar de usar las apps de chat de siempre — esas seguirán siendo donde el mundo charla. Umbra entra cuando hay coordinación seria de por medio: ops multi-squad, eventos competitivos, comms tácticos donde la fluidez vale la pena.</p>
-            <p>Muchas orgs lo usan en paralelo: la app generalista para lo casual, Umbra para las ops.</p>
-          </div>
-        </details>
-
-        <details class="faq-item reveal">
-          <summary data-i18n="faq.q2">¿Funciona con anti-cheat (EAC, BattlEye)?</summary>
-          <div class="answer" data-i18n-html="faq.a2.html">
-            <p>Sí. Umbra es una app desktop independiente que no se inyecta en el proceso del juego. No usa hooks ni overlays in-game, así que es 100% compatible con cualquier anti-cheat.</p>
-            <p>Los hotkeys globales se manejan al nivel del sistema operativo, no del juego.</p>
-          </div>
-        </details>
-
-        <details class="faq-item reveal">
-          <summary data-i18n="faq.q3">¿Mi org necesita auto-hostearlo?</summary>
-          <div class="answer" data-i18n-html="faq.a3.html">
-            <p>No. Por defecto Umbra es SaaS — corre en nuestra infra. Te suscribes y empiezas a usarlo en menos de un minuto.</p>
-            <p>El plan Enterprise ofrece self-hosting con licencia para orgs que requieren control total sobre su infraestructura (privacidad estricta, compliance, latencia regional muy específica).</p>
-          </div>
-        </details>
-
-        <details class="faq-item reveal">
-          <summary data-i18n="faq.q4">¿Hay versión Mac y Linux?</summary>
-          <div class="answer" data-i18n-html="faq.a4.html">
-            <p>Windows está disponible en beta hoy. Mac y Linux están en la hoja de ruta para los próximos meses. La base de Umbra (Tauri + Rust) es cross-platform por diseño, así que el port es directo, no un rewrite.</p>
-          </div>
-        </details>
-
-        <details class="faq-item reveal">
-          <summary data-i18n="faq.q5">¿Mis llamadas son privadas?</summary>
-          <div class="answer" data-i18n-html="faq.a5.html">
-            <p>Sí. Tu audio pasa por nuestro SFU y se reenvía a los miembros de la sala — no se graba ni se almacena. La única persistencia es metadata mínima (quién entró, quién hizo whisper a quién, para que el dueño de la org tenga visibilidad de su comunidad).</p>
-            <p>El plan Enterprise con grabación opt-in es explícito y solo funciona si el dueño lo activa para una sesión específica.</p>
-          </div>
-        </details>
-
-        <details class="faq-item reveal">
-          <summary data-i18n="faq.q7">¿Por qué se llama Umbra?</summary>
-          <div class="answer" data-i18n-html="faq.a7.html">
-            <p>Umbra es la sombra más oscura de un eclipse — donde la luz está completamente bloqueada. Para nosotros simboliza el espacio privado donde tu org coordina sin que se filtre nada hacia afuera. El triángulo del logo (un Penrose imposible) representa los flujos de audio que conectan salas que en teoría no deberían poder conectarse.</p>
-          </div>
-        </details>
-      </div>
-    </div>
-  </section>
-
-
-  <!-- ═══════════════════════════════════════════════════════════
-       CTA FINAL
-       ═══════════════════════════════════════════════════════════ -->
-
-  <section id="cta-final">
-    <div class="container-narrow">
-      <div class="reveal">
-        <div class="eyebrow" style="justify-content:center"><span class="num">09</span> <span data-i18n="cta.eyebrow">Beta</span></div>
-        <h2 data-i18n="cta.h2">Reserva tu plaza en la beta cerrada.</h2>
-        <p class="lead" data-i18n="cta.lead">
-          Les damos prioridad a las orgs activas con ops periódicas. Déjanos
-          tu email y te avisamos cuando se abra el cupo para tu equipo.
-        </p>
-
-        <form class="signup-form" autocomplete="email">
-          <input
-            type="email"
-            placeholder="comandante@tu-org.com"
-            required
-            data-i18n-attr="placeholder:cta.email.placeholder, aria-label:cta.email.label"
-            aria-label="Email" />
-          <button type="submit" class="btn btn-primary">
-            <span data-i18n="cta.button">Reservar acceso</span>
-            <span class="arrow" aria-hidden="true">→</span>
-          </button>
-        </form>
-
-        <div class="signup-success" role="status" data-i18n="cta.success">
-          Reservado. Te avisamos en cuanto liberemos slots para tu org.
-        </div>
-
-        <p class="signup-note" data-i18n="cta.note">
-          SIN SPAM · SIN VENTA DE DATOS · SOLO TE AVISAMOS CUANDO ABRA TU CUPO
-        </p>
-      </div>
-    </div>
-  </section>
-
-
-  <!-- ═══════════════════════════════════════════════════════════
-       FOOTER
-       ═══════════════════════════════════════════════════════════ -->
-
-  <footer>
-    <div class="container">
-      <div class="footer-grid">
-        <div class="footer-brand">
-          <div class="logo">
-            <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <defs>
-                <linearGradient id="metalGrad2" x1="0" y1="0" x2="1" y2="1">
-                  <stop offset="0%"  stop-color="#e0e0e8" />
-                  <stop offset="50%" stop-color="#888892" />
-                  <stop offset="100%" stop-color="#c9c9d4" />
-                </linearGradient>
-              </defs>
-              <path d="M16 3 L29 27 L3 27 Z M16 9 L24.5 24 L7.5 24 Z"
-                    fill="url(#metalGrad2)"
-                    stroke="#5a5a60" stroke-width="0.5"
-                    fill-rule="evenodd" />
-            </svg>
-            UMBRA
-          </div>
-          <p data-i18n="footer.brand">
-            Comms tácticos para gaming serio. Producto de CFX, un estudio de
-            tecnología independiente fundado por gamers de carrera.
-          </p>
-        </div>
-
-        <div class="footer-col">
-          <h5 data-i18n="footer.col1.title">Producto</h5>
-          <ul role="list">
-            <li><a href="#features"  data-i18n="footer.col1.l1">Features</a></li>
-            <li><a href="#whisper"   data-i18n="footer.col1.l2">Whisper</a></li>
-            <li><a href="#pricing"   data-i18n="footer.col1.l3">Precios</a></li>
-            <li><a href="#cta-final" data-i18n="footer.col1.l4">Beta</a></li>
-          </ul>
-        </div>
-
-        <div class="footer-col">
-          <h5 data-i18n="footer.col2.title">Recursos</h5>
-          <ul role="list">
-            <li><a href="#tactical" data-i18n="footer.col2.l1">Para orgs</a></li>
-            <li><a href="#" aria-disabled="true" data-i18n="footer.col2.l2">Roadmap (pronto)</a></li>
-            <li><a href="#" aria-disabled="true" data-i18n="footer.col2.l3">Estado del servicio</a></li>
-          </ul>
-        </div>
-
-        <div class="footer-col">
-          <h5 data-i18n="footer.col3.title">CFX</h5>
-          <ul role="list">
-            <li><a href="#about-cfx" data-i18n="footer.col3.l1">Quiénes somos</a></li>
-            <li><a href="mailto:hola@cfx-studio.com" data-i18n="footer.col3.l2">Contacto</a></li>
-            <li><a href="mailto:soporte@cfx-studio.com" data-i18n="footer.col3.l3">Soporte</a></li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="footer-bottom">
+      <div class="card c-lingote">
         <div>
-          © <span id="current-year">2026</span> CFX <span data-i18n="footer.copyright">· Todos los derechos reservados</span>
+          <span class="label">Nuestra moneda</span>
+          <h3>Lingotes.</h3>
+          <p>Nuestra moneda interna. Para boosts, premium y regalos a otros squads.</p>
         </div>
-        <div class="legal">
-          <a href="#" data-i18n="footer.legal.privacy">Privacidad</a>
-          <a href="#" data-i18n="footer.legal.terms">Términos</a>
-          <a href="#" data-i18n="footer.legal.status">Estado</a>
+        <div class="lingote-stack" aria-hidden="true">
+          <div class="lingote l3"></div>
+          <div class="lingote l2"></div>
+          <div class="lingote l1"></div>
         </div>
       </div>
+
+      <div class="card c-mascot">
+        <span class="label">Hola, somos</span>
+        <div class="mascot-trio" aria-hidden="true">
+          <div class="mascot-img halo-copper mascot-xs" style="animation-delay:-1s">
+            <img src="assets/mascot-pip-raw.png" alt="Pip" />
+          </div>
+          <div class="mascot-img halo-gold mascot-s">
+            <img src="assets/mascot-lingo-raw.png" alt="Lingo" />
+          </div>
+          <div class="mascot-img halo-crystal mascot-xs" style="animation-delay:-2s">
+            <img src="assets/mascot-gemini-raw.png" alt="Gemmi" />
+          </div>
+        </div>
+        <h4>La familia</h4>
+        <p>Lingo, Pip y Gemmi</p>
+      </div>
+
+      <div class="card c-audiences">
+        <span class="label">Pensado para</span>
+        <span class="pill"><span class="e">🎮</span>Gaming casual</span>
+        <span class="pill"><span class="e">🛡️</span>Milsim</span>
+        <span class="pill"><span class="e">🏆</span>Esports</span>
+        <span class="pill"><span class="e">🎬</span>Eventos</span>
+        <span class="pill"><span class="e">👥</span>Grupos</span>
+        <span class="pill"><span class="e">📚</span>Comunidades</span>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SHOWCASE: UMBRA corriendo, mascotas alrededor -->
+  <section class="showcase" id="showcase">
+    <div class="showcase-head">
+      <h2>Así se ve <span class="gold">UMBRA.</span></h2>
+      <p>Tus salas a un clic. Quién habla, quién escucha, quién está haciendo whisper a otra sala. Todo a la vista, todo a la mano.</p>
+    </div>
+
+    <div class="showcase-stage">
+
+      <!-- Solo 2 mascotas a la izquierda — la derecha queda libre
+           para que se vea bien el whisper toast (la gracia de UMBRA) -->
+      <div class="float-mascot float-pip" aria-hidden="true">
+        <div class="mascot-img halo-copper mascot-s">
+          <img src="assets/mascot-pip-raw.png" alt="Pip" />
+        </div>
+      </div>
+      <div class="float-mascot float-gem" aria-hidden="true">
+        <div class="mascot-img halo-crystal mascot-s">
+          <img src="assets/mascot-gemini-raw.png" alt="Gemmi" />
+        </div>
+      </div>
+
+      <!-- Mockup de escritorio con UMBRA dentro (estructura real de la app) -->
+      <div class="desktop">
+
+        <!-- Titlebar Windows -->
+        <div class="dt-titlebar">
+          <div class="t-left">
+            <img src="assets/logo-triangle.png" alt="" />
+            <span>Umbra VoIP · 0.31.8</span>
+          </div>
+          <div class="t-ctrls">
+            <span>—</span><span>▢</span><span>×</span>
+          </div>
+        </div>
+
+        <!-- User card flotante (Alpha · audio OK · Frost) -->
+        <div class="dt-user">
+          <div class="channel-name"><span class="dot"></span>Alpha</div>
+          <span class="audio-ok">AUDIO OK</span>
+          <span class="sep"></span>
+          <div class="me">
+            <span class="av"></span>
+            <span class="nick">Frost</span>
+          </div>
+          <div class="controls">
+            <span class="ctrl">🎙️</span>
+            <span class="ctrl on">🎧</span>
+            <span class="ctrl">⏻</span>
+          </div>
+        </div>
+
+        <!-- Body: rail de orgs + panel de canales -->
+        <div class="dt-body">
+
+          <!-- Rail vertical de orgs -->
+          <nav class="dt-orgs">
+            <div class="dt-org o1 active"><img src="assets/logo-triangle.png" alt="" /></div>
+            <div class="dt-org o2">🦑</div>
+            <div class="dt-org o3">SC</div>
+            <div class="dt-org o4">A</div>
+            <div class="dt-org add">+</div>
+          </nav>
+
+          <!-- Panel principal: salas de voz -->
+          <main class="dt-channels">
+            <div class="dt-ch-title">Salas de voz <span class="pin">📌</span></div>
+
+            <div class="dt-whisper-banner">Whisper a flota · Home</div>
+
+            <!-- Channel: Command (expanded, Chuker está aquí) -->
+            <div class="dt-channel">
+              <span class="arrow parent">▼</span>
+              <span class="dot live"></span>
+              <span class="name">Command</span>
+              <span class="ch-count">2</span>
+              <span class="whisper-btn">Whisper</span>
+              <span class="ctx-btn">⌄</span>
+            </div>
+            <div class="dt-members-pills">
+              <span class="dt-pill"><span class="av purple">C</span><span class="nick">Chuker <small>63</small></span></span>
+              <span class="dt-pill"><span class="av pink">K</span><span class="nick">Kuzuri <small>27</small></span></span>
+            </div>
+            <!-- Channel: Nuevo slot -->
+            <div class="dt-channel">
+              <span class="indent"></span>
+              <span class="dot mute"></span>
+              <span class="name">Nuevo slot</span>
+              <span class="ch-count">0</span>
+              <span class="whisper-btn">Whisper</span>
+              <span class="ctx-btn">⌄</span>
+            </div>
+            <!-- Channel: Alpha (active, tú estás aquí) -->
+            <div class="dt-channel active">
+              <span class="indent"></span>
+              <span class="dot live"></span>
+              <span class="star">★</span>
+              <span class="name">Alpha</span>
+              <span style="color:rgba(255,255,255,0.5);font-size:0.7rem">💬 3</span>
+            </div>
+            <!-- Miembros de Alpha -->
+            <div class="dt-members-pills">
+              <span class="dt-pill"><span class="av teal">F</span><span class="nick">Frost <small>· tú</small></span></span>
+              <span class="dt-pill"><span class="av amber">X</span><span class="nick">Xolii <small>38</small></span></span>
+              <span class="dt-pill"><span class="av blue">P</span><span class="nick">Pepito <small>12</small></span></span>
+            </div>
+            <!-- Channels hermanos con contadores -->
+            <div class="dt-channel">
+              <span class="arrow"></span>
+              <span class="dot live"></span>
+              <span class="name">Bravo</span>
+              <span class="ch-count">4</span>
+              <span class="whisper-btn">Whisper</span>
+              <span class="ctx-btn">⌄</span>
+            </div>
+            <div class="dt-channel">
+              <span class="arrow"></span>
+              <span class="dot live"></span>
+              <span class="name">Charlie</span>
+              <span class="ch-count">2</span>
+              <span class="whisper-btn">Whisper</span>
+              <span class="ctx-btn">⌄</span>
+            </div>
+            <div class="dt-channel">
+              <span class="arrow"></span>
+              <span class="dot mute"></span>
+              <span class="name">Delta</span>
+              <span class="ch-count">0</span>
+              <span class="whisper-btn">Whisper</span>
+              <span class="ctx-btn">⌄</span>
+            </div>
+
+            <!-- Notificación de whisper ENTRANTE (audio, no texto) -->
+            <div class="dt-toast">
+              <div class="ic">🎙️</div>
+              <div class="body">
+                <span class="label">Whisper entrante</span>
+                <span class="msg"><strong>Chuker</strong> desde <strong>Command</strong></span>
+              </div>
+              <div class="wave" aria-hidden="true">
+                <span></span><span></span><span></span><span></span><span></span>
+              </div>
+            </div>
+          </main>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- STORY: sticky scroll guiado por Lingo -->
+  <section class="story" id="story">
+   <div class="story-grid">
+    <div class="story-sticky">
+      <div class="section-eyebrow">✨ CÓMO VA</div>
+      <h2 style="font-family:'Space Grotesk',sans-serif;font-size:clamp(1.8rem,3vw,2.4rem);font-weight:800;letter-spacing:-0.025em;line-height:1.05;margin-bottom:1rem">Cuatro pasos. Sin friolera.</h2>
+      <p style="color:var(--text-mid);margin-bottom:2rem">Lingo te lleva del registro a la primera ops en menos de cinco minutos.</p>
+      <div class="story-stage">
+        <div class="mascot-img halo-gold mascot-l" aria-hidden="true">
+          <img src="assets/mascot-lingo-raw.png" alt="Lingo" />
+        </div>
+        <h4>"Estoy contigo"</h4>
+        <p>Soy Lingo, y te llevo por la app sin que te pierdas. Si te quedas, te invito a un lingote.</p>
+      </div>
+    </div>
+
+    <ol class="story-list">
+      <li class="story-item reveal">
+        <div class="num">1</div>
+        <div>
+          <h5>Te registras con un email.</h5>
+          <p>Sin contraseña. Solo hace falta un email — te llega un enlace mágico y entras. Nada de "verifica tu número" ni "captcha 11 veces".</p>
+        </div>
+      </li>
+      <li class="story-item reveal">
+        <div class="num">2</div>
+        <div>
+          <h5>Creas o entras a una sala.</h5>
+          <p>Una sala = un grupo. La haces tú en un clic, eliges quién entra, y compartes un enlace tipo <span style="font-family:monospace;color:var(--gold-deep);font-weight:700">umbra.gg/abc</span>.</p>
+        </div>
+      </li>
+      <li class="story-item reveal">
+        <div class="num">3</div>
+        <div>
+          <h5>Hablas — y si quieres, whisper.</h5>
+          <p>Pulsas para hablar. Si necesitas decirle algo a otra sala sin salir de la tuya, mantienes la tecla de whisper y tu voz cruza canales.</p>
+        </div>
+      </li>
+      <li class="story-item reveal">
+        <div class="num">4</div>
+        <div>
+          <h5>Si tu org va en serio, sube al plan Org.</h5>
+          <p>El líder paga, los miembros se conectan gratis. Hasta 500 personas, whisper sin límites, gamepad/HOTAS, roles. Y para esports, eventos y orgs masivas, plan <strong>Enterprise</strong> con región dedicada, recording y SLA.</p>
+        </div>
+      </li>
+    </ol>
+   </div>
+  </section>
+
+  <!-- AUDIENCES — orbital -->
+  <section class="audiences" id="orbita">
+    <div class="head">
+      <div class="section-eyebrow" style="margin:0 auto 1rem;background:var(--paper-lila);color:var(--grape)">PARA QUIÉN</div>
+      <h2>Para tu squad. Para tu liga.<br/>Para <em style="font-style:normal;color:var(--gold-deep);font-family:'Space Grotesk',sans-serif">lo que necesites</em>.</h2>
+      <p class="lead">UMBRA es polivalente. Sirve para una squad de 5 que se ríe los viernes, para un milsim con 50 personas pelotoneando, para una liga de esports con casters y coach, para un evento en directo con técnicos en cinco salas, y para una comunidad de gente que solo quiere hablar a gusto. Tú nos dices el contexto, nosotros te damos la voz.</p>
+    </div>
+
+    <div class="orbit">
+      <div class="orbit-watermark" aria-hidden="true"><img src="assets/logo-triangle.png" alt="" /></div>
+      <div class="orbit-ring r2"></div>
+      <div class="orbit-ring"></div>
+
+      <div class="orbit-core">
+        <div class="mascot-img halo-gold mascot-m" aria-hidden="true">
+          <img src="assets/mascot-lingo-raw.png" alt="Lingo" />
+        </div>
+        <span>UMBRA</span>
+      </div>
+
+      <div class="orbit-item o-1">
+        <span class="e">🎮</span>
+        <h6>Gaming casual</h6>
+        <p>La sala del finde con los colegas. Voz nítida, sin lag.</p>
+      </div>
+      <div class="orbit-item o-2">
+        <span class="e">🛡️</span>
+        <h6>Milsim · Tactical</h6>
+        <p>Comms con whisper para ops multi-squad reales.</p>
+      </div>
+      <div class="orbit-item o-3">
+        <span class="e">🏆</span>
+        <h6>Esports & ligas</h6>
+        <p>Coach, caster, capitanes — cada uno en su rol.</p>
+      </div>
+      <div class="orbit-item o-4">
+        <span class="e">🎬</span>
+        <h6>Eventos & producción</h6>
+        <p>Director, talento, técnicos. Comms separadas pero conectadas.</p>
+      </div>
+      <div class="orbit-item o-5">
+        <span class="e">📚</span>
+        <h6>Comunidades</h6>
+        <p>Cursos, hobbies, viajes. Tu gente, tu voz, tu sitio.</p>
+      </div>
+      <div class="orbit-item o-6">
+        <span class="e">💼</span>
+        <h6>Equipos & curro</h6>
+        <p>Stand-ups, pair, brainstorm sin Zoom-fatigue.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ACCESS — 4 puertas de entrada con mascotas -->
+  <section class="access" id="planes">
+    <div class="access-penrose vp1" aria-hidden="true"><img src="assets/logo-triangle.png" alt="" /></div>
+    <div class="access-penrose vp2" aria-hidden="true"><img src="assets/logo-triangle.png" alt="" /></div>
+    <div class="access-penrose vp3" aria-hidden="true"><img src="assets/logo-triangle.png" alt="" /></div>
+    <div class="access-penrose vp4" aria-hidden="true"><img src="assets/logo-triangle.png" alt="" /></div>
+
+    <div class="access-head">
+      <h2>Tres planes. <span class="gold">Lo paga la org, lo disfruta el squad.</span></h2>
+      <p>Empieza gratis para asomarte. Cuando tu grupo coordina ops reales y la voz importa, el líder cubre el plan y el equipo conecta sin pagar nada. Sin suscripciones por usuario.</p>
+    </div>
+
+    <div class="access-grid">
+
+      <!-- Community: Pip -->
+      <div class="access-card">
+        <div class="mascot-wrap">
+          <div class="mascot-img halo-copper mascot-m" aria-hidden="true">
+            <img src="assets/mascot-pip-raw.png" alt="Pip" />
+          </div>
+        </div>
+        <h3>Community</h3>
+        <span class="tag-line">La puerta de entrada</span>
+        <p class="desc">Hasta 25 miembros, salas estándar, whisper limitado, audio standard. Para asomarse y para grupos pequeños.</p>
+        <a class="btn-access" href="#descarga">Empezar gratis →</a>
+      </div>
+
+      <!-- Org: Lingo (oro, destacado) — el 80% del revenue -->
+      <div class="access-card featured">
+        <span class="ribbon">⭐ El más elegido</span>
+        <div class="mascot-wrap">
+          <div class="mascot-img halo-gold mascot-l" aria-hidden="true">
+            <img src="assets/mascot-lingo-raw.png" alt="Lingo" />
+          </div>
+        </div>
+        <h3>Org</h3>
+        <span class="tag-line">Para orgs que coordinan ops reales</span>
+        <p class="desc">Hasta 250–500 miembros, whisper sin límites, audio HD, hotkeys con gamepad/HOTAS, roles jerárquicos completos y audit log.</p>
+        <a class="btn-access" href="#descarga">Reservar org →</a>
+      </div>
+
+      <!-- Enterprise: Gemmi -->
+      <div class="access-card">
+        <div class="mascot-wrap">
+          <div class="mascot-img halo-crystal mascot-m" aria-hidden="true">
+            <img src="assets/mascot-gemini-raw.png" alt="Gemmi" />
+          </div>
+        </div>
+        <h3>Enterprise · Esports</h3>
+        <span class="tag-line">Para ligas, eventos y orgs masivas</span>
+        <p class="desc">Miembros ilimitados, región dedicada (latencia garantizada), grabación de ops, SLA, branding custom y opción self-hosted.</p>
+        <a class="btn-access" href="#descarga">Hablar con ventas →</a>
+      </div>
+
+    </div>
+
+    <p class="access-foot">
+      Add-ons opcionales por encima del plan: <strong>grabación + transcripción de ops</strong>, <strong>soundboard táctico</strong>, <strong>integraciones con APIs de juegos</strong> (Star Citizen, etc.). <a href="#">Detalle completo →</a>
+    </p>
+  </section>
+
+  <!-- FAQ chat con Lingo -->
+  <section class="faq" id="faq">
+   <div class="faq-inner">
+    <div class="faq-head">
+      <div>
+        <div class="section-eyebrow">💬 PREGUNTAS</div>
+        <h2>Lo que la gente pregunta antes de entrar.</h2>
+      </div>
+      <p class="head-aside">Lingo se encarga. Si te quedas con dudas, hay un humano detrás en <a href="#" style="color:var(--gold-deep);font-weight:700;text-decoration:underline">hola@cfx.studio</a>.</p>
+    </div>
+
+    <div class="chat">
+
+      <div class="bubble-row you">
+        <div class="bubble-avatar"><img src="assets/mascot-lingo-raw.png" alt="" /></div>
+        <div class="bubble you">
+          ¿Funciona en navegador o tengo que instalar?
+          <small>09:42</small>
+        </div>
+      </div>
+      <div class="bubble-row">
+        <div class="bubble-avatar"><img src="assets/mascot-lingo-raw.png" alt="" /></div>
+        <div class="bubble">
+          <strong>Lingo</strong>
+          Ambas. La versión web va en cualquier Chrome decente (con algún recorte menor — sin HOTAS por ejemplo). La app de Windows es la completa, y para Mac/Linux estamos puliendo.
+          <small>09:42</small>
+        </div>
+      </div>
+
+      <div class="bubble-row you">
+        <div class="bubble-avatar"><img src="assets/mascot-lingo-raw.png" alt="" /></div>
+        <div class="bubble you">
+          Tengo un móvil viejo de 2018. ¿Servirá?
+          <small>09:44</small>
+        </div>
+      </div>
+      <div class="bubble-row">
+        <div class="bubble-avatar"><img src="assets/mascot-lingo-raw.png" alt="" /></div>
+        <div class="bubble">
+          <strong>Lingo</strong>
+          Sí. La app móvil es ligera a propósito — pensada para teléfonos y tablets que ya tienen unos años. Funciona desde Android 8 / iOS 14.
+          <small>09:44</small>
+        </div>
+      </div>
+
+      <div class="bubble-row you">
+        <div class="bubble-avatar"><img src="assets/mascot-lingo-raw.png" alt="" /></div>
+        <div class="bubble you">
+          ¿Qué pinta tiene un "lingote"?
+          <small>09:47</small>
+        </div>
+      </div>
+      <div class="bubble-row">
+        <div class="bubble-avatar"><img src="assets/mascot-lingo-raw.png" alt="" /></div>
+        <div class="bubble">
+          <strong>Lingo</strong>
+          Yo soy uno 🪙. La moneda interna de UMBRA. Sirve para boosts, regalos a otros squads, comprar premium individual y cosméticos sin pay-to-win. Se ganan o se compran.
+          <small>09:47</small>
+        </div>
+      </div>
+
+      <div class="bubble-row you">
+        <div class="bubble-avatar"><img src="assets/mascot-lingo-raw.png" alt="" /></div>
+        <div class="bubble you">
+          ¿Cómo funciona el tema de los planes?
+          <small>09:49</small>
+        </div>
+      </div>
+      <div class="bubble-row">
+        <div class="bubble-avatar"><img src="assets/mascot-lingo-raw.png" alt="" /></div>
+        <div class="bubble">
+          <strong>Lingo</strong>
+          Tres planes. <strong>Community</strong> es gratis para asomarse (hasta 25 personas). <strong>Org</strong> es donde está la fiesta — lo paga el líder/dueño de la org y los miembros se conectan gratis. <strong>Enterprise</strong> es para esports, eventos en directo y orgs masivas, con región dedicada y SLA. Sin suscripción por usuario, nunca.
+          <small>09:49</small>
+        </div>
+      </div>
+
+      <div class="bubble-row you">
+        <div class="bubble-avatar"><img src="assets/mascot-lingo-raw.png" alt="" /></div>
+        <div class="bubble you">
+          ¿Mis llamadas son privadas? ¿Vendéis datos?
+          <small>09:51</small>
+        </div>
+      </div>
+      <div class="bubble-row">
+        <div class="bubble-avatar"><img src="assets/mascot-lingo-raw.png" alt="" /></div>
+        <div class="bubble">
+          <strong>Lingo</strong>
+          Voz cifrada en tránsito. No grabamos nada salvo que tú lo actives. Y no vendemos datos — el modelo de negocio es la suscripción de unos pocos planes, no minar lo que dices.
+          <small>09:52</small>
+        </div>
+      </div>
+
+    </div>
+   </div>
+  </section>
+
+  <!-- CTA FINAL -->
+  <section id="descarga" class="cta-final">
+    <div class="cta-final-wrap">
+      <div class="cta-family" aria-hidden="true">
+        <div class="mascot-img halo-copper mascot-m" style="animation-delay:-1s">
+          <img src="assets/mascot-pip-raw.png" alt="Pip" />
+        </div>
+        <div class="mascot-img halo-gold mascot-l">
+          <img src="assets/mascot-lingo-raw.png" alt="Lingo" />
+        </div>
+        <div class="mascot-img halo-crystal mascot-m" style="animation-delay:-2s">
+          <img src="assets/mascot-gemini-raw.png" alt="Gemmi" />
+        </div>
+        <div class="mascot-img halo-mint mascot-m as-stash" style="animation-delay:-3s">
+          <img src="assets/mascot-lingo-raw.png" alt="Stash" />
+        </div>
+      </div>
+      <h2>¿Te animas?</h2>
+      <p>Descarga UMBRA, abre tu primera sala y prueba el whisper. Si no te gusta, te devuelvo el lingote (y son gratis, así que ya ves).</p>
+      <div class="row">
+        <a class="btn btn-ink" href="#">↓ Windows</a>
+        <a class="btn btn-light" href="#">macOS · pronto</a>
+        <a class="btn btn-light" href="#">Linux · pronto</a>
+        <a class="btn btn-light" href="#">Abrir web</a>
+      </div>
+      <p style="margin-top:1.5rem;font-size:0.85rem;color:var(--text-mute)">Móvil: iOS · Android · próximamente</p>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a class="nav-logo" href="/prototipo-v2.html" style="color:#fff">
+          <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="width:26px;height:26px">
+            <path d="M16 5L27 26H5L16 5Z" stroke="url(#g2)" stroke-width="2.5" stroke-linejoin="round"/>
+            <defs>
+              <linearGradient id="g2" x1="0" y1="0" x2="32" y2="32"><stop stop-color="#f4cc89"/><stop offset="1" stop-color="#a07440"/></linearGradient>
+            </defs>
+          </svg>
+          UMBRA
+        </a>
+        <p>Voz para tu gente. Producto de CFX, un estudio independiente. Pensado en serio, pero sin perder el sentido del humor.</p>
+      </div>
+      <div class="foot-col">
+        <h4>Producto</h4>
+        <ul>
+          <li><a href="#story">Cómo va</a></li>
+          <li><a href="#orbita">Casos de uso</a></li>
+          <li><a href="#planes">Planes</a></li>
+          <li><a href="#descarga">Descargar</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Recursos</h4>
+        <ul>
+          <li><a href="#faq">FAQ</a></li>
+          <li><a href="#">Estado del servicio</a></li>
+          <li><a href="#">Roadmap</a></li>
+          <li><a href="#">Comunidad</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>CFX</h4>
+        <ul>
+          <li><a href="#">Quiénes somos</a></li>
+          <li><a href="#">Contacto</a></li>
+          <li><a href="#">Privacidad</a></li>
+          <li><a href="#">Términos</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 CFX · Todos los derechos reservados</span>
+      <span style="display:flex;gap:1.25rem;align-items:center">
+        <span style="display:inline-flex;align-items:center;gap:0.45rem"><span style="width:8px;height:8px;border-radius:50%;background:var(--mint);box-shadow:0 0 6px var(--mint)"></span>Todos los sistemas operativos</span>
+      </span>
     </div>
   </footer>
 
-  <!-- ═══════════════════════════════════════════════════════════
-       LOGIN MODAL — overlay con flujo Google OAuth
-       ═══════════════════════════════════════════════════════════ -->
+  <a class="back-link" href="/">← Sitio actual</a>
 
-  <div id="login-modal" class="login-modal" role="dialog" aria-modal="true" aria-labelledby="login-modal-title" hidden>
-    <div class="login-modal-backdrop" aria-hidden="true"></div>
-    <div class="login-modal-content">
-      <button class="login-modal-close"
-              data-i18n-attr="aria-label:auth.modal.close"
-              aria-label="Cerrar">
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
-          <line x1="4" y1="4" x2="12" y2="12" />
-          <line x1="12" y1="4" x2="4" y2="12" />
-        </svg>
-      </button>
+  <script>
+    // Reveal-on-scroll
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }});
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
-      <div class="login-modal-header">
-        <img src="assets/logo-triangle.png" alt="" class="login-modal-mark" />
-        <h3 id="login-modal-title" data-i18n="auth.modal.title">Iniciar sesión en UMBRA</h3>
-        <p data-i18n="auth.modal.subtitle">Empieza con tu cuenta</p>
-      </div>
-
-      <button class="btn-google-signin">
-        <!-- Logo de Google oficial (multicolor) -->
-        <svg width="18" height="18" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.874 2.684-6.615z"/>
-          <path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.836.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332C2.438 15.983 5.482 18 9 18z"/>
-          <path fill="#FBBC05" d="M3.964 10.71A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.042l3.007-2.332z"/>
-          <path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0 5.482 0 2.438 2.017.957 4.958L3.964 7.29C4.672 5.163 6.656 3.58 9 3.58z"/>
-        </svg>
-        <span data-i18n="auth.modal.google_btn">Iniciar sesión con Google</span>
-      </button>
-
-      <p class="login-error" role="alert" hidden></p>
-
-      <p class="login-modal-note" data-i18n="auth.modal.note">
-        Usamos Google para login seguro sin contraseña. Nunca vemos tu contraseña.
-      </p>
-    </div>
-  </div>
-
-
-  <script src="js/i18n.js" defer></script>
-  <script src="js/auth.js" defer></script>
-  <script src="js/app.js"  defer></script>
+  </script>
 </body>
 </html>
