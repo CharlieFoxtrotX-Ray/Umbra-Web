@@ -911,6 +911,15 @@
       letter-spacing:0.12em;border-radius:4px;text-transform:uppercase;
     }
     .dt-channel .ctx-btn{color:rgba(255,255,255,0.4);font-size:0.85rem;padding-left:0.3rem}
+    .dt-channel .ch-count{
+      font-family:'JetBrains Mono',monospace;font-size:0.62rem;
+      padding:0.12rem 0.45rem;border-radius:999px;
+      background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.55);
+      font-weight:700;letter-spacing:0.04em;
+    }
+    .dt-channel:not(.active) .dot.live ~ .ch-count{
+      background:rgba(62,209,189,0.15);color:#7ee5d5;
+    }
 
     /* Miembros pill (avatares horizontales bajo la sala activa) */
     .dt-members-pills{
@@ -1709,20 +1718,26 @@
 
             <div class="dt-whisper-banner">Whisper a flota · Home</div>
 
-            <!-- Channel: Command (parent) -->
+            <!-- Channel: Command (expanded, Chuker está aquí) -->
             <div class="dt-channel">
               <span class="arrow parent">▼</span>
-              <span class="dot mute"></span>
+              <span class="dot live"></span>
               <span class="name">Command</span>
-              <span class="whisper-btn">Whisper · 1</span>
+              <span class="ch-count">2</span>
+              <span class="whisper-btn">Whisper</span>
               <span class="ctx-btn">⌄</span>
+            </div>
+            <div class="dt-members-pills">
+              <span class="dt-pill"><span class="av purple">C</span><span class="nick">Chuker <small>63</small></span></span>
+              <span class="dt-pill"><span class="av pink">K</span><span class="nick">Kuzuri <small>27</small></span></span>
             </div>
             <!-- Channel: Nuevo slot -->
             <div class="dt-channel">
               <span class="indent"></span>
               <span class="dot mute"></span>
               <span class="name">Nuevo slot</span>
-              <span class="whisper-btn">Whisper · 2</span>
+              <span class="ch-count">0</span>
+              <span class="whisper-btn">Whisper</span>
               <span class="ctx-btn">⌄</span>
             </div>
             <!-- Channel: Alpha (active, tú estás aquí) -->
@@ -1737,20 +1752,22 @@
             <div class="dt-members-pills">
               <span class="dt-pill"><span class="av teal">F</span><span class="nick">Frost <small>· tú</small></span></span>
               <span class="dt-pill"><span class="av amber">X</span><span class="nick">Xolii <small>38</small></span></span>
-              <span class="dt-pill"><span class="av purple">C</span><span class="nick">Chuker <small>63</small></span></span>
+              <span class="dt-pill"><span class="av blue">P</span><span class="nick">Pepito <small>12</small></span></span>
             </div>
-            <!-- Channels hermanos -->
+            <!-- Channels hermanos con contadores -->
             <div class="dt-channel">
               <span class="arrow"></span>
-              <span class="dot mute"></span>
+              <span class="dot live"></span>
               <span class="name">Bravo</span>
+              <span class="ch-count">4</span>
               <span class="whisper-btn">Whisper</span>
               <span class="ctx-btn">⌄</span>
             </div>
             <div class="dt-channel">
               <span class="arrow"></span>
-              <span class="dot mute"></span>
+              <span class="dot live"></span>
               <span class="name">Charlie</span>
+              <span class="ch-count">2</span>
               <span class="whisper-btn">Whisper</span>
               <span class="ctx-btn">⌄</span>
             </div>
@@ -1758,6 +1775,7 @@
               <span class="arrow"></span>
               <span class="dot mute"></span>
               <span class="name">Delta</span>
+              <span class="ch-count">0</span>
               <span class="whisper-btn">Whisper</span>
               <span class="ctx-btn">⌄</span>
             </div>
