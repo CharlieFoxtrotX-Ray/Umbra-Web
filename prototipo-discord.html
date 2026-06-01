@@ -1,0 +1,676 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <title>UMBRA — Prototipo estilo Discord</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" href="assets/logo-triangle.png" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap');
+
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+    :root{
+      /* Paleta Discord-friendly + amber Umbra */
+      --bg-light:        #ffffff;
+      --bg-cream:        #f6f6f7;
+      --bg-cream-warm:   #f5f1ea;
+      --bg-dark:         #1a1a22;
+      --bg-darker:       #0e0e14;
+      --bg-purple-soft:  #ece6fa;
+
+      --text-dark:       #1a1a22;
+      --text-mid:        #4e5058;
+      --text-light:      #ffffff;
+      --text-mute-dark:  #b9b9c3;
+
+      --amber:           #d4a06a;
+      --amber-bright:    #ecbe87;
+      --amber-deep:      #b88550;
+
+      --accent-purple:   #7b6cf6;
+      --accent-teal:     #3ed1bd;
+
+      --shadow-soft:     0 8px 24px -10px rgba(0,0,0,0.08);
+      --shadow-strong:   0 24px 64px -16px rgba(0,0,0,0.16);
+      --shadow-card:     0 1px 3px rgba(0,0,0,0.05), 0 10px 30px -8px rgba(0,0,0,0.08);
+
+      --radius-sm:       8px;
+      --radius:          16px;
+      --radius-lg:       28px;
+      --radius-pill:     999px;
+    }
+
+    body{
+      font-family:'Inter',sans-serif;
+      background:var(--bg-light);
+      color:var(--text-dark);
+      line-height:1.55;
+      -webkit-font-smoothing:antialiased;
+      overflow-x:hidden;
+    }
+    img{max-width:100%;display:block}
+    a{color:inherit;text-decoration:none}
+    ul{list-style:none}
+    button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
+
+    .container{max-width:1240px;margin:0 auto;padding:0 1.5rem}
+
+    /* ─── NAV ─── */
+    .nav{
+      position:fixed;top:1rem;left:1rem;right:1rem;z-index:50;
+      max-width:1240px;margin:0 auto;
+      display:flex;align-items:center;justify-content:space-between;
+      padding:0.7rem 0.7rem 0.7rem 1.5rem;
+      background:rgba(26,26,34,0.85);
+      backdrop-filter:blur(14px);
+      border:1px solid rgba(255,255,255,0.08);
+      border-radius:var(--radius-pill);
+      color:var(--text-light);
+    }
+    .nav-logo{display:flex;align-items:center;gap:0.6rem;font-weight:800;font-size:1.05rem;letter-spacing:-0.01em}
+    .nav-logo .logo-mark{
+      width:28px;height:28px;border-radius:8px;
+      background:linear-gradient(135deg,var(--amber-bright),var(--amber-deep));
+      display:grid;place-items:center;font-weight:900;color:#1a1208;font-size:0.85rem;
+    }
+    .nav-links{display:none;gap:0.4rem;align-items:center}
+    @media(min-width:880px){.nav-links{display:flex}}
+    .nav-links a{
+      padding:0.45rem 0.95rem;border-radius:var(--radius-pill);
+      font-size:0.92rem;font-weight:500;color:var(--text-mute-dark);
+      transition:background 180ms,color 180ms;
+    }
+    .nav-links a:hover{background:rgba(255,255,255,0.06);color:#fff}
+    .nav-cta{
+      padding:0.6rem 1.4rem;border-radius:var(--radius-pill);
+      background:#fff;color:var(--text-dark);
+      font-weight:600;font-size:0.9rem;
+      transition:transform 180ms,box-shadow 180ms;
+    }
+    .nav-cta:hover{transform:translateY(-1px);box-shadow:0 8px 24px -6px rgba(255,255,255,0.25)}
+
+    /* ─── HERO ─── */
+    .hero{
+      position:relative;
+      background:linear-gradient(180deg,#23232e 0%,#1a1a22 100%);
+      color:var(--text-light);
+      padding:8rem 1.5rem 5rem;
+      overflow:hidden;
+    }
+    /* Decoración orbital de fondo */
+    .hero::before{
+      content:'';position:absolute;inset:0;z-index:0;pointer-events:none;
+      background:
+        radial-gradient(ellipse 60% 50% at 80% 30%,rgba(212,160,106,0.22) 0%,transparent 60%),
+        radial-gradient(ellipse 50% 40% at 15% 70%,rgba(123,108,246,0.20) 0%,transparent 60%);
+    }
+    .hero-grid{
+      position:relative;z-index:1;
+      max-width:1240px;margin:0 auto;
+      display:grid;grid-template-columns:1fr;gap:3rem;align-items:center;
+    }
+    @media(min-width:980px){.hero-grid{grid-template-columns:1.05fr 0.95fr;gap:4rem}}
+
+    .hero h1{
+      font-family:'Space Grotesk',sans-serif;
+      font-size:clamp(2.6rem,6.5vw,4.6rem);
+      font-weight:800;letter-spacing:-0.035em;line-height:1.02;
+      margin-bottom:1.5rem;
+    }
+    .hero h1 .highlight{color:var(--amber-bright)}
+    .hero .lead{
+      font-size:1.18rem;color:var(--text-mute-dark);line-height:1.55;
+      margin-bottom:2.25rem;max-width:54ch;
+    }
+    .hero-cta{display:flex;flex-wrap:wrap;gap:0.85rem}
+    .btn{
+      display:inline-flex;align-items:center;gap:0.5rem;
+      padding:1rem 1.7rem;border-radius:var(--radius-pill);
+      font-weight:600;font-size:1rem;
+      transition:transform 180ms,background 180ms,color 180ms,box-shadow 180ms;
+    }
+    .btn-primary{background:#fff;color:var(--text-dark)}
+    .btn-primary:hover{transform:translateY(-2px);box-shadow:0 14px 30px -10px rgba(255,255,255,0.25)}
+    .btn-amber{background:var(--amber);color:#1a1208}
+    .btn-amber:hover{background:var(--amber-bright);transform:translateY(-2px);box-shadow:0 14px 30px -10px rgba(212,160,106,0.5)}
+    .btn-ghost-light{background:rgba(255,255,255,0.10);color:#fff;backdrop-filter:blur(8px)}
+    .btn-ghost-light:hover{background:rgba(255,255,255,0.18);transform:translateY(-2px)}
+    .btn-ghost-dark{background:#1a1a22;color:#fff}
+    .btn-ghost-dark:hover{background:#000;transform:translateY(-2px)}
+
+    /* Hero visual: mock UI de Umbra (3 salas conectadas por whisper) */
+    .hero-mock{
+      position:relative;width:100%;
+      filter:drop-shadow(0 30px 60px rgba(0,0,0,0.4));
+    }
+    .room-card{
+      background:#252530;border:1px solid #34343e;border-radius:var(--radius);
+      padding:1rem 1.1rem;
+      display:flex;flex-direction:column;gap:0.6rem;
+      position:relative;
+    }
+    .room-card.featured{background:linear-gradient(180deg,#2e2e3a,#262631);box-shadow:0 12px 30px -10px rgba(0,0,0,0.5)}
+    .room-head{display:flex;align-items:center;justify-content:space-between}
+    .room-name{font-weight:700;font-size:0.95rem;display:flex;align-items:center;gap:0.45rem}
+    .room-dot{width:8px;height:8px;border-radius:50%;background:var(--accent-teal);box-shadow:0 0 8px var(--accent-teal)}
+    .room-dot.amber{background:var(--amber);box-shadow:0 0 8px var(--amber)}
+    .room-dot.purple{background:var(--accent-purple);box-shadow:0 0 8px var(--accent-purple)}
+    .room-count{font-size:0.72rem;color:var(--text-mute-dark);padding:0.2rem 0.55rem;background:#1f1f28;border-radius:var(--radius-pill)}
+    .room-members{display:flex;gap:0.45rem;flex-wrap:wrap}
+    .avatar{
+      width:32px;height:32px;border-radius:50%;
+      display:grid;place-items:center;font-size:0.75rem;font-weight:700;color:#1a1208;
+      box-shadow:0 0 0 2px #252530;
+    }
+    .a-amber{background:linear-gradient(135deg,#ecbe87,#b88550)}
+    .a-purple{background:linear-gradient(135deg,#a394ff,#7b6cf6);color:#fff}
+    .a-teal{background:linear-gradient(135deg,#7ee5d5,#3ed1bd);color:#0d3833}
+    .a-pink{background:linear-gradient(135deg,#ffaecf,#ff6fa6);color:#580f30}
+    .a-mute{background:#3a3a44;color:#b9b9c3;box-shadow:0 0 0 2px #252530}
+    .speaking{position:relative}
+    .speaking::after{
+      content:'';position:absolute;inset:-3px;border-radius:50%;
+      border:2px solid var(--amber-bright);
+      animation:speakRing 1.4s ease-out infinite;
+    }
+    @keyframes speakRing{0%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(1.35)}}
+
+    .hero-stack{display:flex;flex-direction:column;gap:0.85rem;position:relative}
+    .whisper-line{
+      position:absolute;left:50%;width:2px;
+      background:linear-gradient(180deg,transparent,var(--amber),transparent);
+      box-shadow:0 0 8px var(--amber);
+      animation:whisperPulse 2.4s ease-in-out infinite;
+    }
+    .whisper-line.l1{top:78px;height:64px}
+    .whisper-line.l2{top:212px;height:62px}
+    @keyframes whisperPulse{0%,100%{opacity:0.4}50%{opacity:1}}
+
+    .whisper-badge{
+      position:absolute;left:50%;transform:translateX(-50%);
+      padding:0.25rem 0.65rem;border-radius:var(--radius-pill);
+      background:var(--amber);color:#1a1208;
+      font-size:0.7rem;font-weight:700;letter-spacing:0.04em;
+      box-shadow:0 4px 16px rgba(212,160,106,0.5);
+      z-index:3;display:flex;align-items:center;gap:0.3rem;
+    }
+    .whisper-badge.w1{top:103px}
+    .whisper-badge.w2{top:237px}
+
+    /* ─── SECCIONES light ─── */
+    section{padding:6rem 1.5rem;position:relative}
+    @media(max-width:720px){section{padding:4rem 1.25rem}}
+
+    .section-grid{
+      max-width:1240px;margin:0 auto;
+      display:grid;grid-template-columns:1fr;gap:3rem;align-items:center;
+    }
+    @media(min-width:980px){.section-grid{grid-template-columns:1fr 1fr;gap:5rem}}
+    .section-grid.reverse > div:first-child{order:2}
+    @media(max-width:979px){.section-grid.reverse > div:first-child{order:0}}
+
+    .eyebrow{
+      display:inline-flex;align-items:center;gap:0.45rem;
+      padding:0.35rem 0.9rem;border-radius:var(--radius-pill);
+      background:rgba(212,160,106,0.12);color:var(--amber-deep);
+      font-size:0.75rem;font-weight:600;letter-spacing:0.04em;
+      margin-bottom:1.25rem;
+    }
+    .eyebrow .icon{width:14px;height:14px;border-radius:50%;background:var(--amber)}
+    .section-title{
+      font-family:'Space Grotesk',sans-serif;
+      font-size:clamp(2rem,4.5vw,3.3rem);
+      font-weight:800;letter-spacing:-0.025em;line-height:1.05;
+      margin-bottom:1.5rem;
+    }
+    .section-lead{font-size:1.1rem;color:var(--text-mid);max-width:55ch;margin-bottom:1.5rem;line-height:1.6}
+
+    /* Mock illustration: scena de uso (sala con miembros) */
+    .scene{
+      background:var(--bg-cream);border-radius:var(--radius-lg);
+      padding:2rem;position:relative;overflow:hidden;
+      box-shadow:var(--shadow-card);
+    }
+    .scene-warm{background:var(--bg-cream-warm)}
+    .scene-purple{background:var(--bg-purple-soft)}
+    .scene-dark{background:linear-gradient(180deg,#23232e,#1a1a22);color:#fff}
+
+    .scene .deco-circle{
+      position:absolute;border-radius:50%;
+      background:radial-gradient(circle,rgba(212,160,106,0.25),transparent 70%);
+      pointer-events:none;
+    }
+    .scene .deco-circle.tr{top:-80px;right:-80px;width:280px;height:280px}
+    .scene .deco-circle.bl{bottom:-100px;left:-100px;width:320px;height:320px;background:radial-gradient(circle,rgba(123,108,246,0.18),transparent 70%)}
+
+    /* Mock UI dentro de scene */
+    .ui-card{
+      background:#fff;border-radius:var(--radius);padding:1rem 1.1rem;
+      box-shadow:0 1px 3px rgba(0,0,0,0.06),0 14px 40px -12px rgba(0,0,0,0.12);
+      position:relative;
+    }
+    .ui-card.dark{background:#252530;color:#fff;border:1px solid #34343e}
+
+    /* USE CASES grid */
+    .uses-grid{
+      max-width:1240px;margin:0 auto;
+      display:grid;grid-template-columns:1fr;gap:1.25rem;margin-top:3rem;
+    }
+    @media(min-width:680px){.uses-grid{grid-template-columns:repeat(2,1fr)}}
+    @media(min-width:1024px){.uses-grid{grid-template-columns:repeat(3,1fr)}}
+    .use-card{
+      padding:2rem 1.75rem;border-radius:var(--radius);
+      background:var(--bg-cream);
+      transition:transform 220ms,box-shadow 220ms;
+    }
+    .use-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-strong)}
+    .use-icon{
+      width:56px;height:56px;border-radius:18px;display:grid;place-items:center;
+      font-size:1.6rem;margin-bottom:1.25rem;
+    }
+    .ic-amber{background:rgba(212,160,106,0.18);color:var(--amber-deep)}
+    .ic-purple{background:rgba(123,108,246,0.16);color:var(--accent-purple)}
+    .ic-teal{background:rgba(62,209,189,0.18);color:#0e9e8c}
+    .ic-pink{background:rgba(255,111,166,0.16);color:#cf3a72}
+    .ic-blue{background:rgba(108,180,246,0.18);color:#2071c2}
+    .ic-warm{background:rgba(255,184,107,0.20);color:#c46a1d}
+    .use-card h3{font-family:'Space Grotesk',sans-serif;font-size:1.25rem;font-weight:700;margin-bottom:0.5rem;letter-spacing:-0.015em}
+    .use-card p{color:var(--text-mid);font-size:0.96rem;line-height:1.55}
+
+    /* SECTION dark de "whisper" */
+    .dark-section{
+      background:linear-gradient(180deg,#1a1a22 0%,#0e0e14 100%);
+      color:#fff;
+    }
+    .dark-section .section-lead{color:var(--text-mute-dark)}
+
+    /* CTA section grande */
+    .cta-final{
+      background:linear-gradient(135deg,#23232e,#1a1a22);
+      color:#fff;text-align:center;
+      position:relative;overflow:hidden;
+    }
+    .cta-final::before{
+      content:'';position:absolute;inset:0;pointer-events:none;
+      background:
+        radial-gradient(ellipse 50% 50% at 50% 40%,rgba(212,160,106,0.25),transparent 70%);
+    }
+    .cta-final .container{position:relative;z-index:1}
+    .cta-final h2{
+      font-family:'Space Grotesk',sans-serif;
+      font-size:clamp(2.4rem,5.5vw,4rem);font-weight:800;letter-spacing:-0.03em;
+      margin-bottom:1.25rem;line-height:1.05;
+    }
+    .cta-final p{font-size:1.15rem;color:var(--text-mute-dark);margin-bottom:2.5rem;max-width:50ch;margin-left:auto;margin-right:auto}
+    .cta-final .cta-row{display:flex;flex-wrap:wrap;gap:0.85rem;justify-content:center}
+
+    /* FOOTER */
+    footer{
+      background:#0e0e14;color:var(--text-mute-dark);
+      padding:4rem 1.5rem 2rem;
+    }
+    .footer-grid{
+      max-width:1240px;margin:0 auto;
+      display:grid;grid-template-columns:1fr;gap:2.5rem;
+    }
+    @media(min-width:768px){.footer-grid{grid-template-columns:1.5fr 1fr 1fr 1fr}}
+    .footer-brand p{margin-top:1rem;font-size:0.92rem;line-height:1.5;max-width:32ch}
+    .footer-col h4{color:#fff;font-size:0.78rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:1rem}
+    .footer-col ul{display:flex;flex-direction:column;gap:0.6rem}
+    .footer-col a{font-size:0.95rem;color:var(--text-mute-dark);transition:color 180ms}
+    .footer-col a:hover{color:#fff}
+    .footer-bottom{
+      max-width:1240px;margin:3rem auto 0;
+      padding-top:1.75rem;border-top:1px solid #2a2a34;
+      display:flex;flex-wrap:wrap;gap:1rem;justify-content:space-between;align-items:center;
+      font-size:0.85rem;
+    }
+
+    /* Reveal on scroll */
+    .reveal{opacity:0;transform:translateY(20px);transition:opacity 700ms cubic-bezier(0.2,0.7,0.3,1),transform 700ms cubic-bezier(0.2,0.7,0.3,1)}
+    .reveal.in{opacity:1;transform:translateY(0)}
+
+    /* Back link */
+    .back-link{
+      position:fixed;bottom:1.25rem;right:1.25rem;z-index:60;
+      padding:0.6rem 1rem;border-radius:var(--radius-pill);
+      background:rgba(26,26,34,0.92);color:#fff;
+      font-size:0.82rem;font-weight:500;
+      box-shadow:0 8px 24px -8px rgba(0,0,0,0.4);
+      backdrop-filter:blur(10px);
+    }
+    .back-link:hover{background:#000}
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <a class="nav-logo" href="/prototipo-discord.html">
+      <span class="logo-mark">U</span>
+      <span>UMBRA</span>
+    </a>
+    <div class="nav-links">
+      <a href="#whisper">Whisper</a>
+      <a href="#usos">Comunidades</a>
+      <a href="#privacidad">Privacidad</a>
+      <a href="#descarga">Descargar</a>
+    </div>
+    <a class="nav-cta" href="#descarga">Abrir Umbra</a>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-grid">
+      <div>
+        <h1>
+          Tu sitio para hablar
+          <span class="highlight">con tu gente.</span>
+        </h1>
+        <p class="lead">
+          UMBRA es un espacio donde tu grupo se junta, charla y se organiza —
+          ya sea para un partido, una clase, un curro o el viaje del próximo finde.
+          Voz nítida, salas ilimitadas y el famoso <strong>whisper</strong> que te
+          deja hablar con otra sala sin moverte de la tuya.
+        </p>
+        <div class="hero-cta">
+          <a class="btn btn-primary" href="#descarga">↓ Descargar para Windows</a>
+          <a class="btn btn-ghost-light" href="#descarga">Abrir en el navegador</a>
+        </div>
+      </div>
+
+      <!-- Mock UI: 3 salas con whisper -->
+      <div class="hero-mock">
+        <div class="hero-stack">
+          <div class="whisper-line l1" aria-hidden="true"></div>
+          <div class="whisper-line l2" aria-hidden="true"></div>
+          <div class="whisper-badge w1" aria-hidden="true">whisper →</div>
+          <div class="whisper-badge w2" aria-hidden="true">whisper →</div>
+
+          <div class="room-card featured">
+            <div class="room-head">
+              <div class="room-name"><span class="room-dot amber"></span>Bridge · Comando</div>
+              <span class="room-count">4 hablando</span>
+            </div>
+            <div class="room-members">
+              <span class="avatar a-amber speaking">X</span>
+              <span class="avatar a-purple">C</span>
+              <span class="avatar a-teal">F</span>
+              <span class="avatar a-pink">L</span>
+            </div>
+          </div>
+
+          <div class="room-card">
+            <div class="room-head">
+              <div class="room-name"><span class="room-dot"></span>Squad Alpha</div>
+              <span class="room-count">8 dentro</span>
+            </div>
+            <div class="room-members">
+              <span class="avatar a-teal">A</span>
+              <span class="avatar a-amber">N</span>
+              <span class="avatar a-purple">V</span>
+              <span class="avatar a-mute">+5</span>
+            </div>
+          </div>
+
+          <div class="room-card">
+            <div class="room-head">
+              <div class="room-name"><span class="room-dot purple"></span>Recon · Drones</div>
+              <span class="room-count">3 dentro</span>
+            </div>
+            <div class="room-members">
+              <span class="avatar a-purple">R</span>
+              <span class="avatar a-amber">M</span>
+              <span class="avatar a-pink">S</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECCIÓN 1: Crea tu espacio -->
+  <section>
+    <div class="section-grid">
+      <div class="reveal">
+        <div class="eyebrow"><span class="icon"></span>Tu espacio, tus reglas</div>
+        <h2 class="section-title">Crea un sitio invitando a tu gente.</h2>
+        <p class="section-lead">
+          Monta una sala en segundos, comparte un enlace, y ya están dentro.
+          Sin instalar nada raro, sin formularios, sin esperar a nadie. Funciona
+          desde el navegador y desde la app — tú eliges.
+        </p>
+        <a class="btn btn-amber" href="#descarga">Crear mi sala</a>
+      </div>
+
+      <div class="scene scene-warm reveal">
+        <span class="deco-circle tr"></span>
+        <!-- Mock: tarjeta de invitación -->
+        <div class="ui-card" style="margin-bottom:1rem">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.75rem">
+            <strong style="font-size:0.95rem">Sala de los viernes</strong>
+            <span style="font-size:0.72rem;color:var(--text-mid);padding:0.2rem 0.55rem;background:#f1f1f3;border-radius:999px">7 miembros</span>
+          </div>
+          <div style="display:flex;gap:0.4rem;margin-bottom:1rem">
+            <span class="avatar a-amber" style="width:30px;height:30px;font-size:0.72rem;box-shadow:0 0 0 2px #fff">P</span>
+            <span class="avatar a-purple" style="width:30px;height:30px;font-size:0.72rem;box-shadow:0 0 0 2px #fff">L</span>
+            <span class="avatar a-teal" style="width:30px;height:30px;font-size:0.72rem;box-shadow:0 0 0 2px #fff">A</span>
+            <span class="avatar a-pink" style="width:30px;height:30px;font-size:0.72rem;box-shadow:0 0 0 2px #fff">M</span>
+            <span style="display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:#f1f1f3;color:var(--text-mid);font-size:0.72rem;font-weight:600;box-shadow:0 0 0 2px #fff">+3</span>
+          </div>
+          <div style="padding:0.65rem 0.85rem;background:#f8f4ed;border-radius:10px;font-size:0.85rem;color:var(--text-mid);display:flex;align-items:center;gap:0.5rem">
+            🔗 <span style="font-family:monospace;color:var(--amber-deep);font-weight:600">umbra.gg/abc-xyz</span>
+            <button style="margin-left:auto;padding:0.3rem 0.7rem;border-radius:999px;background:var(--amber);color:#1a1208;font-size:0.75rem;font-weight:700">Copiar</button>
+          </div>
+        </div>
+        <div style="font-size:0.85rem;color:var(--text-mid);text-align:center">Comparte el enlace y todos dentro 👇</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECCIÓN 2: Whisper (la feature estrella, ahora en clave amable) -->
+  <section id="whisper" class="dark-section">
+    <div class="section-grid">
+      <div class="scene scene-dark reveal" style="background:linear-gradient(180deg,#252530,#1c1c25);color:#fff">
+        <span class="deco-circle tr"></span>
+        <!-- Mock UI dark del whisper -->
+        <div style="display:flex;flex-direction:column;gap:0.8rem">
+          <div class="ui-card dark">
+            <div style="display:flex;align-items:center;justify-content:space-between">
+              <strong style="font-size:0.92rem;display:flex;align-items:center;gap:0.45rem"><span style="width:8px;height:8px;border-radius:50%;background:var(--accent-teal);box-shadow:0 0 8px var(--accent-teal)"></span>Bridge · Estás aquí</strong>
+              <span style="font-size:0.72rem;color:var(--text-mute-dark)">4 personas</span>
+            </div>
+            <div style="margin-top:0.7rem;padding:0.5rem 0.7rem;background:#1f1f28;border-radius:10px;font-size:0.85rem;display:flex;align-items:center;gap:0.5rem;border:1px dashed var(--amber)">
+              🎙️ <span>Mantienes pulsado <kbd style="background:#2e2e3a;padding:0.15rem 0.45rem;border-radius:5px;font-family:monospace;font-size:0.78rem">F1</kbd> →</span>
+            </div>
+          </div>
+          <div style="text-align:center;font-size:0.78rem;letter-spacing:0.1em;color:var(--amber);font-weight:600">↓ TU VOZ LLEGA A ↓</div>
+          <div class="ui-card dark" style="border-color:var(--amber-deep)">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.7rem">
+              <strong style="font-size:0.92rem;display:flex;align-items:center;gap:0.45rem"><span style="width:8px;height:8px;border-radius:50%;background:var(--amber);box-shadow:0 0 8px var(--amber)"></span>Squad Alpha</strong>
+              <span style="font-size:0.72rem;color:var(--text-mute-dark)">8 personas</span>
+            </div>
+            <div style="padding:0.55rem 0.7rem;background:rgba(212,160,106,0.12);border-left:3px solid var(--amber);border-radius:6px;font-size:0.85rem">
+              <strong style="color:var(--amber-bright)">Frost</strong> <span style="font-size:0.7rem;opacity:0.7">[whisper desde Bridge]</span>
+              <div style="margin-top:0.3rem;color:var(--text-mute-dark)">"Cubrid el flanco derecho, voy en 30 segundos"</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="reveal">
+        <div class="eyebrow"><span class="icon"></span>Whisper · La magia</div>
+        <h2 class="section-title">Habla a otra sala sin salir de la tuya.</h2>
+        <p class="section-lead">
+          Estás en una sala. Mantienes pulsado un atajo y tu voz llega a otra
+          sala — la escuchan etiquetada como whisper, sin cortar lo que estaban
+          hablando. Sueltas el atajo y vuelves al instante con los tuyos.
+        </p>
+        <p class="section-lead">
+          Es la diferencia entre "necesito decirte algo, esperá" y "ya está dicho".
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECCIÓN 3: Use cases (abierto, no solo gaming) -->
+  <section id="usos" style="background:var(--bg-cream)">
+    <div class="container">
+      <div style="text-align:center;max-width:680px;margin:0 auto 1rem" class="reveal">
+        <div class="eyebrow" style="margin:0 auto 1.25rem"><span class="icon"></span>No solo gaming</div>
+        <h2 class="section-title">Una herramienta para todo lo que hagas en grupo.</h2>
+        <p class="section-lead" style="margin-left:auto;margin-right:auto">
+          Sí, va de lujo para coordinar partidas tácticas. Pero también para
+          estudiar, montar un evento, currar en remoto o quedar con los colegas.
+        </p>
+      </div>
+
+      <div class="uses-grid">
+        <div class="use-card reveal">
+          <div class="use-icon ic-amber">🎮</div>
+          <h3>Gaming y squads</h3>
+          <p>Comms tácticas con whisper cross-sala, hotkeys globales y soporte gamepad/HOTAS.</p>
+        </div>
+        <div class="use-card reveal">
+          <div class="use-icon ic-purple">👥</div>
+          <h3>Grupo de amigos</h3>
+          <p>La sala de los viernes. Picas voces, cuentas el día, se queda viva sin esfuerzo.</p>
+        </div>
+        <div class="use-card reveal">
+          <div class="use-icon ic-teal">📚</div>
+          <h3>Estudio y clases</h3>
+          <p>Grupos pequeños o grandes, salas paralelas, sin reuniones formales pesadas.</p>
+        </div>
+        <div class="use-card reveal">
+          <div class="use-icon ic-pink">🎨</div>
+          <h3>Aficiones y comunidades</h3>
+          <p>Cocina, viajes, música, lo que sea. Un sitio donde tu comunidad vive en voz.</p>
+        </div>
+        <div class="use-card reveal">
+          <div class="use-icon ic-blue">💼</div>
+          <h3>Trabajo en equipo</h3>
+          <p>Standups, sesiones de pair, llamadas rápidas con whisper en lugar de cambiar de canal.</p>
+        </div>
+        <div class="use-card reveal">
+          <div class="use-icon ic-warm">🌍</div>
+          <h3>Eventos y producción</h3>
+          <p>Equipos repartidos, director llamando por whisper sin meterse en cada sala.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECCIÓN 4: Privacidad / control -->
+  <section id="privacidad">
+    <div class="section-grid reverse">
+      <div class="reveal">
+        <div class="eyebrow"><span class="icon"></span>Tu sala, tus normas</div>
+        <h2 class="section-title">Privado por defecto. Tú mandas.</h2>
+        <p class="section-lead">
+          Nadie escucha sin entrar. Las salas son tuyas, los enlaces de invitación
+          los caduca quien quiere, y la voz pasa por nuestros servidores cifrada
+          de extremo a extremo. Sin anuncios, sin venta de datos, sin sorpresas.
+        </p>
+        <ul style="display:flex;flex-direction:column;gap:0.85rem;margin-top:1.5rem">
+          <li style="display:flex;align-items:center;gap:0.6rem"><span style="display:grid;place-items:center;width:24px;height:24px;border-radius:50%;background:rgba(62,209,189,0.18);color:#0e9e8c;font-weight:800">✓</span>Audio cifrado en tránsito (TLS + SRTP)</li>
+          <li style="display:flex;align-items:center;gap:0.6rem"><span style="display:grid;place-items:center;width:24px;height:24px;border-radius:50%;background:rgba(62,209,189,0.18);color:#0e9e8c;font-weight:800">✓</span>Sin grabación salvo que tú la actives</li>
+          <li style="display:flex;align-items:center;gap:0.6rem"><span style="display:grid;place-items:center;width:24px;height:24px;border-radius:50%;background:rgba(62,209,189,0.18);color:#0e9e8c;font-weight:800">✓</span>Roles y permisos por sala</li>
+          <li style="display:flex;align-items:center;gap:0.6rem"><span style="display:grid;place-items:center;width:24px;height:24px;border-radius:50%;background:rgba(62,209,189,0.18);color:#0e9e8c;font-weight:800">✓</span>Self-hosting opcional para empresas</li>
+        </ul>
+      </div>
+      <div class="scene scene-purple reveal">
+        <span class="deco-circle bl"></span>
+        <!-- Mock UI: panel de permisos -->
+        <div class="ui-card">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.85rem">
+            <strong style="font-size:0.95rem">🔒 Privacidad de la sala</strong>
+            <span style="font-size:0.7rem;font-weight:700;padding:0.18rem 0.55rem;background:rgba(62,209,189,0.18);color:#0e9e8c;border-radius:999px">PRIVADA</span>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:0.6rem">
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:0.5rem 0.7rem;background:#f6f6f7;border-radius:8px;font-size:0.85rem">
+              <span>Solo con invitación</span><span style="color:var(--accent-teal);font-weight:700">●</span>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:0.5rem 0.7rem;background:#f6f6f7;border-radius:8px;font-size:0.85rem">
+              <span>Whisper bloqueado fuera del grupo</span><span style="color:var(--accent-teal);font-weight:700">●</span>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:0.5rem 0.7rem;background:#f6f6f7;border-radius:8px;font-size:0.85rem;opacity:0.55">
+              <span>Grabación de sesión</span><span style="color:var(--text-mid);font-weight:700">○</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA FINAL -->
+  <section id="descarga" class="cta-final">
+    <div class="container">
+      <h2>¿Listo para hablar?</h2>
+      <p>Descarga UMBRA y monta tu primera sala en menos de un minuto.</p>
+      <div class="cta-row">
+        <a class="btn btn-amber" href="#">↓ Descargar para Windows</a>
+        <a class="btn btn-ghost-light" href="#">Abrir en el navegador</a>
+      </div>
+      <div style="margin-top:2rem;font-size:0.85rem;color:var(--text-mute-dark)">
+        Próximamente · Mac, Linux, iOS y Android
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="nav-logo" style="font-size:1.2rem">
+          <span class="logo-mark">U</span><span>UMBRA</span>
+        </div>
+        <p>Voz para tu gente. Producto de CFX, un estudio independiente.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Producto</h4>
+        <ul>
+          <li><a href="#whisper">Whisper</a></li>
+          <li><a href="#usos">Casos de uso</a></li>
+          <li><a href="#privacidad">Privacidad</a></li>
+          <li><a href="#descarga">Descargar</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Recursos</h4>
+        <ul>
+          <li><a href="#">Ayuda</a></li>
+          <li><a href="#">Estado del servicio</a></li>
+          <li><a href="#">Roadmap</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>CFX</h4>
+        <ul>
+          <li><a href="#">Quiénes somos</a></li>
+          <li><a href="#">Contacto</a></li>
+          <li><a href="#">Carreras</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 CFX · Todos los derechos reservados</span>
+      <span style="display:flex;gap:1.25rem">
+        <a href="#">Privacidad</a>
+        <a href="#">Términos</a>
+        <a href="#">Cookies</a>
+      </span>
+    </div>
+  </footer>
+
+  <a class="back-link" href="/">← Sitio actual</a>
+
+  <script>
+    // Reveal-on-scroll
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }});
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  </script>
+</body>
+</html>
