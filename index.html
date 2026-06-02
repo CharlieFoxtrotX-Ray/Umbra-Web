@@ -2,8 +2,14 @@
 <html lang="es">
 <head>
   <meta charset="utf-8" />
-  <title>UMBRA · Tu voz, tu gente</title>
+  <title>UMBRA · Tu voz, tu gente. En su sitio.</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="UMBRA es el workspace de tu org gaming: voz, calendario, planes y plugins por juego en un solo sitio. Whisper entre canales, hotkeys reales, sin suscripción por usuario." />
+  <meta property="og:title" content="UMBRA · Tu voz, tu gente. En su sitio." />
+  <meta property="og:description" content="Voz, calendario, planes y plugins por juego — el workspace de tu org gaming. Lo paga la org, lo disfruta el squad." />
+  <meta property="og:image" content="/assets/umbra-screenshot-clean.png" />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
   <link rel="icon" href="assets/logo-triangle.png" />
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap');
@@ -42,8 +48,8 @@
       --line-dark:  rgba(255,255,255,0.08);
 
       --text:       #1a1a26;
-      --text-mid:   #5a5a6b;
-      --text-mute:  #9293a4;
+      --text-mid:   rgba(255,255,255,0.72);  /* claro para fondo oscuro */
+      --text-mute:  rgba(255,255,255,0.50);
 
       /* Marca */
       --gold:       #d4a06a;
@@ -732,6 +738,7 @@
     .mascot-img.halo-copper::before{background:rgba(220,130,80,0.55)}
     .mascot-img.halo-crystal::before{background:rgba(150,110,240,0.60)}
     .mascot-img.halo-mint::before{background:rgba(80,210,180,0.55)}
+    .mascot-img.halo-silver::before{background:rgba(200,210,230,0.55)}
 
     /* Tamaños — width + height para que el contain funcione bien */
     .mascot-xl{width:240px;height:300px}
@@ -1173,6 +1180,59 @@
     }
 
     /* ─────────────────────────────────────────────────────────────
+       WORKSPACE — UMBRA no es solo voz
+       ──────────────────────────────────────────────────────────── */
+    .workspace{
+      max-width:1200px;margin:0 auto;padding:6rem 1.5rem 4rem;
+    }
+    .workspace-head{text-align:center;max-width:680px;margin:0 auto 3rem}
+    .workspace-head h2 .gold{color:var(--gold-hi)}
+    .workspace-head .lead{color:rgba(255,255,255,0.75);font-size:1.1rem;line-height:1.55;margin-top:1rem}
+
+    .workspace-modules{
+      display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;margin-bottom:3.5rem;
+    }
+    @media(min-width:880px){.workspace-modules{grid-template-columns:repeat(4,1fr)}}
+    .ws-mod{
+      padding:1.5rem 1.4rem;border-radius:var(--r-lg);
+      background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.10);
+      backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+      transition:transform 220ms,background 220ms,border-color 220ms;
+    }
+    .ws-mod:hover{transform:translateY(-4px);background:rgba(212,160,106,0.06);border-color:rgba(212,160,106,0.30)}
+    .ws-mod-icon{font-size:2rem;margin-bottom:0.85rem;line-height:1}
+    .ws-mod h4{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.05rem;letter-spacing:-0.01em;color:#fff;margin-bottom:0.45rem}
+    .ws-mod p{color:rgba(255,255,255,0.65);font-size:0.88rem;line-height:1.45}
+
+    .workspace-comparison{
+      display:grid;grid-template-columns:1fr;gap:1.5rem;align-items:stretch;
+      max-width:980px;margin:0 auto;
+    }
+    @media(min-width:760px){.workspace-comparison{grid-template-columns:1fr auto 1fr;gap:1rem;align-items:center}}
+    .wc-col{
+      padding:1.75rem 1.5rem;border-radius:var(--r-lg);
+      background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.10);
+      backdrop-filter:blur(8px);
+      display:flex;flex-direction:column;
+    }
+    .wc-manana{background:rgba(212,160,106,0.08);border-color:rgba(212,160,106,0.35);box-shadow:0 0 0 1px rgba(212,160,106,0.20),0 20px 40px -16px rgba(212,160,106,0.30)}
+    .wc-label{font-family:'JetBrains Mono',monospace;font-size:0.72rem;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.55);margin-bottom:1rem;font-weight:700}
+    .wc-manana .wc-label{color:var(--gold-hi)}
+    .wc-col ul{display:flex;flex-direction:column;gap:0.5rem;flex:1;list-style:none;padding:0}
+    .wc-col ul li{font-size:0.95rem;color:rgba(255,255,255,0.78)}
+    .wc-col ul.wc-single{justify-content:center;align-items:center;text-align:center}
+    .wc-col ul.wc-single li{display:flex;align-items:center;gap:0.65rem;font-family:'Bagel Fat One',sans-serif;font-size:2rem;color:var(--gold-hi);line-height:1}
+    .wc-col ul.wc-single img{width:42px;height:42px;filter:drop-shadow(0 4px 10px rgba(212,160,106,0.5))}
+    .wc-foot{margin-top:1.25rem;padding-top:1rem;border-top:1px solid rgba(255,255,255,0.08);font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:rgba(255,255,255,0.55);letter-spacing:0.04em}
+    .wc-manana .wc-foot{color:rgba(244,204,137,0.85);border-top-color:rgba(212,160,106,0.25)}
+    .wc-arrow{
+      font-size:2rem;color:var(--gold);text-align:center;justify-self:center;
+      animation:arrowPulse 2.2s ease-in-out infinite;
+    }
+    @keyframes arrowPulse{0%,100%{transform:translateX(0);opacity:0.7}50%{transform:translateX(6px);opacity:1}}
+    @media(max-width:759px){.wc-arrow{transform:rotate(90deg)}}
+
+    /* ─────────────────────────────────────────────────────────────
        STORY — sticky scroll con Lingo guiándote (fondo cálido ámbar)
        ──────────────────────────────────────────────────────────── */
     .story{
@@ -1250,20 +1310,19 @@
     .audiences .lead{color:var(--text-mid);font-size:1.1rem}
 
     .orbit{
-      position:relative;max-width:900px;height:680px;margin:0 auto;
+      position:relative;max-width:1100px;height:820px;margin:0 auto;
     }
     @media(max-width:880px){.orbit{height:auto;display:grid;grid-template-columns:1fr 1fr;gap:0.85rem;padding:0 0.5rem}}
 
     .orbit-core{
       position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
-      width:180px;height:180px;border-radius:50%;
-      background:linear-gradient(155deg,var(--ink),var(--ink-2));
+      width:260px;height:260px;
+      background:transparent;
       display:flex;flex-direction:column;align-items:center;justify-content:center;
       color:#fff;text-align:center;
-      box-shadow:0 30px 60px -20px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.05);
     }
     .orbit-core::before{
-      content:'';position:absolute;inset:-20px;border-radius:50%;
+      content:'';position:absolute;inset:-30px;border-radius:50%;
       background:radial-gradient(circle, rgba(212,160,106,0.30),transparent 70%);
       z-index:-1;
     }
@@ -1291,7 +1350,7 @@
     @keyframes slowSpin{to{transform:translate(-50%,-50%) rotate(360deg)}}
 
     .orbit-item{
-      position:absolute;width:170px;
+      position:absolute;width:180px;
       background:rgba(255,255,255,0.05);
       backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
       border-radius:var(--r-lg);padding:1.1rem 1.2rem;
@@ -1299,18 +1358,387 @@
       display:flex;flex-direction:column;gap:0.4rem;color:#fff;
       transition:transform 240ms,background 240ms,border-color 240ms;
     }
-    .orbit-item:hover{transform:scale(1.06);background:rgba(212,160,106,0.10);border-color:rgba(212,160,106,0.35);z-index:10}
+    .orbit-item:hover{background:rgba(212,160,106,0.10);border-color:rgba(212,160,106,0.35);z-index:10}
     .orbit-item .e{font-size:1.6rem;display:block}
     .orbit-item h6{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:0.98rem;letter-spacing:-0.01em;color:#fff}
     .orbit-item p{font-size:0.78rem;color:rgba(255,255,255,0.7);line-height:1.4}
-    /* Posicionamiento en círculo (desktop) */
-    .o-1{top:0;left:50%;transform:translateX(-50%)}
-    .o-2{top:18%;right:0}
-    .o-3{bottom:18%;right:0}
-    .o-4{bottom:0;left:50%;transform:translateX(-50%)}
-    .o-5{bottom:18%;left:0}
-    .o-6{top:18%;left:0}
+    /* 8 items en círculo exacto (R≈300px) — cada uno a 45° del anterior.
+       Posición = centro del item; translate(-50%,-50%) lo centra en el punto.
+       Container 1100×820, centro lógico (50%, 50%). */
+    .orbit-item{transform:translate(-50%,-50%)}
+    .o-1{top:13.4%;left:50%}     /* N    (0°)   */
+    .o-2{top:24.1%;left:69.3%}   /* NE  (45°)  */
+    .o-3{top:50%;left:77.3%}     /* E   (90°)  */
+    .o-4{top:75.9%;left:69.3%}   /* SE (135°)  */
+    .o-5{top:86.6%;left:50%}     /* S  (180°)  */
+    .o-6{top:75.9%;left:30.7%}   /* SW (225°)  */
+    .o-7{top:50%;left:22.7%}     /* W  (270°)  */
+    .o-8{top:24.1%;left:30.7%}   /* NW (315°)  */
+
+    /* Hover sobrescribe el transform para mantener el centrado + scale */
+    .orbit-item:hover{transform:translate(-50%,-50%) scale(1.06)}
     @media(max-width:880px){.orbit-item{position:relative;width:auto;top:auto;left:auto;right:auto;bottom:auto;transform:none}}
+
+    /* ─────────────────────────────────────────────────────────────
+       PLUGINS POR JUEGO — tabs + tree mockup
+       ──────────────────────────────────────────────────────────── */
+    .plugins{max-width:1200px;margin:0 auto;padding:5rem 1.5rem 4rem;position:relative}
+    .plugins-mascot{
+      position:absolute;top:-20px;right:5%;width:110px;z-index:5;pointer-events:none;
+      animation:playWiggle 5s ease-in-out infinite;
+      filter:drop-shadow(0 10px 20px rgba(0,0,0,0.4)) drop-shadow(0 0 30px rgba(212,160,106,0.4));
+    }
+    .plugins-mascot img{width:100%;height:auto;display:block}
+    @media(max-width:880px){.plugins-mascot{width:80px;top:-10px;right:4%}}
+    .plugins-head{text-align:center;max-width:680px;margin:0 auto 2.5rem}
+    .plugins-head h2 .gold{color:var(--gold-hi)}
+    .plugins-head .lead{color:rgba(255,255,255,0.75);font-size:1.1rem;line-height:1.55;margin-top:1rem}
+
+    .plugins-tabs{
+      display:flex;gap:0.4rem;flex-wrap:wrap;justify-content:center;
+      margin-bottom:2.5rem;padding:0.4rem;
+      background:rgba(255,255,255,0.04);
+      border:1px solid rgba(255,255,255,0.10);
+      border-radius:999px;
+      max-width:fit-content;margin-left:auto;margin-right:auto;
+    }
+    .ptab{
+      padding:0.6rem 1.2rem;border-radius:999px;
+      color:rgba(255,255,255,0.7);font-weight:600;font-size:0.9rem;
+      transition:background 200ms,color 200ms,transform 200ms,box-shadow 200ms;
+      cursor:pointer;background:transparent;
+    }
+    .ptab:hover{color:#fff;background:rgba(255,255,255,0.06);transform:translateY(-1px)}
+    .ptab.active{
+      background:linear-gradient(135deg,var(--gold-hi),var(--gold));
+      color:#1a1208;font-weight:800;
+      box-shadow:0 0 0 1px rgba(212,160,106,0.5),0 8px 20px -6px rgba(212,160,106,0.55);
+    }
+
+    .ptab-content{display:none}
+    .ptab-content.active{display:block;animation:tabFade 320ms ease-out}
+    @keyframes tabFade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+    .ptc-grid{
+      display:grid;grid-template-columns:1fr;gap:2rem;align-items:start;
+    }
+    @media(min-width:880px){.ptc-grid{grid-template-columns:1fr 1.1fr;gap:3rem}}
+    .ptc-grid-center{place-items:center}
+
+    .ptc-text h3{
+      font-family:'Bagel Fat One', 'Space Grotesk', sans-serif;
+      font-size:clamp(1.6rem,2.6vw,2.1rem);font-weight:400;
+      letter-spacing:-0.02em;line-height:1;
+      margin-bottom:1rem;
+      background:linear-gradient(180deg,#fff 0%,var(--gold-hi) 100%);
+      -webkit-background-clip:text;background-clip:text;color:transparent;
+      filter:drop-shadow(0 0 20px rgba(212,160,106,0.25));
+    }
+    .ptc-text > p{color:rgba(255,255,255,0.75);font-size:1rem;line-height:1.55;margin-bottom:1.5rem}
+    .ptc-list{display:flex;flex-direction:column;gap:0.6rem;list-style:none;padding:0}
+    .ptc-list li{
+      display:flex;align-items:flex-start;gap:0.7rem;
+      padding:0.6rem 0.85rem;background:rgba(255,255,255,0.04);
+      border:1px solid rgba(255,255,255,0.08);border-radius:10px;
+      font-size:0.92rem;color:rgba(255,255,255,0.85);line-height:1.5;
+    }
+    .ptc-list li strong{color:#fff;font-weight:700}
+    .pl-emoji{font-size:1.1rem;line-height:1;flex-shrink:0}
+
+    /* Mockup tree del plugin (estructura jerárquica del juego) */
+    .ptc-mockup{
+      position:relative;border-radius:var(--r-lg);overflow:hidden;
+      min-height:400px;
+      border:1px solid rgba(212,160,106,0.20);
+      box-shadow:
+        0 30px 60px -20px rgba(0,0,0,0.5),
+        0 0 0 1px rgba(212,160,106,0.10),
+        0 0 60px -10px rgba(212,160,106,0.18);
+    }
+    .ptm-bg{
+      position:absolute;inset:0;
+      background-size:cover;background-position:center;
+      opacity:0.55;
+    }
+    .ptm-bg::after{
+      content:'';position:absolute;inset:0;
+      background:linear-gradient(180deg,rgba(15,15,28,0.50) 0%,rgba(15,15,28,0.85) 100%);
+    }
+    .ptm-tree{
+      position:relative;padding:1.5rem;display:flex;flex-direction:column;gap:1rem;z-index:1;
+    }
+    .pn-group{
+      background:rgba(15,15,28,0.65);
+      backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+      border:1px solid rgba(255,255,255,0.10);border-radius:10px;
+      padding:0.65rem 0.85rem;
+    }
+    .pn-head{
+      display:flex;align-items:center;gap:0.5rem;
+      font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:0.95rem;color:#fff;
+      margin-bottom:0.55rem;letter-spacing:-0.01em;
+    }
+    .pn-head::after{
+      content:'';flex:1;height:1px;
+      background:linear-gradient(90deg,rgba(212,160,106,0.25),transparent);
+      margin-left:0.5rem;
+    }
+    .pn-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+    .pn-dot.live{background:#3ed1bd;box-shadow:0 0 6px #3ed1bd}
+    .pn-dot.amber{background:var(--gold);box-shadow:0 0 6px var(--gold)}
+    .pn-dot.mute{background:rgba(255,255,255,0.25)}
+    .pn-children{
+      display:flex;flex-direction:column;gap:0.3rem;padding-left:1rem;
+      border-left:1px solid rgba(255,255,255,0.10);margin-left:3px;
+    }
+    .pn-child{
+      display:flex;align-items:center;justify-content:space-between;
+      padding:0.4rem 0.6rem;border-radius:6px;
+      background:rgba(255,255,255,0.03);
+      font-size:0.85rem;color:rgba(255,255,255,0.8);
+    }
+    .pn-count{
+      font-family:'JetBrains Mono',monospace;font-size:0.7rem;
+      padding:0.1rem 0.4rem;background:rgba(212,160,106,0.18);color:var(--gold-hi);
+      border-radius:999px;font-weight:700;
+    }
+
+    /* Tab "Tu juego" — coming soon */
+    .ptc-soon{
+      max-width:540px;text-align:center;padding:3rem 2rem;
+      background:rgba(255,255,255,0.04);
+      border:2px dashed rgba(212,160,106,0.35);
+      border-radius:var(--r-lg);
+    }
+    .ps-icon{font-size:3rem;margin-bottom:1rem;line-height:1}
+    .ptc-soon h3{font-family:'Bagel Fat One','Space Grotesk',sans-serif;font-size:1.7rem;font-weight:400;color:var(--gold-hi);margin-bottom:0.85rem;letter-spacing:-0.015em;line-height:1.05}
+    .ptc-soon p{color:rgba(255,255,255,0.75);font-size:1rem;line-height:1.55;margin-bottom:1.5rem}
+    .ptc-soon p strong{color:var(--gold-hi)}
+    .btn-soon{
+      display:inline-flex;align-items:center;gap:0.4rem;
+      padding:0.7rem 1.3rem;border-radius:999px;
+      background:var(--gold);color:#1a1208;font-weight:700;
+      transition:transform 180ms,background 180ms;
+    }
+    .btn-soon:hover{background:var(--gold-hi);transform:translateY(-2px)}
+
+    /* ─────────────────────────────────────────────────────────────
+       APORTES COLECTIVOS
+       ──────────────────────────────────────────────────────────── */
+    .contrib{max-width:1100px;margin:0 auto;padding:5rem 1.5rem 4rem;position:relative}
+    .contrib-head{text-align:center;max-width:680px;margin:0 auto 3rem}
+    .contrib-head h2 .gold{color:var(--gold-hi)}
+    .contrib-head .lead{color:rgba(255,255,255,0.75);font-size:1.1rem;line-height:1.55;margin-top:1rem}
+
+    .contrib-example{
+      max-width:720px;margin:0 auto;
+      background:rgba(212,160,106,0.08);
+      border:1px solid rgba(212,160,106,0.30);
+      border-radius:var(--r-lg);
+      backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+      padding:2rem 2rem 1.75rem;
+      box-shadow:0 0 0 1px rgba(212,160,106,0.18),0 30px 60px -20px rgba(212,160,106,0.25);
+      position:relative;
+    }
+    /* Omni — el guardián del tesoro, asoma a la derecha de la sección
+       (fuera del flujo del card para no pisar texto) */
+    .ce-omni{
+      position:absolute;
+      top:50%;right:-30px;transform:translateY(-50%);
+      width:200px;height:auto;z-index:5;
+      animation:omniBob 5s ease-in-out infinite;
+      filter:drop-shadow(0 14px 28px rgba(0,0,0,0.45)) drop-shadow(0 0 30px rgba(80,210,180,0.35));
+    }
+    .ce-omni img{width:100%;height:auto;display:block;pointer-events:none}
+    @keyframes omniBob{
+      0%,100%{transform:translateY(-50%) rotate(-3deg)}
+      50%{transform:translateY(calc(-50% - 10px)) rotate(3deg)}
+    }
+
+    /* Bocadillo estilo "thought cloud" orgánico, a la DERECHA de Omni
+       (lado opuesto al card para no pisar texto) */
+    .omni-bubble{
+      position:absolute;
+      left:calc(100% + 18px);
+      top:20%;
+      width:230px;
+      background:linear-gradient(135deg,#fff 0%,#fff8e8 100%);
+      color:#1a1a26;
+      padding:1.1rem 1.2rem;
+      /* Forma orgánica wonky con border-radius asimétrico */
+      border-radius:62% 38% 55% 45% / 50% 42% 58% 50%;
+      font-size:0.9rem;line-height:1.45;text-align:center;
+      box-shadow:
+        0 14px 30px -6px rgba(0,0,0,0.35),
+        0 0 0 2px var(--gold-deep),
+        0 0 0 8px rgba(212,160,106,0.18),
+        inset 0 -3px 0 rgba(0,0,0,0.05);
+      transform:rotate(3deg);
+      pointer-events:none;
+      animation:bubbleWobble 6s ease-in-out infinite;
+    }
+    .omni-bubble strong{
+      display:block;
+      font-family:'Bagel Fat One',sans-serif;font-weight:400;
+      font-size:1.45rem;letter-spacing:-0.01em;color:var(--gold-deep);
+      margin-bottom:0.3rem;line-height:1.05;
+    }
+    /* Cola "pensamiento" — 3 mini bolitas decrecientes hacia Omni */
+    .omni-bubble::before,
+    .omni-bubble::after{
+      content:'';position:absolute;
+      background:#fff;border:2px solid var(--gold-deep);border-radius:50%;
+      box-shadow:0 4px 8px -2px rgba(0,0,0,0.2);
+    }
+    .omni-bubble::before{
+      width:18px;height:18px;
+      left:-14px;top:60%;
+    }
+    .omni-bubble::after{
+      width:10px;height:10px;
+      left:-26px;top:75%;
+    }
+    @keyframes bubbleWobble{
+      0%,100%{transform:rotate(3deg) translateY(0)}
+      50%{transform:rotate(0deg) translateY(-5px)}
+    }
+
+    @media(max-width:1200px){
+      /* En pantallas medianas Omni va abajo del card centrado */
+      .ce-omni{
+        position:relative;top:auto;right:auto;transform:none;
+        margin:2rem auto 0;width:180px;display:block;
+        animation:omniBobCenter 5s ease-in-out infinite;
+      }
+      @keyframes omniBobCenter{
+        0%,100%{transform:translateY(0) rotate(-3deg)}
+        50%{transform:translateY(-10px) rotate(3deg)}
+      }
+      .omni-bubble{
+        left:calc(100% + 10px);top:5%;
+        width:200px;font-size:0.84rem;
+      }
+    }
+    @media(max-width:760px){
+      .ce-omni{width:140px}
+      .omni-bubble{
+        position:relative;left:auto;top:auto;
+        width:280px;max-width:90vw;margin:0 auto 1rem;
+        transform:rotate(0deg);
+      }
+      .omni-bubble::before, .omni-bubble::after{display:none}
+      .omni-bubble{animation:none}
+    }
+    .ce-title{
+      font-family:'JetBrains Mono',monospace;font-size:0.72rem;
+      letter-spacing:0.10em;text-transform:uppercase;text-align:center;
+      color:rgba(255,255,255,0.65);margin-bottom:1.5rem;
+      display:flex;flex-wrap:wrap;gap:0.4rem;align-items:center;justify-content:center;
+    }
+    .ce-org{color:var(--gold-hi);font-weight:700}
+    .ce-sep{color:rgba(255,255,255,0.3)}
+
+    .ce-rows{display:flex;flex-direction:column;gap:0.6rem}
+    .ce-row{
+      display:flex;align-items:center;justify-content:space-between;
+      padding:0.75rem 1rem;background:rgba(255,255,255,0.05);border-radius:8px;
+    }
+    .ce-row.total{background:rgba(212,160,106,0.18);border:1px solid rgba(212,160,106,0.4)}
+    .ce-who{font-weight:600;color:#fff}
+    .ce-amt{font-family:'Space Grotesk',sans-serif;font-weight:700;color:var(--gold-hi)}
+    .ce-amt small{color:rgba(255,255,255,0.55);font-weight:500;margin-left:0.3rem;font-family:'JetBrains Mono',monospace;font-size:0.78rem}
+
+    .ce-plus, .ce-eq{
+      text-align:center;font-family:'Bagel Fat One',sans-serif;font-size:1.6rem;
+      color:rgba(255,255,255,0.4);line-height:1;
+    }
+
+    .ce-foot{
+      margin-top:1.5rem;padding-top:1.25rem;border-top:1px solid rgba(212,160,106,0.20);
+      display:grid;grid-template-columns:1fr;gap:0.5rem;text-align:center;
+    }
+    @media(min-width:560px){.ce-foot{grid-template-columns:1fr 1fr}}
+    .ce-before{color:rgba(255,255,255,0.55);font-size:0.92rem}
+    .ce-before s{color:rgba(255,150,150,0.7)}
+    .ce-after{color:#fff;font-size:0.95rem}
+    .ce-after strong{color:var(--gold-hi);font-size:1.1rem;font-family:'Bagel Fat One',sans-serif;letter-spacing:-0.01em}
+
+    /* Simulador interactivo */
+    .sim{
+      max-width:920px;margin:3rem auto 0;
+      background:rgba(255,255,255,0.04);
+      border:1px solid rgba(255,255,255,0.10);
+      backdrop-filter:blur(10px);
+      border-radius:var(--r-lg);
+      padding:2rem 2rem 2rem;
+    }
+    .sim-head{text-align:center;margin-bottom:1.75rem}
+    .sim-head h3{font-family:'Bagel Fat One',sans-serif;font-weight:400;font-size:1.6rem;color:#fff;letter-spacing:-0.01em;margin-bottom:0.4rem}
+    .sim-head p{color:rgba(255,255,255,0.7);font-size:0.95rem}
+
+    .sim-grid{display:grid;grid-template-columns:1fr;gap:2rem}
+    @media(min-width:760px){.sim-grid{grid-template-columns:1fr 1fr;gap:2.5rem}}
+
+    .sim-controls{display:flex;flex-direction:column;gap:1.75rem}
+    .sim-field{display:flex;flex-direction:column;gap:0.65rem}
+    .sim-label{
+      display:flex;justify-content:space-between;align-items:baseline;
+      font-size:0.92rem;color:#fff;font-weight:500;
+    }
+    .sim-value{
+      font-family:'Bagel Fat One',sans-serif;font-weight:400;
+      font-size:1.4rem;color:var(--gold-hi);letter-spacing:-0.02em;
+    }
+    .sim input[type="range"]{
+      -webkit-appearance:none;appearance:none;width:100%;height:6px;
+      background:rgba(255,255,255,0.10);border-radius:999px;outline:none;
+      cursor:pointer;
+    }
+    .sim input[type="range"]::-webkit-slider-thumb{
+      -webkit-appearance:none;appearance:none;width:20px;height:20px;
+      background:linear-gradient(135deg,var(--gold-hi),var(--gold-deep));
+      border-radius:50%;cursor:pointer;
+      box-shadow:0 0 0 4px rgba(212,160,106,0.20),0 4px 10px -2px rgba(212,160,106,0.45);
+      transition:transform 150ms;
+    }
+    .sim input[type="range"]::-webkit-slider-thumb:hover{transform:scale(1.15)}
+    .sim input[type="range"]::-moz-range-thumb{
+      width:20px;height:20px;border:none;
+      background:linear-gradient(135deg,var(--gold-hi),var(--gold-deep));
+      border-radius:50%;cursor:pointer;
+      box-shadow:0 0 0 4px rgba(212,160,106,0.20),0 4px 10px -2px rgba(212,160,106,0.45);
+    }
+
+    .sim-output{
+      display:flex;flex-direction:column;gap:1.25rem;
+      background:rgba(212,160,106,0.08);
+      border:1px solid rgba(212,160,106,0.25);
+      border-radius:12px;padding:1.5rem;
+    }
+    .sim-recommendation{text-align:center;padding-bottom:1.25rem;border-bottom:1px solid rgba(212,160,106,0.20)}
+    .sr-label{
+      font-family:'JetBrains Mono',monospace;font-size:0.65rem;
+      letter-spacing:0.16em;text-transform:uppercase;color:rgba(255,255,255,0.55);
+      margin-bottom:0.4rem;font-weight:700;
+    }
+    .sr-plan{
+      font-family:'Bagel Fat One',sans-serif;font-weight:400;
+      font-size:2.3rem;color:var(--gold-hi);letter-spacing:-0.02em;line-height:1;
+      margin-bottom:0.4rem;
+    }
+    .sr-meta{font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:rgba(255,255,255,0.65);letter-spacing:0.04em}
+
+    .sim-breakdown{display:flex;flex-direction:column;gap:0.5rem}
+    .sb-row{
+      display:flex;justify-content:space-between;align-items:center;
+      padding:0.55rem 0.75rem;background:rgba(255,255,255,0.05);border-radius:6px;
+    }
+    .sb-row.sb-total{background:rgba(126,229,213,0.12);border:1px solid rgba(126,229,213,0.25)}
+    .sb-who{font-size:0.9rem;color:#fff;font-weight:500}
+    .sb-amt{font-family:'Space Grotesk',sans-serif;font-weight:700;color:var(--gold-hi);font-size:0.95rem}
+    .sb-amt small{color:rgba(255,255,255,0.55);font-weight:500;font-family:'JetBrains Mono',monospace;font-size:0.72rem;margin-left:0.25rem}
+    .sb-total .sb-amt{color:#7ee5d5}
+    .sb-row.hidden{display:none}
 
     /* ─────────────────────────────────────────────────────────────
        ACCESS — 4 puertas de entrada (cómo entrar al producto)
@@ -1405,6 +1833,65 @@
     }
     .access-foot a{color:var(--gold-hi);font-weight:700;text-decoration:underline;text-underline-offset:3px}
     .access-foot a:hover{color:var(--gold-shine)}
+
+    /* Tabla de 8 planes */
+    .plans-table{
+      max-width:920px;margin:4rem auto 3rem;
+      background:rgba(255,255,255,0.04);
+      border:1px solid rgba(255,255,255,0.10);
+      border-radius:var(--r-lg);
+      backdrop-filter:blur(10px);
+      padding:2rem 1.75rem;
+    }
+    .pt-head{text-align:center;margin-bottom:1.75rem}
+    .pt-head h3{font-family:'Bagel Fat One',sans-serif;font-weight:400;font-size:1.6rem;color:#fff;letter-spacing:-0.01em;margin-bottom:0.5rem}
+    .pt-head p{color:rgba(255,255,255,0.65);font-size:0.92rem}
+
+    .pt-grid{display:flex;flex-direction:column;gap:0.2rem}
+    .pt-row{
+      display:grid;grid-template-columns:1.5fr 1fr 0.8fr 1fr;align-items:center;
+      padding:0.7rem 1rem;border-radius:8px;
+      transition:background 180ms;font-size:0.95rem;
+    }
+    .pt-row:not(.pt-row-head):hover{background:rgba(255,255,255,0.04)}
+    .pt-row-head{
+      font-family:'JetBrains Mono',monospace;font-size:0.7rem;letter-spacing:0.14em;
+      text-transform:uppercase;color:rgba(255,255,255,0.45);font-weight:700;
+      border-bottom:1px solid rgba(255,255,255,0.10);padding-bottom:0.85rem;margin-bottom:0.4rem;
+    }
+    .pt-row span:first-child{font-weight:600;color:#fff}
+    .pt-row .pt-ling{font-family:'Space Grotesk',sans-serif;font-weight:700;color:var(--gold-hi)}
+    .pt-row .pt-usd{color:rgba(255,255,255,0.55);font-family:'JetBrains Mono',monospace;font-size:0.85rem}
+    .pt-featured{background:rgba(212,160,106,0.10);border:1px solid rgba(212,160,106,0.30)}
+    .pt-featured em{font-style:normal;color:var(--gold-hi);margin-left:0.35rem;font-size:0.85rem}
+    .pt-custom span:first-child{color:var(--gold-hi)}
+    @media(max-width:560px){
+      .pt-row{grid-template-columns:1.4fr 1fr 1fr;font-size:0.85rem}
+      .pt-row span:nth-child(4){display:none}
+      .pt-row-head span:nth-child(4){display:none}
+    }
+
+    /* Add-ons */
+    .addons{max-width:1100px;margin:0 auto;padding-bottom:2rem}
+    .addons-head{text-align:center;margin-bottom:2rem}
+    .addons-head h3{font-family:'Bagel Fat One',sans-serif;font-weight:400;font-size:1.6rem;color:#fff;letter-spacing:-0.01em}
+    .addons-grid{display:grid;grid-template-columns:1fr;gap:1rem}
+    @media(min-width:680px){.addons-grid{grid-template-columns:repeat(2,1fr)}}
+    .addon{
+      display:flex;gap:1rem;align-items:flex-start;
+      padding:1.25rem 1.3rem;border-radius:var(--r-lg);
+      background:rgba(255,255,255,0.04);
+      border:1px solid rgba(255,255,255,0.10);
+      backdrop-filter:blur(8px);
+      transition:transform 220ms,background 220ms,border-color 220ms;
+    }
+    .addon:hover{transform:translateY(-3px);background:rgba(212,160,106,0.06);border-color:rgba(212,160,106,0.30)}
+    .addon-icon{font-size:1.8rem;line-height:1;flex-shrink:0}
+    .addon-body{flex:1}
+    .addon-name{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1rem;color:#fff;margin-bottom:0.2rem}
+    .addon-price{font-family:'JetBrains Mono',monospace;font-size:0.8rem;color:var(--gold-hi);font-weight:700;letter-spacing:0.04em;margin-bottom:0.5rem}
+    .addon-price small{color:rgba(255,255,255,0.55);font-weight:500;margin-left:0.2rem}
+    .addon-body p{font-size:0.88rem;color:rgba(255,255,255,0.7);line-height:1.45}
 
     /* === MASCOT FAMILY: Pip, Lingo, Gemmi, Stash === */
     .mascot-base{position:relative;animation:bob 4s ease-in-out infinite}
@@ -1568,7 +2055,211 @@
     .vault-scrollhint{font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:rgba(255,255,255,0.4);letter-spacing:0.12em}
 
     /* ─────────────────────────────────────────────────────────────
-       FAQ — chat con Lingo (fondo lila tríada)
+       VIBE GALLERY — Tu vibe, tu UMBRA
+       ──────────────────────────────────────────────────────────── */
+    .vibe{max-width:1200px;margin:0 auto;padding:5rem 1.5rem 4rem;position:relative}
+    .vibe-mascot{
+      position:absolute;top:0;left:5%;width:110px;z-index:5;pointer-events:none;
+      animation:playSway 6s ease-in-out infinite;
+      filter:drop-shadow(0 10px 20px rgba(0,0,0,0.4)) drop-shadow(0 0 30px rgba(220,130,80,0.4));
+    }
+    .vibe-mascot img{width:100%;height:auto;display:block}
+    @media(max-width:880px){.vibe-mascot{width:75px;top:-10px}}
+    .vibe-head{text-align:center;max-width:680px;margin:0 auto 3rem}
+    .vibe-head h2 .gold{color:var(--gold-hi)}
+    .vibe-head .lead{color:rgba(255,255,255,0.75);font-size:1.1rem;line-height:1.55;margin-top:1rem}
+
+    .vibe-grid{
+      display:grid;grid-template-columns:1fr;gap:1rem;
+    }
+    @media(min-width:640px){.vibe-grid{grid-template-columns:repeat(2,1fr)}}
+    @media(min-width:1024px){.vibe-grid{grid-template-columns:repeat(3,1fr)}}
+
+    .vibe-card{
+      position:relative;
+      aspect-ratio:16/10;
+      border-radius:var(--r-lg);overflow:hidden;
+      border:1px solid rgba(212,160,106,0.20);
+      box-shadow:
+        0 14px 28px -8px rgba(0,0,0,0.45),
+        0 0 0 1px rgba(212,160,106,0.10),
+        0 0 40px -8px rgba(212,160,106,0.15);
+      transition:transform 280ms cubic-bezier(0.2,0.7,0.3,1),box-shadow 280ms;
+      cursor:default;
+    }
+    .vibe-card:hover{
+      transform:translateY(-6px) scale(1.025) rotate(-0.5deg);
+      box-shadow:
+        0 28px 56px -12px rgba(0,0,0,0.65),
+        0 0 0 1px rgba(212,160,106,0.45),
+        0 0 50px -6px rgba(212,160,106,0.35);
+    }
+
+    .vibe-bg{
+      position:absolute;inset:0;width:100%;height:100%;
+      object-fit:cover;display:block;
+      transition:transform 480ms ease;
+    }
+    .vibe-card:hover .vibe-bg{transform:scale(1.06)}
+
+    /* Overlay glassy simulando UI de UMBRA encima del fondo */
+    .vibe-overlay{
+      position:absolute;inset:0;
+      display:flex;align-items:stretch;gap:0;
+      pointer-events:none;
+    }
+    .vibe-overlay::before{
+      content:'';position:absolute;inset:0;
+      background:linear-gradient(180deg,rgba(0,0,0,0.0) 50%,rgba(0,0,0,0.55) 100%);
+    }
+    .vo-rail{
+      width:36px;background:rgba(15,15,28,0.55);
+      backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+      border-right:1px solid rgba(255,255,255,0.10);
+      display:flex;flex-direction:column;align-items:center;gap:6px;padding:10px 0;z-index:1;
+    }
+    .vo-rail span{
+      width:22px;height:22px;border-radius:7px;
+      background:rgba(255,255,255,0.18);
+      border:1px solid rgba(255,255,255,0.20);
+    }
+    .vo-rail span:first-child{background:linear-gradient(135deg,var(--gold-hi),var(--gold-deep));border-color:rgba(212,160,106,0.55)}
+    .vo-panel{
+      position:absolute;left:42px;top:10px;
+      width:130px;
+      background:rgba(15,15,28,0.55);
+      backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+      border:1px solid rgba(255,255,255,0.10);border-radius:8px;
+      padding:8px;display:flex;flex-direction:column;gap:5px;z-index:1;
+    }
+    .vo-pill{
+      height:10px;background:rgba(255,255,255,0.18);border-radius:4px;
+    }
+    .vo-pill.short{width:65%}
+
+    .vibe-caption{
+      position:absolute;bottom:0;left:0;right:0;
+      padding:0.85rem 1rem 0.9rem;
+      display:flex;align-items:center;gap:0.65rem;
+      z-index:2;
+    }
+    .vc-tag{
+      font-family:'JetBrains Mono',monospace;font-size:0.62rem;
+      letter-spacing:0.16em;text-transform:uppercase;
+      padding:0.25rem 0.65rem;
+      background:linear-gradient(135deg,var(--gold-hi),var(--gold));
+      color:#1a1208;
+      border-radius:999px;font-weight:800;
+      box-shadow:0 4px 10px -2px rgba(212,160,106,0.5);
+    }
+    .vc-name{
+      font-family:'Bagel Fat One','Space Grotesk',sans-serif;font-weight:400;
+      font-size:1.15rem;color:#fff;letter-spacing:-0.015em;line-height:1;
+      text-shadow:0 2px 8px rgba(0,0,0,0.6);
+    }
+
+    /* Card "el que tú quieras" — sin fondo, con call-to-action */
+    .vibe-card-add{
+      background:rgba(255,255,255,0.04);
+      border:2px dashed rgba(212,160,106,0.40);
+      display:flex;align-items:center;justify-content:center;
+      transition:background 240ms,border-color 240ms,transform 280ms;
+      box-shadow:none;
+    }
+    .vibe-card-add:hover{
+      background:rgba(212,160,106,0.10);
+      border-color:rgba(212,160,106,0.65);
+      transform:translateY(-4px) scale(1.02);
+    }
+    .va-content{text-align:center;padding:1.5rem}
+    .va-icon{font-size:2.5rem;margin-bottom:0.85rem;opacity:0.85}
+    .va-text strong{
+      display:block;font-family:'Bagel Fat One','Space Grotesk',sans-serif;font-weight:400;
+      font-size:1.3rem;color:var(--gold-hi);margin-bottom:0.3rem;letter-spacing:-0.015em;line-height:1.05;
+    }
+    .va-text span{color:rgba(255,255,255,0.65);font-size:0.85rem;line-height:1.4;display:block}
+
+    .vibe-foot{
+      text-align:center;color:rgba(255,255,255,0.6);font-size:0.92rem;
+      margin-top:2rem;max-width:580px;margin-left:auto;margin-right:auto;
+    }
+
+    /* ─────────────────────────────────────────────────────────────
+       FAQ — carrusel marquee horizontal (Q+A cards desfilan)
+       ──────────────────────────────────────────────────────────── */
+    .faq-marquee{
+      position:relative;
+      overflow:hidden;
+      margin:2rem 0;
+      mask-image:linear-gradient(90deg,transparent 0,#000 5%,#000 95%,transparent 100%);
+      -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 5%,#000 95%,transparent 100%);
+    }
+    .faq-track{
+      display:flex;gap:1.25rem;
+      width:max-content;
+      animation:faqScroll 60s linear infinite;
+    }
+    .faq-marquee:hover .faq-track{animation-play-state:paused}
+    @keyframes faqScroll{
+      from{transform:translateX(0)}
+      to{transform:translateX(-50%)}
+    }
+
+    .qa-card{
+      flex-shrink:0;width:380px;
+      background:rgba(255,255,255,0.06);
+      border:1px solid rgba(255,255,255,0.12);
+      backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+      border-radius:var(--r-lg);
+      padding:1.25rem 1.35rem;
+      display:flex;flex-direction:column;gap:0.85rem;
+      transition:transform 240ms,background 240ms,border-color 240ms;
+    }
+    .qa-card:hover{transform:translateY(-4px);background:rgba(212,160,106,0.08);border-color:rgba(212,160,106,0.30)}
+
+    .qa-q{
+      display:flex;align-items:flex-start;gap:0.6rem;
+      padding-bottom:0.75rem;border-bottom:1px solid rgba(255,255,255,0.08);
+    }
+    .qa-q .qa-av{
+      width:12px;height:12px;border-radius:50%;flex-shrink:0;
+      background:#a394ff;margin-top:0.4rem;
+      box-shadow:0 0 0 3px rgba(123,108,246,0.18);
+    }
+    .qa-q .qa-text{font-size:0.92rem;color:#fff;font-weight:600;line-height:1.4}
+
+    .qa-a{display:flex;align-items:flex-start;gap:0.7rem}
+    .qa-a .qa-av{
+      width:38px;height:38px;flex-shrink:0;
+      background-image:url("assets/penrousito.png");
+      background-size:contain;background-repeat:no-repeat;background-position:center;
+      filter:drop-shadow(0 3px 6px rgba(0,0,0,0.4));
+      position:relative;
+    }
+    .qa-a .qa-av::before{
+      content:'';position:absolute;inset:15%;border-radius:50%;
+      background:radial-gradient(circle,rgba(212,160,106,0.4),transparent 65%);
+      filter:blur(6px);z-index:-1;
+    }
+    .qa-a .qa-body{flex:1}
+    .qa-a strong{
+      display:block;
+      font-family:'Space Grotesk',sans-serif;font-weight:700;
+      font-size:0.82rem;color:var(--gold-hi);
+      letter-spacing:0.02em;margin-bottom:0.3rem;
+    }
+    .qa-a .qa-text{font-size:0.88rem;color:rgba(255,255,255,0.85);line-height:1.5}
+    .qa-a .qa-text strong{
+      display:inline;font-family:inherit;font-size:inherit;
+      color:#fff;font-weight:700;letter-spacing:0;
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      .faq-track{animation:none}
+    }
+
+    /* ─────────────────────────────────────────────────────────────
+       FAQ legacy — chat con Lingo (fondo lila tríada)
        ──────────────────────────────────────────────────────────── */
     .faq{
       background:transparent;
@@ -1587,30 +2278,29 @@
     }
     .bubble-row{display:flex;gap:0.85rem;align-items:flex-start}
     .bubble-row.you{flex-direction:row-reverse}
-    /* Avatares de chat coherentes con la marca:
-       Lingo = Penrose plateado con halo ámbar (brand mark)
-       Tú    = punto lila simple, sin letra */
+    /* Avatares de chat: Penrousito (Lingo) + punto lila (tú) */
     .bubble-avatar{
-      flex-shrink:0;width:42px;height:42px;
-      display:grid;place-items:center;position:relative;
-      background:none;border-radius:0;
+      flex-shrink:0;width:54px;height:54px;
+      position:relative;
+      background:none;
     }
     .bubble-avatar::before{
-      /* Halo ámbar detrás del Penrose */
-      content:'';position:absolute;inset:8%;border-radius:50%;
-      background:radial-gradient(circle,rgba(212,160,106,0.55),transparent 65%);
-      filter:blur(8px);z-index:0;
+      /* Halo plateado detrás del Penrousito */
+      content:'';position:absolute;inset:10%;border-radius:50%;
+      background:radial-gradient(circle,rgba(212,160,106,0.45),transparent 65%);
+      filter:blur(10px);z-index:0;
     }
     .bubble-avatar::after{
-      /* Penrose en primer plano */
+      /* Penrousito cartoon */
       content:'';position:absolute;inset:0;
-      background-image:url("assets/logo-triangle.png");
+      background-image:url("assets/penrousito.png");
       background-size:contain;background-repeat:no-repeat;background-position:center;
-      filter:drop-shadow(0 2px 4px rgba(0,0,0,0.45));
+      filter:drop-shadow(0 4px 8px rgba(0,0,0,0.4));
       z-index:1;
     }
     .bubble-row.you .bubble-avatar{
       width:14px;height:14px;border-radius:50%;
+      align-self:center;
       background:#a394ff;
       box-shadow:0 0 0 4px rgba(123,108,246,0.20),0 4px 10px -2px rgba(123,108,246,0.4);
     }
@@ -1778,7 +2468,7 @@
       <!-- Texto izquierda -->
       <div class="hero-text">
         <h1>Tu voz,<br/>tu gente, <span class="ink-blob">en su sitio.</span></h1>
-        <p class="lead">UMBRA es donde tu grupo se junta, charla y se organiza — sin abrir cinco apps. Salas ilimitadas, whisper entre canales, voz nítida, y un sitio que te cuida.</p>
+        <p class="lead">UMBRA es donde tu grupo se junta, charla, planea y se organiza — sin abrir cinco apps. Salas ilimitadas, whisper entre canales, voz nítida, y un sitio que te cuida.</p>
         <div class="row">
           <a class="btn btn-gold" href="#descarga">↓ Descargar</a>
           <a class="btn btn-ghost" href="https://umbra.mobile/" target="_blank" rel="noopener">Abrir en navegador</a>
@@ -1941,6 +2631,64 @@
     </div>
   </section>
 
+  <!-- TU WORKSPACE — UMBRA no es solo voz -->
+  <section class="workspace" id="workspace">
+    <div class="workspace-head reveal">
+      <div class="section-eyebrow">🧰 Workspace</div>
+      <h2>Tu workspace, <span class="gold">no solo voz.</span></h2>
+      <p class="lead">UMBRA reemplaza Discord + Calendly + Notion + Trello — con voz en el centro. Tu org deja de usar cinco apps y vive en una sola.</p>
+    </div>
+
+    <div class="workspace-modules reveal">
+      <div class="ws-mod">
+        <div class="ws-mod-icon">💬</div>
+        <h4>Salas de voz</h4>
+        <p>Múltiples canales, whisper cross-canal, jerarquía táctica nativa.</p>
+      </div>
+      <div class="ws-mod">
+        <div class="ws-mod-icon">📅</div>
+        <h4>Calendario</h4>
+        <p>Disponibilidad coloreada por miembro. Cuándo está cada uno, qué ops tenéis, en un sitio.</p>
+      </div>
+      <div class="ws-mod">
+        <div class="ws-mod-icon">📝</div>
+        <h4>Notas y SOPs</h4>
+        <p>Briefings, procedimientos, debriefs. Compartidos con tu org, buscables.</p>
+      </div>
+      <div class="ws-mod">
+        <div class="ws-mod-icon">📋</div>
+        <h4>Tareas</h4>
+        <p>Quién hace qué esta semana. Asignaciones, prioridades, recordatorios.</p>
+      </div>
+    </div>
+
+    <div class="workspace-comparison reveal">
+      <div class="wc-col wc-hoy">
+        <div class="wc-label">Hoy usas</div>
+        <ul>
+          <li>🟣 Discord (voz + chat)</li>
+          <li>📅 Calendly (disponibilidad)</li>
+          <li>🟦 Notion (notas)</li>
+          <li>🟢 Google Docs (SOPs)</li>
+          <li>🟠 Trello (tareas)</li>
+          <li>🔵 TeamSpeak (whisper)</li>
+        </ul>
+        <div class="wc-foot">5 suscripciones · 5 logins · 0 integración</div>
+      </div>
+      <div class="wc-arrow" aria-hidden="true">➜</div>
+      <div class="wc-col wc-manana">
+        <div class="wc-label">Mañana usas</div>
+        <ul class="wc-single">
+          <li>
+            <img src="assets/logo-triangle.png" alt="" />
+            <span>UMBRA</span>
+          </li>
+        </ul>
+        <div class="wc-foot">1 suscripción · 1 login · todo conectado</div>
+      </div>
+    </div>
+  </section>
+
   <!-- STORY: sticky scroll guiado por Lingo -->
   <section class="story" id="story">
    <div class="story-grid">
@@ -1961,8 +2709,8 @@
       <li class="story-item reveal">
         <div class="num">1</div>
         <div>
-          <h5>Te registras con un email.</h5>
-          <p>Sin contraseña. Solo hace falta un email — te llega un enlace mágico y entras. Nada de "verifica tu número" ni "captcha 11 veces".</p>
+          <h5>Te registras con email + tarjeta.</h5>
+          <p>¿Tarjeta? Sí, para evitar abusos. Hacemos una preautorización de $1 que se devuelve al instante. No cobramos nada hasta que termines el periodo de prueba. A cambio te damos <strong>10 lingotes gratis</strong> para probar de verdad.</p>
         </div>
       </li>
       <li class="story-item reveal">
@@ -2004,8 +2752,8 @@
       <div class="orbit-ring"></div>
 
       <div class="orbit-core">
-        <div class="mascot-img halo-gold mascot-l" aria-hidden="true" style="animation:playSway 7s ease-in-out infinite">
-          <img src="assets/mascot-lingo-raw.png" alt="Lingo" />
+        <div class="mascot-img halo-silver mascot-xl" aria-hidden="true" style="animation:playSway 7s ease-in-out infinite">
+          <img src="assets/penrousito.png" alt="Penrousito" />
         </div>
         <span>UMBRA</span>
       </div>
@@ -2013,32 +2761,439 @@
       <div class="orbit-item o-1">
         <span class="e">🎮</span>
         <h6>Gaming casual</h6>
-        <p>La sala del finde con los colegas. Voz nítida, sin lag.</p>
+        <p>La sala del finde con los colegas. LoL ranked, Apex squad, lo que sea. Voz nítida, sin lag.</p>
       </div>
       <div class="orbit-item o-2">
         <span class="e">🛡️</span>
         <h6>Milsim · Tactical</h6>
-        <p>Comms con whisper para ops multi-squad reales.</p>
+        <p>Comms con whisper para ops multi-squad reales — Arma, Squad, Hell Let Loose, airsoft IRL.</p>
       </div>
       <div class="orbit-item o-3">
-        <span class="e">🏆</span>
-        <h6>Esports & ligas</h6>
-        <p>Coach, caster, capitanes — cada uno en su rol.</p>
+        <span class="e">🚀</span>
+        <h6>Star Citizen & Sci-fi</h6>
+        <p>Orgs con flotas, capital ships con 50+ personas. Plugin nativo de SC que mapea naves a salas.</p>
       </div>
       <div class="orbit-item o-4">
-        <span class="e">🎬</span>
-        <h6>Eventos & producción</h6>
-        <p>Director, talento, técnicos. Comms separadas pero conectadas.</p>
+        <span class="e">🏆</span>
+        <h6>Esports & ligas</h6>
+        <p>Coach, caster, capitanes — cada uno en su rol con whisper jerárquico.</p>
       </div>
       <div class="orbit-item o-5">
+        <span class="e">⚔️</span>
+        <h6>MMO & raids</h6>
+        <p>Raid de 24-40 en FFXIV o WoW. Tanks, healers y DPS en su rol. Officers wispean por rol durante el fight.</p>
+      </div>
+      <div class="orbit-item o-6">
+        <span class="e">🎬</span>
+        <h6>Eventos & producción</h6>
+        <p>Director, talento, técnicos. Salas separadas pero conectadas.</p>
+      </div>
+      <div class="orbit-item o-7">
         <span class="e">📚</span>
         <h6>Comunidades</h6>
         <p>Cursos, hobbies, viajes. Tu gente, tu voz, tu sitio.</p>
       </div>
-      <div class="orbit-item o-6">
+      <div class="orbit-item o-8">
         <span class="e">💼</span>
-        <h6>Equipos & curro</h6>
+        <h6>Equipos & trabajo</h6>
         <p>Stand-ups, pair, brainstorm sin Zoom-fatigue.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PLUGINS POR JUEGO — la joya -->
+  <section class="plugins" id="plugins">
+    <div class="plugins-mascot" aria-hidden="true">
+      <img src="assets/penrousito.png" alt="" />
+    </div>
+    <div class="plugins-head reveal">
+      <div class="section-eyebrow">🔌 Plugins por juego</div>
+      <h2>Tu universo, <span class="gold">tu jerarquía.</span></h2>
+      <p class="lead">Instala el plugin de tu juego y UMBRA copia su estructura real. Las naves, los carriles, los escuadrones — son tus salas. Coordinas como si estuvieras en el juego.</p>
+    </div>
+
+    <div class="plugins-tabs reveal" role="tablist">
+      <button class="ptab active" data-tab="sc" role="tab">🚀 Star Citizen</button>
+      <button class="ptab" data-tab="lol" role="tab">⚔️ League of Legends</button>
+      <button class="ptab" data-tab="arma" role="tab">🛡️ Arma · Squad · HLL</button>
+      <button class="ptab" data-tab="ff14" role="tab">🐉 FFXIV · WoW</button>
+      <button class="ptab" data-tab="custom" role="tab">🛠️ Tu juego</button>
+    </div>
+
+    <!-- Star Citizen -->
+    <div class="ptab-content active" data-content="sc">
+      <div class="ptc-grid">
+        <div class="ptc-text">
+          <h3>Las naves de tu org → salas en UMBRA.</h3>
+          <p>El comandante hace whisper desde Bridge a cualquier escuadrón. Cada piloto ve dónde está cada nave en tiempo real.</p>
+          <ul class="ptc-list">
+            <li><span class="pl-emoji">🚀</span><strong>Idris (Capital)</strong> → Bridge / Engineering / Turrets / Hangar</li>
+            <li><span class="pl-emoji">✈️</span><strong>Fighter Wing</strong> → Alpha · Bravo · Charlie squadrons</li>
+            <li><span class="pl-emoji">🛰️</span><strong>Recon Wing</strong> → Avenger × 2</li>
+          </ul>
+        </div>
+        <div class="ptc-mockup">
+          <div class="ptm-bg" style="background-image:url('assets/wallpapers/canvas_sc.jpg')"></div>
+          <div class="ptm-tree">
+            <div class="pn-group">
+              <div class="pn-head"><span class="pn-dot live"></span>Idris · Capital</div>
+              <div class="pn-children">
+                <div class="pn-child">Bridge <span class="pn-count">4</span></div>
+                <div class="pn-child">Engineering <span class="pn-count">2</span></div>
+                <div class="pn-child">Turrets <span class="pn-count">6</span></div>
+              </div>
+            </div>
+            <div class="pn-group">
+              <div class="pn-head"><span class="pn-dot live"></span>Fighter Wing</div>
+              <div class="pn-children">
+                <div class="pn-child">Alpha <span class="pn-count">8</span></div>
+                <div class="pn-child">Bravo <span class="pn-count">7</span></div>
+                <div class="pn-child">Charlie <span class="pn-count">5</span></div>
+              </div>
+            </div>
+            <div class="pn-group">
+              <div class="pn-head"><span class="pn-dot mute"></span>Recon Wing</div>
+              <div class="pn-children">
+                <div class="pn-child">Avenger 1 <span class="pn-count">1</span></div>
+                <div class="pn-child">Avenger 2 <span class="pn-count">1</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LoL -->
+    <div class="ptab-content" data-content="lol">
+      <div class="ptc-grid">
+        <div class="ptc-text">
+          <h3>Los carriles de tu juego → salas en UMBRA.</h3>
+          <p>El coach habla a todos en una llamada. Mid y Jungle hacen whisper para coordinar ganks. Caster en su sala con permisos read-only.</p>
+          <ul class="ptc-list">
+            <li><span class="pl-emoji">🛡️</span><strong>Top</strong> · Tanke y splitpush</li>
+            <li><span class="pl-emoji">🗡️</span><strong>Jungle</strong> · Coordina ganks vía whisper</li>
+            <li><span class="pl-emoji">⚡</span><strong>Mid</strong> · Rotaciones y wave control</li>
+            <li><span class="pl-emoji">🏹</span><strong>Bot</strong> · ADC + Support</li>
+            <li><span class="pl-emoji">📢</span><strong>Coach + Caster</strong> · Salas con permisos</li>
+          </ul>
+        </div>
+        <div class="ptc-mockup">
+          <div class="ptm-bg" style="background-image:url('assets/wallpapers/lol.jpg')"></div>
+          <div class="ptm-tree">
+            <div class="pn-group">
+              <div class="pn-head"><span class="pn-dot live"></span>Team Comms</div>
+              <div class="pn-children">
+                <div class="pn-child">🛡️ Top <span class="pn-count">1</span></div>
+                <div class="pn-child">🗡️ Jungle <span class="pn-count">1</span></div>
+                <div class="pn-child">⚡ Mid <span class="pn-count">1</span></div>
+                <div class="pn-child">🏹 Bot <span class="pn-count">2</span></div>
+              </div>
+            </div>
+            <div class="pn-group">
+              <div class="pn-head"><span class="pn-dot amber"></span>Coach</div>
+              <div class="pn-children">
+                <div class="pn-child">Coaching <span class="pn-count">2</span></div>
+                <div class="pn-child">Analysts <span class="pn-count">1</span></div>
+              </div>
+            </div>
+            <div class="pn-group">
+              <div class="pn-head"><span class="pn-dot mute"></span>Caster · read-only</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Arma -->
+    <div class="ptab-content" data-content="arma">
+      <div class="ptc-grid">
+        <div class="ptc-text">
+          <h3>La cadena de mando militar → salas en UMBRA.</h3>
+          <p>El líder de compañía habla a sus pelotones individualmente o a todos a la vez con un atajo. CAS y Armor en sus canales tácticos.</p>
+          <ul class="ptc-list">
+            <li><span class="pl-emoji">📡</span><strong>Comando</strong> → Compañía Alpha → Pelotones → Squads</li>
+            <li><span class="pl-emoji">🚁</span><strong>CAS</strong> · Aire / soporte cercano</li>
+            <li><span class="pl-emoji">🚜</span><strong>Armor</strong> · Tanques y vehículos</li>
+            <li><span class="pl-emoji">🔍</span><strong>Recon</strong> · Inteligencia y observación</li>
+          </ul>
+        </div>
+        <div class="ptc-mockup">
+          <div class="ptm-bg" style="background:linear-gradient(135deg,#2a3a2e,#1a2218)"></div>
+          <div class="ptm-tree">
+            <div class="pn-group">
+              <div class="pn-head"><span class="pn-dot live"></span>📡 Comando</div>
+              <div class="pn-children">
+                <div class="pn-child">CO + XO <span class="pn-count">2</span></div>
+              </div>
+            </div>
+            <div class="pn-group">
+              <div class="pn-head"><span class="pn-dot live"></span>Compañía Alpha</div>
+              <div class="pn-children">
+                <div class="pn-child">Pelotón 1 <span class="pn-count">12</span></div>
+                <div class="pn-child">Pelotón 2 <span class="pn-count">10</span></div>
+                <div class="pn-child">Pelotón 3 <span class="pn-count">11</span></div>
+              </div>
+            </div>
+            <div class="pn-group">
+              <div class="pn-head"><span class="pn-dot amber"></span>Soporte</div>
+              <div class="pn-children">
+                <div class="pn-child">🚁 CAS <span class="pn-count">3</span></div>
+                <div class="pn-child">🚜 Armor <span class="pn-count">5</span></div>
+                <div class="pn-child">🔍 Recon <span class="pn-count">2</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FF14 / WoW -->
+    <div class="ptab-content" data-content="ff14">
+      <div class="ptc-grid">
+        <div class="ptc-text">
+          <h3>Los roles de raid → salas en UMBRA.</h3>
+          <p>Raid leader hace whisper por rol durante el fight. Officers tienen su sala separada para mid-pull calls. La composición visible siempre en el módulo del plugin.</p>
+          <ul class="ptc-list">
+            <li><span class="pl-emoji">🛡️</span><strong>Tanks</strong> · Provoke, mit cooldowns</li>
+            <li><span class="pl-emoji">💚</span><strong>Healers</strong> · Cooldowns + raid awareness</li>
+            <li><span class="pl-emoji">⚔️</span><strong>DPS Melee</strong> · Positionals</li>
+            <li><span class="pl-emoji">🏹</span><strong>DPS Ranged</strong> · Mechanics</li>
+            <li><span class="pl-emoji">⭐</span><strong>Officers</strong> · Mid-pull calls</li>
+          </ul>
+        </div>
+        <div class="ptc-mockup">
+          <div class="ptm-bg" style="background-image:url('assets/wallpapers/genshin.jpg')"></div>
+          <div class="ptm-tree">
+            <div class="pn-group">
+              <div class="pn-head"><span class="pn-dot live"></span>Raid · 24 personas</div>
+              <div class="pn-children">
+                <div class="pn-child">🛡️ Tanks <span class="pn-count">3</span></div>
+                <div class="pn-child">💚 Healers <span class="pn-count">6</span></div>
+                <div class="pn-child">⚔️ Melee <span class="pn-count">7</span></div>
+                <div class="pn-child">🏹 Ranged <span class="pn-count">8</span></div>
+              </div>
+            </div>
+            <div class="pn-group">
+              <div class="pn-head"><span class="pn-dot amber"></span>⭐ Officers</div>
+              <div class="pn-children">
+                <div class="pn-child">Mid-pull <span class="pn-count">3</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tu juego -->
+    <div class="ptab-content" data-content="custom">
+      <div class="ptc-grid ptc-grid-center">
+        <div class="ptc-soon">
+          <div class="ps-icon">🛠️</div>
+          <h3>¿Tu juego no está aquí todavía?</h3>
+          <p>Pronto vas a poder <strong>crear tu propio plugin</strong> — o instalar uno hecho por la comunidad. Marketplace de plugins llegando en Q4 2026.</p>
+          <a href="#descarga" class="btn-soon">Avísame cuando esté listo →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VIBE GALLERY — Tu vibe, tu UMBRA -->
+  <section class="vibe" id="vibe">
+    <div class="vibe-mascot" aria-hidden="true">
+      <img src="assets/mascot-pip-raw.png" alt="" />
+    </div>
+    <div class="vibe-head reveal">
+      <div class="section-eyebrow">🎨 Personalización</div>
+      <h2>Tu vibe, <span class="gold">tu UMBRA.</span></h2>
+      <p class="lead">Cambia el fondo. La app entera se adapta. Star Citizen, League of Legends, Genshin, tu logo, tu meme — lo que sea. Mismo producto, mil personalidades.</p>
+    </div>
+
+    <div class="vibe-grid">
+      <div class="vibe-card reveal" data-bg="canvas_sc.jpg">
+        <img class="vibe-bg" src="assets/wallpapers/canvas_sc.jpg" alt="" />
+        <div class="vibe-overlay">
+          <div class="vo-rail"><span></span><span></span><span></span><span></span></div>
+          <div class="vo-panel">
+            <div class="vo-pill"></div>
+            <div class="vo-pill short"></div>
+            <div class="vo-pill"></div>
+          </div>
+        </div>
+        <div class="vibe-caption">
+          <span class="vc-tag">Sci-fi</span>
+          <span class="vc-name">Star Citizen</span>
+        </div>
+      </div>
+
+      <div class="vibe-card reveal" data-bg="lol.jpg">
+        <img class="vibe-bg" src="assets/wallpapers/lol.jpg" alt="" />
+        <div class="vibe-overlay">
+          <div class="vo-rail"><span></span><span></span><span></span><span></span></div>
+          <div class="vo-panel">
+            <div class="vo-pill"></div>
+            <div class="vo-pill short"></div>
+            <div class="vo-pill"></div>
+          </div>
+        </div>
+        <div class="vibe-caption">
+          <span class="vc-tag">MOBA</span>
+          <span class="vc-name">League of Legends</span>
+        </div>
+      </div>
+
+      <div class="vibe-card reveal" data-bg="genshin.jpg">
+        <img class="vibe-bg" src="assets/wallpapers/genshin.jpg" alt="" />
+        <div class="vibe-overlay">
+          <div class="vo-rail"><span></span><span></span><span></span><span></span></div>
+          <div class="vo-panel">
+            <div class="vo-pill"></div>
+            <div class="vo-pill short"></div>
+            <div class="vo-pill"></div>
+          </div>
+        </div>
+        <div class="vibe-caption">
+          <span class="vc-tag">Anime</span>
+          <span class="vc-name">Genshin Impact</span>
+        </div>
+      </div>
+
+      <div class="vibe-card reveal" data-bg="straw-hat-pirates-xz1asd8k7c4lvnvv.webp">
+        <img class="vibe-bg" src="assets/wallpapers/straw-hat-pirates-xz1asd8k7c4lvnvv.webp" alt="" />
+        <div class="vibe-overlay">
+          <div class="vo-rail"><span></span><span></span><span></span><span></span></div>
+          <div class="vo-panel">
+            <div class="vo-pill"></div>
+            <div class="vo-pill short"></div>
+            <div class="vo-pill"></div>
+          </div>
+        </div>
+        <div class="vibe-caption">
+          <span class="vc-tag">Manga</span>
+          <span class="vc-name">One Piece · Straw Hats</span>
+        </div>
+      </div>
+
+      <div class="vibe-card reveal" data-bg="monkey.jpg">
+        <img class="vibe-bg" src="assets/wallpapers/monkey.jpg" alt="" />
+        <div class="vibe-overlay">
+          <div class="vo-rail"><span></span><span></span><span></span><span></span></div>
+          <div class="vo-panel">
+            <div class="vo-pill"></div>
+            <div class="vo-pill short"></div>
+            <div class="vo-pill"></div>
+          </div>
+        </div>
+        <div class="vibe-caption">
+          <span class="vc-tag">Retro</span>
+          <span class="vc-name">Monkey Island</span>
+        </div>
+      </div>
+
+      <div class="vibe-card vibe-card-add reveal">
+        <div class="va-content">
+          <div class="va-icon">🖼️</div>
+          <div class="va-text">
+            <strong>El que tú quieras</strong>
+            <span>Sube tu fondo · cualquier imagen 1920×1080+</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p class="vibe-foot">
+      Cada org elige su estética. Cada usuario también. El glass de la UI se adapta automáticamente al fondo.
+    </p>
+  </section>
+
+  <!-- APORTES COLECTIVOS — lo paga la org, lo disfruta el squad -->
+  <section class="contrib" id="aportes">
+    <div class="contrib-head reveal">
+      <div class="section-eyebrow">🪙 Aportes colectivos</div>
+      <h2>Todos aportan. <span class="gold">Nadie paga solo.</span></h2>
+      <p class="lead">UMBRA no tiene suscripciones por usuario. Tu org tiene una cuota mensual en lingotes — el líder aporta al menos el 25%, los miembros completan el resto con aportes pequeños automáticos.</p>
+    </div>
+
+    <!-- Omni asomando junto al card, con bocadillo comic -->
+    <div class="ce-omni" aria-hidden="true">
+      <div class="omni-bubble">
+        <strong>¡Soy Omni!</strong>
+        Yo guardo los lingotes que aportáis · ni uno se pierde.
+      </div>
+      <img src="assets/omni.png" alt="" />
+    </div>
+
+    <div class="contrib-example reveal">
+      <div class="ce-title">
+        <span class="ce-org">Tu org de Star Citizen</span>
+        <span class="ce-sep">·</span>
+        <span class="ce-meta">800 miembros · Plan Crew · 18 lingotes/mes</span>
+      </div>
+      <div class="ce-rows">
+        <div class="ce-row">
+          <span class="ce-who">Tú (líder)</span>
+          <span class="ce-amt">5 lingotes <small>· $10/mes</small></span>
+        </div>
+        <div class="ce-plus">+</div>
+        <div class="ce-row">
+          <span class="ce-who">20 miembros aportando</span>
+          <span class="ce-amt">20 lingotes <small>· $2/mes c/u</small></span>
+        </div>
+        <div class="ce-eq">=</div>
+        <div class="ce-row total">
+          <span class="ce-who">Total org</span>
+          <span class="ce-amt">25 lingotes <small>· 7 de boost extra</small></span>
+        </div>
+      </div>
+      <div class="ce-foot">
+        <div class="ce-before">Antes pagabas <s>$36/mes</s> solo.</div>
+        <div class="ce-after">Ahora pagas <strong>$10</strong>. El resto lo cubren quienes también la usan.</div>
+      </div>
+    </div>
+
+    <!-- Simulador interactivo -->
+    <div class="sim reveal" id="sim">
+      <div class="sim-head">
+        <h3>Calcula lo tuyo</h3>
+        <p>Mueve los sliders. Te recomendamos el plan ideal y te enseñamos cuánto pone cada uno.</p>
+      </div>
+      <div class="sim-grid">
+        <div class="sim-controls">
+          <div class="sim-field">
+            <div class="sim-label">
+              <span>¿Cuántos miembros tiene tu org?</span>
+              <span class="sim-value" id="sim-members-out">100</span>
+            </div>
+            <input type="range" id="sim-members" min="10" max="5000" step="10" value="100" />
+          </div>
+          <div class="sim-field">
+            <div class="sim-label">
+              <span>¿Cuántos aportarían 1-2 lingotes al mes?</span>
+              <span class="sim-value" id="sim-contributors-out">10</span>
+            </div>
+            <input type="range" id="sim-contributors" min="0" max="200" step="1" value="10" />
+          </div>
+        </div>
+        <div class="sim-output">
+          <div class="sim-recommendation">
+            <div class="sr-label">Plan recomendado</div>
+            <div class="sr-plan" id="sim-plan">CREW</div>
+            <div class="sr-meta" id="sim-meta">1.500 miembros · 18 lingotes/mes</div>
+          </div>
+          <div class="sim-breakdown">
+            <div class="sb-row">
+              <span class="sb-who">Tú (líder)</span>
+              <span class="sb-amt" id="sim-leader">7 lingotes <small>· $14/mes</small></span>
+            </div>
+            <div class="sb-row">
+              <span class="sb-who" id="sim-contrib-label">10 miembros aportando</span>
+              <span class="sb-amt" id="sim-contrib">15 lingotes <small>· $1,50/mes c/u</small></span>
+            </div>
+            <div class="sb-row sb-total" id="sim-extra-row">
+              <span class="sb-who">Sobrante de boost</span>
+              <span class="sb-amt" id="sim-extra">4 lingotes</span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -2099,9 +3254,72 @@
 
     </div>
 
-    <p class="access-foot">
-      Add-ons opcionales por encima del plan: <strong>grabación + transcripción de ops</strong>, <strong>soundboard táctico</strong>, <strong>integraciones con APIs de juegos</strong> (Star Citizen, etc.). <a href="#">Detalle completo →</a>
+    <p class="access-foot reveal">
+      ¿Quieres ver los <strong>8 planes</strong> en detalle (Community · Starter · Crew · Squad · Platoon · Company · Battalion · Regiment · Custom)? <a href="#planes-full">Tabla completa abajo ↓</a>
     </p>
+
+    <!-- Tabla de 8 tiers + Custom -->
+    <div class="plans-table reveal" id="planes-full">
+      <div class="pt-head">
+        <h3>Los 8 tiers · lo paga la org</h3>
+        <p>Precios en lingotes (la moneda interna). 1 lingote ≈ $2. Y recuerda que con aportes del equipo, el líder rara vez paga el total.</p>
+      </div>
+      <div class="pt-grid">
+        <div class="pt-row pt-row-head">
+          <span>Plan</span><span>Lingotes / mes</span><span>USD equiv.</span><span>Cap miembros</span>
+        </div>
+        <div class="pt-row"><span>Community</span><span class="pt-ling">5</span><span class="pt-usd">$10</span><span>50</span></div>
+        <div class="pt-row"><span>Starter</span><span class="pt-ling">10</span><span class="pt-usd">$20</span><span>500</span></div>
+        <div class="pt-row pt-featured"><span>Crew <em>★</em></span><span class="pt-ling">18</span><span class="pt-usd">$36</span><span>1.500</span></div>
+        <div class="pt-row"><span>Squad</span><span class="pt-ling">28</span><span class="pt-usd">$56</span><span>5.000</span></div>
+        <div class="pt-row"><span>Platoon</span><span class="pt-ling">40</span><span class="pt-usd">$80</span><span>10.000</span></div>
+        <div class="pt-row"><span>Company</span><span class="pt-ling">60</span><span class="pt-usd">$120</span><span>25.000</span></div>
+        <div class="pt-row"><span>Battalion</span><span class="pt-ling">95</span><span class="pt-usd">$190</span><span>50.000</span></div>
+        <div class="pt-row"><span>Regiment</span><span class="pt-ling">150</span><span class="pt-usd">$300</span><span>Ilimitado</span></div>
+        <div class="pt-row pt-custom"><span>Custom</span><span class="pt-ling">A negociar</span><span class="pt-usd">—</span><span>Sin límite</span></div>
+      </div>
+    </div>
+
+    <!-- Add-ons por encima del plan -->
+    <div class="addons reveal">
+      <div class="addons-head">
+        <h3>Add-ons · por encima de tu plan</h3>
+      </div>
+      <div class="addons-grid">
+        <div class="addon">
+          <div class="addon-icon">🎤</div>
+          <div class="addon-body">
+            <div class="addon-name">UMBRA Plus</div>
+            <div class="addon-price">7 lingotes / mes <small>· $9,99</small></div>
+            <p>Hotkey profiles cloud-sync · soundboard personal · badge founder.</p>
+          </div>
+        </div>
+        <div class="addon">
+          <div class="addon-icon">⚡</div>
+          <div class="addon-body">
+            <div class="addon-name">UMBRA Plus Pro</div>
+            <div class="addon-price">16 lingotes / mes <small>· $19,99</small></div>
+            <p>Todo lo de Plus + integraciones avanzadas + early access a features.</p>
+          </div>
+        </div>
+        <div class="addon">
+          <div class="addon-icon">📦</div>
+          <div class="addon-body">
+            <div class="addon-name">Packs de lingotes</div>
+            <div class="addon-price">One-time</div>
+            <p>$4 = 2 · $10 = 5 · $20 = 11 (+10%) · $50 = 30 (+20%) · $100 = 65 (+30%).</p>
+          </div>
+        </div>
+        <div class="addon">
+          <div class="addon-icon">🎁</div>
+          <div class="addon-body">
+            <div class="addon-name">Boost a tu org</div>
+            <div class="addon-price">1-3 lingotes / mes</div>
+            <p>Aporta lingotes recurrentes al server de tu líder. Lo paga quien quiere ayudar.</p>
+          </div>
+        </div>
+      </div>
+    </div>
   </section>
 
   <!-- FAQ chat con Lingo -->
@@ -2115,89 +3333,87 @@
       <p class="head-aside">Lingo se encarga. Si te quedas con dudas, hay un humano detrás en <a href="#" style="color:var(--gold-deep);font-weight:700;text-decoration:underline">hola@cfx.studio</a>.</p>
     </div>
 
-    <div class="chat">
+    <!-- Carrusel marquee horizontal de preguntas y respuestas -->
+    <div class="faq-marquee" id="faqMarquee">
+      <div class="faq-track">
+        <div class="qa-card">
+          <div class="qa-q"><span class="qa-av"></span><span class="qa-text">¿Funciona en navegador o tengo que instalar?</span></div>
+          <div class="qa-a"><span class="qa-av"></span><div class="qa-body"><strong>Lingo</strong><span class="qa-text">Ambas. La versión web va en cualquier Chrome decente (sin HOTAS). La app de Windows es la completa.</span></div></div>
+        </div>
+        <div class="qa-card">
+          <div class="qa-q"><span class="qa-av"></span><span class="qa-text">Tengo un móvil de 2018. ¿Servirá?</span></div>
+          <div class="qa-a"><span class="qa-av"></span><div class="qa-body"><strong>Lingo</strong><span class="qa-text">Sí. La app móvil es ligera a propósito — Android 8 / iOS 14 mínimo.</span></div></div>
+        </div>
+        <div class="qa-card">
+          <div class="qa-q"><span class="qa-av"></span><span class="qa-text">¿Por qué piden tarjeta si dicen "gratis"?</span></div>
+          <div class="qa-a"><span class="qa-av"></span><div class="qa-body"><strong>Lingo</strong><span class="qa-text">Para evitar bots. Preautorización de $1 que se devuelve al instante. No cobramos hasta que termines el trial.</span></div></div>
+        </div>
+        <div class="qa-card">
+          <div class="qa-q"><span class="qa-av"></span><span class="qa-text">¿Qué es exactamente un lingote?</span></div>
+          <div class="qa-a"><span class="qa-av"></span><div class="qa-body"><strong>Lingo</strong><span class="qa-text">La moneda interna. Sirve para activar planes, aportar a tu org, comprar premium o regalar. Se ganan o se compran.</span></div></div>
+        </div>
+        <div class="qa-card">
+          <div class="qa-q"><span class="qa-av"></span><span class="qa-text">¿Y si los miembros dejan de aportar?</span></div>
+          <div class="qa-a"><span class="qa-av"></span><div class="qa-body"><strong>Lingo</strong><span class="qa-text"><strong>7 días</strong> de grace period con auto-débito del líder. Si nadie completa, el server baja al tier anterior automáticamente.</span></div></div>
+        </div>
+        <div class="qa-card">
+          <div class="qa-q"><span class="qa-av"></span><span class="qa-text">¿Y si sobran lingotes?</span></div>
+          <div class="qa-a"><span class="qa-av"></span><div class="qa-body"><strong>Lingo</strong><span class="qa-text">Boost automático ese mes (+5 slots, audio HD) o upgrade del plan si sobran muchos. Lo que aportas nunca se pierde.</span></div></div>
+        </div>
+        <div class="qa-card">
+          <div class="qa-q"><span class="qa-av"></span><span class="qa-text">¿Cómo es el plugin de mi juego?</span></div>
+          <div class="qa-a"><span class="qa-av"></span><div class="qa-body"><strong>Lingo</strong><span class="qa-text">Mapea la estructura del juego a tus salas — naves en SC, carriles en LoL, escuadrones en Arma. SC/LoL/FFXIV/Arma ya disponibles.</span></div></div>
+        </div>
+        <div class="qa-card">
+          <div class="qa-q"><span class="qa-av"></span><span class="qa-text">¿Funciona con 5 colegas nada más?</span></div>
+          <div class="qa-a"><span class="qa-av"></span><div class="qa-body"><strong>Lingo</strong><span class="qa-text">Sí. <strong>Community</strong> es gratis con tu trial — hasta 50 personas, voz nítida, calendar. Vives sin pagar nada.</span></div></div>
+        </div>
+        <div class="qa-card">
+          <div class="qa-q"><span class="qa-av"></span><span class="qa-text">¿Mis llamadas son privadas? ¿Vendéis datos?</span></div>
+          <div class="qa-a"><span class="qa-av"></span><div class="qa-body"><strong>Lingo</strong><span class="qa-text">Voz cifrada en tránsito. No grabamos salvo que tú lo actives. Y no vendemos datos — el modelo es la suscripción.</span></div></div>
+        </div>
 
-      <div class="bubble-row you">
-        <div class="bubble-avatar"></div>
-        <div class="bubble you">
-          ¿Funciona en navegador o tengo que instalar?
-          <small>09:42</small>
+        <!-- Set 2 duplicado para loop infinito -->
+        <div class="qa-card" aria-hidden="true">
+          <div class="qa-q"><span class="qa-av"></span><span class="qa-text">¿Funciona en navegador o tengo que instalar?</span></div>
+          <div class="qa-a"><span class="qa-av"></span><div class="qa-body"><strong>Lingo</strong><span class="qa-text">Ambas. La versión web va en cualquier Chrome decente (sin HOTAS). La app de Windows es la completa.</span></div></div>
+        </div>
+        <div class="qa-card" aria-hidden="true">
+          <div class="qa-q"><span class="qa-av"></span><span class="qa-text">Tengo un móvil de 2018. ¿Servirá?</span></div>
+          <div class="qa-a"><span class="qa-av"></span><div class="qa-body"><strong>Lingo</strong><span class="qa-text">Sí. La app móvil es ligera a propósito — Android 8 / iOS 14 mínimo.</span></div></div>
+        </div>
+        <div class="qa-card" aria-hidden="true">
+          <div class="qa-q"><span class="qa-av"></span><span class="qa-text">¿Por qué piden tarjeta si dicen "gratis"?</span></div>
+          <div class="qa-a"><span class="qa-av"></span><div class="qa-body"><strong>Lingo</strong><span class="qa-text">Para evitar bots. Preautorización de $1 que se devuelve al instante. No cobramos hasta que termines el trial.</span></div></div>
+        </div>
+        <div class="qa-card" aria-hidden="true">
+          <div class="qa-q"><span class="qa-av"></span><span class="qa-text">¿Qué es exactamente un lingote?</span></div>
+          <div class="qa-a"><span class="qa-av"></span><div class="qa-body"><strong>Lingo</strong><span class="qa-text">La moneda interna. Sirve para activar planes, aportar a tu org, comprar premium o regalar. Se ganan o se compran.</span></div></div>
+        </div>
+        <div class="qa-card" aria-hidden="true">
+          <div class="qa-q"><span class="qa-av"></span><span class="qa-text">¿Y si los miembros dejan de aportar?</span></div>
+          <div class="qa-a"><span class="qa-av"></span><div class="qa-body"><strong>Lingo</strong><span class="qa-text"><strong>7 días</strong> de grace period con auto-débito del líder. Si nadie completa, el server baja al tier anterior automáticamente.</span></div></div>
+        </div>
+        <div class="qa-card" aria-hidden="true">
+          <div class="qa-q"><span class="qa-av"></span><span class="qa-text">¿Y si sobran lingotes?</span></div>
+          <div class="qa-a"><span class="qa-av"></span><div class="qa-body"><strong>Lingo</strong><span class="qa-text">Boost automático ese mes (+5 slots, audio HD) o upgrade del plan si sobran muchos. Lo que aportas nunca se pierde.</span></div></div>
+        </div>
+        <div class="qa-card" aria-hidden="true">
+          <div class="qa-q"><span class="qa-av"></span><span class="qa-text">¿Cómo es el plugin de mi juego?</span></div>
+          <div class="qa-a"><span class="qa-av"></span><div class="qa-body"><strong>Lingo</strong><span class="qa-text">Mapea la estructura del juego a tus salas — naves en SC, carriles en LoL, escuadrones en Arma. SC/LoL/FFXIV/Arma ya disponibles.</span></div></div>
+        </div>
+        <div class="qa-card" aria-hidden="true">
+          <div class="qa-q"><span class="qa-av"></span><span class="qa-text">¿Funciona con 5 colegas nada más?</span></div>
+          <div class="qa-a"><span class="qa-av"></span><div class="qa-body"><strong>Lingo</strong><span class="qa-text">Sí. <strong>Community</strong> es gratis con tu trial — hasta 50 personas, voz nítida, calendar. Vives sin pagar nada.</span></div></div>
+        </div>
+        <div class="qa-card" aria-hidden="true">
+          <div class="qa-q"><span class="qa-av"></span><span class="qa-text">¿Mis llamadas son privadas? ¿Vendéis datos?</span></div>
+          <div class="qa-a"><span class="qa-av"></span><div class="qa-body"><strong>Lingo</strong><span class="qa-text">Voz cifrada en tránsito. No grabamos salvo que tú lo actives. Y no vendemos datos — el modelo es la suscripción.</span></div></div>
         </div>
       </div>
-      <div class="bubble-row">
-        <div class="bubble-avatar"></div>
-        <div class="bubble">
-          <strong>Lingo</strong>
-          Ambas. La versión web va en cualquier Chrome decente (con algún recorte menor — sin HOTAS por ejemplo). La app de Windows es la completa, y para Mac/Linux estamos puliendo.
-          <small>09:42</small>
-        </div>
-      </div>
-
-      <div class="bubble-row you">
-        <div class="bubble-avatar"></div>
-        <div class="bubble you">
-          Tengo un móvil viejo de 2018. ¿Servirá?
-          <small>09:44</small>
-        </div>
-      </div>
-      <div class="bubble-row">
-        <div class="bubble-avatar"></div>
-        <div class="bubble">
-          <strong>Lingo</strong>
-          Sí. La app móvil es ligera a propósito — pensada para teléfonos y tablets que ya tienen unos años. Funciona desde Android 8 / iOS 14.
-          <small>09:44</small>
-        </div>
-      </div>
-
-      <div class="bubble-row you">
-        <div class="bubble-avatar"></div>
-        <div class="bubble you">
-          ¿Qué pinta tiene un "lingote"?
-          <small>09:47</small>
-        </div>
-      </div>
-      <div class="bubble-row">
-        <div class="bubble-avatar"></div>
-        <div class="bubble">
-          <strong>Lingo</strong>
-          Yo soy uno 🪙. La moneda interna de UMBRA. Sirve para boosts, regalos a otros squads, comprar premium individual y cosméticos sin pay-to-win. Se ganan o se compran.
-          <small>09:47</small>
-        </div>
-      </div>
-
-      <div class="bubble-row you">
-        <div class="bubble-avatar"></div>
-        <div class="bubble you">
-          ¿Cómo funciona el tema de los planes?
-          <small>09:49</small>
-        </div>
-      </div>
-      <div class="bubble-row">
-        <div class="bubble-avatar"></div>
-        <div class="bubble">
-          <strong>Lingo</strong>
-          Tres planes. <strong>Community</strong> es gratis para asomarse (hasta 25 personas). <strong>Org</strong> es donde está la fiesta — lo paga el líder/dueño de la org y los miembros se conectan gratis. <strong>Enterprise</strong> es para esports, eventos en directo y orgs masivas, con región dedicada y SLA. Sin suscripción por usuario, nunca.
-          <small>09:49</small>
-        </div>
-      </div>
-
-      <div class="bubble-row you">
-        <div class="bubble-avatar"></div>
-        <div class="bubble you">
-          ¿Mis llamadas son privadas? ¿Vendéis datos?
-          <small>09:51</small>
-        </div>
-      </div>
-      <div class="bubble-row">
-        <div class="bubble-avatar"></div>
-        <div class="bubble">
-          <strong>Lingo</strong>
-          Voz cifrada en tránsito. No grabamos nada salvo que tú lo actives. Y no vendemos datos — el modelo de negocio es la suscripción de unos pocos planes, no minar lo que dices.
-          <small>09:52</small>
-        </div>
-      </div>
-
     </div>
+    <p style="text-align:center;color:rgba(255,255,255,0.5);font-size:0.85rem;margin-top:1rem">Pasa el ratón por encima para pausar y leer con calma.</p>
+
    </div>
   </section>
 
@@ -2214,8 +3430,11 @@
         <div class="mascot-img halo-crystal mascot-m" style="animation-delay:-2s">
           <img src="assets/mascot-gemini-raw.png" alt="Gemmi" />
         </div>
-        <div class="mascot-img halo-mint mascot-m as-stash" style="animation-delay:-3s">
-          <img src="assets/mascot-lingo-raw.png" alt="Stash" />
+        <div class="mascot-img halo-mint mascot-m" style="animation-delay:-3s">
+          <img src="assets/omni.png" alt="Omni" />
+        </div>
+        <div class="mascot-img halo-gold mascot-s" style="animation-delay:-1.5s">
+          <img src="assets/penrousito.png" alt="Penrousito" />
         </div>
       </div>
       <h2>¿Te animas?</h2>
@@ -2258,30 +3477,28 @@
         <h4>Recursos</h4>
         <ul>
           <li><a href="#faq">FAQ</a></li>
-          <li><a href="#">Estado del servicio</a></li>
-          <li><a href="#">Roadmap</a></li>
-          <li><a href="#">Comunidad</a></li>
+          <li><a href="/status">Estado del servicio</a></li>
+          <li><a href="/roadmap">Roadmap</a></li>
+          <li><a href="/comunidad">Comunidad</a></li>
         </ul>
       </div>
       <div class="foot-col">
         <h4>CFX</h4>
         <ul>
-          <li><a href="#">Quiénes somos</a></li>
-          <li><a href="#">Contacto</a></li>
-          <li><a href="#">Privacidad</a></li>
-          <li><a href="#">Términos</a></li>
+          <li><a href="/quienes-somos">Quiénes somos</a></li>
+          <li><a href="mailto:hola@cfx.studio">Contacto</a></li>
+          <li><a href="/privacidad">Privacidad</a></li>
+          <li><a href="/terminos">Términos</a></li>
         </ul>
       </div>
     </div>
     <div class="foot-bottom">
       <span>© 2026 CFX · Todos los derechos reservados</span>
-      <span style="display:flex;gap:1.25rem;align-items:center">
-        <span style="display:inline-flex;align-items:center;gap:0.45rem"><span style="width:8px;height:8px;border-radius:50%;background:var(--mint);box-shadow:0 0 6px var(--mint)"></span>Todos los sistemas operativos</span>
+      <span style="display:flex;gap:1.25rem;align-items:center;flex-wrap:wrap">
+        <span style="display:inline-flex;align-items:center;gap:0.45rem"><span style="width:8px;height:8px;border-radius:50%;background:var(--mint);box-shadow:0 0 6px var(--mint)"></span>Windows · Web · Mac/Linux pronto</span>
       </span>
     </div>
   </footer>
-
-  <a class="back-link" href="/">← Sitio actual</a>
 
   <script>
     // Reveal-on-scroll
@@ -2297,6 +3514,97 @@
       window.addEventListener('scroll', onScroll, {passive:true});
       onScroll();
     }
+
+    // Tabs de la sección Plugins
+    document.querySelectorAll('.ptab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        const target = tab.dataset.tab;
+        document.querySelectorAll('.ptab').forEach(t => t.classList.toggle('active', t === tab));
+        document.querySelectorAll('.ptab-content').forEach(c => {
+          c.classList.toggle('active', c.dataset.content === target);
+        });
+      });
+    });
+
+    // Simulador de aportes
+    (function(){
+      const plans = [
+        { name: 'COMMUNITY',  cap: 50,    lingotes: 5,   usd: 10  },
+        { name: 'STARTER',    cap: 500,   lingotes: 10,  usd: 20  },
+        { name: 'CREW',       cap: 1500,  lingotes: 18,  usd: 36  },
+        { name: 'SQUAD',      cap: 5000,  lingotes: 28,  usd: 56  },
+        { name: 'PLATOON',    cap: 10000, lingotes: 40,  usd: 80  },
+        { name: 'COMPANY',    cap: 25000, lingotes: 60,  usd: 120 },
+        { name: 'BATTALION',  cap: 50000, lingotes: 95,  usd: 190 },
+        { name: 'REGIMENT',   cap: Infinity, lingotes: 150, usd: 300 },
+      ];
+
+      const $members = document.getElementById('sim-members');
+      const $contrib = document.getElementById('sim-contributors');
+      const $membersOut = document.getElementById('sim-members-out');
+      const $contribOut = document.getElementById('sim-contributors-out');
+      const $plan = document.getElementById('sim-plan');
+      const $meta = document.getElementById('sim-meta');
+      const $leader = document.getElementById('sim-leader');
+      const $contribLabel = document.getElementById('sim-contrib-label');
+      const $contribAmt = document.getElementById('sim-contrib');
+      const $extraRow = document.getElementById('sim-extra-row');
+      const $extra = document.getElementById('sim-extra');
+
+      if(!$members) return;
+
+      function formatNum(n){ return n.toLocaleString('es-ES'); }
+      function lingoteUSD(l){ return (l * 2).toFixed(0); }
+
+      function recalc(){
+        const members = +$members.value;
+        const contributors = +$contrib.value;
+
+        // Display sliders
+        $membersOut.textContent = formatNum(members);
+        $contribOut.textContent = formatNum(contributors);
+
+        // Pick plan
+        const plan = plans.find(p => members <= p.cap) || plans[plans.length-1];
+        const cap = plan.cap === Infinity ? '∞' : formatNum(plan.cap);
+        $plan.textContent = plan.name;
+        $meta.textContent = `${cap} miembros · ${plan.lingotes} lingotes/mes`;
+
+        // Breakdown
+        const leaderMin = Math.ceil(plan.lingotes * 0.25);
+        const fromContrib = Math.round(contributors * 1.5);  // ~1-2 ling por miembro
+        const leaderActual = Math.max(leaderMin, plan.lingotes - fromContrib);
+        const total = leaderActual + fromContrib;
+        const extra = total - plan.lingotes;
+
+        $leader.innerHTML = `${leaderActual} lingotes <small>· $${lingoteUSD(leaderActual)}/mes</small>`;
+
+        if(contributors > 0){
+          $contribLabel.textContent = `${contributors} miembros aportando`;
+          const perMember = (fromContrib / contributors).toFixed(1).replace('.', ',');
+          $contribAmt.innerHTML = `${fromContrib} lingotes <small>· ~$${(perMember * 2).toFixed(2).replace('.', ',')}/mes c/u</small>`;
+          $contribLabel.parentElement.classList.remove('hidden');
+        } else {
+          $contribLabel.parentElement.classList.add('hidden');
+        }
+
+        if(extra > 0){
+          $extra.textContent = `+${extra} lingotes`;
+          $extraRow.querySelector('.sb-who').textContent = 'Sobrante de boost';
+          $extraRow.classList.remove('hidden');
+        } else if(extra < 0){
+          $extra.textContent = `${Math.abs(extra)} lingotes`;
+          $extraRow.querySelector('.sb-who').textContent = 'Faltan (cubre el líder)';
+          $extraRow.classList.remove('hidden');
+        } else {
+          $extraRow.classList.add('hidden');
+        }
+      }
+
+      $members.addEventListener('input', recalc);
+      $contrib.addEventListener('input', recalc);
+      recalc();
+    })();
 
   </script>
 </body>
