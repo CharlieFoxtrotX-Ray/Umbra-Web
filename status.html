@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <title>Estado del servicio · UMBRA</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Estado en tiempo real de los servicios de UMBRA: voz, web, móvil, pagos." />
+  <link rel="icon" href="assets/logo-triangle.png" />
+  <link rel="stylesheet" href="css/legal.css" />
+</head>
+<body>
+
+  <nav class="legal-nav">
+    <a class="legal-nav-logo" href="/">
+      <img src="assets/logo-triangle.png" alt="" />
+      <span>UMBRA</span>
+    </a>
+    <a class="legal-nav-back" href="/">← Volver al sitio</a>
+  </nav>
+
+  <header class="legal-hero">
+    <div class="legal-eyebrow">🚦 Status</div>
+    <h1>Estado del servicio</h1>
+    <div class="updated">Última actualización: <span id="last-update">hace unos segundos</span></div>
+  </header>
+
+  <div class="status-overall" id="overall-status">
+    <span class="status-dot"></span>
+    <h2>Todo funcionando</h2>
+    <p>Todos los sistemas operativos. Sin incidencias activas.</p>
+  </div>
+
+  <section class="status-services">
+
+    <div class="status-row">
+      <span class="svc-name">🎙️ Servidores de voz (SFU)</span>
+      <span class="svc-status"><span class="svc-dot"></span>OPERACIONAL</span>
+    </div>
+    <div class="status-row">
+      <span class="svc-name">🌐 App web</span>
+      <span class="svc-status"><span class="svc-dot"></span>OPERACIONAL</span>
+    </div>
+    <div class="status-row">
+      <span class="svc-name">💻 App de escritorio</span>
+      <span class="svc-status"><span class="svc-dot"></span>OPERACIONAL</span>
+    </div>
+    <div class="status-row">
+      <span class="svc-name">📱 App móvil (iOS · Android)</span>
+      <span class="svc-status"><span class="svc-dot"></span>OPERACIONAL</span>
+    </div>
+    <div class="status-row">
+      <span class="svc-name">🔐 Autenticación</span>
+      <span class="svc-status"><span class="svc-dot"></span>OPERACIONAL</span>
+    </div>
+    <div class="status-row">
+      <span class="svc-name">💳 Pagos y lingotes</span>
+      <span class="svc-status"><span class="svc-dot"></span>OPERACIONAL</span>
+    </div>
+    <div class="status-row">
+      <span class="svc-name">🔌 Plugins por juego</span>
+      <span class="svc-status"><span class="svc-dot"></span>OPERACIONAL</span>
+    </div>
+    <div class="status-row">
+      <span class="svc-name">📅 Calendario y workspace</span>
+      <span class="svc-status"><span class="svc-dot"></span>OPERACIONAL</span>
+    </div>
+
+    <div class="legal-doc" style="padding-top:3rem">
+      <h2>Histórico reciente</h2>
+      <p style="color:var(--text-mute)">Sin incidencias en los últimos 90 días.</p>
+
+      <div class="note" style="margin-top:2rem">
+        <strong>💡 Esta página es estática mientras montamos el sistema de status real.</strong> Cuando esté en producción, los indicadores se actualizarán automáticamente con datos en vivo de nuestros sistemas de monitoring.
+      </div>
+
+      <h2>Suscríbete a las actualizaciones</h2>
+      <p>Para recibir alertas cuando haya una incidencia o mantenimiento programado:</p>
+      <ul>
+        <li>📧 Email: <span class="review">[suscríbete en status.umbra-cfx.tech cuando esté listo]</span></li>
+        <li>🐦 Twitter/X: <a href="#">@umbra_status</a> <span class="review">[crear cuenta]</span></li>
+        <li>📢 Discord de la comunidad: <a href="/comunidad.html">comunidad UMBRA</a></li>
+      </ul>
+    </div>
+
+  </section>
+
+  <footer class="legal-foot">
+    <p>
+      <a href="/">← Volver al sitio</a>
+      ·
+      <a href="/privacidad.html">Privacidad</a>
+      ·
+      <a href="/terminos.html">Términos</a>
+      ·
+      <a href="/cookies.html">Cookies</a>
+    </p>
+    <p style="margin-top:0.85rem">© 2026 CFX · Todos los derechos reservados</p>
+  </footer>
+
+  <script>
+    // Actualizar la hora cada minuto
+    const upd = document.getElementById('last-update');
+    function setUpd(){
+      const opts = {hour:'2-digit',minute:'2-digit'};
+      upd.textContent = 'hoy a las ' + new Date().toLocaleTimeString('es-ES', opts);
+    }
+    setUpd(); setInterval(setUpd, 60000);
+  </script>
+</body>
+</html>

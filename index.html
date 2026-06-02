@@ -345,8 +345,29 @@
     }
     .nav-links a:hover{background:rgba(255,255,255,0.08);color:#fff}
 
+    .nav-right{
+      justify-self:end;display:flex;align-items:center;gap:0.75rem;
+    }
+    .lang-switch{
+      display:inline-flex;background:rgba(255,255,255,0.06);
+      border:1px solid rgba(255,255,255,0.10);
+      border-radius:var(--r-pill);padding:0.2rem;
+    }
+    .lang-switch button{
+      padding:0.35rem 0.7rem;border-radius:var(--r-pill);
+      font-family:'JetBrains Mono',monospace;font-size:0.72rem;
+      font-weight:700;letter-spacing:0.06em;cursor:pointer;
+      color:rgba(255,255,255,0.55);background:transparent;border:none;
+      transition:background 180ms,color 180ms;
+    }
+    .lang-switch button:hover{color:#fff}
+    .lang-switch button.active{
+      background:linear-gradient(135deg,var(--gold-hi),var(--gold));
+      color:#1a1208;box-shadow:0 0 0 1px rgba(212,160,106,0.4);
+    }
+    @media(max-width:540px){.lang-switch{display:none}}
+
     .nav-cta{
-      justify-self:end;
       padding:0.6rem 1.3rem;border-radius:var(--r-pill);
       background:#fff;color:var(--ink);
       font-weight:700;font-size:0.9rem;
@@ -2453,12 +2474,18 @@
       <span>UMBRA</span>
     </a>
     <div class="nav-links">
-      <a href="#story">Cómo va</a>
-      <a href="#orbita">Para quién</a>
-      <a href="#planes">Planes</a>
-      <a href="#faq">FAQ</a>
+      <a href="#story" data-i18n="nav.story">Cómo va</a>
+      <a href="#orbita" data-i18n="nav.audiences">Para quién</a>
+      <a href="#planes" data-i18n="nav.plans">Planes</a>
+      <a href="#faq" data-i18n="nav.faq">FAQ</a>
     </div>
-    <a class="nav-cta" href="https://umbra.mobile/" target="_blank" rel="noopener">Abrir UMBRA</a>
+    <div class="nav-right">
+      <div class="lang-switch" role="group" aria-label="Idioma">
+        <button type="button" data-lang="es" class="active">ES</button>
+        <button type="button" data-lang="en">EN</button>
+      </div>
+      <a class="nav-cta" href="https://umbra.mobile/" target="_blank" rel="noopener" data-i18n="nav.cta">Abrir UMBRA</a>
+    </div>
   </nav>
 
   <!-- HERO BENTO -->
@@ -2467,16 +2494,16 @@
 
       <!-- Texto izquierda -->
       <div class="hero-text">
-        <h1>Tu voz,<br/>tu gente, <span class="ink-blob">en su sitio.</span></h1>
-        <p class="lead">UMBRA es donde tu grupo se junta, charla, planea y se organiza — sin abrir cinco apps. Salas ilimitadas, whisper entre canales, voz nítida, y un sitio que te cuida.</p>
+        <h1 data-i18n-html="hero.h1.html">Tu voz,<br/>tu gente, <span class="ink-blob">en su sitio.</span></h1>
+        <p class="lead" data-i18n="hero.lead">UMBRA es donde tu grupo se junta, charla, planea y se organiza — sin abrir cinco apps. Salas ilimitadas, whisper entre canales, voz nítida, y un sitio que te cuida.</p>
         <div class="row">
-          <a class="btn btn-gold" href="#descarga">↓ Descargar</a>
-          <a class="btn btn-ghost" href="https://umbra.mobile/" target="_blank" rel="noopener">Abrir en navegador</a>
+          <a class="btn btn-gold" href="#descarga" data-i18n="hero.cta.download">↓ Descargar</a>
+          <a class="btn btn-ghost" href="https://umbra.mobile/" target="_blank" rel="noopener" data-i18n="hero.cta.web">Abrir en navegador</a>
         </div>
         <div class="meta-tags">
-          <span class="ok">Úsalo con tu org</span>
-          <span class="ok">Móvil y tablets que ya no uses</span>
-          <span class="ok">Versión web sin instalar</span>
+          <span class="ok" data-i18n="hero.tag.org">Úsalo con tu org</span>
+          <span class="ok" data-i18n="hero.tag.mobile">Móvil y tablets que ya no uses</span>
+          <span class="ok" data-i18n="hero.tag.web">Versión web sin instalar</span>
         </div>
       </div>
 
@@ -2634,37 +2661,37 @@
   <!-- TU WORKSPACE — UMBRA no es solo voz -->
   <section class="workspace" id="workspace">
     <div class="workspace-head reveal">
-      <div class="section-eyebrow">🧰 Workspace</div>
-      <h2>Tu workspace, <span class="gold">no solo voz.</span></h2>
-      <p class="lead">UMBRA reemplaza Discord + Calendly + Notion + Trello — con voz en el centro. Tu org deja de usar cinco apps y vive en una sola.</p>
+      <div class="section-eyebrow" data-i18n="ws.eyebrow">🧰 Workspace</div>
+      <h2 data-i18n-html="ws.h2.html">Tu workspace, <span class="gold">no solo voz.</span></h2>
+      <p class="lead" data-i18n="ws.lead">UMBRA reemplaza Discord + Calendly + Notion + Trello — con voz en el centro. Tu org deja de usar cinco apps y vive en una sola.</p>
     </div>
 
     <div class="workspace-modules reveal">
       <div class="ws-mod">
         <div class="ws-mod-icon">💬</div>
-        <h4>Salas de voz</h4>
-        <p>Múltiples canales, whisper cross-canal, jerarquía táctica nativa.</p>
+        <h4 data-i18n="ws.mod1.title">Salas de voz</h4>
+        <p data-i18n="ws.mod1.text">Múltiples canales, whisper cross-canal, jerarquía táctica nativa.</p>
       </div>
       <div class="ws-mod">
         <div class="ws-mod-icon">📅</div>
-        <h4>Calendario</h4>
-        <p>Disponibilidad coloreada por miembro. Cuándo está cada uno, qué ops tenéis, en un sitio.</p>
+        <h4 data-i18n="ws.mod2.title">Calendario</h4>
+        <p data-i18n="ws.mod2.text">Disponibilidad coloreada por miembro. Cuándo está cada uno, qué ops tenéis, en un sitio.</p>
       </div>
       <div class="ws-mod">
         <div class="ws-mod-icon">📝</div>
-        <h4>Notas y SOPs</h4>
-        <p>Briefings, procedimientos, debriefs. Compartidos con tu org, buscables.</p>
+        <h4 data-i18n="ws.mod3.title">Notas y SOPs</h4>
+        <p data-i18n="ws.mod3.text">Briefings, procedimientos, debriefs. Compartidos con tu org, buscables.</p>
       </div>
       <div class="ws-mod">
         <div class="ws-mod-icon">📋</div>
-        <h4>Tareas</h4>
-        <p>Quién hace qué esta semana. Asignaciones, prioridades, recordatorios.</p>
+        <h4 data-i18n="ws.mod4.title">Tareas</h4>
+        <p data-i18n="ws.mod4.text">Quién hace qué esta semana. Asignaciones, prioridades, recordatorios.</p>
       </div>
     </div>
 
     <div class="workspace-comparison reveal">
       <div class="wc-col wc-hoy">
-        <div class="wc-label">Hoy usas</div>
+        <div class="wc-label" data-i18n="ws.cmp.hoy">Hoy usas</div>
         <ul>
           <li>🟣 Discord (voz + chat)</li>
           <li>📅 Calendly (disponibilidad)</li>
@@ -2673,18 +2700,18 @@
           <li>🟠 Trello (tareas)</li>
           <li>🔵 TeamSpeak (whisper)</li>
         </ul>
-        <div class="wc-foot">5 suscripciones · 5 logins · 0 integración</div>
+        <div class="wc-foot" data-i18n="ws.cmp.hoy.foot">5 suscripciones · 5 logins · 0 integración</div>
       </div>
       <div class="wc-arrow" aria-hidden="true">➜</div>
       <div class="wc-col wc-manana">
-        <div class="wc-label">Mañana usas</div>
+        <div class="wc-label" data-i18n="ws.cmp.manana">Mañana usas</div>
         <ul class="wc-single">
           <li>
             <img src="assets/logo-triangle.png" alt="" />
             <span>UMBRA</span>
           </li>
         </ul>
-        <div class="wc-foot">1 suscripción · 1 login · todo conectado</div>
+        <div class="wc-foot" data-i18n="ws.cmp.man.foot">1 suscripción · 1 login · todo conectado</div>
       </div>
     </div>
   </section>
@@ -2693,15 +2720,15 @@
   <section class="story" id="story">
    <div class="story-grid">
     <div class="story-sticky">
-      <div class="section-eyebrow">✨ CÓMO VA</div>
-      <h2 style="font-family:'Space Grotesk',sans-serif;font-size:clamp(1.8rem,3vw,2.4rem);font-weight:800;letter-spacing:-0.025em;line-height:1.05;margin-bottom:1rem">Cuatro pasos. Sin friolera.</h2>
-      <p style="color:var(--text-mid);margin-bottom:2rem">Lingo te lleva del registro a la primera ops en menos de cinco minutos.</p>
+      <div class="section-eyebrow" data-i18n="st.eyebrow">✨ CÓMO VA</div>
+      <h2 data-i18n="st.h2" style="font-family:'Space Grotesk',sans-serif;font-size:clamp(1.8rem,3vw,2.4rem);font-weight:800;letter-spacing:-0.025em;line-height:1.05;margin-bottom:1rem">Cuatro pasos. Sin friolera.</h2>
+      <p data-i18n="st.lead" style="color:var(--text-mid);margin-bottom:2rem">Lingo te lleva del registro a la primera ops en menos de cinco minutos.</p>
       <div class="story-stage">
         <div class="mascot-img halo-gold mascot-xl" aria-hidden="true" style="animation:playBob 6s ease-in-out infinite">
           <img src="assets/mascot-lingo-raw.png" alt="Lingo" />
         </div>
-        <h4>"Estoy contigo"</h4>
-        <p>Soy Lingo, y te llevo por la app sin que te pierdas. Si te quedas, te invito a un lingote.</p>
+        <h4 data-i18n="st.stage.title">"Estoy contigo"</h4>
+        <p data-i18n="st.stage.text">Soy Lingo, y te llevo por la app sin que te pierdas. Si te quedas, te invito a un lingote.</p>
       </div>
     </div>
 
@@ -2709,28 +2736,28 @@
       <li class="story-item reveal">
         <div class="num">1</div>
         <div>
-          <h5>Te registras con email + tarjeta.</h5>
-          <p>¿Tarjeta? Sí, para evitar abusos. Hacemos una preautorización de $1 que se devuelve al instante. No cobramos nada hasta que termines el periodo de prueba. A cambio te damos <strong>10 lingotes gratis</strong> para probar de verdad.</p>
+          <h5 data-i18n="st.s1.title">Te registras con email + tarjeta.</h5>
+          <p data-i18n-html="st.s1.text.html">¿Tarjeta? Sí, para evitar abusos. Hacemos una preautorización de $1 que se devuelve al instante. No cobramos nada hasta que termines el periodo de prueba. A cambio te damos <strong>10 lingotes gratis</strong> para probar de verdad.</p>
         </div>
       </li>
       <li class="story-item reveal">
         <div class="num">2</div>
         <div>
-          <h5>Creas o entras a una sala.</h5>
+          <h5 data-i18n="st.s2.title">Creas o entras a una sala.</h5>
           <p>Una sala = un grupo. La haces tú en un clic, eliges quién entra, y compartes un enlace tipo <span style="font-family:monospace;color:var(--gold-deep);font-weight:700">umbra.gg/abc</span>.</p>
         </div>
       </li>
       <li class="story-item reveal">
         <div class="num">3</div>
         <div>
-          <h5>Hablas — y si quieres, whisper.</h5>
-          <p>Pulsas para hablar. Si necesitas decirle algo a otra sala sin salir de la tuya, mantienes la tecla de whisper y tu voz cruza canales.</p>
+          <h5 data-i18n="st.s3.title">Hablas — y si quieres, whisper.</h5>
+          <p data-i18n="st.s3.text">Pulsas para hablar. Si necesitas decirle algo a otra sala sin salir de la tuya, mantienes la tecla de whisper y tu voz cruza canales.</p>
         </div>
       </li>
       <li class="story-item reveal">
         <div class="num">4</div>
         <div>
-          <h5>Si tu org va en serio, sube al plan Org.</h5>
+          <h5 data-i18n="st.s4.title">Si tu org va en serio, sube al plan Org.</h5>
           <p>El líder paga, los miembros se conectan gratis. Hasta 500 personas, whisper sin límites, gamepad/HOTAS, roles. Y para esports, eventos y orgs masivas, plan <strong>Enterprise</strong> con región dedicada, recording y SLA.</p>
         </div>
       </li>
@@ -2742,8 +2769,8 @@
   <section class="audiences" id="orbita">
     <div class="head">
       <div class="section-eyebrow" style="margin:0 auto 1rem;background:var(--paper-lila);color:var(--grape)">PARA QUIÉN</div>
-      <h2>Para tu squad. Para tu liga.<br/>Para <em style="font-style:normal;color:var(--gold-deep);font-family:'Space Grotesk',sans-serif">lo que necesites</em>.</h2>
-      <p class="lead">UMBRA es polivalente. Sirve para una squad de 5 que se ríe los viernes, para un milsim con 50 personas pelotoneando, para una liga de esports con casters y coach, para un evento en directo con técnicos en cinco salas, y para una comunidad de gente que solo quiere hablar a gusto. Tú nos dices el contexto, nosotros te damos la voz.</p>
+      <h2 data-i18n-html="au.h2.html">Para tu squad. Para tu liga.<br/>Para <em style="font-style:normal;color:var(--gold-deep);font-family:'Space Grotesk',sans-serif">lo que necesites</em>.</h2>
+      <p class="lead" data-i18n="au.lead">UMBRA es polivalente. Sirve para una squad de 5 que se ríe los viernes, para un milsim con 50 personas pelotoneando, para una liga de esports con casters y coach, para un evento en directo con técnicos en cinco salas, y para una comunidad de gente que solo quiere hablar a gusto. Tú nos dices el contexto, nosotros te damos la voz.</p>
     </div>
 
     <div class="orbit">
@@ -2760,43 +2787,43 @@
 
       <div class="orbit-item o-1">
         <span class="e">🎮</span>
-        <h6>Gaming casual</h6>
-        <p>La sala del finde con los colegas. LoL ranked, Apex squad, lo que sea. Voz nítida, sin lag.</p>
+        <h6 data-i18n="au.o1.title">Gaming casual</h6>
+        <p data-i18n="au.o1.text">La sala del finde con los colegas. LoL ranked, Apex squad, lo que sea. Voz nítida, sin lag.</p>
       </div>
       <div class="orbit-item o-2">
         <span class="e">🛡️</span>
-        <h6>Milsim · Tactical</h6>
-        <p>Comms con whisper para ops multi-squad reales — Arma, Squad, Hell Let Loose, airsoft IRL.</p>
+        <h6 data-i18n="au.o2.title">Milsim · Tactical</h6>
+        <p data-i18n="au.o2.text">Comms con whisper para ops multi-squad reales — Arma, Squad, Hell Let Loose, airsoft IRL.</p>
       </div>
       <div class="orbit-item o-3">
         <span class="e">🚀</span>
-        <h6>Star Citizen & Sci-fi</h6>
-        <p>Orgs con flotas, capital ships con 50+ personas. Plugin nativo de SC que mapea naves a salas.</p>
+        <h6 data-i18n="au.o3.title">Star Citizen & Sci-fi</h6>
+        <p data-i18n="au.o3.text">Orgs con flotas, capital ships con 50+ personas. Plugin nativo de SC que mapea naves a salas.</p>
       </div>
       <div class="orbit-item o-4">
         <span class="e">🏆</span>
-        <h6>Esports & ligas</h6>
-        <p>Coach, caster, capitanes — cada uno en su rol con whisper jerárquico.</p>
+        <h6 data-i18n="au.o4.title">Esports & ligas</h6>
+        <p data-i18n="au.o4.text">Coach, caster, capitanes — cada uno en su rol con whisper jerárquico.</p>
       </div>
       <div class="orbit-item o-5">
         <span class="e">⚔️</span>
-        <h6>MMO & raids</h6>
-        <p>Raid de 24-40 en FFXIV o WoW. Tanks, healers y DPS en su rol. Officers wispean por rol durante el fight.</p>
+        <h6 data-i18n="au.o5.title">MMO & raids</h6>
+        <p data-i18n="au.o5.text">Raid de 24-40 en FFXIV o WoW. Tanks, healers y DPS en su rol. Officers wispean por rol durante el fight.</p>
       </div>
       <div class="orbit-item o-6">
         <span class="e">🎬</span>
-        <h6>Eventos & producción</h6>
-        <p>Director, talento, técnicos. Salas separadas pero conectadas.</p>
+        <h6 data-i18n="au.o6.title">Eventos & producción</h6>
+        <p data-i18n="au.o6.text">Director, talento, técnicos. Salas separadas pero conectadas.</p>
       </div>
       <div class="orbit-item o-7">
         <span class="e">📚</span>
-        <h6>Comunidades</h6>
-        <p>Cursos, hobbies, viajes. Tu gente, tu voz, tu sitio.</p>
+        <h6 data-i18n="au.o7.title">Comunidades</h6>
+        <p data-i18n="au.o7.text">Cursos, hobbies, viajes. Tu gente, tu voz, tu sitio.</p>
       </div>
       <div class="orbit-item o-8">
         <span class="e">💼</span>
-        <h6>Equipos & trabajo</h6>
-        <p>Stand-ups, pair, brainstorm sin Zoom-fatigue.</p>
+        <h6 data-i18n="au.o8.title">Equipos & trabajo</h6>
+        <p data-i18n="au.o8.text">Stand-ups, pair, brainstorm sin Zoom-fatigue.</p>
       </div>
     </div>
   </section>
@@ -2807,29 +2834,29 @@
       <img src="assets/penrousito.png" alt="" />
     </div>
     <div class="plugins-head reveal">
-      <div class="section-eyebrow">🔌 Plugins por juego</div>
-      <h2>Tu universo, <span class="gold">tu jerarquía.</span></h2>
-      <p class="lead">Instala el plugin de tu juego y UMBRA copia su estructura real. Las naves, los carriles, los escuadrones — son tus salas. Coordinas como si estuvieras en el juego.</p>
+      <div class="section-eyebrow" data-i18n="pl.eyebrow">🔌 Plugins por juego</div>
+      <h2 data-i18n-html="pl.h2.html">Tu universo, <span class="gold">tu jerarquía.</span></h2>
+      <p class="lead" data-i18n="pl.lead">Instala el plugin de tu juego y UMBRA copia su estructura real. Las naves, los carriles, los escuadrones — son tus salas. Coordinas como si estuvieras en el juego.</p>
     </div>
 
     <div class="plugins-tabs reveal" role="tablist">
-      <button class="ptab active" data-tab="sc" role="tab">🚀 Star Citizen</button>
-      <button class="ptab" data-tab="lol" role="tab">⚔️ League of Legends</button>
-      <button class="ptab" data-tab="arma" role="tab">🛡️ Arma · Squad · HLL</button>
-      <button class="ptab" data-tab="ff14" role="tab">🐉 FFXIV · WoW</button>
-      <button class="ptab" data-tab="custom" role="tab">🛠️ Tu juego</button>
+      <button class="ptab active" data-tab="sc" role="tab" data-i18n="pl.tab.sc">🚀 Star Citizen</button>
+      <button class="ptab" data-tab="lol" role="tab" data-i18n="pl.tab.lol">⚔️ League of Legends</button>
+      <button class="ptab" data-tab="arma" role="tab" data-i18n="pl.tab.arma">🛡️ Arma · Squad · HLL</button>
+      <button class="ptab" data-tab="ff14" role="tab" data-i18n="pl.tab.ff14">🐉 FFXIV · WoW</button>
+      <button class="ptab" data-tab="custom" role="tab" data-i18n="pl.tab.custom">🛠️ Tu juego</button>
     </div>
 
     <!-- Star Citizen -->
     <div class="ptab-content active" data-content="sc">
       <div class="ptc-grid">
         <div class="ptc-text">
-          <h3>Las naves de tu org → salas en UMBRA.</h3>
-          <p>El comandante hace whisper desde Bridge a cualquier escuadrón. Cada piloto ve dónde está cada nave en tiempo real.</p>
+          <h3 data-i18n="pl.sc.title">Las naves de tu org → salas en UMBRA.</h3>
+          <p data-i18n="pl.sc.text">El comandante hace whisper desde Bridge a cualquier escuadrón. Cada piloto ve dónde está cada nave en tiempo real.</p>
           <ul class="ptc-list">
-            <li><span class="pl-emoji">🚀</span><strong>Idris (Capital)</strong> → Bridge / Engineering / Turrets / Hangar</li>
-            <li><span class="pl-emoji">✈️</span><strong>Fighter Wing</strong> → Alpha · Bravo · Charlie squadrons</li>
-            <li><span class="pl-emoji">🛰️</span><strong>Recon Wing</strong> → Avenger × 2</li>
+            <li data-i18n-html="pl.sc.li1.html"><span class="pl-emoji">🚀</span><strong>Idris (Capital)</strong> → Bridge / Engineering / Turrets / Hangar</li>
+            <li data-i18n-html="pl.sc.li2.html"><span class="pl-emoji">✈️</span><strong>Fighter Wing</strong> → Alpha · Bravo · Charlie squadrons</li>
+            <li data-i18n-html="pl.sc.li3.html"><span class="pl-emoji">🛰️</span><strong>Recon Wing</strong> → Avenger × 2</li>
           </ul>
         </div>
         <div class="ptc-mockup">
@@ -2867,14 +2894,14 @@
     <div class="ptab-content" data-content="lol">
       <div class="ptc-grid">
         <div class="ptc-text">
-          <h3>Los carriles de tu juego → salas en UMBRA.</h3>
+          <h3 data-i18n="pl.lol.title">Los carriles de tu juego → salas en UMBRA.</h3>
           <p>El coach habla a todos en una llamada. Mid y Jungle hacen whisper para coordinar ganks. Caster en su sala con permisos read-only.</p>
           <ul class="ptc-list">
-            <li><span class="pl-emoji">🛡️</span><strong>Top</strong> · Tanke y splitpush</li>
-            <li><span class="pl-emoji">🗡️</span><strong>Jungle</strong> · Coordina ganks vía whisper</li>
-            <li><span class="pl-emoji">⚡</span><strong>Mid</strong> · Rotaciones y wave control</li>
-            <li><span class="pl-emoji">🏹</span><strong>Bot</strong> · ADC + Support</li>
-            <li><span class="pl-emoji">📢</span><strong>Coach + Caster</strong> · Salas con permisos</li>
+            <li data-i18n-html="pl.lol.li1.html"><span class="pl-emoji">🛡️</span><strong>Top</strong> · Tanke y splitpush</li>
+            <li data-i18n-html="pl.lol.li2.html"><span class="pl-emoji">🗡️</span><strong>Jungle</strong> · Coordina ganks vía whisper</li>
+            <li data-i18n-html="pl.lol.li3.html"><span class="pl-emoji">⚡</span><strong>Mid</strong> · Rotaciones y wave control</li>
+            <li data-i18n-html="pl.lol.li4.html"><span class="pl-emoji">🏹</span><strong>Bot</strong> · ADC + Support</li>
+            <li data-i18n-html="pl.lol.li5.html"><span class="pl-emoji">📢</span><strong>Coach + Caster</strong> · Salas con permisos</li>
           </ul>
         </div>
         <div class="ptc-mockup">
@@ -2908,13 +2935,13 @@
     <div class="ptab-content" data-content="arma">
       <div class="ptc-grid">
         <div class="ptc-text">
-          <h3>La cadena de mando militar → salas en UMBRA.</h3>
-          <p>El líder de compañía habla a sus pelotones individualmente o a todos a la vez con un atajo. CAS y Armor en sus canales tácticos.</p>
+          <h3 data-i18n="pl.arma.title">La cadena de mando militar → salas en UMBRA.</h3>
+          <p data-i18n="pl.arma.text">El líder de compañía habla a sus pelotones individualmente o a todos a la vez con un atajo. CAS y Armor en sus canales tácticos.</p>
           <ul class="ptc-list">
-            <li><span class="pl-emoji">📡</span><strong>Comando</strong> → Compañía Alpha → Pelotones → Squads</li>
-            <li><span class="pl-emoji">🚁</span><strong>CAS</strong> · Aire / soporte cercano</li>
-            <li><span class="pl-emoji">🚜</span><strong>Armor</strong> · Tanques y vehículos</li>
-            <li><span class="pl-emoji">🔍</span><strong>Recon</strong> · Inteligencia y observación</li>
+            <li data-i18n-html="pl.arma.li1.html"><span class="pl-emoji">📡</span><strong>Comando</strong> → Compañía Alpha → Pelotones → Squads</li>
+            <li data-i18n-html="pl.arma.li2.html"><span class="pl-emoji">🚁</span><strong>CAS</strong> · Aire / soporte cercano</li>
+            <li data-i18n-html="pl.arma.li3.html"><span class="pl-emoji">🚜</span><strong>Armor</strong> · Tanques y vehículos</li>
+            <li data-i18n-html="pl.arma.li4.html"><span class="pl-emoji">🔍</span><strong>Recon</strong> · Inteligencia y observación</li>
           </ul>
         </div>
         <div class="ptc-mockup">
@@ -2951,14 +2978,14 @@
     <div class="ptab-content" data-content="ff14">
       <div class="ptc-grid">
         <div class="ptc-text">
-          <h3>Los roles de raid → salas en UMBRA.</h3>
-          <p>Raid leader hace whisper por rol durante el fight. Officers tienen su sala separada para mid-pull calls. La composición visible siempre en el módulo del plugin.</p>
+          <h3 data-i18n="pl.ff14.title">Los roles de raid → salas en UMBRA.</h3>
+          <p data-i18n="pl.ff14.text">Raid leader hace whisper por rol durante el fight. Officers tienen su sala separada para mid-pull calls. La composición visible siempre en el módulo del plugin.</p>
           <ul class="ptc-list">
-            <li><span class="pl-emoji">🛡️</span><strong>Tanks</strong> · Provoke, mit cooldowns</li>
-            <li><span class="pl-emoji">💚</span><strong>Healers</strong> · Cooldowns + raid awareness</li>
-            <li><span class="pl-emoji">⚔️</span><strong>DPS Melee</strong> · Positionals</li>
-            <li><span class="pl-emoji">🏹</span><strong>DPS Ranged</strong> · Mechanics</li>
-            <li><span class="pl-emoji">⭐</span><strong>Officers</strong> · Mid-pull calls</li>
+            <li data-i18n-html="pl.ff14.li1.html"><span class="pl-emoji">🛡️</span><strong>Tanks</strong> · Provoke, mit cooldowns</li>
+            <li data-i18n-html="pl.ff14.li2.html"><span class="pl-emoji">💚</span><strong>Healers</strong> · Cooldowns + raid awareness</li>
+            <li data-i18n-html="pl.ff14.li3.html"><span class="pl-emoji">⚔️</span><strong>DPS Melee</strong> · Positionals</li>
+            <li data-i18n-html="pl.ff14.li4.html"><span class="pl-emoji">🏹</span><strong>DPS Ranged</strong> · Mechanics</li>
+            <li data-i18n-html="pl.ff14.li5.html"><span class="pl-emoji">⭐</span><strong>Officers</strong> · Mid-pull calls</li>
           </ul>
         </div>
         <div class="ptc-mockup">
@@ -2989,9 +3016,9 @@
       <div class="ptc-grid ptc-grid-center">
         <div class="ptc-soon">
           <div class="ps-icon">🛠️</div>
-          <h3>¿Tu juego no está aquí todavía?</h3>
-          <p>Pronto vas a poder <strong>crear tu propio plugin</strong> — o instalar uno hecho por la comunidad. Marketplace de plugins llegando en Q4 2026.</p>
-          <a href="#descarga" class="btn-soon">Avísame cuando esté listo →</a>
+          <h3 data-i18n="pl.custom.title">¿Tu juego no está aquí todavía?</h3>
+          <p data-i18n-html="pl.custom.text.html">Pronto vas a poder <strong>crear tu propio plugin</strong> — o instalar uno hecho por la comunidad. Marketplace de plugins llegando en Q4 2026.</p>
+          <a href="#descarga" class="btn-soon" data-i18n="pl.custom.cta">Avísame cuando esté listo →</a>
         </div>
       </div>
     </div>
@@ -3003,9 +3030,9 @@
       <img src="assets/mascot-pip-raw.png" alt="" />
     </div>
     <div class="vibe-head reveal">
-      <div class="section-eyebrow">🎨 Personalización</div>
-      <h2>Tu vibe, <span class="gold">tu UMBRA.</span></h2>
-      <p class="lead">Cambia el fondo. La app entera se adapta. Star Citizen, League of Legends, Genshin, tu logo, tu meme — lo que sea. Mismo producto, mil personalidades.</p>
+      <div class="section-eyebrow" data-i18n="vb.eyebrow">🎨 Personalización</div>
+      <h2 data-i18n-html="vb.h2.html">Tu vibe, <span class="gold">tu UMBRA.</span></h2>
+      <p class="lead" data-i18n="vb.lead">Cambia el fondo. La app entera se adapta. Star Citizen, League of Legends, Genshin, tu logo, tu meme — lo que sea. Mismo producto, mil personalidades.</p>
     </div>
 
     <div class="vibe-grid">
@@ -3020,7 +3047,7 @@
           </div>
         </div>
         <div class="vibe-caption">
-          <span class="vc-tag">Sci-fi</span>
+          <span class="vc-tag" data-i18n="vb.tag.scifi">Sci-fi</span>
           <span class="vc-name">Star Citizen</span>
         </div>
       </div>
@@ -3036,7 +3063,7 @@
           </div>
         </div>
         <div class="vibe-caption">
-          <span class="vc-tag">MOBA</span>
+          <span class="vc-tag" data-i18n="vb.tag.moba">MOBA</span>
           <span class="vc-name">League of Legends</span>
         </div>
       </div>
@@ -3052,7 +3079,7 @@
           </div>
         </div>
         <div class="vibe-caption">
-          <span class="vc-tag">Anime</span>
+          <span class="vc-tag" data-i18n="vb.tag.anime">Anime</span>
           <span class="vc-name">Genshin Impact</span>
         </div>
       </div>
@@ -3068,7 +3095,7 @@
           </div>
         </div>
         <div class="vibe-caption">
-          <span class="vc-tag">Manga</span>
+          <span class="vc-tag" data-i18n="vb.tag.manga">Manga</span>
           <span class="vc-name">One Piece · Straw Hats</span>
         </div>
       </div>
@@ -3084,7 +3111,7 @@
           </div>
         </div>
         <div class="vibe-caption">
-          <span class="vc-tag">Retro</span>
+          <span class="vc-tag" data-i18n="vb.tag.retro">Retro</span>
           <span class="vc-name">Monkey Island</span>
         </div>
       </div>
@@ -3093,31 +3120,31 @@
         <div class="va-content">
           <div class="va-icon">🖼️</div>
           <div class="va-text">
-            <strong>El que tú quieras</strong>
-            <span>Sube tu fondo · cualquier imagen 1920×1080+</span>
+            <strong data-i18n="vb.add.title">El que tú quieras</strong>
+            <span data-i18n="vb.add.text">Sube tu fondo · cualquier imagen 1920×1080+</span>
           </div>
         </div>
       </div>
     </div>
 
     <p class="vibe-foot">
-      Cada org elige su estética. Cada usuario también. El glass de la UI se adapta automáticamente al fondo.
+      <span data-i18n="vb.foot">Cada org elige su estética. Cada usuario también. El glass de la UI se adapta automáticamente al fondo.</span>
     </p>
   </section>
 
   <!-- APORTES COLECTIVOS — lo paga la org, lo disfruta el squad -->
   <section class="contrib" id="aportes">
     <div class="contrib-head reveal">
-      <div class="section-eyebrow">🪙 Aportes colectivos</div>
-      <h2>Todos aportan. <span class="gold">Nadie paga solo.</span></h2>
-      <p class="lead">UMBRA no tiene suscripciones por usuario. Tu org tiene una cuota mensual en lingotes — el líder aporta al menos el 25%, los miembros completan el resto con aportes pequeños automáticos.</p>
+      <div class="section-eyebrow" data-i18n="ap.eyebrow">🪙 Aportes colectivos</div>
+      <h2 data-i18n-html="ap.h2.html">Todos aportan. <span class="gold">Nadie paga solo.</span></h2>
+      <p class="lead" data-i18n="ap.lead">UMBRA no tiene suscripciones por usuario. Tu org tiene una cuota mensual en lingotes — el líder aporta al menos el 25%, los miembros completan el resto con aportes pequeños automáticos.</p>
     </div>
 
     <!-- Omni asomando junto al card, con bocadillo comic -->
     <div class="ce-omni" aria-hidden="true">
       <div class="omni-bubble">
-        <strong>¡Soy Omni!</strong>
-        Yo guardo los lingotes que aportáis · ni uno se pierde.
+        <strong data-i18n="ap.omni.title">¡Soy Omni!</strong>
+        <span data-i18n="ap.omni.text">Yo guardo los lingotes que aportáis · ni uno se pierde.</span>
       </div>
       <img src="assets/omni.png" alt="" />
     </div>
@@ -3153,21 +3180,21 @@
     <!-- Simulador interactivo -->
     <div class="sim reveal" id="sim">
       <div class="sim-head">
-        <h3>Calcula lo tuyo</h3>
-        <p>Mueve los sliders. Te recomendamos el plan ideal y te enseñamos cuánto pone cada uno.</p>
+        <h3 data-i18n="sim.head">Calcula lo tuyo</h3>
+        <p data-i18n="sim.lead">Mueve los sliders. Te recomendamos el plan ideal y te enseñamos cuánto pone cada uno.</p>
       </div>
       <div class="sim-grid">
         <div class="sim-controls">
           <div class="sim-field">
             <div class="sim-label">
-              <span>¿Cuántos miembros tiene tu org?</span>
+              <span data-i18n="sim.q1">¿Cuántos miembros tiene tu org?</span>
               <span class="sim-value" id="sim-members-out">100</span>
             </div>
             <input type="range" id="sim-members" min="10" max="5000" step="10" value="100" />
           </div>
           <div class="sim-field">
             <div class="sim-label">
-              <span>¿Cuántos aportarían 1-2 lingotes al mes?</span>
+              <span data-i18n="sim.q2">¿Cuántos aportarían 1-2 lingotes al mes?</span>
               <span class="sim-value" id="sim-contributors-out">10</span>
             </div>
             <input type="range" id="sim-contributors" min="0" max="200" step="1" value="10" />
@@ -3175,7 +3202,7 @@
         </div>
         <div class="sim-output">
           <div class="sim-recommendation">
-            <div class="sr-label">Plan recomendado</div>
+            <div class="sr-label" data-i18n="sim.label">Plan recomendado</div>
             <div class="sr-plan" id="sim-plan">CREW</div>
             <div class="sr-meta" id="sim-meta">1.500 miembros · 18 lingotes/mes</div>
           </div>
@@ -3206,8 +3233,8 @@
     <div class="access-penrose vp4" aria-hidden="true"><img src="assets/logo-triangle.png" alt="" /></div>
 
     <div class="access-head">
-      <h2>Tres planes. <span class="gold">Lo paga la org, lo disfruta el squad.</span></h2>
-      <p>Empieza gratis para asomarte. Cuando tu grupo coordina ops reales y la voz importa, el líder cubre el plan y el equipo conecta sin pagar nada. Sin suscripciones por usuario.</p>
+      <h2 data-i18n-html="pn.head.html">Tres planes. <span class="gold">Lo paga la org, lo disfruta el squad.</span></h2>
+      <p data-i18n="pn.lead">Empieza gratis para asomarte. Cuando tu grupo coordina ops reales y la voz importa, el líder cubre el plan y el equipo conecta sin pagar nada. Sin suscripciones por usuario.</p>
     </div>
 
     <div class="access-grid">
@@ -3219,24 +3246,24 @@
             <img src="assets/mascot-pip-raw.png" alt="Pip" />
           </div>
         </div>
-        <h3>Community</h3>
-        <span class="tag-line">La puerta de entrada</span>
-        <p class="desc">Hasta 25 miembros, salas estándar, whisper limitado, audio standard. Para asomarse y para grupos pequeños.</p>
-        <a class="btn-access" href="#descarga">Empezar gratis →</a>
+        <h3 data-i18n="pn.c1.title">Community</h3>
+        <span class="tag-line" data-i18n="pn.c1.tag">La puerta de entrada</span>
+        <p class="desc" data-i18n="pn.c1.text">Hasta 25 miembros, salas estándar, whisper limitado, audio standard. Para asomarse y para grupos pequeños.</p>
+        <a class="btn-access" href="#descarga" data-i18n="pn.c1.cta">Empezar gratis →</a>
       </div>
 
       <!-- Org (destacado): Lingo -->
       <div class="access-card featured">
-        <span class="ribbon">⭐ El más elegido</span>
+        <span class="ribbon" data-i18n="pn.c2.ribbon">⭐ El más elegido</span>
         <div class="mascot-wrap">
           <div class="mascot-img halo-gold mascot-l" aria-hidden="true">
             <img src="assets/mascot-lingo-raw.png" alt="Lingo" />
           </div>
         </div>
-        <h3>Org</h3>
-        <span class="tag-line">Para orgs que coordinan ops reales</span>
-        <p class="desc">Hasta 250–500 miembros, whisper sin límites, audio HD, hotkeys con gamepad/HOTAS, roles jerárquicos completos y audit log.</p>
-        <a class="btn-access" href="#descarga">Reservar org →</a>
+        <h3 data-i18n="pn.c2.title">Org</h3>
+        <span class="tag-line" data-i18n="pn.c2.tag">Para orgs que coordinan ops reales</span>
+        <p class="desc" data-i18n="pn.c2.text">Hasta 250–500 miembros, whisper sin límites, audio HD, hotkeys con gamepad/HOTAS, roles jerárquicos completos y audit log.</p>
+        <a class="btn-access" href="#descarga" data-i18n="pn.c2.cta">Reservar org →</a>
       </div>
 
       <!-- Enterprise: Gemmi -->
@@ -3246,10 +3273,10 @@
             <img src="assets/mascot-gemini-raw.png" alt="Gemmi" />
           </div>
         </div>
-        <h3>Enterprise · Esports</h3>
-        <span class="tag-line">Para ligas, eventos y orgs masivas</span>
-        <p class="desc">Miembros ilimitados, región dedicada (latencia garantizada), grabación de ops, SLA, branding custom y opción self-hosted.</p>
-        <a class="btn-access" href="#descarga">Hablar con ventas →</a>
+        <h3 data-i18n="pn.c3.title">Enterprise · Esports</h3>
+        <span class="tag-line" data-i18n="pn.c3.tag">Para ligas, eventos y orgs masivas</span>
+        <p class="desc" data-i18n="pn.c3.text">Miembros ilimitados, región dedicada (latencia garantizada), grabación de ops, SLA, branding custom y opción self-hosted.</p>
+        <a class="btn-access" href="#descarga" data-i18n="pn.c3.cta">Hablar con ventas →</a>
       </div>
 
     </div>
@@ -3261,12 +3288,12 @@
     <!-- Tabla de 8 tiers + Custom -->
     <div class="plans-table reveal" id="planes-full">
       <div class="pt-head">
-        <h3>Los 8 tiers · lo paga la org</h3>
-        <p>Precios en lingotes (la moneda interna). 1 lingote ≈ $2. Y recuerda que con aportes del equipo, el líder rara vez paga el total.</p>
+        <h3 data-i18n="pn.tb.title">Los 8 tiers · lo paga la org</h3>
+        <p data-i18n="pn.tb.lead">Precios en lingotes (la moneda interna). 1 lingote ≈ $2. Y recuerda que con aportes del equipo, el líder rara vez paga el total.</p>
       </div>
       <div class="pt-grid">
         <div class="pt-row pt-row-head">
-          <span>Plan</span><span>Lingotes / mes</span><span>USD equiv.</span><span>Cap miembros</span>
+          <span data-i18n="pn.tb.col1">Plan</span><span data-i18n="pn.tb.col2">Lingotes / mes</span><span data-i18n="pn.tb.col3">USD equiv.</span><span data-i18n="pn.tb.col4">Cap miembros</span>
         </div>
         <div class="pt-row"><span>Community</span><span class="pt-ling">5</span><span class="pt-usd">$10</span><span>50</span></div>
         <div class="pt-row"><span>Starter</span><span class="pt-ling">10</span><span class="pt-usd">$20</span><span>500</span></div>
@@ -3283,39 +3310,39 @@
     <!-- Add-ons por encima del plan -->
     <div class="addons reveal">
       <div class="addons-head">
-        <h3>Add-ons · por encima de tu plan</h3>
+        <h3 data-i18n="pn.ad.title">Add-ons · por encima de tu plan</h3>
       </div>
       <div class="addons-grid">
         <div class="addon">
           <div class="addon-icon">🎤</div>
           <div class="addon-body">
-            <div class="addon-name">UMBRA Plus</div>
-            <div class="addon-price">7 lingotes / mes <small>· $9,99</small></div>
-            <p>Hotkey profiles cloud-sync · soundboard personal · badge founder.</p>
+            <div class="addon-name" data-i18n="pn.ad.1.name">UMBRA Plus</div>
+            <div class="addon-price" data-i18n-html="pn.ad.1.price.html">7 lingotes / mes <small>· $9,99</small></div>
+            <p data-i18n="pn.ad.1.text">Hotkey profiles cloud-sync · soundboard personal · badge founder.</p>
           </div>
         </div>
         <div class="addon">
           <div class="addon-icon">⚡</div>
           <div class="addon-body">
-            <div class="addon-name">UMBRA Plus Pro</div>
-            <div class="addon-price">16 lingotes / mes <small>· $19,99</small></div>
-            <p>Todo lo de Plus + integraciones avanzadas + early access a features.</p>
+            <div class="addon-name" data-i18n="pn.ad.2.name">UMBRA Plus Pro</div>
+            <div class="addon-price" data-i18n-html="pn.ad.2.price.html">16 lingotes / mes <small>· $19,99</small></div>
+            <p data-i18n="pn.ad.2.text">Todo lo de Plus + integraciones avanzadas + early access a features.</p>
           </div>
         </div>
         <div class="addon">
           <div class="addon-icon">📦</div>
           <div class="addon-body">
-            <div class="addon-name">Packs de lingotes</div>
-            <div class="addon-price">One-time</div>
-            <p>$4 = 2 · $10 = 5 · $20 = 11 (+10%) · $50 = 30 (+20%) · $100 = 65 (+30%).</p>
+            <div class="addon-name" data-i18n="pn.ad.3.name">Packs de lingotes</div>
+            <div class="addon-price" data-i18n="pn.ad.3.price">One-time</div>
+            <p data-i18n="pn.ad.3.text">$4 = 2 · $10 = 5 · $20 = 11 (+10%) · $50 = 30 (+20%) · $100 = 65 (+30%).</p>
           </div>
         </div>
         <div class="addon">
           <div class="addon-icon">🎁</div>
           <div class="addon-body">
-            <div class="addon-name">Boost a tu org</div>
-            <div class="addon-price">1-3 lingotes / mes</div>
-            <p>Aporta lingotes recurrentes al server de tu líder. Lo paga quien quiere ayudar.</p>
+            <div class="addon-name" data-i18n="pn.ad.4.name">Boost a tu org</div>
+            <div class="addon-price" data-i18n="pn.ad.4.price">1-3 lingotes / mes</div>
+            <p data-i18n="pn.ad.4.text">Aporta lingotes recurrentes al server de tu líder. Lo paga quien quiere ayudar.</p>
           </div>
         </div>
       </div>
@@ -3327,92 +3354,92 @@
    <div class="faq-inner">
     <div class="faq-head">
       <div>
-        <div class="section-eyebrow">💬 PREGUNTAS</div>
-        <h2>Lo que la gente pregunta antes de entrar.</h2>
+        <div class="section-eyebrow" data-i18n="faq.eyebrow">💬 PREGUNTAS</div>
+        <h2 data-i18n="faq.h2">Lo que la gente pregunta antes de entrar.</h2>
       </div>
-      <p class="head-aside">Lingo se encarga. Si te quedas con dudas, hay un humano detrás en <a href="#" style="color:var(--gold-deep);font-weight:700;text-decoration:underline">hola@cfx.studio</a>.</p>
+      <p class="head-aside" data-i18n-html="faq.lead.html">Lingo se encarga. Si te quedas con dudas, hay un humano detrás en <a href="#" style="color:var(--gold-deep);font-weight:700;text-decoration:underline">hola@cfx.studio</a>.</p>
     </div>
 
     <!-- Carrusel marquee horizontal de preguntas y respuestas -->
     <div class="faq-marquee" id="faqMarquee">
       <div class="faq-track">
         <div class="qa-card">
-          <div class="qa-q"><span class="qa-av"></span><span class="qa-text">¿Funciona en navegador o tengo que instalar?</span></div>
-          <div class="qa-a"><span class="qa-av"></span><div class="qa-body"><strong>Lingo</strong><span class="qa-text">Ambas. La versión web va en cualquier Chrome decente (sin HOTAS). La app de Windows es la completa.</span></div></div>
+          <div class="qa-q"><span class="qa-av"></span><span class="qa-text" data-i18n="faq.q1">¿Funciona en navegador o tengo que instalar?</span></div>
+          <div class="qa-a"><span class="qa-av"></span><div class="qa-body"><strong>Lingo</strong><span class="qa-text" data-i18n="faq.a1">Ambas. La versión web va en cualquier Chrome decente (sin HOTAS). La app de Windows es la completa.</span></div></div>
         </div>
         <div class="qa-card">
-          <div class="qa-q"><span class="qa-av"></span><span class="qa-text">Tengo un móvil de 2018. ¿Servirá?</span></div>
-          <div class="qa-a"><span class="qa-av"></span><div class="qa-body"><strong>Lingo</strong><span class="qa-text">Sí. La app móvil es ligera a propósito — Android 8 / iOS 14 mínimo.</span></div></div>
+          <div class="qa-q"><span class="qa-av"></span><span class="qa-text" data-i18n="faq.q2">Tengo un móvil de 2018. ¿Servirá?</span></div>
+          <div class="qa-a"><span class="qa-av"></span><div class="qa-body"><strong>Lingo</strong><span class="qa-text" data-i18n="faq.a2">Sí. La app móvil es ligera a propósito — Android 8 / iOS 14 mínimo.</span></div></div>
         </div>
         <div class="qa-card">
-          <div class="qa-q"><span class="qa-av"></span><span class="qa-text">¿Por qué piden tarjeta si dicen "gratis"?</span></div>
-          <div class="qa-a"><span class="qa-av"></span><div class="qa-body"><strong>Lingo</strong><span class="qa-text">Para evitar bots. Preautorización de $1 que se devuelve al instante. No cobramos hasta que termines el trial.</span></div></div>
+          <div class="qa-q"><span class="qa-av"></span><span class="qa-text" data-i18n="faq.q3">¿Por qué piden tarjeta si dicen "gratis"?</span></div>
+          <div class="qa-a"><span class="qa-av"></span><div class="qa-body"><strong>Lingo</strong><span class="qa-text" data-i18n="faq.a3">Para evitar bots. Preautorización de $1 que se devuelve al instante. No cobramos hasta que termines el trial.</span></div></div>
         </div>
         <div class="qa-card">
-          <div class="qa-q"><span class="qa-av"></span><span class="qa-text">¿Qué es exactamente un lingote?</span></div>
-          <div class="qa-a"><span class="qa-av"></span><div class="qa-body"><strong>Lingo</strong><span class="qa-text">La moneda interna. Sirve para activar planes, aportar a tu org, comprar premium o regalar. Se ganan o se compran.</span></div></div>
+          <div class="qa-q"><span class="qa-av"></span><span class="qa-text" data-i18n="faq.q4">¿Qué es exactamente un lingote?</span></div>
+          <div class="qa-a"><span class="qa-av"></span><div class="qa-body"><strong>Lingo</strong><span class="qa-text" data-i18n="faq.a4">La moneda interna. Sirve para activar planes, aportar a tu org, comprar premium o regalar. Se ganan o se compran.</span></div></div>
         </div>
         <div class="qa-card">
-          <div class="qa-q"><span class="qa-av"></span><span class="qa-text">¿Y si los miembros dejan de aportar?</span></div>
-          <div class="qa-a"><span class="qa-av"></span><div class="qa-body"><strong>Lingo</strong><span class="qa-text"><strong>7 días</strong> de grace period con auto-débito del líder. Si nadie completa, el server baja al tier anterior automáticamente.</span></div></div>
+          <div class="qa-q"><span class="qa-av"></span><span class="qa-text" data-i18n="faq.q5">¿Y si los miembros dejan de aportar?</span></div>
+          <div class="qa-a"><span class="qa-av"></span><div class="qa-body"><strong>Lingo</strong><span class="qa-text" data-i18n-html="faq.a5.html"><strong>7 días</strong> de grace period con auto-débito del líder. Si nadie completa, el server baja al tier anterior automáticamente.</span></div></div>
         </div>
         <div class="qa-card">
-          <div class="qa-q"><span class="qa-av"></span><span class="qa-text">¿Y si sobran lingotes?</span></div>
-          <div class="qa-a"><span class="qa-av"></span><div class="qa-body"><strong>Lingo</strong><span class="qa-text">Boost automático ese mes (+5 slots, audio HD) o upgrade del plan si sobran muchos. Lo que aportas nunca se pierde.</span></div></div>
+          <div class="qa-q"><span class="qa-av"></span><span class="qa-text" data-i18n="faq.q6">¿Y si sobran lingotes?</span></div>
+          <div class="qa-a"><span class="qa-av"></span><div class="qa-body"><strong>Lingo</strong><span class="qa-text" data-i18n="faq.a6">Boost automático ese mes (+5 slots, audio HD) o upgrade del plan si sobran muchos. Lo que aportas nunca se pierde.</span></div></div>
         </div>
         <div class="qa-card">
-          <div class="qa-q"><span class="qa-av"></span><span class="qa-text">¿Cómo es el plugin de mi juego?</span></div>
-          <div class="qa-a"><span class="qa-av"></span><div class="qa-body"><strong>Lingo</strong><span class="qa-text">Mapea la estructura del juego a tus salas — naves en SC, carriles en LoL, escuadrones en Arma. SC/LoL/FFXIV/Arma ya disponibles.</span></div></div>
+          <div class="qa-q"><span class="qa-av"></span><span class="qa-text" data-i18n="faq.q7">¿Cómo es el plugin de mi juego?</span></div>
+          <div class="qa-a"><span class="qa-av"></span><div class="qa-body"><strong>Lingo</strong><span class="qa-text" data-i18n="faq.a7">Mapea la estructura del juego a tus salas — naves en SC, carriles en LoL, escuadrones en Arma. SC/LoL/FFXIV/Arma ya disponibles.</span></div></div>
         </div>
         <div class="qa-card">
-          <div class="qa-q"><span class="qa-av"></span><span class="qa-text">¿Funciona con 5 colegas nada más?</span></div>
-          <div class="qa-a"><span class="qa-av"></span><div class="qa-body"><strong>Lingo</strong><span class="qa-text">Sí. <strong>Community</strong> es gratis con tu trial — hasta 50 personas, voz nítida, calendar. Vives sin pagar nada.</span></div></div>
+          <div class="qa-q"><span class="qa-av"></span><span class="qa-text" data-i18n="faq.q8">¿Funciona con 5 colegas nada más?</span></div>
+          <div class="qa-a"><span class="qa-av"></span><div class="qa-body"><strong>Lingo</strong><span class="qa-text" data-i18n-html="faq.a8.html">Sí. <strong>Community</strong> es gratis con tu trial — hasta 50 personas, voz nítida, calendar. Vives sin pagar nada.</span></div></div>
         </div>
         <div class="qa-card">
-          <div class="qa-q"><span class="qa-av"></span><span class="qa-text">¿Mis llamadas son privadas? ¿Vendéis datos?</span></div>
-          <div class="qa-a"><span class="qa-av"></span><div class="qa-body"><strong>Lingo</strong><span class="qa-text">Voz cifrada en tránsito. No grabamos salvo que tú lo actives. Y no vendemos datos — el modelo es la suscripción.</span></div></div>
+          <div class="qa-q"><span class="qa-av"></span><span class="qa-text" data-i18n="faq.q9">¿Mis llamadas son privadas? ¿Vendéis datos?</span></div>
+          <div class="qa-a"><span class="qa-av"></span><div class="qa-body"><strong>Lingo</strong><span class="qa-text" data-i18n="faq.a9">Voz cifrada en tránsito. No grabamos salvo que tú lo actives. Y no vendemos datos — el modelo es la suscripción.</span></div></div>
         </div>
 
         <!-- Set 2 duplicado para loop infinito -->
         <div class="qa-card" aria-hidden="true">
-          <div class="qa-q"><span class="qa-av"></span><span class="qa-text">¿Funciona en navegador o tengo que instalar?</span></div>
-          <div class="qa-a"><span class="qa-av"></span><div class="qa-body"><strong>Lingo</strong><span class="qa-text">Ambas. La versión web va en cualquier Chrome decente (sin HOTAS). La app de Windows es la completa.</span></div></div>
+          <div class="qa-q"><span class="qa-av"></span><span class="qa-text" data-i18n="faq.q1">¿Funciona en navegador o tengo que instalar?</span></div>
+          <div class="qa-a"><span class="qa-av"></span><div class="qa-body"><strong>Lingo</strong><span class="qa-text" data-i18n="faq.a1">Ambas. La versión web va en cualquier Chrome decente (sin HOTAS). La app de Windows es la completa.</span></div></div>
         </div>
         <div class="qa-card" aria-hidden="true">
-          <div class="qa-q"><span class="qa-av"></span><span class="qa-text">Tengo un móvil de 2018. ¿Servirá?</span></div>
-          <div class="qa-a"><span class="qa-av"></span><div class="qa-body"><strong>Lingo</strong><span class="qa-text">Sí. La app móvil es ligera a propósito — Android 8 / iOS 14 mínimo.</span></div></div>
+          <div class="qa-q"><span class="qa-av"></span><span class="qa-text" data-i18n="faq.q2">Tengo un móvil de 2018. ¿Servirá?</span></div>
+          <div class="qa-a"><span class="qa-av"></span><div class="qa-body"><strong>Lingo</strong><span class="qa-text" data-i18n="faq.a2">Sí. La app móvil es ligera a propósito — Android 8 / iOS 14 mínimo.</span></div></div>
         </div>
         <div class="qa-card" aria-hidden="true">
-          <div class="qa-q"><span class="qa-av"></span><span class="qa-text">¿Por qué piden tarjeta si dicen "gratis"?</span></div>
-          <div class="qa-a"><span class="qa-av"></span><div class="qa-body"><strong>Lingo</strong><span class="qa-text">Para evitar bots. Preautorización de $1 que se devuelve al instante. No cobramos hasta que termines el trial.</span></div></div>
+          <div class="qa-q"><span class="qa-av"></span><span class="qa-text" data-i18n="faq.q3">¿Por qué piden tarjeta si dicen "gratis"?</span></div>
+          <div class="qa-a"><span class="qa-av"></span><div class="qa-body"><strong>Lingo</strong><span class="qa-text" data-i18n="faq.a3">Para evitar bots. Preautorización de $1 que se devuelve al instante. No cobramos hasta que termines el trial.</span></div></div>
         </div>
         <div class="qa-card" aria-hidden="true">
-          <div class="qa-q"><span class="qa-av"></span><span class="qa-text">¿Qué es exactamente un lingote?</span></div>
-          <div class="qa-a"><span class="qa-av"></span><div class="qa-body"><strong>Lingo</strong><span class="qa-text">La moneda interna. Sirve para activar planes, aportar a tu org, comprar premium o regalar. Se ganan o se compran.</span></div></div>
+          <div class="qa-q"><span class="qa-av"></span><span class="qa-text" data-i18n="faq.q4">¿Qué es exactamente un lingote?</span></div>
+          <div class="qa-a"><span class="qa-av"></span><div class="qa-body"><strong>Lingo</strong><span class="qa-text" data-i18n="faq.a4">La moneda interna. Sirve para activar planes, aportar a tu org, comprar premium o regalar. Se ganan o se compran.</span></div></div>
         </div>
         <div class="qa-card" aria-hidden="true">
-          <div class="qa-q"><span class="qa-av"></span><span class="qa-text">¿Y si los miembros dejan de aportar?</span></div>
-          <div class="qa-a"><span class="qa-av"></span><div class="qa-body"><strong>Lingo</strong><span class="qa-text"><strong>7 días</strong> de grace period con auto-débito del líder. Si nadie completa, el server baja al tier anterior automáticamente.</span></div></div>
+          <div class="qa-q"><span class="qa-av"></span><span class="qa-text" data-i18n="faq.q5">¿Y si los miembros dejan de aportar?</span></div>
+          <div class="qa-a"><span class="qa-av"></span><div class="qa-body"><strong>Lingo</strong><span class="qa-text" data-i18n-html="faq.a5.html"><strong>7 días</strong> de grace period con auto-débito del líder. Si nadie completa, el server baja al tier anterior automáticamente.</span></div></div>
         </div>
         <div class="qa-card" aria-hidden="true">
-          <div class="qa-q"><span class="qa-av"></span><span class="qa-text">¿Y si sobran lingotes?</span></div>
-          <div class="qa-a"><span class="qa-av"></span><div class="qa-body"><strong>Lingo</strong><span class="qa-text">Boost automático ese mes (+5 slots, audio HD) o upgrade del plan si sobran muchos. Lo que aportas nunca se pierde.</span></div></div>
+          <div class="qa-q"><span class="qa-av"></span><span class="qa-text" data-i18n="faq.q6">¿Y si sobran lingotes?</span></div>
+          <div class="qa-a"><span class="qa-av"></span><div class="qa-body"><strong>Lingo</strong><span class="qa-text" data-i18n="faq.a6">Boost automático ese mes (+5 slots, audio HD) o upgrade del plan si sobran muchos. Lo que aportas nunca se pierde.</span></div></div>
         </div>
         <div class="qa-card" aria-hidden="true">
-          <div class="qa-q"><span class="qa-av"></span><span class="qa-text">¿Cómo es el plugin de mi juego?</span></div>
-          <div class="qa-a"><span class="qa-av"></span><div class="qa-body"><strong>Lingo</strong><span class="qa-text">Mapea la estructura del juego a tus salas — naves en SC, carriles en LoL, escuadrones en Arma. SC/LoL/FFXIV/Arma ya disponibles.</span></div></div>
+          <div class="qa-q"><span class="qa-av"></span><span class="qa-text" data-i18n="faq.q7">¿Cómo es el plugin de mi juego?</span></div>
+          <div class="qa-a"><span class="qa-av"></span><div class="qa-body"><strong>Lingo</strong><span class="qa-text" data-i18n="faq.a7">Mapea la estructura del juego a tus salas — naves en SC, carriles en LoL, escuadrones en Arma. SC/LoL/FFXIV/Arma ya disponibles.</span></div></div>
         </div>
         <div class="qa-card" aria-hidden="true">
-          <div class="qa-q"><span class="qa-av"></span><span class="qa-text">¿Funciona con 5 colegas nada más?</span></div>
-          <div class="qa-a"><span class="qa-av"></span><div class="qa-body"><strong>Lingo</strong><span class="qa-text">Sí. <strong>Community</strong> es gratis con tu trial — hasta 50 personas, voz nítida, calendar. Vives sin pagar nada.</span></div></div>
+          <div class="qa-q"><span class="qa-av"></span><span class="qa-text" data-i18n="faq.q8">¿Funciona con 5 colegas nada más?</span></div>
+          <div class="qa-a"><span class="qa-av"></span><div class="qa-body"><strong>Lingo</strong><span class="qa-text" data-i18n-html="faq.a8.html">Sí. <strong>Community</strong> es gratis con tu trial — hasta 50 personas, voz nítida, calendar. Vives sin pagar nada.</span></div></div>
         </div>
         <div class="qa-card" aria-hidden="true">
-          <div class="qa-q"><span class="qa-av"></span><span class="qa-text">¿Mis llamadas son privadas? ¿Vendéis datos?</span></div>
-          <div class="qa-a"><span class="qa-av"></span><div class="qa-body"><strong>Lingo</strong><span class="qa-text">Voz cifrada en tránsito. No grabamos salvo que tú lo actives. Y no vendemos datos — el modelo es la suscripción.</span></div></div>
+          <div class="qa-q"><span class="qa-av"></span><span class="qa-text" data-i18n="faq.q9">¿Mis llamadas son privadas? ¿Vendéis datos?</span></div>
+          <div class="qa-a"><span class="qa-av"></span><div class="qa-body"><strong>Lingo</strong><span class="qa-text" data-i18n="faq.a9">Voz cifrada en tránsito. No grabamos salvo que tú lo actives. Y no vendemos datos — el modelo es la suscripción.</span></div></div>
         </div>
       </div>
     </div>
-    <p style="text-align:center;color:rgba(255,255,255,0.5);font-size:0.85rem;margin-top:1rem">Pasa el ratón por encima para pausar y leer con calma.</p>
+    <p style="text-align:center;color:rgba(255,255,255,0.5);font-size:0.85rem;margin-top:1rem" data-i18n="faq.foot">Pasa el ratón por encima para pausar y leer con calma.</p>
 
    </div>
   </section>
@@ -3437,15 +3464,15 @@
           <img src="assets/penrousito.png" alt="Penrousito" />
         </div>
       </div>
-      <h2>¿Te animas?</h2>
-      <p>Descarga UMBRA, abre tu primera sala y prueba el whisper. Si no te gusta, te devuelvo el lingote (y son gratis, así que ya ves).</p>
+      <h2 data-i18n="cta.h2">¿Te animas?</h2>
+      <p data-i18n="cta.lead">Descarga UMBRA, abre tu primera sala y prueba el whisper. Si no te gusta, te devuelvo el lingote (y son gratis, así que ya ves).</p>
       <div class="row">
-        <a class="btn btn-ink" href="#">↓ Windows</a>
-        <a class="btn btn-light" href="#">macOS · pronto</a>
-        <a class="btn btn-light" href="#">Linux · pronto</a>
-        <a class="btn btn-light" href="#">Abrir web</a>
+        <a class="btn btn-ink" href="#" data-i18n="cta.win">↓ Windows</a>
+        <a class="btn btn-light" href="#" data-i18n="cta.mac">macOS · pronto</a>
+        <a class="btn btn-light" href="#" data-i18n="cta.linux">Linux · pronto</a>
+        <a class="btn btn-light" href="#" data-i18n="cta.web">Abrir web</a>
       </div>
-      <p style="margin-top:1.5rem;font-size:0.85rem;color:var(--text-mute)">Móvil: iOS · Android · próximamente</p>
+      <p style="margin-top:1.5rem;font-size:0.85rem;color:var(--text-mute)" data-i18n="cta.mobile">Móvil: iOS · Android · próximamente</p>
     </div>
   </section>
 
@@ -3465,30 +3492,31 @@
         <p>Voz para tu gente. Producto de CFX, un estudio independiente. Pensado en serio, pero sin perder el sentido del humor.</p>
       </div>
       <div class="foot-col">
-        <h4>Producto</h4>
+        <h4 data-i18n="ft.col1.h">Producto</h4>
         <ul>
-          <li><a href="#story">Cómo va</a></li>
-          <li><a href="#orbita">Casos de uso</a></li>
-          <li><a href="#planes">Planes</a></li>
-          <li><a href="#descarga">Descargar</a></li>
+          <li><a href="#story" data-i18n="ft.col1.l1">Cómo va</a></li>
+          <li><a href="#orbita" data-i18n="ft.col1.l2">Casos de uso</a></li>
+          <li><a href="#planes" data-i18n="ft.col1.l3">Planes</a></li>
+          <li><a href="#descarga" data-i18n="ft.col1.l4">Descargar</a></li>
         </ul>
       </div>
       <div class="foot-col">
-        <h4>Recursos</h4>
+        <h4 data-i18n="ft.col2.h">Recursos</h4>
         <ul>
-          <li><a href="#faq">FAQ</a></li>
-          <li><a href="/status">Estado del servicio</a></li>
-          <li><a href="/roadmap">Roadmap</a></li>
-          <li><a href="/comunidad">Comunidad</a></li>
+          <li><a href="#faq" data-i18n="ft.col2.l1">FAQ</a></li>
+          <li><a href="/status.html" data-i18n="ft.col2.l2">Estado del servicio</a></li>
+          <li><a href="/roadmap" data-i18n="ft.col2.l3">Roadmap</a></li>
+          <li><a href="/comunidad" data-i18n="ft.col2.l4">Comunidad</a></li>
         </ul>
       </div>
       <div class="foot-col">
-        <h4>CFX</h4>
+        <h4 data-i18n="ft.col3.h">CFX</h4>
         <ul>
-          <li><a href="/quienes-somos">Quiénes somos</a></li>
-          <li><a href="mailto:hola@cfx.studio">Contacto</a></li>
-          <li><a href="/privacidad">Privacidad</a></li>
-          <li><a href="/terminos">Términos</a></li>
+          <li><a href="/quienes-somos" data-i18n="ft.col3.l1">Quiénes somos</a></li>
+          <li><a href="mailto:hola@cfx.studio" data-i18n="ft.col3.l2">Contacto</a></li>
+          <li><a href="/privacidad.html" data-i18n="ft.col3.l3">Privacidad</a></li>
+          <li><a href="/terminos.html" data-i18n="ft.col3.l4">Términos</a></li>
+          <li><a href="/cookies.html" data-i18n="ft.col3.l5">Cookies</a></li>
         </ul>
       </div>
     </div>
@@ -3607,5 +3635,8 @@
     })();
 
   </script>
+
+  <!-- i18n: ES (base) + EN -->
+  <script src="js/i18n-v2.js" defer></script>
 </body>
 </html>
