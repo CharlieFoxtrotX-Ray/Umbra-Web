@@ -91,6 +91,11 @@
     }
     body > *{position:relative;z-index:1}
 
+    /* Modo stealth: oculta secciones de pagos/precios mientras
+       no queremos hacerlas públicas. Para reactivar, basta con
+       borrar esta regla o cambiar el display. */
+    .stealth-hidden{display:none !important}
+
     /* ═══════════════════════════════════════════════════════════
        UNIVERSE — fondo animado con capas reales
        - Stars: pinpricks blancos dispersos
@@ -2476,7 +2481,7 @@
     <div class="nav-links">
       <a href="#story" data-i18n="nav.story">Cómo va</a>
       <a href="#orbita" data-i18n="nav.audiences">Para quién</a>
-      <a href="#planes" data-i18n="nav.plans">Planes</a>
+      <a href="#vibe" data-i18n="nav.vibe">Tu vibe</a>
       <a href="#faq" data-i18n="nav.faq">FAQ</a>
     </div>
     <div class="nav-right">
@@ -2736,8 +2741,8 @@
       <li class="story-item reveal">
         <div class="num">1</div>
         <div>
-          <h5 data-i18n="st.s1.title">Te registras con email + tarjeta.</h5>
-          <p data-i18n-html="st.s1.text.html">¿Tarjeta? Sí, para evitar abusos. Hacemos una preautorización de $1 que se devuelve al instante. No cobramos nada hasta que termines el periodo de prueba. A cambio te damos <strong>10 lingotes gratis</strong> para probar de verdad.</p>
+          <h5 data-i18n="st.s1.title">Te registras con un email.</h5>
+          <p data-i18n="st.s1.text">Sin contraseña. Solo hace falta un email — te llega un enlace mágico y entras. Nada de "verifica tu número" ni "captcha once veces".</p>
         </div>
       </li>
       <li class="story-item reveal">
@@ -2757,8 +2762,8 @@
       <li class="story-item reveal">
         <div class="num">4</div>
         <div>
-          <h5 data-i18n="st.s4.title">Si tu org va en serio, sube al plan Org.</h5>
-          <p>El líder paga, los miembros se conectan gratis. Hasta 500 personas, whisper sin límites, gamepad/HOTAS, roles. Y para esports, eventos y orgs masivas, plan <strong>Enterprise</strong> con región dedicada, recording y SLA.</p>
+          <h5 data-i18n="st.s4.title">Tu org, tu universo.</h5>
+          <p data-i18n="st.s4.text">Roles jerárquicos completos, hotkeys con gamepad/HOTAS, plugins por juego que mapean naves, carriles o escuadrones a tus salas. Cuanto más serio te lo tomas, más te lo damos.</p>
         </div>
       </li>
     </ol>
@@ -3133,7 +3138,7 @@
   </section>
 
   <!-- APORTES COLECTIVOS — lo paga la org, lo disfruta el squad -->
-  <section class="contrib" id="aportes">
+  <section class="contrib stealth-hidden" id="aportes">
     <div class="contrib-head reveal">
       <div class="section-eyebrow" data-i18n="ap.eyebrow">🪙 Aportes colectivos</div>
       <h2 data-i18n-html="ap.h2.html">Todos aportan. <span class="gold">Nadie paga solo.</span></h2>
@@ -3226,7 +3231,7 @@
   </section>
 
   <!-- ACCESS — 4 puertas de entrada con mascotas -->
-  <section class="access" id="planes">
+  <section class="access stealth-hidden" id="planes">
     <div class="access-penrose vp1" aria-hidden="true"><img src="assets/logo-triangle.png" alt="" /></div>
     <div class="access-penrose vp2" aria-hidden="true"><img src="assets/logo-triangle.png" alt="" /></div>
     <div class="access-penrose vp3" aria-hidden="true"><img src="assets/logo-triangle.png" alt="" /></div>
@@ -3371,19 +3376,19 @@
           <div class="qa-q"><span class="qa-av"></span><span class="qa-text" data-i18n="faq.q2">Tengo un móvil de 2018. ¿Servirá?</span></div>
           <div class="qa-a"><span class="qa-av"></span><div class="qa-body"><strong>Lingo</strong><span class="qa-text" data-i18n="faq.a2">Sí. La app móvil es ligera a propósito — Android 8 / iOS 14 mínimo.</span></div></div>
         </div>
-        <div class="qa-card">
+        <div class="qa-card stealth-hidden">
           <div class="qa-q"><span class="qa-av"></span><span class="qa-text" data-i18n="faq.q3">¿Por qué piden tarjeta si dicen "gratis"?</span></div>
           <div class="qa-a"><span class="qa-av"></span><div class="qa-body"><strong>Lingo</strong><span class="qa-text" data-i18n="faq.a3">Para evitar bots. Preautorización de $1 que se devuelve al instante. No cobramos hasta que termines el trial.</span></div></div>
         </div>
-        <div class="qa-card">
+        <div class="qa-card stealth-hidden">
           <div class="qa-q"><span class="qa-av"></span><span class="qa-text" data-i18n="faq.q4">¿Qué es exactamente un lingote?</span></div>
           <div class="qa-a"><span class="qa-av"></span><div class="qa-body"><strong>Lingo</strong><span class="qa-text" data-i18n="faq.a4">La moneda interna. Sirve para activar planes, aportar a tu org, comprar premium o regalar. Se ganan o se compran.</span></div></div>
         </div>
-        <div class="qa-card">
+        <div class="qa-card stealth-hidden">
           <div class="qa-q"><span class="qa-av"></span><span class="qa-text" data-i18n="faq.q5">¿Y si los miembros dejan de aportar?</span></div>
           <div class="qa-a"><span class="qa-av"></span><div class="qa-body"><strong>Lingo</strong><span class="qa-text" data-i18n-html="faq.a5.html"><strong>7 días</strong> de grace period con auto-débito del líder. Si nadie completa, el server baja al tier anterior automáticamente.</span></div></div>
         </div>
-        <div class="qa-card">
+        <div class="qa-card stealth-hidden">
           <div class="qa-q"><span class="qa-av"></span><span class="qa-text" data-i18n="faq.q6">¿Y si sobran lingotes?</span></div>
           <div class="qa-a"><span class="qa-av"></span><div class="qa-body"><strong>Lingo</strong><span class="qa-text" data-i18n="faq.a6">Boost automático ese mes (+5 slots, audio HD) o upgrade del plan si sobran muchos. Lo que aportas nunca se pierde.</span></div></div>
         </div>
@@ -3409,19 +3414,19 @@
           <div class="qa-q"><span class="qa-av"></span><span class="qa-text" data-i18n="faq.q2">Tengo un móvil de 2018. ¿Servirá?</span></div>
           <div class="qa-a"><span class="qa-av"></span><div class="qa-body"><strong>Lingo</strong><span class="qa-text" data-i18n="faq.a2">Sí. La app móvil es ligera a propósito — Android 8 / iOS 14 mínimo.</span></div></div>
         </div>
-        <div class="qa-card" aria-hidden="true">
+        <div class="qa-card stealth-hidden" aria-hidden="true">
           <div class="qa-q"><span class="qa-av"></span><span class="qa-text" data-i18n="faq.q3">¿Por qué piden tarjeta si dicen "gratis"?</span></div>
           <div class="qa-a"><span class="qa-av"></span><div class="qa-body"><strong>Lingo</strong><span class="qa-text" data-i18n="faq.a3">Para evitar bots. Preautorización de $1 que se devuelve al instante. No cobramos hasta que termines el trial.</span></div></div>
         </div>
-        <div class="qa-card" aria-hidden="true">
+        <div class="qa-card stealth-hidden" aria-hidden="true">
           <div class="qa-q"><span class="qa-av"></span><span class="qa-text" data-i18n="faq.q4">¿Qué es exactamente un lingote?</span></div>
           <div class="qa-a"><span class="qa-av"></span><div class="qa-body"><strong>Lingo</strong><span class="qa-text" data-i18n="faq.a4">La moneda interna. Sirve para activar planes, aportar a tu org, comprar premium o regalar. Se ganan o se compran.</span></div></div>
         </div>
-        <div class="qa-card" aria-hidden="true">
+        <div class="qa-card stealth-hidden" aria-hidden="true">
           <div class="qa-q"><span class="qa-av"></span><span class="qa-text" data-i18n="faq.q5">¿Y si los miembros dejan de aportar?</span></div>
           <div class="qa-a"><span class="qa-av"></span><div class="qa-body"><strong>Lingo</strong><span class="qa-text" data-i18n-html="faq.a5.html"><strong>7 días</strong> de grace period con auto-débito del líder. Si nadie completa, el server baja al tier anterior automáticamente.</span></div></div>
         </div>
-        <div class="qa-card" aria-hidden="true">
+        <div class="qa-card stealth-hidden" aria-hidden="true">
           <div class="qa-q"><span class="qa-av"></span><span class="qa-text" data-i18n="faq.q6">¿Y si sobran lingotes?</span></div>
           <div class="qa-a"><span class="qa-av"></span><div class="qa-body"><strong>Lingo</strong><span class="qa-text" data-i18n="faq.a6">Boost automático ese mes (+5 slots, audio HD) o upgrade del plan si sobran muchos. Lo que aportas nunca se pierde.</span></div></div>
         </div>
@@ -3496,7 +3501,7 @@
         <ul>
           <li><a href="#story" data-i18n="ft.col1.l1">Cómo va</a></li>
           <li><a href="#orbita" data-i18n="ft.col1.l2">Casos de uso</a></li>
-          <li><a href="#planes" data-i18n="ft.col1.l3">Planes</a></li>
+          <li><a href="#vibe" data-i18n="ft.col1.l3">Tu vibe</a></li>
           <li><a href="#descarga" data-i18n="ft.col1.l4">Descargar</a></li>
         </ul>
       </div>

@@ -15,7 +15,7 @@
     // ES (España) — BASE
     // ═══════════════════════════════════════════════════════════
     es: {
-      'nav.story': 'Cómo va', 'nav.audiences': 'Para quién', 'nav.plans': 'Planes', 'nav.faq': 'FAQ', 'nav.cta': 'Abrir UMBRA',
+      'nav.story': 'Cómo va', 'nav.audiences': 'Para quién', 'nav.plans': 'Planes', 'nav.vibe': 'Tu vibe', 'nav.faq': 'FAQ', 'nav.cta': 'Abrir UMBRA',
 
       'hero.h1.html': 'Tu voz,<br/>tu gente, <span class="ink-blob">en su sitio.</span>',
       'hero.lead': 'UMBRA es donde tu grupo se junta, charla, planea y se organiza — sin abrir cinco apps. Salas ilimitadas, whisper entre canales, voz nítida, y un sitio que te cuida.',
@@ -78,14 +78,14 @@
       'st.lead': 'Lingo te lleva del registro a la primera ops en menos de cinco minutos.',
       'st.stage.title': '"Estoy contigo"',
       'st.stage.text': 'Soy Lingo, y te llevo por la app sin que te pierdas. Si te quedas, te invito a un lingote.',
-      'st.s1.title': 'Te registras con email + tarjeta.',
-      'st.s1.text.html': '¿Tarjeta? Sí, para evitar abusos. Hacemos una preautorización de $1 que se devuelve al instante. No cobramos nada hasta que termines el periodo de prueba. A cambio te damos <strong>10 lingotes gratis</strong> para probar de verdad.',
+      'st.s1.title': 'Te registras con un email.',
+      'st.s1.text': 'Sin contraseña. Solo hace falta un email — te llega un enlace mágico y entras. Nada de "verifica tu número" ni "captcha once veces".',
       'st.s2.title': 'Creas o entras a una sala.',
       'st.s2.text.html': 'Una sala = un grupo. La haces tú en un clic, eliges quién entra, y compartes un enlace tipo <span style="font-family:monospace;color:var(--gold-deep);font-weight:700">umbra.gg/abc</span>.',
       'st.s3.title': 'Hablas — y si quieres, whisper.',
       'st.s3.text': 'Pulsas para hablar. Si necesitas decirle algo a otra sala sin salir de la tuya, mantienes la tecla de whisper y tu voz cruza canales.',
-      'st.s4.title': 'Si tu org va en serio, sube al plan Org.',
-      'st.s4.text.html': 'El líder paga, los miembros se conectan gratis. Hasta 500 personas, whisper sin límites, gamepad/HOTAS, roles. Y para esports, eventos y orgs masivas, plan <strong>Enterprise</strong> con región dedicada, recording y SLA.',
+      'st.s4.title': 'Tu org, tu universo.',
+      'st.s4.text': 'Roles jerárquicos completos, hotkeys con gamepad/HOTAS, plugins por juego que mapean naves, carriles o escuadrones a tus salas. Cuanto más serio te lo tomas, más te lo damos.',
 
       'au.h2.html': 'Para tu squad. Para tu liga.<br/>Para <em style="font-style:normal;color:var(--gold-deep);font-family:\'Space Grotesk\',sans-serif">lo que necesites</em>.',
       'au.lead': 'UMBRA es polivalente. Sirve para una squad de 5 que se ríe los viernes, para un milsim con 50 personas pelotoneando, para una liga de esports con casters y coach, para un evento en directo con técnicos en cinco salas, y para una comunidad de gente que solo quiere hablar a gusto. Tú nos dices el contexto, nosotros te damos la voz.',
@@ -164,7 +164,7 @@
       'cta.mobile': 'Móvil: iOS · Android · próximamente',
 
       'ft.brand': 'Voz para tu gente. Producto de CFX, un estudio independiente. Pensado en serio, pero sin perder el sentido del humor.',
-      'ft.col1.h': 'Producto', 'ft.col1.l1': 'Cómo va', 'ft.col1.l2': 'Casos de uso', 'ft.col1.l3': 'Planes', 'ft.col1.l4': 'Descargar',
+      'ft.col1.h': 'Producto', 'ft.col1.l1': 'Cómo va', 'ft.col1.l2': 'Casos de uso', 'ft.col1.l3': 'Tu vibe', 'ft.col1.l4': 'Descargar',
       'ft.col2.h': 'Recursos', 'ft.col2.l1': 'FAQ', 'ft.col2.l2': 'Estado del servicio', 'ft.col2.l3': 'Roadmap', 'ft.col2.l4': 'Comunidad',
       'ft.col3.h': 'CFX', 'ft.col3.l1': 'Quiénes somos', 'ft.col3.l2': 'Contacto', 'ft.col3.l3': 'Privacidad', 'ft.col3.l4': 'Términos', 'ft.col3.l5': 'Cookies',
       'ft.copyright': '© 2026 CFX · Todos los derechos reservados',
@@ -175,7 +175,7 @@
     // EN — English
     // ═══════════════════════════════════════════════════════════
     en: {
-      'nav.story': 'How it works', 'nav.audiences': 'Who it\'s for', 'nav.plans': 'Plans', 'nav.faq': 'FAQ', 'nav.cta': 'Open UMBRA',
+      'nav.story': 'How it works', 'nav.audiences': 'Who it\'s for', 'nav.plans': 'Plans', 'nav.vibe': 'Your vibe', 'nav.faq': 'FAQ', 'nav.cta': 'Open UMBRA',
 
       'hero.h1.html': 'Your voice,<br/>your people, <span class="ink-blob">where they belong.</span>',
       'hero.lead': 'UMBRA is where your group hangs out, talks, plans and gets organized — without opening five different apps. Unlimited rooms, cross-channel whisper, crystal-clear voice, and a place that takes care of you.',
@@ -238,14 +238,14 @@
       'st.lead': 'Lingo gets you from signup to your first op in under five minutes.',
       'st.stage.title': '"I got you"',
       'st.stage.text': 'I\'m Lingo, and I\'ll walk you through the app without losing you. If you stay, I\'ll buy you a lingot.',
-      'st.s1.title': 'Sign up with email + card.',
-      'st.s1.text.html': 'A card? Yes — to keep bots out. We do a $1 preauth that\'s refunded instantly. No charges until your trial ends. In exchange, we give you <strong>10 free lingots</strong> to actually try it.',
+      'st.s1.title': 'Sign up with an email.',
+      'st.s1.text': 'No password. Just an email — you get a magic link and you\'re in. None of that "verify your number" or "captcha eleven times" nonsense.',
       'st.s2.title': 'Create or join a room.',
       'st.s2.text.html': 'A room = a group. You spin one up in one click, decide who joins, and share a link like <span style="font-family:monospace;color:var(--gold-deep);font-weight:700">umbra.gg/abc</span>.',
       'st.s3.title': 'You talk — and if you want, whisper.',
       'st.s3.text': 'Push to talk. If you need to tell something to another room without leaving yours, hold the whisper key and your voice crosses channels.',
-      'st.s4.title': 'If your org gets serious, jump to the Org plan.',
-      'st.s4.text.html': 'The leader pays, members connect for free. Up to 500 people, unlimited whisper, gamepad/HOTAS, roles. And for esports, events and massive orgs, the <strong>Enterprise</strong> plan with dedicated region, recording and SLA.',
+      'st.s4.title': 'Your org, your universe.',
+      'st.s4.text': 'Full role hierarchy, gamepad/HOTAS hotkeys, per-game plugins that map ships, lanes or squads to your rooms. The more serious you get, the more we give you.',
 
       'au.h2.html': 'For your squad. For your league.<br/>For <em style="font-style:normal;color:var(--gold-deep);font-family:\'Space Grotesk\',sans-serif">whatever you need</em>.',
       'au.lead': 'UMBRA is versatile. Works for a 5-person squad cracking jokes on Friday nights, a milsim with 50 people in formation, an esports league with casters and coach, a live event with techs in five rooms, and a community of folks who just want to chat in peace. You bring the context, we bring the voice.',
@@ -324,7 +324,7 @@
       'cta.mobile': 'Mobile: iOS · Android · coming soon',
 
       'ft.brand': 'Voice for your people. A product by CFX, an independent studio. We mean it — but we don\'t take ourselves too seriously.',
-      'ft.col1.h': 'Product', 'ft.col1.l1': 'How it works', 'ft.col1.l2': 'Use cases', 'ft.col1.l3': 'Plans', 'ft.col1.l4': 'Download',
+      'ft.col1.h': 'Product', 'ft.col1.l1': 'How it works', 'ft.col1.l2': 'Use cases', 'ft.col1.l3': 'Your vibe', 'ft.col1.l4': 'Download',
       'ft.col2.h': 'Resources', 'ft.col2.l1': 'FAQ', 'ft.col2.l2': 'Service status', 'ft.col2.l3': 'Roadmap', 'ft.col2.l4': 'Community',
       'ft.col3.h': 'CFX', 'ft.col3.l1': 'About us', 'ft.col3.l2': 'Contact', 'ft.col3.l3': 'Privacy', 'ft.col3.l4': 'Terms', 'ft.col3.l5': 'Cookies',
       'ft.copyright': '© 2026 CFX · All rights reserved',
