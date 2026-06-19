@@ -15,7 +15,7 @@
     // ES (España) — BASE
     // ═══════════════════════════════════════════════════════════
     es: {
-      'nav.story': 'Cómo va', 'nav.audiences': 'Para quién', 'nav.plans': 'Planes', 'nav.vibe': 'Tu vibe', 'nav.faq': 'FAQ', 'nav.cta': 'Abrir UMBRA',
+      'nav.story': 'Cómo va', 'nav.audiences': 'Para quién', 'nav.plans': 'Planes', 'nav.vibe': 'Tu vibe', 'nav.faq': 'FAQ', 'nav.store': 'Tienda', 'nav.cta': 'Abrir UMBRA',
 
       'hero.h1.html': 'Tu voz,<br/>tu gente, <span class="ink-blob">en su sitio.</span>',
       'hero.lead': 'UMBRA es donde tu grupo se junta, charla, planea y se organiza — sin abrir cinco apps. Salas ilimitadas, whisper entre canales, voz nítida, y un sitio que te cuida.',
@@ -174,7 +174,7 @@
       'cta.h2': '¿Te animas?',
       'cta.lead': 'Descarga UMBRA, abre tu primera sala y prueba el whisper. Si no te convence, te devuelvo el lingote — y son gratis, así que no hay nada que perder.',
       'cta.win': '↓ Windows', 'cta.mac': 'macOS · pronto', 'cta.linux': 'Linux · pronto', 'cta.web': 'Abrir web',
-      'cta.mobile': 'Móvil: iOS · Android · próximamente',
+      'cta.mobile': 'Móvil: iOS · Android · próximamente', 'cta.support': 'Apoyar el early access →',
 
       'ft.brand': 'Voz para tu gente. Producto de CFX, un estudio independiente. Pensado en serio, pero sin perder el sentido del humor.',
       'ft.col1.h': 'Producto', 'ft.col1.l1': 'Cómo va', 'ft.col1.l2': 'Casos de uso', 'ft.col1.l3': 'Tu vibe', 'ft.col1.l4': 'Descargar',
@@ -188,7 +188,7 @@
     // EN — English
     // ═══════════════════════════════════════════════════════════
     en: {
-      'nav.story': 'How it works', 'nav.audiences': 'Who it\'s for', 'nav.plans': 'Plans', 'nav.vibe': 'Your vibe', 'nav.faq': 'FAQ', 'nav.cta': 'Open UMBRA',
+      'nav.story': 'How it works', 'nav.audiences': 'Who it\'s for', 'nav.plans': 'Plans', 'nav.vibe': 'Your vibe', 'nav.faq': 'FAQ', 'nav.store': 'Store', 'nav.cta': 'Open UMBRA',
 
       'hero.h1.html': 'Your voice,<br/>your people, <span class="ink-blob">where they belong.</span>',
       'hero.lead': 'UMBRA is where your group hangs out, talks, plans and gets organized — without opening five different apps. Unlimited rooms, cross-channel whisper, crystal-clear voice, and a place that takes care of you.',
@@ -347,7 +347,7 @@
       'cta.h2': 'You in?',
       'cta.lead': 'Download UMBRA, open your first room and try whisper. If it\'s not for you, I\'ll refund your lingot — they\'re free, so nothing to lose.',
       'cta.win': '↓ Windows', 'cta.mac': 'macOS · soon', 'cta.linux': 'Linux · soon', 'cta.web': 'Open web',
-      'cta.mobile': 'Mobile: iOS · Android · coming soon',
+      'cta.mobile': 'Mobile: iOS · Android · coming soon', 'cta.support': 'Support early access →',
 
       'ft.brand': 'Voice for your people. A product by CFX, an independent studio. We mean it — but we don\'t take ourselves too seriously.',
       'ft.col1.h': 'Product', 'ft.col1.l1': 'How it works', 'ft.col1.l2': 'Use cases', 'ft.col1.l3': 'Your vibe', 'ft.col1.l4': 'Download',
