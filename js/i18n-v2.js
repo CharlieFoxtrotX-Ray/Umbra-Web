@@ -130,7 +130,7 @@
       'pn.head.html': 'Tres planes. <span class="gold">Lo sostienen entre todos, lo disfruta el squad.</span>',
       'pn.lead': 'Empieza gratis para asomarte. Cuando tu grupo coordina ops reales y la voz importa, el líder cubre el plan y el equipo conecta sin pagar nada. Sin suscripciones por usuario.',
       'pn.c1.title': 'Community', 'pn.c1.tag': 'La puerta de entrada',
-      'pn.c1.text': 'Hasta 25 miembros, salas estándar, whisper limitado, audio standard. Para asomarse y para grupos pequeños.',
+      'pn.c1.text': 'Hasta 25 miembros, salas estándar, whisper limitado, audio estándar. Para asomarse y para grupos pequeños.',
       'pn.c1.cta': 'Empezar gratis →',
       'pn.c2.title': 'Org', 'pn.c2.tag': 'Para orgs que coordinan ops reales',
       'pn.c2.text': 'Hasta 250–500 miembros, whisper sin límites, audio HD, hotkeys con gamepad/HOTAS, roles jerárquicos completos y audit log.',
