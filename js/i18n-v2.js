@@ -74,6 +74,18 @@
       'vb.foot': 'Cada org elige su estética. Cada usuario también. El glass de la UI se adapta automáticamente al fondo.',
       'lg.label': 'Nuestro aporte', 'lg.h3': 'Lingotes.', 'lg.text': 'Las unidades de aporte de UMBRA. Para boosts, premium y regalos a otros squads.',
 
+      // ── Tienda (tienda.html) ──
+      't.nav.home': '← Volver', 't.nav.login': 'Iniciar sesión', 't.nav.signout': 'Cerrar sesión',
+      't.h1.html': 'Apoya el <span class="gold">early access</span>.',
+      't.lead': 'Consigue lingotes de aporte para mantener vivo el servidor de tu comunidad y desbloquear premium. No es una moneda: es tu forma de sostener el proyecto mientras crece.',
+      't.gate.text': 'Inicia sesión con tu cuenta de UMBRA para que los lingotes lleguen a tu wallet.', 't.gate.btn': 'Iniciar sesión',
+      't.user.prefix': 'Comprando como', 't.best': 'Mejor valor', 't.ling.word': 'lingotes', 't.per.word': 'lingote',
+      't.note': 'Pago seguro vía PayPal. Los lingotes son unidades de aporte de UMBRA: no se cambian por dinero, se usan dentro de la plataforma. 1 lingote ≈ $2.',
+      't.unconfigured.h2': 'Tienda en preparación 🛠️', 't.unconfigured.text': 'Estamos terminando de conectar la pasarela de pagos. Vuelve pronto para apoyar el early access.',
+      't.thanks.h2': '¡Gracias por tu aporte! 🎉', 't.thanks.text': 'Tu pago se confirmó. Los lingotes aparecen en tu wallet en unos segundos — abre UMBRA y revisa tu perfil.', 't.thanks.open': 'Abrir UMBRA',
+      't.error': 'Hubo un problema con el pago. Prueba de nuevo.',
+      'auth.modal.title': 'Iniciar sesión en UMBRA', 'auth.modal.subtitle': 'Empieza con tu cuenta', 'auth.modal.google_btn': 'Iniciar sesión con Google',
+
       'st.eyebrow': '✨ CÓMO VA',
       'st.h2': 'Cuatro pasos. Sin vueltas.',
       'st.lead': 'Lingo te lleva del registro a la primera ops en menos de cinco minutos.',
@@ -237,6 +249,18 @@
       'st.eyebrow': '✨ HOW IT WORKS',
       'st.h2': 'Four steps. No fuss.',
       'lg.label': 'Our contribution', 'lg.h3': 'Lingots.', 'lg.text': 'UMBRA\'s contribution units. For boosts, premium and gifts to other squads.',
+
+      // ── Store (tienda.html) ──
+      't.nav.home': '← Back', 't.nav.login': 'Sign in', 't.nav.signout': 'Sign out',
+      't.h1.html': 'Support <span class="gold">early access</span>.',
+      't.lead': 'Get contribution lingots to keep your community\'s server alive and unlock premium. It\'s not a currency — it\'s how you sustain the project as it grows.',
+      't.gate.text': 'Sign in with your UMBRA account so the lingots land in your wallet.', 't.gate.btn': 'Sign in',
+      't.user.prefix': 'Buying as', 't.best': 'Best value', 't.ling.word': 'lingots', 't.per.word': 'lingot',
+      't.note': 'Secure payment via PayPal. Lingots are UMBRA contribution units: not exchangeable for cash, used inside the platform. 1 lingot ≈ $2.',
+      't.unconfigured.h2': 'Store coming soon 🛠️', 't.unconfigured.text': 'We\'re finishing the payment gateway. Come back soon to support early access.',
+      't.thanks.h2': 'Thanks for your support! 🎉', 't.thanks.text': 'Your payment is confirmed. Lingots show up in your wallet in a few seconds — open UMBRA and check your profile.', 't.thanks.open': 'Open UMBRA',
+      't.error': 'There was a problem with the payment. Try again.',
+      'auth.modal.title': 'Sign in to UMBRA', 'auth.modal.subtitle': 'Start with your account', 'auth.modal.google_btn': 'Sign in with Google',
       'st.lead': 'Lingo gets you from signup to your first op in under five minutes.',
       'st.stage.title': '"I got you"',
       'st.stage.text': 'I\'m Lingo, and I\'ll walk you through the app without losing you. If you stay, I\'ll buy you a lingot.',

@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UMBRA · Apoyá el early access</title>
+  <meta name="robots" content="noindex" />
+
+  <!-- API del server de UMBRA (mismo backend que la app: login + wallet + webhook).
+       Verificar que apunte al server de producción donde vive el webhook de PayPal. -->
+  <meta name="umbra-api-base" content="https://umbra-api.cfx-software.com" />
+
+  <!-- Client ID PÚBLICO de PayPal (el de los botones, NO el secret del server).
+       Vacío o 'PLACEHOLDER' => la tienda muestra "en preparación" en vez de
+       botones rotos. Para sandbox de prueba: el del dashboard de PayPal (sandbox).
+       Para producción: el client-id live. -->
+  <meta name="paypal-client-id" content="PLACEHOLDER" />
+
+  <link rel="icon" href="/assets/favicon.png" />
+  <link rel="stylesheet" href="css/styles.css" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap');
+
+    :root{
+      --bg:#0d0a1a; --card:#171327; --line:rgba(255,255,255,0.09);
+      --gold:#ffcf6a; --gold-deep:#e0a23a; --violet:#a78bfa; --text:#ece9f5; --muted:rgba(236,233,245,0.62);
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:radial-gradient(1200px 700px at 70% -10%,#241a3d 0%,var(--bg) 55%);
+      color:var(--text);font-family:'Inter',system-ui,sans-serif;min-height:100vh}
+    .tienda-nav{display:flex;align-items:center;justify-content:space-between;
+      padding:1rem 1.5rem;max-width:1080px;margin:0 auto}
+    .tienda-nav a.brand{font-family:'Bagel Fat One',cursive;font-size:1.4rem;color:var(--text);text-decoration:none;letter-spacing:.02em}
+    .tienda-nav .nav-right{display:flex;gap:.6rem;align-items:center}
+    .btn{border:1px solid var(--line);background:rgba(255,255,255,.04);color:var(--text);
+      border-radius:.7rem;padding:.5rem .9rem;font-size:.82rem;font-weight:600;cursor:pointer;text-decoration:none}
+    .btn:hover{background:rgba(255,255,255,.08)}
+    .btn-primary{background:var(--gold);color:#231603;border-color:transparent}
+    .btn-primary:hover{background:var(--gold-deep)}
+
+    main.tienda{max-width:1080px;margin:0 auto;padding:1.5rem 1.5rem 5rem}
+    .t-hero{text-align:center;padding:2rem 0 1.5rem}
+    .t-hero h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(2rem,4vw,3rem);font-weight:800;
+      letter-spacing:-.03em;margin:0 0 .6rem;line-height:1.05}
+    .t-hero h1 .gold{color:var(--gold)}
+    .t-hero p{color:var(--muted);max-width:560px;margin:0 auto;font-size:1rem;line-height:1.5}
+
+    /* Aviso de login */
+    .t-gate{max-width:520px;margin:1.5rem auto;padding:1.1rem 1.3rem;border:1px solid var(--line);
+      border-radius:1rem;background:var(--card);text-align:center}
+    .t-gate p{margin:0 0 .8rem;color:var(--muted);font-size:.9rem}
+    .t-userline{font-size:.82rem;color:var(--muted);text-align:center;margin:.5rem 0 1.5rem}
+    .t-userline strong{color:var(--text)}
+
+    /* Grid de packs */
+    .packs{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:1rem;margin-top:1rem}
+    .pack{border:1px solid var(--line);border-radius:1.1rem;background:var(--card);padding:1.2rem 1.1rem;
+      display:flex;flex-direction:column;gap:.5rem;position:relative;transition:border-color .15s,transform .15s}
+    .pack:hover{border-color:rgba(255,207,106,.4);transform:translateY(-2px)}
+    .pack.best{border-color:var(--gold)}
+    .pack .ribbon{position:absolute;top:-10px;left:50%;transform:translateX(-50%);
+      background:var(--gold);color:#231603;font-size:.62rem;font-weight:800;letter-spacing:.05em;
+      text-transform:uppercase;padding:.18rem .6rem;border-radius:.5rem;white-space:nowrap}
+    .pack .usd{font-family:'Space Grotesk',sans-serif;font-size:2rem;font-weight:800;color:var(--text)}
+    .pack .ling{font-size:1rem;font-weight:700;color:var(--gold)}
+    .pack .per{font-size:.72rem;color:var(--muted)}
+    .pack .pp-btns{margin-top:.4rem;min-height:46px}
+    .pack .pp-disabled{font-size:.72rem;color:var(--muted);text-align:center;padding:.6rem;
+      border:1px dashed var(--line);border-radius:.6rem}
+
+    .t-note{max-width:620px;margin:2rem auto 0;text-align:center;color:var(--muted);font-size:.78rem;line-height:1.5}
+
+    /* Estado "en preparación" / gracias */
+    .t-state{max-width:560px;margin:2rem auto;padding:1.6rem;border:1px solid var(--line);
+      border-radius:1.1rem;background:var(--card);text-align:center}
+    .t-state h2{margin:.2rem 0 .5rem;font-family:'Space Grotesk',sans-serif;font-size:1.3rem}
+    .t-state p{color:var(--muted);font-size:.9rem;margin:0 auto;max-width:440px}
+    [hidden]{display:none !important}
+  </style>
+</head>
+<body>
+  <nav class="tienda-nav">
+    <a class="brand" href="/">UMBRA</a>
+    <div class="nav-right">
+      <a class="btn" href="/" data-i18n="t.nav.home">← Volver</a>
+      <button class="btn btn-login" data-i18n="t.nav.login">Iniciar sesión</button>
+      <div class="user-menu" hidden>
+        <button class="btn user-toggle" aria-expanded="false">
+          <span class="user-name"></span>
+        </button>
+        <div class="user-dropdown">
+          <button class="btn" data-action="signout" data-i18n="t.nav.signout">Cerrar sesión</button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main class="tienda">
+    <div class="t-hero">
+      <h1 data-i18n-html="t.h1.html">Apoyá el <span class="gold">early access</span>.</h1>
+      <p data-i18n="t.lead">Conseguí lingotes de aporte para mantener vivo el servidor de tu comunidad y desbloquear premium. No es una moneda: es tu forma de sostener el proyecto mientras crece.</p>
+    </div>
+
+    <!-- Gate: pedir login -->
+    <div class="t-gate" id="login-gate" hidden>
+      <p data-i18n="t.gate.text">Iniciá sesión con tu cuenta de UMBRA para que los lingotes lleguen a tu wallet.</p>
+      <button class="btn btn-primary btn-login" data-i18n="t.gate.btn">Iniciar sesión</button>
+    </div>
+
+    <!-- Línea de usuario logueado -->
+    <p class="t-userline" id="user-line" hidden>
+      <span data-i18n="t.user.prefix">Comprando como</span> <strong id="user-line-name"></strong>
+    </p>
+
+    <!-- Estado: PayPal no configurado -->
+    <div class="t-state" id="state-unconfigured" hidden>
+      <h2 data-i18n="t.unconfigured.h2">Tienda en preparación 🛠️</h2>
+      <p data-i18n="t.unconfigured.text">Estamos terminando de conectar la pasarela de pagos. Volvé pronto para apoyar el early access.</p>
+    </div>
+
+    <!-- Grid de packs -->
+    <div class="packs" id="packs" hidden></div>
+
+    <p class="t-note" id="packs-note" hidden data-i18n="t.note">Pago seguro vía PayPal. Los lingotes son unidades de aporte de UMBRA: no se cambian por dinero, se usan dentro de la plataforma. 1 lingote ≈ $2.</p>
+
+    <!-- Gracias -->
+    <div class="t-state" id="state-thanks" hidden>
+      <h2 data-i18n="t.thanks.h2">¡Gracias por tu aporte! 🎉</h2>
+      <p data-i18n="t.thanks.text">Tu pago se confirmó. Los lingotes aparecen en tu wallet en unos segundos — abrí UMBRA y revisá tu perfil.</p>
+      <p style="margin-top:1rem">
+        <a class="btn btn-primary" href="https://umbra.mobile/" data-i18n="t.thanks.open">Abrir UMBRA</a>
+      </p>
+    </div>
+  </main>
+
+  <!-- Login modal (reusa el de auth.js) -->
+  <div id="login-modal" class="login-modal" role="dialog" aria-modal="true" aria-labelledby="login-modal-title" hidden>
+    <div class="login-modal-backdrop" aria-hidden="true"></div>
+    <div class="login-modal-content">
+      <button class="login-modal-close" aria-label="Cerrar">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+          <line x1="4" y1="4" x2="12" y2="12" /><line x1="12" y1="4" x2="4" y2="12" />
+        </svg>
+      </button>
+      <div class="login-modal-header">
+        <h3 id="login-modal-title" data-i18n="auth.modal.title">Iniciar sesión en UMBRA</h3>
+        <p data-i18n="auth.modal.subtitle">Empieza con tu cuenta</p>
+      </div>
+      <button class="btn-google-signin">
+        <svg width="18" height="18" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.874 2.684-6.615z"/>
+          <path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.836.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332C2.438 15.983 5.482 18 9 18z"/>
+          <path fill="#FBBC05" d="M3.964 10.71A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.042l3.007-2.332z"/>
+          <path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0 5.482 0 2.438 2.017.957 4.958L3.964 7.29C4.672 5.163 6.656 3.58 9 3.58z"/>
+        </svg>
+        <span data-i18n="auth.modal.google_btn">Iniciar sesión con Google</span>
+      </button>
+      <p class="login-error" role="alert" hidden></p>
+    </div>
+  </div>
+
+  <script src="js/i18n-v2.js" defer></script>
+  <script src="js/auth.js" defer></script>
+  <script src="js/tienda.js" defer></script>
+</body>
+</html>
