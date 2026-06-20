@@ -207,6 +207,18 @@
     .swatch:hover{transform:translateY(-3px)}
     .swatch.active{border-color:var(--gold-hi)}
     .swatch:focus-visible{outline:2px solid var(--gold-hi);outline-offset:2px}
+    /* Galería de capturas reales (interfaz adaptativa) */
+    .adapt2{display:grid;gap:1.2rem}
+    .adapt-stage{position:relative;border-radius:var(--r-lg);overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow-cosmic);aspect-ratio:16/9;background:var(--ink-1)}
+    .adapt-main{width:100%;height:100%;object-fit:cover;display:block;transition:opacity .35s ease}
+    .adapt-label{position:absolute;left:14px;bottom:14px;padding:.4rem .85rem;border-radius:var(--r-pill);background:rgba(7,9,18,.62);backdrop-filter:blur(8px);border:1px solid var(--line);font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.08em;color:var(--gold-hi)}
+    .adapt-thumbs{display:grid;grid-template-columns:repeat(8,1fr);gap:.55rem}
+    @media(max-width:760px){.adapt-thumbs{grid-template-columns:repeat(4,1fr)}}
+    .adapt-thumb{aspect-ratio:16/10;border-radius:12px;overflow:hidden;border:2px solid transparent;padding:0;cursor:pointer;background:var(--ink-1);transition:border-color .2s,transform .2s}
+    .adapt-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+    .adapt-thumb:hover{transform:translateY(-3px)}
+    .adapt-thumb.active{border-color:var(--gold-hi);box-shadow:0 0 0 1px var(--gold-hi),var(--shadow-gold)}
+    .adapt-thumb:focus-visible{outline:2px solid var(--gold-hi);outline-offset:2px}
 
     /* Pledge / compromiso */
     .pledge{position:relative;border-radius:var(--r-xl);overflow:hidden;border:1px solid var(--line);
@@ -408,25 +420,20 @@
         <span class="kicker" data-reveal data-i18n="ad.kicker">Interfaz adaptativa</span>
         <h2 data-reveal style="font-size:clamp(2rem,4.2vw,3rem);max-width:16ch;margin-bottom:.8rem" data-i18n="ad.title">Una interfaz que se siente tuya.</h2>
         <p class="lead" data-reveal style="--d:80ms;margin-bottom:2.5rem" data-i18n="ad.body">Elige un fondo y mira cómo UMBRA se transforma. La interfaz lee los colores de tu imagen y rearma toda su paleta alrededor de ella —acentos, brillos y superficies en armonía—.</p>
-        <div class="adapt">
-          <div class="adapt-demo glass" id="adaptDemo" style="background-image:linear-gradient(135deg,#0c2a3a,#0a1430)">
-            <div class="demoui">
-              <div class="bar"><span class="dotui"></span><span class="pill" style="width:90px"></span><span class="pill" style="width:46px;margin-left:auto"></span></div>
-              <div class="room"><span class="av"></span><span class="nm"></span></div>
-              <div class="room"><span class="av"></span><span class="nm" style="width:38%"></span></div>
-              <div class="room"><span class="av"></span><span class="nm" style="width:54%"></span></div>
-              <button class="cta-ui" data-i18n="ad.join">Entrar a la sala</button>
-            </div>
+        <div class="adapt2" data-reveal style="--d:120ms">
+          <div class="adapt-stage">
+            <img class="adapt-main" id="adaptMain" src="assets/shots/adapt-starcitizen.jpg" alt="UMBRA con un fondo de Star Citizen" />
+            <span class="adapt-label" id="adaptLabel">Star Citizen</span>
           </div>
-          <div data-reveal>
-            <p class="mono" style="font-size:.8rem;color:var(--gold-hi);letter-spacing:.1em;margin-bottom:.4rem" data-i18n="ad.hint">PRUEBA: ELIGE UN FONDO →</p>
-            <p class="lead" style="font-size:1rem;margin-bottom:1rem" data-i18n="ad.body2">Cada imagen reescribe el acento, los brillos y las superficies de la interfaz en tiempo real. Tu puesto de mando, con tu identidad.</p>
-            <div class="swatches" id="swatches" role="group" aria-label="Fondos de prueba">
-              <button class="swatch active" data-img="assets/wallpapers/canvas_sc.jpg" aria-label="Fondo Star Citizen"></button>
-              <button class="swatch" data-img="assets/wallpapers/genshin.jpg" aria-label="Fondo Genshin"></button>
-              <button class="swatch" data-img="assets/wallpapers/lol.jpg" aria-label="Fondo League"></button>
-              <button class="swatch" data-img="assets/wallpapers/monkey.jpg" aria-label="Fondo Monkey"></button>
-            </div>
+          <div class="adapt-thumbs" id="adaptThumbs" role="group" aria-label="Fondos">
+            <button class="adapt-thumb active" data-img="assets/shots/adapt-starcitizen.jpg" data-label="Star Citizen"><img src="assets/shots/adapt-starcitizen.jpg" alt="Star Citizen" loading="lazy" /></button>
+            <button class="adapt-thumb" data-img="assets/shots/adapt-genshin.jpg" data-label="Genshin"><img src="assets/shots/adapt-genshin.jpg" alt="Genshin" loading="lazy" /></button>
+            <button class="adapt-thumb" data-img="assets/shots/adapt-lol.jpg" data-label="League of Legends"><img src="assets/shots/adapt-lol.jpg" alt="League of Legends" loading="lazy" /></button>
+            <button class="adapt-thumb" data-img="assets/shots/adapt-gta.jpg" data-label="GTA"><img src="assets/shots/adapt-gta.jpg" alt="GTA" loading="lazy" /></button>
+            <button class="adapt-thumb" data-img="assets/shots/adapt-pokemon.jpg" data-label="Pokémon"><img src="assets/shots/adapt-pokemon.jpg" alt="Pokémon" loading="lazy" /></button>
+            <button class="adapt-thumb" data-img="assets/shots/adapt-onepiece.jpg" data-label="One Piece"><img src="assets/shots/adapt-onepiece.jpg" alt="One Piece" loading="lazy" /></button>
+            <button class="adapt-thumb" data-img="assets/shots/adapt-rainbow.jpg" data-label="Rainbow Six"><img src="assets/shots/adapt-rainbow.jpg" alt="Rainbow Six" loading="lazy" /></button>
+            <button class="adapt-thumb" data-img="assets/shots/adapt-vangogh.jpg" data-label="Van Gogh"><img src="assets/shots/adapt-vangogh.jpg" alt="Van Gogh" loading="lazy" /></button>
           </div>
         </div>
       </div>
@@ -588,46 +595,24 @@
       // con saltos y poco responsiva al mouse). El scroll suave de las anclas
       // lo da html{scroll-behavior:smooth}.
 
-      // ── Interfaz adaptativa: extrae color real de la imagen vía canvas ──
-      var demo = document.getElementById('adaptDemo');
-      var cv = document.createElement('canvas'); cv.width = cv.height = 40;
-      var ctx = cv.getContext('2d', {willReadFrequently:true});
-      function vibrant(img){
-        try{
-          ctx.drawImage(img,0,0,40,40);
-          var d = ctx.getImageData(0,0,40,40).data, best=null, bestScore=-1;
-          for(var i=0;i<d.length;i+=4){
-            var r=d[i],g=d[i+1],b=d[i+2];
-            var mx=Math.max(r,g,b), mn=Math.min(r,g,b);
-            var sat = mx===0?0:(mx-mn)/mx, lum=(r+g+b)/3;
-            if(lum<35||lum>225) continue;            // descarta casi negro/blanco
-            var score = sat*1.4 + (lum/255)*0.4;     // prioriza saturado y con vida
-            if(score>bestScore){ bestScore=score; best=[r,g,b]; }
-          }
-          return best;
-        }catch(e){ return null; }
-      }
-      function applyWallpaper(btn){
-        var src = btn.dataset.img;
-        demo.style.backgroundImage = 'url('+src+')';
-        document.querySelectorAll('#swatches .swatch').forEach(function(s){ s.classList.toggle('active', s===btn); });
-        var img = new Image(); img.crossOrigin='anonymous';
-        img.onload = function(){
-          var c = vibrant(img);
-          if(!c) return;
-          var accent = 'rgb('+c[0]+','+c[1]+','+c[2]+')';
-          var glow = 'rgba('+c[0]+','+c[1]+','+c[2]+',.55)';
-          demo.style.setProperty('--ui-accent', accent);
-          demo.style.setProperty('--ui-glow', glow);
-        };
-        img.src = src;
-      }
-      document.querySelectorAll('#swatches .swatch').forEach(function(b){
-        b.style.backgroundImage = 'url('+b.dataset.img+')';
-        b.addEventListener('click', function(){ applyWallpaper(b); });
+      // ── Interfaz adaptativa: galería de capturas reales (crossfade) ──
+      var aMain = document.getElementById('adaptMain');
+      var aLabel = document.getElementById('adaptLabel');
+      var aThumbs = [].slice.call(document.querySelectorAll('#adaptThumbs .adapt-thumb'));
+      aThumbs.forEach(function(t){
+        t.addEventListener('click', function(){
+          if(t.classList.contains('active')) return;
+          var src = t.dataset.img, label = t.dataset.label;
+          var pre = new Image();
+          pre.onload = function(){
+            aMain.style.opacity = '0';
+            setTimeout(function(){ aMain.src = src; aMain.alt = 'UMBRA con un fondo de '+label; aMain.style.opacity = '1'; }, 160);
+          };
+          pre.src = src;
+          if(aLabel) aLabel.textContent = label;
+          aThumbs.forEach(function(x){ x.classList.toggle('active', x===t); });
+        });
       });
-      var first = document.querySelector('#swatches .swatch.active');
-      if(first) applyWallpaper(first);
     })();
   </script>
 </body>
