@@ -122,8 +122,7 @@
 
     /* Objetos 3D flotantes (satélite / planeta / mando) — se funden con el fondo */
     #paraquien,#compromiso{position:relative}
-    .float-obj{position:absolute;z-index:0;pointer-events:none;filter:drop-shadow(0 26px 54px rgba(8,6,34,.55));
-      -webkit-mask-image:radial-gradient(circle at 50% 50%, #000 56%, transparent 77%);mask-image:radial-gradient(circle at 50% 50%, #000 56%, transparent 77%);
+    .float-obj{position:absolute;z-index:0;pointer-events:none;filter:drop-shadow(0 24px 42px rgba(8,6,34,.5));
       animation:floaty 9s ease-in-out infinite;will-change:transform}
     .fo-sat{top:-2vh;right:-2vw;width:min(26vw,360px)}
     .fo-man{top:1.5rem;right:3vw;width:min(15vw,185px);animation-delay:-3s}
@@ -313,7 +312,7 @@
   <main id="main">
     <!-- HERO -->
     <header class="hero">
-      <img class="float-obj fo-sat" src="assets/shots/obj-satelite.jpg" alt="" aria-hidden="true" />
+      <img class="float-obj fo-sat" src="assets/shots/obj-satelite.webp" alt="" aria-hidden="true" />
       <div class="wrap hero-grid">
         <div data-reveal>
           <span class="kicker" data-i18n="h.kicker">Para clanes, gremios y equipos competitivos</span>
@@ -340,7 +339,7 @@
 
     <!-- PARA QUIÉN -->
     <section id="paraquien">
-      <img class="float-obj fo-man" src="assets/shots/obj-mando.jpg" alt="" aria-hidden="true" />
+      <img class="float-obj fo-man" src="assets/shots/obj-mando.webp" alt="" aria-hidden="true" />
       <div class="wrap">
         <span class="kicker" data-reveal data-i18n="fw.kicker">Para quién</span>
         <h2 data-reveal style="font-size:clamp(2rem,4.4vw,3.2rem);max-width:18ch" data-i18n="fw.title">Hecho para quienes coordinan de verdad.</h2>
@@ -449,7 +448,7 @@
 
     <!-- EL COMPROMISO / PLEDGE -->
     <section id="compromiso">
-      <img class="float-obj fo-pla" src="assets/shots/obj-planeta.jpg" alt="" aria-hidden="true" />
+      <img class="float-obj fo-pla" src="assets/shots/obj-mundo.webp" alt="" aria-hidden="true" />
       <div class="wrap">
         <div class="pledge">
           <div class="pledge-in">
