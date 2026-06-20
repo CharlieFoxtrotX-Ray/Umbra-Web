@@ -13,12 +13,14 @@
 (function () {
   'use strict';
 
+  // Totales sincronizados con PACKS_BY_CENTS del webhook (no cambian);
+  // base + bonus es sólo presentación ("llevate X + Y de regalo").
   const PACKS = [
-    { id: 'p5',   usd: 5,   ling: 2  },
-    { id: 'p10',  usd: 10,  ling: 5  },
-    { id: 'p20',  usd: 20,  ling: 11 },
-    { id: 'p50',  usd: 50,  ling: 30, best: true },
-    { id: 'p100', usd: 100, ling: 65 },
+    { id: 'p5',   usd: 5,   base: 2,  bonus: 0,  ling: 2  },
+    { id: 'p10',  usd: 10,  base: 4,  bonus: 1,  ling: 5  },
+    { id: 'p20',  usd: 20,  base: 8,  bonus: 3,  ling: 11 },
+    { id: 'p50',  usd: 50,  base: 20, bonus: 10, ling: 30 },
+    { id: 'p100', usd: 100, base: 40, bonus: 25, ling: 65 },
   ];
 
   const clientId = (document.querySelector('meta[name="paypal-client-id"]')?.content || '').trim();
@@ -58,12 +60,13 @@
     grid.innerHTML = '';
     PACKS.forEach((p) => {
       const card = document.createElement('div');
-      card.className = 'pack' + (p.best ? ' best' : '');
+      card.className = 'pack';
       card.innerHTML =
-        (p.best ? '<span class="ribbon" data-i18n="t.best">Mejor valor</span>' : '') +
         '<div class="usd">$' + p.usd + '</div>' +
         '<div class="ling">' + p.ling + ' <span data-i18n="t.ling.word">lingotes</span></div>' +
-        '<div class="per">$' + (p.usd / p.ling).toFixed(2) + ' / <span data-i18n="t.per.word">lingote</span></div>' +
+        (p.bonus
+          ? '<div class="bonus">' + p.base + ' + ' + p.bonus + ' <span data-i18n="t.gift">de regalo</span> &#127873;</div>'
+          : '<div class="bonus base-only">&nbsp;</div>') +
         '<div class="pp-btns" id="pp-' + p.id + '"></div>';
       grid.appendChild(card);
     });

@@ -247,6 +247,25 @@
     .plan h3{font-size:1.45rem;margin:.5rem 0 .3rem}
     .plan .desc{color:var(--text-soft);font-size:.92rem;min-height:3.2em;margin-bottom:1.2rem}
     .plan .plan-cta{margin-top:auto}
+    /* Planes v2: individual + servidor */
+    .plan-ind{display:flex;flex-wrap:wrap;gap:1.5rem;align-items:center;justify-content:space-between;margin-top:2.5rem;padding:1.6rem 1.9rem;border-radius:var(--r-lg);background:rgba(212,160,106,.10);border:1px solid rgba(212,160,106,.38);box-shadow:0 0 0 1px rgba(212,160,106,.15),var(--shadow-gold)}
+    .plan-ind .pi-info{flex:1 1 320px}
+    .plan-ind .tag{font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-hi)}
+    .plan-ind h3{font-family:'Clash Display',sans-serif;font-size:1.5rem;margin:.35rem 0 .4rem}
+    .plan-ind p{color:var(--text-soft);font-size:.92rem;max-width:64ch}
+    .pi-price{font-family:'Space Grotesk',sans-serif;white-space:nowrap;color:var(--text-soft);font-size:.95rem}
+    .pi-price b{font-size:2.2rem;color:var(--gold-hi);font-weight:800;margin-right:.2rem}
+    .plans-sub{font-family:'JetBrains Mono',monospace;font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:var(--text-mute);margin:2.8rem 0 1.1rem;font-weight:600}
+    .plans-server{grid-template-columns:1fr;margin-top:0}
+    @media(min-width:560px){.plans-server{grid-template-columns:repeat(2,1fr)}}
+    @media(min-width:1000px){.plans-server{grid-template-columns:repeat(5,1fr)}}
+    .plans-server .plan{padding:1.4rem 1.2rem}
+    .plans-server .plan h3{font-size:1.15rem;margin:.4rem 0 .2rem}
+    .plan-price{font-family:'Space Grotesk',sans-serif;margin:.1rem 0 1rem;color:var(--text-soft);font-size:.8rem}
+    .plan-price b{font-size:1.7rem;color:var(--gold-hi);font-weight:800;margin-right:.15rem}
+    .plan-feats{display:flex;flex-direction:column;gap:.4rem}
+    .plan-feats li{color:var(--text-soft);font-size:.82rem;padding-left:1rem;position:relative;line-height:1.35}
+    .plan-feats li::before{content:'\25E2';position:absolute;left:0;color:var(--gold);font-size:.55rem;top:.25rem}
 
     /* FAQ */
     .faq-grid{display:grid;gap:1.4rem 2.5rem;margin-top:2.5rem}
@@ -476,26 +495,63 @@
         <span class="kicker" data-reveal data-i18n="pn.kicker">Planes</span>
         <h2 data-reveal style="font-size:clamp(2rem,4.2vw,3rem);max-width:16ch" data-i18n="pn.title">Un plan para cada comunidad.</h2>
         <p class="lead" data-reveal style="--d:80ms;margin-top:1rem" data-i18n="pn.body">Desde grupos chicos hasta gremios masivos. El plan lo sostiene la comunidad con sus aportes; el equipo entra y conecta sin pagar por su cuenta.</p>
-        <div class="plans">
+        <!-- Individual -->
+        <div class="plan-ind" data-reveal style="--d:60ms">
+          <div class="pi-info">
+            <span class="tag" data-i18n="pn.ind.tag">Individual</span>
+            <h3 data-i18n="pn.ind.name">Premium</h3>
+            <p data-i18n="pn.ind.desc">Evita las colas cuando el servidor está lleno, Insignia Gold (próximamente), app para tablet y botones para Stream Deck.</p>
+          </div>
+          <div class="pi-price"><b>3</b> <span data-i18n="pn.permonth">lingotes/mes</span></div>
+        </div>
+
+        <h3 class="plans-sub" data-reveal data-i18n="pn.server">Planes de servidor</h3>
+        <div class="plans plans-server">
           <div class="plan" data-reveal>
-            <span class="tag" data-i18n="pn.a.tag">La entrada</span>
-            <h3 data-i18n="pn.a.name">Community</h3>
-            <p class="desc" data-i18n="pn.a.desc">Para grupos chicos. Salas, Whisper limitado y lo esencial para empezar a coordinar.</p>
-            <a class="btn btn-ghost plan-cta" href="#descarga" data-i18n="pn.a.cta">Empezar gratis</a>
+            <span class="tag" data-i18n="pn.s1.tag">15 días gratis</span>
+            <h3>Community</h3>
+            <div class="plan-price"><b>5</b> <span data-i18n="pn.permonth">lingotes/mes</span></div>
+            <ul class="plan-feats">
+              <li data-i18n="pn.s1.f1">Hasta 8 slots</li>
+              <li data-i18n="pn.s1.f2">Whisper entre command y 1 sala</li>
+            </ul>
           </div>
-          <div class="plan feat-plan" data-reveal style="--d:80ms">
-            <span class="tag" data-i18n="pn.b.tag">★ El más elegido</span>
-            <h3 data-i18n="pn.b.name">Org</h3>
-            <p class="desc" data-i18n="pn.b.desc">Para orgs que coordinan ops reales. Whisper sin límites, audio HD, roles completos y registro.</p>
-            <a class="btn btn-gold plan-cta" href="/tienda" data-i18n="pn.b.cta">Ver en la Pledge Store</a>
+          <div class="plan" data-reveal style="--d:60ms">
+            <h3>ORG</h3>
+            <div class="plan-price"><b>15</b> <span data-i18n="pn.permonth">lingotes/mes</span></div>
+            <ul class="plan-feats">
+              <li data-i18n="pn.s2.f">Hasta 30 slots simultáneos</li>
+              <li data-i18n="pn.unlim">Salas y Whisper ilimitados</li>
+            </ul>
           </div>
-          <div class="plan" data-reveal style="--d:160ms">
-            <span class="tag" data-i18n="pn.c.tag">Para los grandes</span>
-            <h3 data-i18n="pn.c.name">Enterprise · Esports</h3>
-            <p class="desc" data-i18n="pn.c.desc">Para ligas, eventos y gremios masivos. Región dedicada, grabación de ops y soporte prioritario.</p>
-            <a class="btn btn-ghost plan-cta" href="/tienda" data-i18n="pn.c.cta">Hablar con el equipo</a>
+          <div class="plan" data-reveal style="--d:120ms">
+            <h3>Command</h3>
+            <div class="plan-price"><b>30</b> <span data-i18n="pn.permonth">lingotes/mes</span></div>
+            <ul class="plan-feats">
+              <li data-i18n="pn.s3.f">Hasta 60 slots simultáneos</li>
+              <li data-i18n="pn.unlim">Salas y Whisper ilimitados</li>
+            </ul>
+          </div>
+          <div class="plan" data-reveal style="--d:180ms">
+            <h3>Batallón</h3>
+            <div class="plan-price"><b>50</b> <span data-i18n="pn.permonth">lingotes/mes</span></div>
+            <ul class="plan-feats">
+              <li data-i18n="pn.s4.f">Hasta 100 slots simultáneos</li>
+              <li data-i18n="pn.unlim">Salas y Whisper ilimitados</li>
+            </ul>
+          </div>
+          <div class="plan" data-reveal style="--d:240ms">
+            <h3>E-Sports</h3>
+            <div class="plan-price"><b>100</b> <span data-i18n="pn.permonth">lingotes/mes</span></div>
+            <ul class="plan-feats">
+              <li data-i18n="pn.s5.f">Hasta 280 slots simultáneos</li>
+              <li data-i18n="pn.unlim">Salas y Whisper ilimitados</li>
+            </ul>
           </div>
         </div>
+        <p style="margin-top:1.6rem" data-reveal>
+          <a class="btn btn-gold" href="/tienda" data-i18n="pn.cta">Elige tu plan en la Pledge Store →</a>
+        </p>
       </div>
     </section>
 
