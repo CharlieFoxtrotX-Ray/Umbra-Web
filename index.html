@@ -23,7 +23,7 @@
       --nebula:#5B4BD6; --nebula-deep:#2E2566; --azure:#2C6BF0; --azure-soft:#6E93F0;
       --gold:#D4A06A; --gold-hi:#F4CC89; --gold-shine:#FFEAC1;
       --text:#EEF1FB; --text-soft:rgba(238,241,251,.66); --text-mute:rgba(238,241,251,.42);
-      --glass:rgba(255,255,255,.04); --line:rgba(255,255,255,.09);
+      --glass:rgba(80,66,150,.34); --line:rgba(255,255,255,.10);
       --shadow-cosmic:0 30px 80px -30px rgba(46,37,102,.55);
       --shadow-gold:0 20px 50px -20px rgba(212,160,106,.32);
       --r-sm:10px; --r:16px; --r-lg:26px; --r-xl:34px; --r-pill:999px;
@@ -54,11 +54,7 @@
 
     /* Fondo cósmico */
     .cosmos{position:fixed;inset:0;z-index:var(--z-bg);overflow:hidden;
-      background:
-        radial-gradient(60% 50% at 72% -8%, color-mix(in oklab,var(--nebula) 30%, transparent), transparent 70%),
-        radial-gradient(54% 42% at 8% 18%, color-mix(in oklab,var(--azure) 22%, transparent), transparent 66%),
-        radial-gradient(40% 35% at 50% 110%, color-mix(in oklab,var(--nebula-deep) 50%, transparent), transparent 70%),
-        var(--void)}
+      background:radial-gradient(115% 95% at 64% 16%, #45389f 0%, #322a82 52%, #241c64 100%)}
     .cosmos .stars{position:absolute;inset:-30%;opacity:.5;will-change:transform;
       background-image:radial-gradient(1.2px 1.2px at 20% 30%,#fff,transparent),radial-gradient(1px 1px at 80% 60%,rgba(255,255,255,.7),transparent),
         radial-gradient(1px 1px at 50% 80%,#fff,transparent),radial-gradient(1.4px 1.4px at 35% 65%,rgba(180,200,255,.8),transparent),
@@ -124,6 +120,17 @@
     .mascot.h-violet::after{background:radial-gradient(circle,var(--nebula),transparent 65%)}
     .mascot.h-mint::after{background:radial-gradient(circle,#3FBF8F,transparent 65%)}
 
+    /* Objetos 3D flotantes (satélite / planeta / mando) — se funden con el fondo */
+    #paraquien,#compromiso{position:relative}
+    .float-obj{position:absolute;z-index:0;pointer-events:none;filter:drop-shadow(0 26px 54px rgba(8,6,34,.55));
+      -webkit-mask-image:radial-gradient(circle at 50% 50%, #000 56%, transparent 77%);mask-image:radial-gradient(circle at 50% 50%, #000 56%, transparent 77%);
+      animation:floaty 9s ease-in-out infinite;will-change:transform}
+    .fo-sat{top:-2vh;right:-2vw;width:min(26vw,360px)}
+    .fo-man{top:1.5rem;right:3vw;width:min(15vw,185px);animation-delay:-3s}
+    .fo-pla{bottom:-9vh;left:-6vw;width:min(28vw,380px);animation-delay:-5s}
+    @keyframes floaty{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-16px) rotate(2.5deg)}}
+    @media(max-width:760px){.float-obj{display:none}}
+
     /* HERO */
     .hero{padding:11rem 0 5rem;position:relative}
     .hero-grid{display:grid;gap:3rem;align-items:center}
@@ -168,8 +175,8 @@
     /* Pilares (sticky stack) */
     .pillars{position:relative;padding:5rem 0}
     .panel{position:sticky;top:9vh;margin-bottom:6vh;border-radius:var(--r-xl);overflow:hidden;
-      background:linear-gradient(180deg,#0e1430,#090d1c);border:1px solid var(--line);
-      box-shadow:inset 0 1px 0 rgba(255,255,255,.07),0 -12px 44px -12px rgba(5,7,15,.92),var(--shadow-cosmic)}
+      background:rgba(46,38,104,0.42);backdrop-filter:blur(26px) saturate(135%);-webkit-backdrop-filter:blur(26px) saturate(135%);border:1px solid rgba(255,255,255,0.14);
+      box-shadow:inset 0 1px 0 rgba(255,255,255,0.09),0 30px 80px -30px rgba(8,6,34,0.7)}
     .panel-in{display:grid;gap:2.5rem;align-items:center;padding:clamp(2rem,4vw,3.6rem)}
     @media(min-width:900px){.panel-in{grid-template-columns:1fr 1fr}.panel.rev .panel-in>.panel-media{order:-1}}
     .panel h2{font-size:clamp(2rem,3.6vw,3rem);margin:.7rem 0 1.1rem}
@@ -271,6 +278,7 @@
       *{scroll-behavior:auto !important}
       [data-reveal]{opacity:1 !important;transform:none !important;transition:none !important}
       .mascot,.stars,.aurora{transform:none !important}
+      .float-obj{animation:none !important;transform:none !important}
       .whisper-toast,.whisper-toast .wt-ic i{animation:none !important;opacity:1 !important;transform:none !important}
     }
   </style>
@@ -279,8 +287,6 @@
   <a class="skip" href="#main" data-i18n="a11y.skip">Saltar al contenido</a>
   <div class="grain" aria-hidden="true"></div>
   <div class="cosmos" aria-hidden="true">
-    <div class="aurora a1" data-speed="-0.04"></div>
-    <div class="aurora a2" data-speed="0.03"></div>
     <div class="stars" data-speed="0.06"></div>
   </div>
 
@@ -307,6 +313,7 @@
   <main id="main">
     <!-- HERO -->
     <header class="hero">
+      <img class="float-obj fo-sat" src="assets/shots/obj-satelite.jpg" alt="" aria-hidden="true" />
       <div class="wrap hero-grid">
         <div data-reveal>
           <span class="kicker" data-i18n="h.kicker">Para clanes, gremios y equipos competitivos</span>
@@ -333,6 +340,7 @@
 
     <!-- PARA QUIÉN -->
     <section id="paraquien">
+      <img class="float-obj fo-man" src="assets/shots/obj-mando.jpg" alt="" aria-hidden="true" />
       <div class="wrap">
         <span class="kicker" data-reveal data-i18n="fw.kicker">Para quién</span>
         <h2 data-reveal style="font-size:clamp(2rem,4.4vw,3.2rem);max-width:18ch" data-i18n="fw.title">Hecho para quienes coordinan de verdad.</h2>
@@ -441,6 +449,7 @@
 
     <!-- EL COMPROMISO / PLEDGE -->
     <section id="compromiso">
+      <img class="float-obj fo-pla" src="assets/shots/obj-planeta.jpg" alt="" aria-hidden="true" />
       <div class="wrap">
         <div class="pledge">
           <div class="pledge-in">
