@@ -32,12 +32,15 @@ body{
   position:relative;
 }
 body::before{
-  content:'';position:absolute;inset:0;z-index:0;pointer-events:none;
+  content:'';position:fixed;inset:-12%;z-index:0;pointer-events:none;will-change:transform;
   background:
     radial-gradient(ellipse 80% 25% at 50% 0%, rgba(212,160,106,0.12), transparent 65%),
     radial-gradient(ellipse 55% 22% at 12% 25%, rgba(120,160,240,0.18), transparent 65%),
     radial-gradient(ellipse 50% 22% at 88% 55%, rgba(180,150,240,0.14), transparent 65%);
+  animation:legalDrift 32s ease-in-out infinite;
 }
+@keyframes legalDrift{0%,100%{transform:translate3d(0,0,0) scale(1)}50%{transform:translate3d(2.5%,2%,0) scale(1.06)}}
+@media (prefers-reduced-motion:reduce){ body::before{animation:none !important;transform:none !important} }
 body > *{position:relative;z-index:1}
 
 a{color:var(--gold-hi);text-decoration:underline;text-underline-offset:3px}

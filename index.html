@@ -52,16 +52,28 @@
     .grain{position:fixed;inset:0;z-index:var(--z-nav);pointer-events:none;opacity:.045;mix-blend-mode:overlay;
       background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
 
-    /* Fondo cósmico */
+    /* Fondo cósmico premium — nebulosa viva (mantiene el violeta), con movimiento */
     .cosmos{position:fixed;inset:0;z-index:var(--z-bg);overflow:hidden;
-      background:radial-gradient(115% 95% at 64% 16%, #45389f 0%, #322a82 52%, #241c64 100%)}
+      background:radial-gradient(125% 100% at 64% 10%, #4a3cab 0%, #342b88 46%, #221a60 100%)}
     .cosmos .stars{position:absolute;inset:-30%;opacity:.5;will-change:transform;
       background-image:radial-gradient(1.2px 1.2px at 20% 30%,#fff,transparent),radial-gradient(1px 1px at 80% 60%,rgba(255,255,255,.7),transparent),
         radial-gradient(1px 1px at 50% 80%,#fff,transparent),radial-gradient(1.4px 1.4px at 35% 65%,rgba(180,200,255,.8),transparent),
-        radial-gradient(1px 1px at 65% 18%,#fff,transparent);background-size:260px 260px}
-    .cosmos .aurora{position:absolute;width:60vmax;height:60vmax;border-radius:50%;filter:blur(80px);opacity:.18;will-change:transform}
-    .cosmos .a1{top:-20vmax;right:-10vmax;background:radial-gradient(circle,var(--nebula),transparent 60%)}
-    .cosmos .a2{bottom:-25vmax;left:-15vmax;background:radial-gradient(circle,var(--azure),transparent 60%)}
+        radial-gradient(1px 1px at 65% 18%,#fff,transparent);background-size:260px 260px;animation:twinkle 7s ease-in-out infinite}
+    .cosmos .stars2{opacity:.3;background-size:370px 370px;animation:starDrift 72s linear infinite,twinkle 9s ease-in-out infinite .6s}
+    @keyframes twinkle{0%,100%{opacity:.32}50%{opacity:.6}}
+    @keyframes starDrift{from{transform:translate3d(0,0,0)}to{transform:translate3d(-370px,-185px,0)}}
+    /* Nebulosa: capas de luz violeta (gradientes suaves, SIN blur → fluido) que derivan y respiran */
+    .cosmos .neb{position:absolute;inset:-25%;mix-blend-mode:screen;will-change:transform;pointer-events:none}
+    .cosmos .neb1{background:
+        radial-gradient(40% 46% at 78% 16%, rgba(138,110,255,.55), transparent 70%),
+        radial-gradient(36% 42% at 22% 82%, rgba(58,120,248,.42), transparent 72%);
+      animation:nebDrift1 30s ease-in-out infinite}
+    .cosmos .neb2{opacity:.85;background:
+        radial-gradient(32% 36% at 40% 44%, rgba(176,104,236,.34), transparent 70%),
+        radial-gradient(30% 34% at 88% 72%, rgba(96,80,230,.30), transparent 72%);
+      animation:nebDrift2 40s ease-in-out infinite}
+    @keyframes nebDrift1{0%,100%{transform:translate3d(0,0,0) scale(1)}50%{transform:translate3d(-5%,4%,0) scale(1.13)}}
+    @keyframes nebDrift2{0%,100%{transform:translate3d(0,0,0) scale(1.05)}50%{transform:translate3d(5%,-3.5%,0) scale(.96)}}
 
     /* Reveal */
     [data-reveal]{opacity:0;transform:translateY(28px);
@@ -71,7 +83,7 @@
     /* Layout */
     main{position:relative;z-index:var(--z-base)}
     .wrap{max-width:var(--container);margin:0 auto;padding:0 1.5rem}
-    section{padding:7rem 0}
+    section{padding:5rem 0}
     .kicker{font-family:'JetBrains Mono',monospace;font-size:.74rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--gold-hi);margin-bottom:1.1rem;display:inline-flex;align-items:center;gap:.6rem}
     .kicker::before{content:'';width:26px;height:1px;background:linear-gradient(90deg,var(--gold),transparent)}
     .lead{color:var(--text-soft);font-size:1.12rem;max-width:60ch;line-height:1.6}
@@ -124,16 +136,16 @@
     #paraquien,#compromiso{position:relative}
     .float-obj{position:absolute;z-index:0;pointer-events:none;filter:drop-shadow(0 24px 42px rgba(8,6,34,.5));
       animation:floaty 9s ease-in-out infinite;will-change:transform}
-    .fo-sat{top:-2vh;right:-2vw;width:min(26vw,360px)}
+    .fo-sat{top:-2.5vh;right:-0.5vw;width:min(30vw,420px)}
     .fo-man{top:1.5rem;right:3vw;width:min(15vw,185px);animation-delay:-3s}
     .fo-pla{bottom:-9vh;left:-6vw;width:min(28vw,380px);animation-delay:-5s}
     @keyframes floaty{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-16px) rotate(2.5deg)}}
     @media(max-width:760px){.float-obj{display:none}}
 
     /* HERO */
-    .hero{padding:11rem 0 5rem;position:relative}
-    .hero-grid{display:grid;gap:3rem;align-items:center}
-    @media(min-width:980px){.hero-grid{grid-template-columns:1.05fr .95fr}}
+    .hero{padding:11rem 0 3.5rem;position:relative}
+    .hero-grid{display:grid;gap:2.6rem;align-items:center}
+    @media(min-width:980px){.hero-grid{grid-template-columns:.95fr 1.08fr}}
     .hero h1{font-size:clamp(2.7rem,6.4vw,5.1rem);margin:1rem 0 1.4rem}
     .hero h1 .grad{background:linear-gradient(120deg,var(--gold-shine),var(--gold) 60%,var(--azure-soft));-webkit-background-clip:text;background-clip:text;color:transparent}
     .hero .lead{font-size:1.18rem;margin-bottom:2rem}
@@ -172,8 +184,8 @@
     .aud p{color:var(--text-soft);font-size:.94rem}
 
     /* Pilares (sticky stack) */
-    .pillars{position:relative;padding:5rem 0}
-    .panel{position:sticky;top:9vh;margin-bottom:6vh;border-radius:var(--r-xl);overflow:hidden;
+    .pillars{position:relative;padding:3rem 0}
+    .panel{position:sticky;top:8vh;margin-bottom:4vh;border-radius:var(--r-xl);overflow:hidden;
       background:rgba(46,38,104,0.42);backdrop-filter:blur(26px) saturate(135%);-webkit-backdrop-filter:blur(26px) saturate(135%);border:1px solid rgba(255,255,255,0.14);
       box-shadow:inset 0 1px 0 rgba(255,255,255,0.09),0 30px 80px -30px rgba(8,6,34,0.7)}
     .panel-in{display:grid;gap:2.5rem;align-items:center;padding:clamp(2rem,4vw,3.6rem)}
@@ -185,17 +197,17 @@
     .feat li b{color:var(--text);font-weight:600}
     .feat .ic{flex:0 0 auto;width:22px;height:22px;border-radius:7px;display:grid;place-items:center;margin-top:1px;
       background:rgba(212,160,106,.14);border:1px solid rgba(212,160,106,.35);color:var(--gold-hi);font-size:.7rem}
-    .panel-media{position:relative;min-height:240px;border-radius:var(--r-lg);overflow:hidden;
+    .panel-media{position:relative;min-height:290px;border-radius:var(--r-lg);overflow:hidden;
       background:radial-gradient(120% 120% at 50% 0%,rgba(91,75,214,.18),transparent 60%),rgba(10,14,28,.6);
       border:1px solid var(--line);display:grid;place-items:center}
     .panel-media .shot{width:100%;height:100%;object-fit:cover;display:block}
     .mascot-corner{position:absolute;top:12px;right:12px;width:80px;z-index:4;filter:drop-shadow(0 8px 18px rgba(0,0,0,.55))}
     @media(max-width:600px){.mascot-corner{width:58px;top:8px;right:8px}}
-    .panel-media.tall{min-height:320px}
+    .panel-media.tall{min-height:370px}
 
     /* Demo adaptativa */
     .adapt{display:grid;gap:2.5rem;align-items:center}
-    @media(min-width:980px){.adapt{grid-template-columns:1.1fr .9fr}}
+    @media(min-width:980px){.adapt{grid-template-columns:1.3fr .85fr}}
     .adapt-demo{position:relative;border-radius:var(--r-lg);overflow:hidden;border:1px solid var(--line);min-height:340px;
       background-size:cover;background-position:center;box-shadow:var(--shadow-cosmic);transition:background-image .5s}
     .adapt-demo::before{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(5,7,15,.35),rgba(5,7,15,.78))}
@@ -295,7 +307,7 @@
     @media (prefers-reduced-motion:reduce){
       *{scroll-behavior:auto !important}
       [data-reveal]{opacity:1 !important;transform:none !important;transition:none !important}
-      .mascot,.stars,.aurora{transform:none !important}
+      .mascot,.stars,.stars2,.neb{transform:none !important;animation:none !important}
       .float-obj{animation:none !important;transform:none !important}
       .whisper-toast,.whisper-toast .wt-ic i{animation:none !important;opacity:1 !important;transform:none !important}
     }
@@ -305,7 +317,10 @@
   <a class="skip" href="#main" data-i18n="a11y.skip">Saltar al contenido</a>
   <div class="grain" aria-hidden="true"></div>
   <div class="cosmos" aria-hidden="true">
+    <div class="neb neb1"></div>
+    <div class="neb neb2"></div>
     <div class="stars" data-speed="0.06"></div>
+    <div class="stars stars2"></div>
   </div>
 
   <nav class="nav" id="topNav">
