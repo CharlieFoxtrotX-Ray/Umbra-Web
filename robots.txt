@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /tienda
+
+Sitemap: https://umbra.cfx-software.com/sitemap.xml

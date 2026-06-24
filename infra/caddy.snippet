@@ -1,0 +1,46 @@
+# ──────────────────────────────────────────────────────────────────────────────
+# Umbra-Web — sitio estático de marketing/tienda
+# Bloque ya aplicado en ~/infra/caddy/Caddyfile del KVM4 (2026-06-24).
+# Mantener sincronizado si se hacen cambios manuales en el servidor.
+# ──────────────────────────────────────────────────────────────────────────────
+umbra.cfx-software.com {
+	root * /srv/umbra-web
+	import security-headers
+
+	# /index.html → /
+	redir /index.html / 301
+
+	# /pagina.html → /pagina (clean URLs)
+	@dothtml path_regexp html ^(.+)\.html$
+	redir @dothtml {re.html.1} 301
+
+	# Reescribir /pagina → /pagina.html cuando no existe el fichero exacto.
+	# "not path /" excluye el directorio raíz (file matcher ignora directorios).
+	@clean_url {
+		not file
+		not path /
+	}
+	rewrite @clean_url {path}.html
+
+	file_server {
+		index index.html
+	}
+
+	encode gzip
+
+	# Cache assets (1 año, inmutable)
+	@assets path /assets/*
+	header @assets Cache-Control "public, max-age=31536000, immutable"
+
+	# Cache CSS/JS (1 hora)
+	@css_js path /css/* /js/*
+	header @css_js Cache-Control "public, max-age=3600, must-revalidate"
+}
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Requisitos en el KVM4 (ya aplicados):
+#   1. ~/infra/umbra-web/ — directorio de ficheros estáticos
+#   2. docker-compose.yml volumes: - ../umbra-web:/srv/umbra-web:ro
+#   3. docker compose up -d  (para montar el volumen)
+# Deploy: ./deploy.sh desde el repo local
+# ──────────────────────────────────────────────────────────────────────────────
