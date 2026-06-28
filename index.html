@@ -153,6 +153,10 @@
     .fo-sat{top:-2vh;right:calc(var(--edge) + .5rem);width:min(20.4vw,280px)}
     .fo-man{top:1.5rem;right:calc(var(--edge) + 1.5rem);width:min(15vw,185px);animation-delay:-3s}
     .fo-pla{bottom:-9vh;left:calc(var(--edge) + .5rem);width:min(28vw,380px);animation-delay:-5s}
+    /* Taco "penbroke & gun" — entre el titulo y el mando en la seccion Para quien.
+       Se oculta <=1280px: ahi el hueco se cierra y se montaria sobre el texto. */
+    .fo-taco{top:2rem;right:calc(var(--edge) + 16rem);height:clamp(220px,24vw,330px);animation-delay:-2s}
+    @media(max-width:1280px){.fo-taco{display:none}}
     @keyframes floaty{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-16px) rotate(2.5deg)}}
     @media(max-width:760px){.float-obj{display:none}}
 
@@ -428,6 +432,7 @@
     <!-- PARA QUIÉN -->
     <section id="paraquien">
       <img class="float-obj fo-man" src="assets/shots/obj-mando.webp" alt="" aria-hidden="true" />
+      <img class="float-obj fo-taco" src="assets/taco-penbroke-gun.png" alt="" aria-hidden="true" />
       <div class="wrap">
         <span class="kicker" data-reveal data-i18n="fw.kicker">Para quién</span>
         <h2 data-reveal style="font-size:clamp(2rem,4.4vw,3.2rem);max-width:18ch" data-i18n="fw.title">Hecho para quienes coordinan de verdad.</h2>
