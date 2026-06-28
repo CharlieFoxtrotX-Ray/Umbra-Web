@@ -119,6 +119,27 @@
     .lang button:hover{color:#fff}
     .lang button.active{background:linear-gradient(135deg,var(--gold-hi),var(--gold));color:#0B1A05}
     @media(max-width:540px){.lang{display:none}}
+    .nav-cta{
+      padding:0.6rem 1.3rem;border-radius:var(--r-pill);
+      background:linear-gradient(135deg,var(--gold-hi),var(--gold));color:#0B1A05;font-weight:700;font-size:0.9rem;
+      transition:transform 180ms,box-shadow 180ms;display:inline-flex;align-items:center;gap:0.35rem;
+    }
+    .nav-cta:hover{transform:translateY(-1px);box-shadow:0 10px 24px -8px rgba(127,166,62,0.4)}
+    .user-menu{position:relative}
+    .user-dropdown{
+      position:absolute;right:0;top:calc(100% + 0.5rem);min-width:160px;padding:0.4rem;
+      background:rgba(18,20,38,0.97);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+      border:1px solid rgba(255,255,255,0.10);border-radius:var(--r);
+      box-shadow:0 20px 40px -16px rgba(0,0,0,0.6);
+      opacity:0;visibility:hidden;transform:translateY(-6px);
+      transition:opacity 160ms,transform 160ms,visibility 160ms;
+    }
+    .user-dropdown.open{opacity:1;visibility:visible;transform:translateY(0)}
+    .user-dropdown button{
+      display:block;width:100%;text-align:left;padding:0.6rem 0.8rem;border-radius:var(--r-sm);
+      font-size:0.88rem;font-weight:600;color:rgba(255,255,255,0.8);
+    }
+    .user-dropdown button:hover{background:rgba(255,255,255,0.08);color:#fff}
 
     .btn{display:inline-flex;align-items:center;gap:.45rem;border-radius:var(--r-pill);font-weight:600;font-size:.92rem;
       transition:transform .18s,box-shadow .18s,background .2s,border-color .2s}
@@ -398,9 +419,9 @@
         <button type="button" data-lang="es" class="active">ES</button>
         <button type="button" data-lang="en">EN</button>
       </div>
-      <button class="btn btn-gold btn-login" data-i18n="t.nav.login">Iniciar sesión</button>
+      <button class="nav-cta btn-login" data-i18n="t.nav.login">Iniciar sesión</button>
       <div class="user-menu" hidden>
-        <button class="user-toggle" aria-expanded="false">
+        <button class="nav-cta user-toggle" aria-expanded="false">
           <span class="user-name"></span>
         </button>
         <div class="user-dropdown">
