@@ -150,9 +150,9 @@
     #paraquien,#compromiso{position:relative}
     .float-obj{position:absolute;z-index:0;pointer-events:none;filter:drop-shadow(0 24px 42px rgba(8,6,34,.5));
       animation:floaty 9s ease-in-out infinite;will-change:transform}
-    .fo-sat{top:-2vh;right:calc(var(--edge) - 2rem);width:min(20.4vw,280px)}
-    .fo-man{top:1.5rem;right:calc(var(--edge) + 1rem);width:min(15vw,185px);animation-delay:-3s}
-    .fo-pla{bottom:-9vh;left:calc(var(--edge) - 3rem);width:min(28vw,380px);animation-delay:-5s}
+    .fo-sat{top:-2vh;right:calc(var(--edge) + .5rem);width:min(20.4vw,280px)}
+    .fo-man{top:1.5rem;right:calc(var(--edge) + 1.5rem);width:min(15vw,185px);animation-delay:-3s}
+    .fo-pla{bottom:-9vh;left:calc(var(--edge) + .5rem);width:min(28vw,380px);animation-delay:-5s}
     @keyframes floaty{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-16px) rotate(2.5deg)}}
     @media(max-width:760px){.float-obj{display:none}}
 
@@ -326,8 +326,8 @@
     /* Mascotas decorativas de sección (Planes / Preguntas) */
     #planes,#faq{position:relative}
     .sec-mascot{position:absolute;pointer-events:none;z-index:1;filter:drop-shadow(0 16px 30px rgba(0,0,0,.55));animation:floaty 9s ease-in-out infinite;will-change:transform}
-    .sm-love{top:2rem;right:calc(var(--edge) + 1rem);width:min(17vw,200px)}
-    .sm-sneaky{top:6rem;right:calc(var(--edge) + .5rem);width:min(18vw,216px)}
+    .sm-love{top:2rem;right:calc(var(--edge) + 1.5rem);width:min(17vw,200px)}
+    .sm-sneaky{top:6rem;right:calc(var(--edge) + 1rem);width:min(18vw,216px)}
     @media(max-width:900px){.sec-mascot{display:none}}
 
     /* Footer */
