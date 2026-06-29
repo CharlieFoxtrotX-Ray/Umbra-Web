@@ -64,14 +64,14 @@
     /* Fondo: video oscuro sobre negro casi puro — el negro predomina */
     .cosmos{position:fixed;inset:0;z-index:var(--z-bg);overflow:hidden;background:#040407}
     .cosmos .bg-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
-      opacity:.5;filter:brightness(.34) contrast(1.06) saturate(.7);will-change:transform}
+      opacity:.72;filter:brightness(.64) contrast(1.04) saturate(.92);will-change:transform}
     /* Capa de oscurecimiento: mantiene el negro dominante y la legibilidad,
        con un brillo violeta MUY tenue arriba que liga con la marca. */
     .cosmos-veil{position:absolute;inset:0;pointer-events:none;
       background:
-        radial-gradient(75% 55% at 50% -5%, rgba(91,75,214,.12), transparent 60%),
-        linear-gradient(180deg, rgba(2,2,6,.58) 0%, rgba(2,2,6,.34) 32%, rgba(2,2,6,.46) 66%, rgba(2,2,6,.82) 100%)}
-    .cosmos .stars{position:absolute;inset:-30%;opacity:.5;will-change:transform;
+        radial-gradient(75% 55% at 50% -5%, rgba(91,75,214,.2), transparent 60%),
+        linear-gradient(180deg, rgba(2,2,6,.3) 0%, rgba(2,2,6,.1) 32%, rgba(2,2,6,.22) 66%, rgba(2,2,6,.66) 100%)}
+    .cosmos .stars{position:absolute;inset:-30%;opacity:.62;will-change:transform;
       background-image:radial-gradient(1.2px 1.2px at 20% 30%,#fff,transparent),radial-gradient(1px 1px at 80% 60%,rgba(255,255,255,.7),transparent),
         radial-gradient(1px 1px at 50% 80%,#fff,transparent),radial-gradient(1.4px 1.4px at 35% 65%,rgba(180,200,255,.8),transparent),
         radial-gradient(1px 1px at 65% 18%,#fff,transparent);background-size:260px 260px;animation:twinkle 7s ease-in-out infinite}
@@ -375,6 +375,34 @@
       .float-obj{animation:none !important;transform:none !important}
       .whisper-toast,.whisper-toast .wt-ic i{animation:none !important;opacity:1 !important;transform:none !important}
     }
+
+    /* ── Modal de descarga (aviso de certificado / SmartScreen) ── */
+    .dlm{position:fixed;inset:0;z-index:2000;display:none;align-items:center;justify-content:center;padding:1.4rem}
+    .dlm.open{display:flex}
+    .dlm-back{position:absolute;inset:0;background:rgba(3,4,9,.72);backdrop-filter:blur(6px);animation:dlmFade .25s ease}
+    .dlm-card{position:relative;width:min(540px,100%);max-height:92vh;overflow:auto;border-radius:var(--r-lg);
+      background:var(--card);border:1px solid rgba(255,255,255,.14);backdrop-filter:blur(26px) saturate(135%);-webkit-backdrop-filter:blur(26px) saturate(135%);
+      box-shadow:var(--shadow-cosmic);padding:1.9rem 1.8rem 1.7rem;animation:dlmRise .3s cubic-bezier(.2,.8,.2,1)}
+    .dlm-close{position:absolute;top:.85rem;right:.95rem;width:34px;height:34px;border-radius:50%;border:1px solid var(--line);
+      background:var(--glass);color:var(--text-soft);font-size:1.1rem;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s,color .2s}
+    .dlm-close:hover{background:rgba(255,255,255,.08);color:#fff}
+    .dlm-head{display:flex;align-items:center;gap:1rem;margin-bottom:1.1rem}
+    .dlm-taco{width:74px;height:74px;flex:none;object-fit:contain;filter:drop-shadow(0 10px 22px rgba(127,166,62,.35))}
+    .dlm-eyebrow{font-family:'JetBrains Mono',monospace;font-size:.66rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--gold-hi);margin-bottom:.35rem}
+    .dlm-title{font-size:1.32rem;font-weight:800;line-height:1.18}
+    .dlm-body{color:var(--text-soft);font-size:.95rem;line-height:1.5;margin-bottom:1.1rem}
+    .dlm-steps{list-style:none;margin:0 0 1.3rem;padding:0;display:grid;gap:.7rem}
+    .dlm-steps li{position:relative;display:flex;gap:.8rem;align-items:flex-start;padding:.7rem .85rem;border-radius:var(--r-sm);background:rgba(127,166,62,.07);border:1px solid rgba(127,166,62,.2)}
+    .dlm-num{flex:none;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:.82rem;background:linear-gradient(135deg,var(--gold-hi),var(--gold));color:#0B1A05}
+    .dlm-steps p{font-size:.9rem;line-height:1.4;color:var(--text)}
+    .dlm-steps b{color:#fff}
+    .dlm-key{font-family:'JetBrains Mono',monospace;font-size:.82rem;background:rgba(255,255,255,.08);border:1px solid var(--line);border-radius:6px;padding:.05rem .4rem;color:var(--gold-hi);white-space:nowrap}
+    .dlm-actions{display:flex;flex-wrap:wrap;gap:.7rem}
+    .dlm-actions .btn{flex:1 1 auto;justify-content:center;text-align:center}
+    .dlm-note{margin-top:1rem;font-size:.78rem;color:var(--text-mute);line-height:1.45}
+    @keyframes dlmFade{from{opacity:0}to{opacity:1}}
+    @keyframes dlmRise{from{opacity:0;transform:translateY(18px) scale(.97)}to{opacity:1;transform:none}}
+    @media (prefers-reduced-motion:reduce){.dlm-back,.dlm-card{animation:none !important}}
   </style>
   <script type="application/ld+json">
   {
@@ -549,20 +577,18 @@
         <h2 data-reveal style="font-size:clamp(2rem,4.2vw,3rem);max-width:16ch;margin-bottom:2rem" data-i18n="ad.title">Una interfaz que se siente tuya.</h2>
         <div class="adapt">
           <div class="adapt-display" data-reveal>
-            <img class="adapt-main" id="adaptMain" src="assets/shots/adapt-starcitizen.jpg" alt="UMBRA con un fondo personalizado, la interfaz adaptada a sus colores" />
+            <img class="adapt-main" id="adaptMain" src="assets/shots/adapt-aurora.jpg" alt="UMBRA con un fondo personalizado, la interfaz adaptada a sus colores" />
           </div>
           <div data-reveal style="--d:80ms">
             <p class="mono" style="font-size:.8rem;color:var(--gold-hi);letter-spacing:.1em;margin-bottom:.5rem" data-i18n="ad.hint">PRUEBA: ELIGE UN FONDO →</p>
             <p class="lead" style="font-size:1rem;margin-bottom:1.2rem" data-i18n="ad.body2">Cada imagen reescribe el acento, los brillos y las superficies de la interfaz en tiempo real. Tu puesto de mando, con tu identidad.</p>
             <div class="adapt-thumbs" id="adaptThumbs" role="group" aria-label="Fondos de ejemplo">
-              <button class="adapt-thumb active" data-img="assets/shots/adapt-starcitizen.jpg" aria-label="Fondo 1"><img src="assets/shots/adapt-starcitizen.jpg" alt="" loading="lazy" /></button>
-              <button class="adapt-thumb" data-img="assets/shots/adapt-genshin.jpg" aria-label="Fondo 2"><img src="assets/shots/adapt-genshin.jpg" alt="" loading="lazy" /></button>
-              <button class="adapt-thumb" data-img="assets/shots/adapt-lol.jpg" aria-label="Fondo 3"><img src="assets/shots/adapt-lol.jpg" alt="" loading="lazy" /></button>
-              <button class="adapt-thumb" data-img="assets/shots/adapt-gta.jpg" aria-label="Fondo 4"><img src="assets/shots/adapt-gta.jpg" alt="" loading="lazy" /></button>
-              <button class="adapt-thumb" data-img="assets/shots/adapt-pokemon.jpg" aria-label="Fondo 5"><img src="assets/shots/adapt-pokemon.jpg" alt="" loading="lazy" /></button>
-              <button class="adapt-thumb" data-img="assets/shots/adapt-onepiece.jpg" aria-label="Fondo 6"><img src="assets/shots/adapt-onepiece.jpg" alt="" loading="lazy" /></button>
-              <button class="adapt-thumb" data-img="assets/shots/adapt-rainbow.jpg" aria-label="Fondo 7"><img src="assets/shots/adapt-rainbow.jpg" alt="" loading="lazy" /></button>
-              <button class="adapt-thumb" data-img="assets/shots/adapt-vangogh.jpg" aria-label="Fondo 8"><img src="assets/shots/adapt-vangogh.jpg" alt="" loading="lazy" /></button>
+              <button class="adapt-thumb active" data-img="assets/shots/adapt-aurora.jpg" aria-label="Fondo aurora"><img src="assets/shots/adapt-aurora.jpg" alt="" loading="lazy" /></button>
+              <button class="adapt-thumb" data-img="assets/shots/adapt-nebula.jpg" aria-label="Fondo nebulosa"><img src="assets/shots/adapt-nebula.jpg" alt="" loading="lazy" /></button>
+              <button class="adapt-thumb" data-img="assets/shots/adapt-synthwave.jpg" aria-label="Fondo synthwave"><img src="assets/shots/adapt-synthwave.jpg" alt="" loading="lazy" /></button>
+              <button class="adapt-thumb" data-img="assets/shots/adapt-sunset.jpg" aria-label="Fondo atardecer"><img src="assets/shots/adapt-sunset.jpg" alt="" loading="lazy" /></button>
+              <button class="adapt-thumb" data-img="assets/shots/adapt-abyss.jpg" aria-label="Fondo abismo"><img src="assets/shots/adapt-abyss.jpg" alt="" loading="lazy" /></button>
+              <button class="adapt-thumb" data-img="assets/shots/adapt-ember.jpg" aria-label="Fondo brasas"><img src="assets/shots/adapt-ember.jpg" alt="" loading="lazy" /></button>
             </div>
           </div>
         </div>
@@ -698,6 +724,32 @@
     </section>
   </main>
 
+  <!-- MODAL: aviso de certificado / SmartScreen al descargar -->
+  <div class="dlm" id="dlModal" role="dialog" aria-modal="true" aria-labelledby="dlmTitle" hidden>
+    <div class="dlm-back" data-dlm-close></div>
+    <div class="dlm-card">
+      <button class="dlm-close" type="button" aria-label="Cerrar" data-dlm-close>&times;</button>
+      <div class="dlm-head">
+        <img class="dlm-taco" src="assets/taco-proud.png" alt="TACO" />
+        <div>
+          <div class="dlm-eyebrow" data-i18n="dlm.eyebrow">Antes de instalar</div>
+          <h3 class="dlm-title" id="dlmTitle" data-i18n="dlm.title">Windows aún no nos conoce 👀</h3>
+        </div>
+      </div>
+      <p class="dlm-body" data-i18n="dlm.body">Estamos terminando nuestra verificación oficial con Windows. Mientras tanto, al abrir el instalador te saldrá un aviso azul de seguridad. Es totalmente normal y UMBRA es 100% seguro — solo hay que decirle a Windows que confíe en nosotros:</p>
+      <ol class="dlm-steps">
+        <li><span class="dlm-num">1</span><p data-i18n-html="dlm.s1.html">Cuando salga la ventana azul, pulsa <b>«Más información»</b>.</p></li>
+        <li><span class="dlm-num">2</span><p data-i18n-html="dlm.s2.html">Abajo aparecerá el botón <b>«Ejecutar de todas formas»</b>. Púlsalo.</p></li>
+        <li><span class="dlm-num">3</span><p data-i18n-html="dlm.s3.html">¡Listo! Sigue la instalación con normalidad. 🎉</p></li>
+      </ol>
+      <div class="dlm-actions">
+        <a class="btn btn-gold" id="dlmGo" href="https://umbra-api.cfx-software.com/downloads/Umbra-Setup.exe" download data-i18n="dlm.go">↓ Descargar de todas formas</a>
+        <button class="btn btn-ghost" type="button" data-dlm-close data-i18n="dlm.cancel">Ahora no</button>
+      </div>
+      <p class="dlm-note" data-i18n="dlm.note">Este aviso desaparecerá pronto, cuando Windows reconozca nuestra firma. Gracias por la confianza 💚</p>
+    </div>
+  </div>
+
   <footer>
     <div class="wrap foot-grid">
       <div class="foot-brand">
@@ -781,6 +833,33 @@
           aThumbs.forEach(function(x){ x.classList.toggle('active', x===t); });
         });
       });
+
+      // ── Modal de descarga: aviso de certificado / SmartScreen ──
+      var dlm = document.getElementById('dlModal');
+      if(dlm){
+        var dlmGo = document.getElementById('dlmGo');
+        var lastFocus = null;
+        var openModal = function(){
+          lastFocus = document.activeElement;
+          dlm.hidden = false; dlm.classList.add('open');
+          document.documentElement.style.overflow = 'hidden';
+          if(dlmGo) dlmGo.focus();
+        };
+        var closeModal = function(){
+          dlm.classList.remove('open'); dlm.hidden = true;
+          document.documentElement.style.overflow = '';
+          if(lastFocus && lastFocus.focus) lastFocus.focus();
+        };
+        // Cualquier enlace que apunte al instalador abre el modal en vez de descargar directo
+        document.querySelectorAll('a[href$="Umbra-Setup.exe"]').forEach(function(a){
+          if(a.id === 'dlmGo') return; // el botón de dentro del modal sí descarga
+          a.addEventListener('click', function(e){ e.preventDefault(); openModal(); });
+        });
+        // El botón del modal descarga y cierra
+        if(dlmGo) dlmGo.addEventListener('click', function(){ setTimeout(closeModal, 400); });
+        dlm.querySelectorAll('[data-dlm-close]').forEach(function(el){ el.addEventListener('click', closeModal); });
+        addEventListener('keydown', function(e){ if(e.key === 'Escape' && dlm.classList.contains('open')) closeModal(); });
+      }
     })();
   </script>
   <script src="js/auth.js" defer></script>
