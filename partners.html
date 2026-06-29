@@ -1,0 +1,583 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UMBRA · Programa de Partners para creadores</title>
+  <meta name="description" content="Gana comisiones recurrentes recomendando UMBRA a tu comunidad. Hasta 20% de lo que gastan tus referidos, pago mensual y lingotes de regalo para tu audiencia." />
+  <link rel="canonical" href="https://umbra.cfx-software.com/partners" />
+
+  <!-- API del server de UMBRA (mismo backend que la app: login + wallet + partners). -->
+  <meta name="umbra-api-base" content="https://umbra-api.cfx-software.com" />
+
+  <link rel="icon" href="assets/logo-triangle.png" />
+  <!-- styles.css aporta los estilos del modal de login (compartido con auth.js) -->
+  <link rel="stylesheet" href="css/styles.css" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap');
+
+    :root{
+      --ink:#0c1224;
+      --gold:#7FA63E; --gold-hi:#A8D85F; --gold-deep:#4F6B22; --gold-shine:#D6F2A8;
+      --card:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.02));
+      --r-sm:10px; --r:18px; --r-lg:28px; --r-pill:999px; --container:1100px;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{
+      font-family:'Inter',sans-serif;background:#040407;color:#f0f0f5;line-height:1.5;
+      -webkit-font-smoothing:antialiased;min-height:100vh;overflow-x:hidden;position:relative;
+    }
+    .bg-video{
+      position:fixed;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;pointer-events:none;
+      opacity:.5;filter:brightness(.32) contrast(1.06) saturate(.7);
+    }
+    @media (prefers-reduced-motion:reduce){ .bg-video{display:none} }
+    a{color:inherit;text-decoration:none}
+    button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
+    img{max-width:100%;display:block}
+    [hidden]{display:none !important}
+
+    body::before{
+      content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.5;
+      background-image:radial-gradient(1.5px 1.5px at 18% 26%,#fff,transparent),radial-gradient(1.2px 1.2px at 78% 58%,rgba(255,255,255,.85),transparent),radial-gradient(1.7px 1.7px at 46% 82%,#fff,transparent),radial-gradient(1.2px 1.2px at 88% 16%,rgba(255,255,255,.7),transparent);
+      background-size:240px 240px;animation:twinkleT 8s ease-in-out infinite,sparkleDriftT 80s linear infinite;
+    }
+    body::after{
+      content:'';position:fixed;inset:-20%;z-index:0;pointer-events:none;mix-blend-mode:screen;will-change:transform;
+      background:
+        radial-gradient(38% 44% at 80% 14%, rgba(138,110,255,.20), transparent 70%),
+        radial-gradient(34% 40% at 18% 84%, rgba(58,120,248,.15), transparent 72%),
+        radial-gradient(30% 34% at 44% 46%, rgba(176,104,236,.12), transparent 70%);
+      animation:nebDriftT 34s ease-in-out infinite;
+    }
+    @keyframes twinkleT{0%,100%{opacity:.36}50%{opacity:.6}}
+    @keyframes sparkleDriftT{from{transform:translate3d(0,0,0)}to{transform:translate3d(-240px,-120px,0)}}
+    @keyframes nebDriftT{0%,100%{transform:translate3d(0,0,0) scale(1)}50%{transform:translate3d(-4%,3%,0) scale(1.1)}}
+    @media (prefers-reduced-motion:reduce){ body::before,body::after{animation:none !important;transform:none !important} }
+    body > *{position:relative;z-index:1}
+
+    /* ── NAV (idéntico a tienda/landing) ─────────────────────── */
+    .nav{
+      position:fixed;top:0;left:0;right:0;z-index:100;
+      display:grid;grid-template-columns:1fr auto 1fr;align-items:center;
+      padding:1.25rem 2.5rem;background:transparent;color:#fff;
+      transition:background 250ms ease,padding 250ms ease,backdrop-filter 250ms ease;
+    }
+    .nav.scrolled{
+      background:rgba(14,14,20,0.72);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+      padding:0.85rem 2.5rem;border-bottom:1px solid rgba(255,255,255,0.05);
+    }
+    @media(max-width:880px){.nav,.nav.scrolled{padding-left:1rem;padding-right:1rem}}
+    .nav-logo{
+      justify-self:start;display:flex;align-items:center;gap:0.6rem;color:#fff;
+      font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:1.05rem;letter-spacing:-0.015em;
+    }
+    .nav-logo img{width:30px;height:30px}
+    .nav-links{justify-self:center;display:none;align-items:center;gap:0.35rem}
+    @media(min-width:980px){.nav-links{display:flex}}
+    .nav-links a{
+      padding:0.5rem 1rem;font-size:0.92rem;font-weight:600;
+      color:rgba(255,255,255,0.75);border-radius:var(--r-pill);transition:background 180ms,color 180ms;
+    }
+    .nav-links a:hover{background:rgba(255,255,255,0.08);color:#fff}
+    .nav-right{justify-self:end;display:flex;align-items:center;gap:0.75rem}
+    .lang-switch{
+      display:inline-flex;background:rgba(255,255,255,0.06);
+      border:1px solid rgba(255,255,255,0.10);border-radius:var(--r-pill);padding:0.2rem;
+    }
+    .lang-switch button{
+      padding:0.35rem 0.7rem;border-radius:var(--r-pill);
+      font-family:'JetBrains Mono',monospace;font-size:0.72rem;font-weight:700;letter-spacing:0.06em;
+      color:rgba(255,255,255,0.55);background:transparent;transition:background 180ms,color 180ms;
+    }
+    .lang-switch button:hover{color:#fff}
+    .lang-switch button.active{
+      background:linear-gradient(135deg,var(--gold-hi),var(--gold));
+      color:#0B1A05;box-shadow:0 0 0 1px rgba(127,166,62,0.4);
+    }
+    @media(max-width:540px){.lang-switch{display:none}}
+    .nav-cta{
+      padding:0.6rem 1.3rem;border-radius:var(--r-pill);
+      background:linear-gradient(135deg,var(--gold-hi),var(--gold));color:#0B1A05;font-weight:700;font-size:0.9rem;
+      transition:transform 180ms,box-shadow 180ms;display:inline-flex;align-items:center;gap:0.35rem;
+    }
+    .nav-cta:hover{transform:translateY(-1px);box-shadow:0 10px 24px -8px rgba(127,166,62,0.4)}
+    .user-menu{position:relative}
+    .user-dropdown{
+      position:absolute;right:0;top:calc(100% + 0.5rem);min-width:160px;padding:0.4rem;
+      background:rgba(18,20,38,0.97);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+      border:1px solid rgba(255,255,255,0.10);border-radius:var(--r);
+      box-shadow:0 20px 40px -16px rgba(0,0,0,0.6);
+      opacity:0;visibility:hidden;transform:translateY(-6px);
+      transition:opacity 160ms,transform 160ms,visibility 160ms;
+    }
+    .user-dropdown.open{opacity:1;visibility:visible;transform:translateY(0)}
+    .user-dropdown button{
+      display:block;width:100%;text-align:left;padding:0.6rem 0.8rem;border-radius:var(--r-sm);
+      font-size:0.88rem;font-weight:600;color:rgba(255,255,255,0.8);
+    }
+    .user-dropdown button:hover{background:rgba(255,255,255,0.08);color:#fff}
+
+    /* ── MAIN ─────────────────────────────────────────────────── */
+    main.pp{max-width:var(--container);margin:0 auto;padding:9rem 1.5rem 2rem}
+
+    /* Hero */
+    .pp-hero{text-align:center;max-width:720px;margin:0 auto 3.5rem;position:relative}
+    .pp-mascot{
+      position:absolute;z-index:2;pointer-events:none;user-select:none;
+      width:clamp(130px,13vw,184px);height:auto;
+      top:42%;right:calc(100% + 1.25rem);transform:translateY(-50%) rotate(-5deg);
+      filter:drop-shadow(0 18px 30px rgba(0,0,0,0.55));
+      animation:tacoFloatP 9s ease-in-out infinite;will-change:transform;
+    }
+    @keyframes tacoFloatP{
+      0%,100%{transform:translateY(-50%) rotate(-5deg)}
+      50%{transform:translateY(calc(-50% - 14px)) rotate(-2deg)}
+    }
+    @media(max-width:1040px){.pp-mascot{display:none}}
+    @media (prefers-reduced-motion:reduce){.pp-mascot{animation:none}}
+    .pp-eyebrow{
+      display:inline-block;font-family:'JetBrains Mono',monospace;font-size:0.74rem;font-weight:700;
+      letter-spacing:0.18em;text-transform:uppercase;color:var(--gold-hi);
+      padding:0.4rem 0.9rem;border:1px solid rgba(127,166,62,0.35);border-radius:var(--r-pill);
+      background:rgba(127,166,62,0.08);margin-bottom:1.4rem;
+    }
+    .pp-hero h1{
+      font-family:'Space Grotesk',sans-serif;font-size:clamp(2.2rem,5.4vw,3.6rem);font-weight:800;
+      letter-spacing:-0.03em;line-height:1.03;margin-bottom:1.1rem;
+    }
+    .pp-hero h1 .gold{color:var(--gold-hi)}
+    .pp-hero p{color:rgba(255,255,255,0.68);font-size:1.08rem;line-height:1.6;max-width:56ch;margin:0 auto 1.8rem}
+    .pp-cta-row{display:flex;gap:0.8rem;justify-content:center;flex-wrap:wrap}
+    .btn-gold{
+      display:inline-flex;align-items:center;gap:0.4rem;padding:0.8rem 1.6rem;border-radius:var(--r-pill);
+      background:var(--gold);color:#0B1A05;font-weight:800;font-size:0.95rem;
+      transition:background 180ms,transform 180ms;
+    }
+    .btn-gold:hover{background:var(--gold-hi);transform:translateY(-2px)}
+    .btn-ghost{
+      display:inline-flex;align-items:center;gap:0.4rem;padding:0.8rem 1.5rem;border-radius:var(--r-pill);
+      background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.14);color:#fff;font-weight:700;font-size:0.95rem;
+      transition:background 180ms,transform 180ms;
+    }
+    .btn-ghost:hover{background:rgba(255,255,255,0.12);transform:translateY(-2px)}
+
+    /* Section heading */
+    .pp-sec{margin:0 auto 4rem;max-width:var(--container)}
+    .pp-sec-head{text-align:center;max-width:600px;margin:0 auto 2.5rem}
+    .pp-sec-head h2{
+      font-family:'Space Grotesk',sans-serif;font-size:clamp(1.7rem,3.6vw,2.4rem);font-weight:800;
+      letter-spacing:-0.02em;margin-bottom:0.7rem;
+    }
+    .pp-sec-head h2 .gold{color:var(--gold-hi)}
+    .pp-sec-head p{color:rgba(255,255,255,0.6);font-size:1rem;line-height:1.55}
+
+    /* Steps (cómo funciona) */
+    .pp-steps{display:grid;gap:1.25rem;grid-template-columns:1fr}
+    @media(min-width:760px){.pp-steps{grid-template-columns:repeat(3,1fr)}}
+    .pp-step{
+      padding:1.75rem 1.5rem;border-radius:var(--r-lg);
+      background:var(--card);border:1px solid rgba(255,255,255,0.12);
+      backdrop-filter:blur(22px) saturate(135%);-webkit-backdrop-filter:blur(22px) saturate(135%);
+    }
+    .pp-step .num{
+      width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+      font-family:'JetBrains Mono',monospace;font-weight:700;font-size:1rem;
+      background:linear-gradient(135deg,var(--gold-hi),var(--gold));color:#0B1A05;margin-bottom:1rem;
+    }
+    .pp-step h3{font-family:'Space Grotesk',sans-serif;font-size:1.15rem;font-weight:700;margin-bottom:0.5rem}
+    .pp-step p{color:rgba(255,255,255,0.62);font-size:0.92rem;line-height:1.55}
+
+    /* Tiers */
+    .pp-tiers{display:grid;gap:1.25rem;grid-template-columns:1fr;align-items:stretch}
+    @media(min-width:820px){.pp-tiers{grid-template-columns:repeat(3,1fr)}}
+    .tier{
+      position:relative;padding:2rem 1.6rem 1.7rem;border-radius:var(--r-lg);
+      background:var(--card);border:1px solid rgba(255,255,255,0.12);
+      backdrop-filter:blur(22px) saturate(135%);-webkit-backdrop-filter:blur(22px) saturate(135%);
+      display:flex;flex-direction:column;
+      transition:transform 220ms,border-color 220ms;
+    }
+    .tier:hover{transform:translateY(-5px);border-color:rgba(127,166,62,0.35)}
+    .tier.best{
+      background:rgba(127,166,62,0.10);border-color:rgba(127,166,62,0.45);
+      box-shadow:0 0 0 1px rgba(127,166,62,0.25),0 30px 60px -20px rgba(127,166,62,0.30);
+    }
+    .tier .ribbon{
+      position:absolute;top:-12px;left:50%;transform:translateX(-50%);
+      padding:0.3rem 0.9rem;background:var(--gold);color:#0B1A05;
+      font-size:0.68rem;font-weight:800;letter-spacing:0.04em;text-transform:uppercase;border-radius:var(--r-pill);white-space:nowrap;
+      box-shadow:0 8px 18px -6px rgba(127,166,62,0.6);
+    }
+    .tier .tier-name{font-family:'JetBrains Mono',monospace;font-size:0.78rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.7)}
+    .tier .tier-pct{font-family:'Space Grotesk',sans-serif;font-size:3rem;font-weight:800;color:var(--gold-hi);line-height:1;margin:0.5rem 0 0.2rem}
+    .tier .tier-pct small{font-size:1rem;color:rgba(255,255,255,0.55);font-weight:600}
+    .tier .tier-sub{color:rgba(255,255,255,0.6);font-size:0.86rem;margin-bottom:1.2rem;min-height:2.6em}
+    .tier ul{list-style:none;display:grid;gap:0.6rem;margin-top:auto}
+    .tier ul li{position:relative;padding-left:1.5rem;font-size:0.88rem;color:rgba(255,255,255,0.8);line-height:1.45}
+    .tier ul li::before{content:'';position:absolute;left:0;top:0.45rem;width:8px;height:8px;border-radius:2px;background:var(--gold);transform:rotate(45deg)}
+
+    /* Callout incentivo al referido */
+    .pp-callout{
+      max-width:760px;margin:0 auto;padding:2rem 1.8rem;border-radius:var(--r-lg);
+      display:flex;gap:1.4rem;align-items:center;flex-wrap:wrap;justify-content:center;text-align:center;
+      background:rgba(127,166,62,0.08);border:1px solid rgba(127,166,62,0.3);
+    }
+    @media(min-width:680px){.pp-callout{text-align:left;flex-wrap:nowrap}}
+    .pp-callout img{width:84px;height:84px;flex:none;object-fit:contain;filter:drop-shadow(0 10px 22px rgba(127,166,62,.35))}
+    .pp-callout h3{font-family:'Space Grotesk',sans-serif;font-size:1.25rem;font-weight:800;margin-bottom:0.4rem}
+    .pp-callout p{color:rgba(255,255,255,0.7);font-size:0.95rem;line-height:1.55}
+    .pp-callout b{color:var(--gold-hi)}
+
+    /* Formulario */
+    .pp-form-wrap{
+      max-width:680px;margin:0 auto;padding:2.25rem 2rem;border-radius:var(--r-lg);
+      background:var(--card);border:1px solid rgba(255,255,255,0.14);
+      backdrop-filter:blur(22px) saturate(135%);-webkit-backdrop-filter:blur(22px) saturate(135%);
+    }
+    .pp-form{display:grid;gap:1.1rem;grid-template-columns:1fr}
+    @media(min-width:560px){.pp-form .col-2{grid-template-columns:1fr 1fr}}
+    .pp-form .grid2{display:grid;gap:1.1rem;grid-template-columns:1fr}
+    @media(min-width:560px){.pp-form .grid2{grid-template-columns:1fr 1fr}}
+    .field{display:flex;flex-direction:column;gap:0.4rem}
+    .field label{font-size:0.82rem;font-weight:600;color:rgba(255,255,255,0.75)}
+    .field label .req{color:var(--gold-hi)}
+    .field input,.field select,.field textarea{
+      width:100%;padding:0.75rem 0.9rem;border-radius:var(--r-sm);
+      background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.14);color:#fff;
+      font-family:inherit;font-size:0.92rem;transition:border-color 160ms,background 160ms;
+    }
+    .field input::placeholder,.field textarea::placeholder{color:rgba(255,255,255,0.35)}
+    .field input:focus,.field select:focus,.field textarea:focus{
+      outline:none;border-color:rgba(127,166,62,0.6);background:rgba(127,166,62,0.05);
+    }
+    .field select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23A8D85F' stroke-width='1.6' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 0.9rem center;padding-right:2.2rem}
+    .field select option{background:#10142a;color:#fff}
+    .field textarea{resize:vertical;min-height:90px}
+    .check{display:flex;gap:0.65rem;align-items:flex-start;font-size:0.84rem;color:rgba(255,255,255,0.65);line-height:1.45}
+    .check input{width:18px;height:18px;flex:none;margin-top:0.1rem;accent-color:var(--gold)}
+    .check a{color:var(--gold-hi);text-decoration:underline}
+    .pp-form .submit-row{margin-top:0.5rem}
+    .pp-form button[type="submit"]{width:100%;justify-content:center;font-size:1rem;padding:0.9rem}
+    .pp-form button[disabled]{opacity:0.6;cursor:not-allowed}
+    .form-msg{font-size:0.88rem;line-height:1.5;padding:0.85rem 1rem;border-radius:var(--r-sm);margin-top:0.4rem}
+    .form-msg.err{background:rgba(239,68,68,0.12);border:1px solid rgba(239,68,68,0.4);color:#fca5a5}
+    .form-msg.ok{background:rgba(127,166,62,0.12);border:1px solid rgba(127,166,62,0.4);color:#bef07f}
+
+    /* Estado: solicitud enviada */
+    .pp-thanks{
+      max-width:560px;margin:0 auto;padding:2.75rem 2rem;border-radius:var(--r-lg);text-align:center;
+      background:var(--card);border:1px solid rgba(255,255,255,0.14);
+      backdrop-filter:blur(22px) saturate(135%);-webkit-backdrop-filter:blur(22px) saturate(135%);
+    }
+    .pp-thanks img{width:110px;height:auto;margin:0 auto 1.2rem;filter:drop-shadow(0 12px 26px rgba(127,166,62,.4))}
+    .pp-thanks h2{font-family:'Space Grotesk',sans-serif;font-size:1.6rem;font-weight:800;margin-bottom:0.6rem}
+    .pp-thanks p{color:rgba(255,255,255,0.68);font-size:0.98rem;max-width:420px;margin:0 auto}
+
+    /* FAQ */
+    .pp-faq{max-width:760px;margin:0 auto;display:grid;gap:0.8rem}
+    .qa{
+      padding:1.25rem 1.4rem;border-radius:var(--r);
+      background:var(--card);border:1px solid rgba(255,255,255,0.1);
+    }
+    .qa h3{font-family:'Space Grotesk',sans-serif;font-size:1.02rem;font-weight:700;margin-bottom:0.45rem;color:#fff}
+    .qa p{color:rgba(255,255,255,0.62);font-size:0.9rem;line-height:1.55}
+
+    /* Footer */
+    .pp-foot{
+      max-width:var(--container);margin:4rem auto 0;padding:2rem 1.5rem;
+      border-top:1px solid rgba(255,255,255,0.08);
+      display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between;
+      color:rgba(255,255,255,0.5);font-size:0.82rem;
+    }
+    .pp-foot .foot-links{display:flex;gap:1.25rem;flex-wrap:wrap}
+    .pp-foot a:hover{color:#fff}
+  </style>
+</head>
+<body>
+  <video class="bg-video" autoplay muted loop playsinline preload="auto" aria-hidden="true">
+    <source src="assets/bg-video.mp4" type="video/mp4" />
+  </video>
+
+  <nav class="nav" id="topNav">
+    <a class="nav-logo" href="/">
+      <img src="assets/logo-triangle.png" alt="" />
+      <span>UMBRA</span>
+    </a>
+    <div class="nav-links">
+      <a href="/#comunicacion" data-i18n="nav.comms">Comunicación</a>
+      <a href="/#canvas" data-i18n="nav.canvas">Canvas</a>
+      <a href="/#plugins" data-i18n="nav.plugins">Plugins</a>
+      <a href="/tienda" data-i18n="nav.store">Tienda</a>
+    </div>
+    <div class="nav-right">
+      <div class="lang-switch" role="group" aria-label="Idioma">
+        <button type="button" data-lang="es" class="active">ES</button>
+        <button type="button" data-lang="en">EN</button>
+      </div>
+      <button class="nav-cta btn-login" data-i18n="t.nav.login">Iniciar sesión</button>
+      <div class="user-menu" hidden>
+        <button class="nav-cta user-toggle" aria-expanded="false">
+          <span class="user-name"></span>
+        </button>
+        <div class="user-dropdown">
+          <button data-action="signout" data-i18n="t.nav.signout">Cerrar sesión</button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main class="pp">
+    <!-- HERO -->
+    <section class="pp-hero">
+      <img class="pp-mascot" src="assets/taco-proud.png" alt="" aria-hidden="true" />
+      <span class="pp-eyebrow" data-i18n="pp.eyebrow">Programa de Partners</span>
+      <h1 data-i18n-html="pp.h1.html">Tu comunidad ya confía en ti.<br/><span class="gold">Que eso te pague.</span></h1>
+      <p data-i18n="pp.lead">Recomienda UMBRA a tu audiencia y gana una comisión recurrente de todo lo que gasten tus referidos — hasta un 20%. Pago cada mes, y lingotes de regalo para enganchar a tu gente.</p>
+      <div class="pp-cta-row">
+        <a class="btn-gold" href="#aplicar" data-i18n="pp.hero.cta">Quiero unirme →</a>
+        <a class="btn-ghost" href="#como" data-i18n="pp.hero.cta2">Cómo funciona</a>
+      </div>
+    </section>
+
+    <!-- CÓMO FUNCIONA -->
+    <section class="pp-sec" id="como">
+      <div class="pp-sec-head">
+        <h2 data-i18n-html="pp.how.h2.html">Tres pasos, <span class="gold">cero fricción.</span></h2>
+        <p data-i18n="pp.how.sub">Sin mínimos para entrar, sin cuotas. Solo compartes y cobras.</p>
+      </div>
+      <div class="pp-steps">
+        <div class="pp-step">
+          <div class="num">1</div>
+          <h3 data-i18n="pp.how.s1.t">Aplica en 1 minuto</h3>
+          <p data-i18n="pp.how.s1.d">Rellena el formulario con tu canal. Revisamos que encaje y te damos tu código y tu link único.</p>
+        </div>
+        <div class="pp-step">
+          <div class="num">2</div>
+          <h3 data-i18n="pp.how.s2.t">Comparte tu link</h3>
+          <p data-i18n="pp.how.s2.d">En tus vídeos, streams, bio o descripción. Quien se registre con tu link queda asociado a ti durante 12 meses.</p>
+        </div>
+        <div class="pp-step">
+          <div class="num">3</div>
+          <h3 data-i18n="pp.how.s3.t">Cobra cada mes</h3>
+          <p data-i18n="pp.how.s3.d">Acumulas comisión por cada compra de tus referidos. Te transferimos lo recaudado mensualmente.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- TIERS -->
+    <section class="pp-sec" id="comisiones">
+      <div class="pp-sec-head">
+        <h2 data-i18n-html="pp.tiers.h2.html">Cuanto más mueves, <span class="gold">más te llevas.</span></h2>
+        <p data-i18n="pp.tiers.sub">Tu comisión sube por tramos según lo que generan tus referidos cada mes. Empiezas en 10% el día uno.</p>
+      </div>
+      <div class="pp-tiers">
+        <div class="tier">
+          <span class="tier-name" data-i18n="pp.tier1.name">Creator</span>
+          <div class="tier-pct">10<small>%</small></div>
+          <p class="tier-sub" data-i18n="pp.tier1.sub">Tu punto de entrada al ser aprobado.</p>
+          <ul>
+            <li data-i18n="pp.tier1.f1">10% de lo que gastan tus referidos</li>
+            <li data-i18n="pp.tier1.f2">Comisión recurrente durante 12 meses</li>
+            <li data-i18n="pp.tier1.f3">Tu link y código personalizados</li>
+          </ul>
+        </div>
+        <div class="tier best">
+          <span class="ribbon" data-i18n="pp.tier2.ribbon">El más popular</span>
+          <span class="tier-name" data-i18n="pp.tier2.name">Partner</span>
+          <div class="tier-pct">15<small>%</small></div>
+          <p class="tier-sub" data-i18n="pp.tier2.sub">Al llegar a $300/mes o 25 referidos que compran.</p>
+          <ul>
+            <li data-i18n="pp.tier2.f1">Todo lo de Creator, al 15%</li>
+            <li data-i18n="pp.tier2.f2">Prioridad en soporte y novedades</li>
+            <li data-i18n="pp.tier2.f3">Material gráfico para tu contenido</li>
+          </ul>
+        </div>
+        <div class="tier">
+          <span class="tier-name" data-i18n="pp.tier3.name">Elite</span>
+          <div class="tier-pct">20<small>%</small></div>
+          <p class="tier-sub" data-i18n="pp.tier3.sub">Al llegar a $1.000/mes o 75 referidos que compran.</p>
+          <ul>
+            <li data-i18n="pp.tier3.f1">Todo lo de Partner, al 20%</li>
+            <li data-i18n="pp.tier3.f2">Lingotes para sorteos con tu comunidad</li>
+            <li data-i18n="pp.tier3.f3">Co-marketing y destacado oficial</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- INCENTIVO AL REFERIDO -->
+    <section class="pp-sec">
+      <div class="pp-callout">
+        <img src="assets/taco-love.png" alt="" aria-hidden="true" />
+        <div>
+          <h3 data-i18n="pp.ref.h3">Tu audiencia también gana 🎁</h3>
+          <p data-i18n-html="pp.ref.p.html">Quien entre con tu link se lleva un <b>+10% de lingotes extra en su primera recarga</b>. Tú tienes algo real que ofrecer, ellos ahorran, y todos ganan.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOUNDING PARTNER -->
+    <section class="pp-sec">
+      <div class="pp-callout" style="background:rgba(138,110,255,.08);border-color:rgba(138,110,255,.3)">
+        <img src="assets/taco-hey.png" alt="" aria-hidden="true" />
+        <div>
+          <h3 data-i18n="pp.found.h3">¿Listo para comprometerte? Founding Partner ⭐</h3>
+          <p data-i18n-html="pp.found.p.html">Firma un acuerdo de 12 meses y arrancas directo en <b>tier Partner (15%) los primeros 90 días</b>, con un pack de lingotes para sorteos y destacado en nuestros canales. Sin letra pequeña: es una ventaja, no una atadura.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FORMULARIO -->
+    <section class="pp-sec" id="aplicar">
+      <div class="pp-sec-head">
+        <h2 data-i18n-html="pp.form.h2.html">Aplica para ser <span class="gold">partner.</span></h2>
+        <p data-i18n="pp.form.sub">Cuéntanos de tu canal. Si encaja, te escribimos en 2-3 días con tu link y los siguientes pasos.</p>
+      </div>
+
+      <div class="pp-form-wrap" id="form-wrap">
+        <form class="pp-form" id="partner-form" novalidate>
+          <div class="grid2">
+            <div class="field">
+              <label for="pf-name" data-i18n="pp.form.name">Nombre o alias <span class="req">*</span></label>
+              <input id="pf-name" name="name" type="text" autocomplete="name" required />
+            </div>
+            <div class="field">
+              <label for="pf-email" data-i18n="pp.form.email">Email <span class="req">*</span></label>
+              <input id="pf-email" name="email" type="email" autocomplete="email" required />
+            </div>
+          </div>
+          <div class="grid2">
+            <div class="field">
+              <label for="pf-platform" data-i18n="pp.form.platform">Plataforma principal <span class="req">*</span></label>
+              <select id="pf-platform" name="platform" required>
+                <option value="" data-i18n="pp.form.platform.ph">Elige una…</option>
+                <option value="youtube">YouTube</option>
+                <option value="twitch">Twitch</option>
+                <option value="tiktok">TikTok</option>
+                <option value="kick">Kick</option>
+                <option value="instagram">Instagram</option>
+                <option value="x">X / Twitter</option>
+                <option value="discord">Discord</option>
+                <option value="other" data-i18n="pp.form.platform.other">Otra</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="pf-audience" data-i18n="pp.form.audience">Tamaño de audiencia <span class="req">*</span></label>
+              <select id="pf-audience" name="audience" required>
+                <option value="" data-i18n="pp.form.audience.ph">Elige un rango…</option>
+                <option value="<1k">&lt; 1.000</option>
+                <option value="1k-10k">1.000 – 10.000</option>
+                <option value="10k-50k">10.000 – 50.000</option>
+                <option value="50k-200k">50.000 – 200.000</option>
+                <option value="200k+">200.000+</option>
+              </select>
+            </div>
+          </div>
+          <div class="field">
+            <label for="pf-channel" data-i18n="pp.form.channel">Link de tu canal principal <span class="req">*</span></label>
+            <input id="pf-channel" name="channel" type="url" placeholder="https://" required />
+          </div>
+          <div class="field">
+            <label for="pf-games" data-i18n="pp.form.games">¿Qué juegos o contenido haces?</label>
+            <input id="pf-games" name="games" type="text" placeholder="Star Citizen, Arma, FPS tácticos…" />
+          </div>
+          <div class="field">
+            <label for="pf-message" data-i18n="pp.form.message">Algo más que quieras contarnos</label>
+            <textarea id="pf-message" name="message" placeholder=""></textarea>
+          </div>
+          <label class="check">
+            <input type="checkbox" id="pf-consent" name="consent" required />
+            <span data-i18n-html="pp.form.consent.html">Acepto que UMBRA me contacte sobre el programa y he leído la <a href="/privacidad.html" target="_blank">política de privacidad</a>.</span>
+          </label>
+          <div class="submit-row">
+            <button class="btn-gold" type="submit" id="pf-submit" data-i18n="pp.form.submit">Enviar solicitud</button>
+          </div>
+          <div class="form-msg" id="pf-msg" hidden></div>
+        </form>
+      </div>
+
+      <!-- Estado: enviado -->
+      <div class="pp-thanks" id="form-thanks" hidden>
+        <img src="assets/taco-happy.png" alt="" />
+        <h2 data-i18n="pp.thanks.h2">¡Solicitud recibida! 🎉</h2>
+        <p data-i18n="pp.thanks.p">Gracias por querer crecer con UMBRA. Revisamos tu canal y te escribimos en 2-3 días con tu link de partner y los siguientes pasos.</p>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="pp-sec">
+      <div class="pp-sec-head">
+        <h2 data-i18n="pp.faq.h2">Preguntas frecuentes</h2>
+      </div>
+      <div class="pp-faq">
+        <div class="qa">
+          <h3 data-i18n="pp.faq.q1">¿Cuándo y cómo cobro?</h3>
+          <p data-i18n="pp.faq.a1">Cada mes te transferimos lo acumulado, a partir de un mínimo de $25 (si no llegas, se acumula para el mes siguiente). Tú nos envías tu factura como creador y nosotros pagamos.</p>
+        </div>
+        <div class="qa">
+          <h3 data-i18n="pp.faq.q2">¿Sobre qué se calcula la comisión?</h3>
+          <p data-i18n="pp.faq.a2">Sobre lo que tus referidos gastan en lingotes dentro de UMBRA, neto de comisiones de pago y reembolsos, durante sus primeros 12 meses contigo.</p>
+        </div>
+        <div class="qa">
+          <h3 data-i18n="pp.faq.q3">¿Tengo que firmar algo o hay exclusividad?</h3>
+          <p data-i18n="pp.faq.a3">No es obligatorio. Puedes ser partner sin contrato. Si quieres, firmas como Founding Partner para arrancar con más comisión y extras — pero es opcional.</p>
+        </div>
+        <div class="qa">
+          <h3 data-i18n="pp.faq.q4">¿Qué cuenta como referido válido?</h3>
+          <p data-i18n="pp.faq.a4">Un usuario nuevo que se registra con tu link y luego compra. No se admiten auto-referidos ni cuentas tuyas: lo revisamos y los pagos con fraude se anulan.</p>
+        </div>
+      </div>
+    </section>
+
+    <footer class="pp-foot">
+      <span>© 2026 CFX · UMBRA</span>
+      <span class="foot-links">
+        <a href="/terminos.html" data-i18n="ft.col3.l4">Términos</a>
+        <a href="/privacidad.html" data-i18n="ft.col3.l3">Privacidad</a>
+        <a href="/" data-i18n="t.nav.home">← Volver</a>
+      </span>
+    </footer>
+  </main>
+
+  <!-- Login modal (reusa el de auth.js + estilos de styles.css) -->
+  <div id="login-modal" class="login-modal" role="dialog" aria-modal="true" aria-labelledby="login-modal-title" hidden>
+    <div class="login-modal-backdrop" aria-hidden="true"></div>
+    <div class="login-modal-content">
+      <button class="login-modal-close" aria-label="Cerrar">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+          <line x1="4" y1="4" x2="12" y2="12" /><line x1="12" y1="4" x2="4" y2="12" />
+        </svg>
+      </button>
+      <div class="login-modal-header">
+        <h3 id="login-modal-title" data-i18n="auth.modal.title">Iniciar sesión en UMBRA</h3>
+        <p data-i18n="auth.modal.subtitle">Empieza con tu cuenta</p>
+      </div>
+      <button class="btn-google-signin">
+        <svg width="18" height="18" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.874 2.684-6.615z"/>
+          <path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.836.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332C2.438 15.983 5.482 18 9 18z"/>
+          <path fill="#FBBC05" d="M3.964 10.71A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.042l3.007-2.332z"/>
+          <path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0 5.482 0 2.438 2.017.957 4.958L3.964 7.29C4.672 5.163 6.656 3.58 9 3.58z"/>
+        </svg>
+        <span data-i18n="auth.modal.google_btn">Iniciar sesión con Google</span>
+      </button>
+      <p class="login-error" role="alert" hidden></p>
+    </div>
+  </div>
+
+  <script>
+    // Nav: fondo + sombra al hacer scroll (igual que tienda/landing)
+    (function(){
+      var nav = document.getElementById('topNav');
+      if(!nav) return;
+      var onScroll = function(){ nav.classList.toggle('scrolled', window.scrollY > 40); };
+      window.addEventListener('scroll', onScroll, { passive:true });
+      onScroll();
+    })();
+  </script>
+  <script src="js/i18n-v2.js" defer></script>
+  <script src="js/auth.js" defer></script>
+  <script src="js/partners.js" defer></script>
+</body>
+</html>
