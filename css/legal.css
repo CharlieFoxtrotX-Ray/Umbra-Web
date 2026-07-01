@@ -58,6 +58,7 @@ a:hover{color:var(--gold-shine,#ffeac1)}
   color:#fff;text-decoration:none;
 }
 .legal-nav-logo img{width:28px;height:28px}
+.legal-nav-logo .nav-wordmark{width:auto;height:18px;filter:drop-shadow(0 1px 3px rgba(0,0,0,0.5))}
 .legal-nav-back{
   font-family:'Inter',sans-serif;font-size:0.9rem;font-weight:600;
   color:var(--gold-hi);text-decoration:none;
