@@ -147,6 +147,25 @@
     .nav-mobile a:hover,.nav-mobile a:focus-visible{background:rgba(255,255,255,.07);color:#fff}
     .nav-mobile .nm-sep{height:1px;background:var(--line);margin:.35rem .2rem}
     .nav-mobile .lang{display:inline-flex;align-self:flex-start;margin:.25rem .2rem 0}
+    /* En móvil el nav es flex (no grid): al ocultar los enlaces, el grid movía
+       nav-right a la columna central y encimaba el logo. Con flex, logo y
+       hamburguesa quedan en los extremos. El login/usuario viven en el panel. */
+    @media(max-width:759px){
+      .nav{display:flex;justify-content:space-between;align-items:center}
+      .nav-right .btn-login,.nav-right .user-menu{display:none}
+    }
+    .nm-login{display:flex;align-items:center;justify-content:center;gap:.4rem;width:100%;
+      padding:.72rem;border-radius:10px;border:0;cursor:pointer;
+      background:linear-gradient(135deg,var(--gold-hi),var(--gold));color:#0B1A05;font-weight:700;font-size:.95rem}
+    .nm-user{display:flex;flex-direction:column;gap:.5rem;padding:.2rem}
+    .nm-user-info{display:flex;align-items:center;gap:.6rem}
+    .nm-user .user-avatar{width:34px;height:34px;border-radius:50%;background-color:rgba(255,255,255,.12);background-size:cover;background-position:center;flex-shrink:0}
+    .nm-user-meta{display:flex;flex-direction:column;min-width:0}
+    .nm-user-meta .drawer-user-name{font-weight:600;color:#fff;font-size:.9rem}
+    .nm-user-meta .drawer-user-email{font-size:.76rem;color:var(--text-mute);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .nm-signout{width:100%;padding:.6rem;border-radius:10px;border:1px solid var(--line);cursor:pointer;
+      background:rgba(255,255,255,.04);color:var(--text-soft);font-weight:500;font-size:.9rem}
+    .nm-signout:hover{background:rgba(255,255,255,.08);color:#fff}
     .lang{display:inline-flex;background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:var(--r-pill);padding:.18rem}
     .lang button{padding:.32rem .62rem;border-radius:var(--r-pill);font-family:'JetBrains Mono',monospace;font-size:.7rem;font-weight:600;letter-spacing:.05em;color:var(--text-mute);transition:.2s}
     .lang button:hover{color:#fff}
@@ -499,6 +518,18 @@
       <a href="#plugins" data-i18n="nav.plugins">Plugins</a>
       <a href="/partners.html" data-i18n="nav.partners">Partners</a>
       <a href="/tienda" data-i18n="nav.store">Pledge Store</a>
+      <div class="nm-sep"></div>
+      <button class="drawer-login nm-login" type="button" data-i18n="t.nav.login">Iniciar sesión</button>
+      <div class="drawer-user nm-user" hidden>
+        <div class="nm-user-info">
+          <span class="user-avatar" aria-hidden="true"></span>
+          <div class="nm-user-meta">
+            <span class="drawer-user-name"></span>
+            <span class="drawer-user-email"></span>
+          </div>
+        </div>
+        <button class="drawer-user-signout nm-signout" data-action="signout" data-i18n="t.nav.signout">Cerrar sesión</button>
+      </div>
       <div class="nm-sep"></div>
       <div class="lang lang-switch" role="group" aria-label="Idioma">
         <button type="button" data-lang="es">ES</button>
@@ -893,7 +924,7 @@
           var open = navMobile.classList.toggle('open');
           burger.setAttribute('aria-expanded', open ? 'true' : 'false');
         });
-        navMobile.querySelectorAll('a').forEach(function(a){ a.addEventListener('click', closeNav); });
+        navMobile.querySelectorAll('a, .drawer-login, .drawer-user-signout').forEach(function(el){ el.addEventListener('click', closeNav); });
         document.addEventListener('click', function(e){
           if(navMobile.classList.contains('open') && !navMobile.contains(e.target) && !burger.contains(e.target)) closeNav();
         });
