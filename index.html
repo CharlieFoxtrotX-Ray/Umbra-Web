@@ -113,10 +113,40 @@
     .nav-logo img{width:auto;height:38px;filter:drop-shadow(0 1px 5px rgba(0,0,0,.4))}
     .nav-logo .nav-wordmark{width:auto;height:22px;filter:drop-shadow(0 1px 3px rgba(0,0,0,.5))}
     .nav-links{justify-self:center;display:none;align-items:center;gap:.2rem}
-    @media(min-width:980px){.nav-links{display:flex}}
+    @media(min-width:760px){.nav-links{display:flex}}
+    /* Entre 760 y 979 los enlaces se compactan y el nav deja de ser simétrico para que quepan */
+    @media(min-width:760px) and (max-width:979px){
+      .nav{grid-template-columns:auto 1fr auto;gap:.5rem}
+      .nav-links{gap:0}
+      .nav-links a{padding:.4rem .42rem;font-size:.8rem}
+      .nav-right .lang{display:none}
+    }
     .nav-links a{padding:.5rem .9rem;font-size:.92rem;font-weight:500;color:var(--text-soft);border-radius:var(--r-pill);transition:background .2s,color .2s}
     .nav-links a:hover{background:rgba(255,255,255,.06);color:#fff}
     .nav-right{justify-self:end;display:flex;align-items:center;gap:.7rem}
+    /* Botón hamburguesa: solo en móvil (<760) */
+    .nav-burger{display:none;width:42px;height:42px;align-items:center;justify-content:center;flex-direction:column;
+      background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:12px;cursor:pointer;transition:background .2s}
+    .nav-burger:hover{background:rgba(255,255,255,.09)}
+    .nav-burger span{display:block;width:18px;height:2px;background:#fff;border-radius:2px;transition:transform .25s,opacity .2s}
+    .nav-burger span+span{margin-top:4px}
+    .nav-burger[aria-expanded="true"] span:nth-child(1){transform:translateY(6px) rotate(45deg)}
+    .nav-burger[aria-expanded="true"] span:nth-child(2){opacity:0}
+    .nav-burger[aria-expanded="true"] span:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
+    @media(max-width:759px){.nav-burger{display:inline-flex}}
+    /* Panel móvil desplegable — se muestra solo cuando está abierto y en móvil */
+    .nav-mobile{position:absolute;top:calc(100% + 6px);right:1.1rem;width:min(260px,calc(100vw - 2.2rem));
+      background:rgba(12,14,26,.97);backdrop-filter:blur(16px) saturate(120%);-webkit-backdrop-filter:blur(16px) saturate(120%);
+      border:1px solid var(--line);border-radius:16px;box-shadow:0 24px 48px -18px rgba(0,0,0,.7);
+      padding:.6rem;flex-direction:column;gap:.15rem;display:none;transform-origin:top right}
+    @media(max-width:759px){
+      .nav-mobile.open{display:flex;animation:navPop .18s ease both}
+    }
+    @keyframes navPop{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
+    .nav-mobile a{padding:.7rem .8rem;border-radius:10px;color:var(--text-soft);font-weight:500;font-size:.95rem;transition:background .2s,color .2s}
+    .nav-mobile a:hover,.nav-mobile a:focus-visible{background:rgba(255,255,255,.07);color:#fff}
+    .nav-mobile .nm-sep{height:1px;background:var(--line);margin:.35rem .2rem}
+    .nav-mobile .lang{display:inline-flex;align-self:flex-start;margin:.25rem .2rem 0}
     .lang{display:inline-flex;background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:var(--r-pill);padding:.18rem}
     .lang button{padding:.32rem .62rem;border-radius:var(--r-pill);font-family:'JetBrains Mono',monospace;font-size:.7rem;font-weight:600;letter-spacing:.05em;color:var(--text-mute);transition:.2s}
     .lang button:hover{color:#fff}
@@ -458,6 +488,21 @@
         <div class="user-dropdown">
           <button data-action="signout" data-i18n="t.nav.signout">Cerrar sesión</button>
         </div>
+      </div>
+      <button class="nav-burger" id="navBurger" aria-label="Menú" aria-expanded="false" aria-controls="navMobile">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="nav-mobile" id="navMobile">
+      <a href="#comunicacion" data-i18n="nav.comms">Comunicación</a>
+      <a href="#canvas" data-i18n="nav.canvas">Canvas</a>
+      <a href="#plugins" data-i18n="nav.plugins">Plugins</a>
+      <a href="/partners.html" data-i18n="nav.partners">Partners</a>
+      <a href="/tienda" data-i18n="nav.store">Pledge Store</a>
+      <div class="nm-sep"></div>
+      <div class="lang lang-switch" role="group" aria-label="Idioma">
+        <button type="button" data-lang="es">ES</button>
+        <button type="button" data-lang="en">EN</button>
       </div>
     </div>
   </nav>
@@ -837,6 +882,24 @@
           aThumbs.forEach(function(x){ x.classList.toggle('active', x===t); });
         });
       });
+
+      // ── Menú móvil (hamburguesa <760px) ──
+      var burger = document.getElementById('navBurger');
+      var navMobile = document.getElementById('navMobile');
+      if(burger && navMobile){
+        var closeNav = function(){ navMobile.classList.remove('open'); burger.setAttribute('aria-expanded','false'); };
+        burger.addEventListener('click', function(e){
+          e.stopPropagation();
+          var open = navMobile.classList.toggle('open');
+          burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+        });
+        navMobile.querySelectorAll('a').forEach(function(a){ a.addEventListener('click', closeNav); });
+        document.addEventListener('click', function(e){
+          if(navMobile.classList.contains('open') && !navMobile.contains(e.target) && !burger.contains(e.target)) closeNav();
+        });
+        document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closeNav(); });
+        window.addEventListener('resize', function(){ if(window.innerWidth >= 760) closeNav(); });
+      }
 
       // ── Modal de descarga: aviso de certificado / SmartScreen ──
       var dlm = document.getElementById('dlModal');
