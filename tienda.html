@@ -383,6 +383,14 @@
       var box=document.getElementById('inviteBox'); if(!box) return;
       var bonus=document.getElementById('inviteBonus'), btn=document.getElementById('inviteBtn'),
           inp=document.getElementById('inviteCode'), msg=document.getElementById('inviteMsg');
+      // Capturar ?ref de la URL acá mismo: auth.js también lo hace, pero es
+      // deferred y corre DESPUÉS de este script — sin esto, en la primera
+      // visita con ?ref el banner no aparecía hasta recargar.
+      try{
+        var q=new URLSearchParams(location.search);
+        var r=(q.get('ref')||q.get('r')||'').trim().slice(0,64);
+        if(r) localStorage.setItem('umbra:ref', JSON.stringify({ code:r, exp:Date.now()+60*864e5 }));
+      }catch(e){}
       if(storedRef()) bonus.hidden=false;
       function say(t, ok){ msg.hidden=false; msg.textContent=t; msg.style.color = ok? '#bef07f':'#fca5a5'; }
       btn.addEventListener('click', function(){
