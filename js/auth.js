@@ -45,6 +45,56 @@
     try { localStorage.removeItem(STORAGE_KEY) } catch (e) {}
   }
 
+  // ─── Programa de Partners: atribución del referido ─────────────
+  // Si el usuario llega con ?ref=CODIGO (en cualquier página que cargue
+  // auth.js), guardamos el código. Cuando se loguea (o si ya está logueado),
+  // llamamos a /api/partners/attribute para dejarlo atribuido al creador.
+  // Ventana de 60 días. El endpoint es idempotente y anti self-referral.
+  const REF_KEY = 'umbra:ref'
+  const REF_TTL_DAYS = 60
+
+  function captureRef() {
+    try {
+      const params = new URLSearchParams(window.location.search)
+      let ref = params.get('ref') || params.get('r')
+      if (!ref) return
+      ref = ref.trim().slice(0, 64)
+      if (!ref) return
+      localStorage.setItem(REF_KEY, JSON.stringify({ code: ref, exp: Date.now() + REF_TTL_DAYS * 864e5 }))
+    } catch (e) {}
+  }
+
+  function getRef() {
+    try {
+      const raw = localStorage.getItem(REF_KEY)
+      if (!raw) return null
+      const p = JSON.parse(raw)
+      if (!p || !p.code) return null
+      if (p.exp && Date.now() > p.exp) { localStorage.removeItem(REF_KEY); return null }
+      return p.code
+    } catch (e) { return null }
+  }
+
+  function clearRef() { try { localStorage.removeItem(REF_KEY) } catch (e) {} }
+
+  // Intenta atribuir el referido. token = JWT del usuario logueado.
+  function tryAttribute(token) {
+    const code = getRef()
+    if (!code || !token) return
+    fetch(API_BASE + '/api/partners/attribute', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+      body: JSON.stringify({ code: code }),
+    })
+      .then(function (r) { return r.ok ? r.json() : null })
+      .then(function (res) {
+        // Cualquier respuesta OK (atribuido, ya-atribuido, código inválido,
+        // self-referral) cierra el intento: no reintentamos ni acumulamos.
+        if (res && res.ok) clearRef()
+      })
+      .catch(function () { /* red caída: se reintenta en el próximo login/carga */ })
+  }
+
   // ─── UI helpers ────────────────────────────────────────────
 
   function getInitial(name) {
@@ -201,6 +251,7 @@
       saveStored(token, user)
       updateAuthUI(user)
       closeLoginModal()
+      tryAttribute(token)  // partners: atribuir si venía con ?ref
     }
 
     const fail = (msgKey) => {
@@ -317,8 +368,9 @@
   // ─── Init ──────────────────────────────────────────────────
 
   function init() {
+    captureRef()  // partners: guardar ?ref si vino en la URL (cualquier página)
     const stored = loadStored()
-    if (stored) updateAuthUI(stored.user)
+    if (stored) { updateAuthUI(stored.user); tryAttribute(stored.token) }  // ya logueado + ?ref → atribuir
     else updateAuthUI(null)
     setupUserMenu()
     setupModal()

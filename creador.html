@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UMBRA · Panel de creador</title>
+  <meta name="robots" content="noindex" />
+  <link rel="canonical" href="https://umbra.cfx-software.com/creador" />
+  <meta name="umbra-api-base" content="https://umbra-api.cfx-software.com" />
+  <link rel="icon" href="assets/logo-triangle.png" />
+  <link rel="stylesheet" href="css/styles.css" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap');
+    :root{
+      --gold:#7FA63E; --gold-hi:#A8D85F; --gold-shine:#D6F2A8;
+      --card:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.02));
+      --r-sm:10px; --r:18px; --r-lg:28px; --r-pill:999px; --container:1000px;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Inter',sans-serif;background:#040407;color:#f0f0f5;line-height:1.5;-webkit-font-smoothing:antialiased;min-height:100vh;overflow-x:hidden;position:relative}
+    .bg-video{position:fixed;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;pointer-events:none;opacity:.5;filter:brightness(.32) contrast(1.06) saturate(.7)}
+    @media (prefers-reduced-motion:reduce){.bg-video{display:none}}
+    a{color:inherit;text-decoration:none}
+    button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
+    img{max-width:100%;display:block}
+    [hidden]{display:none !important}
+    body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.5;background-image:radial-gradient(1.5px 1.5px at 18% 26%,#fff,transparent),radial-gradient(1.2px 1.2px at 78% 58%,rgba(255,255,255,.85),transparent),radial-gradient(1.7px 1.7px at 46% 82%,#fff,transparent);background-size:240px 240px}
+    body > *{position:relative;z-index:1}
+
+    .nav{position:fixed;top:0;left:0;right:0;z-index:100;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:1.25rem 2.5rem;transition:background .25s,padding .25s}
+    .nav.scrolled{background:rgba(14,14,20,.72);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);padding:.85rem 2.5rem;border-bottom:1px solid rgba(255,255,255,.05)}
+    @media(max-width:880px){.nav,.nav.scrolled{padding-left:1rem;padding-right:1rem}}
+    .nav-logo{justify-self:start;display:flex;align-items:center;gap:.6rem;color:#fff;font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:1.05rem}
+    .nav-logo img{width:auto;height:32px}
+    .nav-links{justify-self:center;display:none;align-items:center;gap:.35rem}
+    @media(min-width:980px){.nav-links{display:flex}}
+    .nav-links a{padding:.5rem 1rem;font-size:.92rem;font-weight:600;color:rgba(255,255,255,.75);border-radius:var(--r-pill);transition:background .18s,color .18s}
+    .nav-links a:hover{background:rgba(255,255,255,.08);color:#fff}
+    .nav-right{justify-self:end;display:flex;align-items:center;gap:.75rem}
+    .nav-cta{padding:.6rem 1.3rem;border-radius:var(--r-pill);background:linear-gradient(135deg,var(--gold-hi),var(--gold));color:#0B1A05;font-weight:700;font-size:.9rem;transition:transform .18s}
+    .nav-cta:hover{transform:translateY(-1px)}
+    .user-menu{position:relative}
+    .user-dropdown{position:absolute;right:0;top:calc(100% + .5rem);min-width:160px;padding:.4rem;background:rgba(18,20,38,.97);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.1);border-radius:var(--r);opacity:0;visibility:hidden;transform:translateY(-6px);transition:opacity .16s,transform .16s,visibility .16s}
+    .user-dropdown.open{opacity:1;visibility:visible;transform:translateY(0)}
+    .user-dropdown button{display:block;width:100%;text-align:left;padding:.6rem .8rem;border-radius:var(--r-sm);font-size:.88rem;font-weight:600;color:rgba(255,255,255,.8)}
+    .user-dropdown button:hover{background:rgba(255,255,255,.08);color:#fff}
+
+    main.cr{max-width:var(--container);margin:0 auto;padding:7rem 1.5rem 2rem}
+    .cr-hero{text-align:center;max-width:640px;margin:0 auto 2rem}
+    .cr-hero h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(2rem,4.5vw,2.9rem);font-weight:800;letter-spacing:-.03em;margin-bottom:.6rem}
+    .cr-hero h1 .gold{color:var(--gold-hi)}
+    .cr-hero p{color:rgba(255,255,255,.65);font-size:1.02rem}
+
+    .btn-gold{display:inline-flex;align-items:center;justify-content:center;gap:.4rem;padding:.78rem 1.5rem;border-radius:var(--r-pill);background:var(--gold);color:#0B1A05;font-weight:800;font-size:.92rem;transition:background .18s,transform .18s}
+    .btn-gold:hover{background:var(--gold-hi);transform:translateY(-2px)}
+
+    .state{max-width:460px;margin:0 auto;padding:2rem 1.75rem;border-radius:var(--r-lg);text-align:center;background:var(--card);border:1px solid rgba(255,255,255,.14);backdrop-filter:blur(22px) saturate(135%);-webkit-backdrop-filter:blur(22px) saturate(135%)}
+    .state h2{font-family:'Space Grotesk',sans-serif;font-size:1.4rem;font-weight:800;margin-bottom:.6rem}
+    .state p{color:rgba(255,255,255,.65);font-size:.95rem;margin-bottom:1.1rem}
+
+    /* Link box */
+    .link-box{max-width:var(--container);margin:0 auto 1.4rem;padding:1.4rem 1.5rem;border-radius:var(--r-lg);background:rgba(127,166,62,.08);border:1px solid rgba(127,166,62,.3)}
+    .link-box .lbl{font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-hi);margin-bottom:.6rem}
+    .link-row{display:flex;gap:.6rem;flex-wrap:wrap;align-items:center}
+    .link-row input{flex:1;min-width:220px;padding:.7rem .9rem;border-radius:var(--r-sm);background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.14);color:#fff;font-family:'JetBrains Mono',monospace;font-size:.9rem}
+    .link-meta{margin-top:.7rem;font-size:.82rem;color:rgba(255,255,255,.6)}
+    .link-meta b{color:#fff}
+    .tag{display:inline-block;font-size:.72rem;font-weight:700;padding:2px 9px;border-radius:var(--r-pill)}
+    .tag-elite{background:rgba(167,139,250,.18);color:#c4b5fd}.tag-partner{background:rgba(127,166,62,.2);color:var(--gold-hi)}.tag-creator{background:rgba(161,161,170,.18);color:#d4d4d8}
+
+    .cr-grid{max-width:var(--container);margin:0 auto 1.4rem;display:grid;gap:.9rem;grid-template-columns:repeat(auto-fit,minmax(180px,1fr))}
+    .stat{padding:1.2rem 1.3rem;border-radius:var(--r);background:var(--card);border:1px solid rgba(255,255,255,.12)}
+    .stat .k{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.5);margin-bottom:.4rem}
+    .stat .v{font-family:'Space Grotesk',sans-serif;font-size:1.7rem;font-weight:800}
+    .stat .v.gold{color:var(--gold-hi)} .stat .v.grn{color:#6ee7b0}
+    .stat .s{font-size:.75rem;color:rgba(255,255,255,.45);margin-top:.2rem}
+
+    .sec-title{max-width:var(--container);margin:1.4rem auto .6rem;font-family:'JetBrains Mono',monospace;font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.55)}
+    .tbl-wrap{max-width:var(--container);margin:0 auto;overflow-x:auto}
+    table{width:100%;border-collapse:collapse;background:var(--card);border:1px solid rgba(255,255,255,.1);border-radius:var(--r);overflow:hidden;font-size:.86rem}
+    th{text-align:left;padding:.6rem .8rem;background:rgba(255,255,255,.04);color:rgba(255,255,255,.5);font-size:.68rem;text-transform:uppercase;letter-spacing:.06em;font-weight:600}
+    td{padding:.6rem .8rem;border-top:1px solid rgba(255,255,255,.07)}
+    td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+    .pill{display:inline-block;font-size:.68rem;font-weight:700;padding:2px 8px;border-radius:var(--r-pill)}
+    .pill.grn{background:rgba(52,211,153,.15);color:#6ee7b0}.pill.acc{background:rgba(251,191,36,.15);color:#facc15}.pill.red{background:rgba(248,113,113,.15);color:#f87171}
+
+    .cr-foot{max-width:var(--container);margin:3rem auto 0;padding:1.5rem;border-top:1px solid rgba(255,255,255,.08);text-align:center;color:rgba(255,255,255,.45);font-size:.82rem}
+    .cr-foot a:hover{color:#fff}
+    .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--gold);color:#0B1A05;font-weight:700;padding:.6rem 1.1rem;border-radius:var(--r-pill);font-size:.88rem;opacity:0;transition:opacity .2s;pointer-events:none;z-index:200}
+    .toast.show{opacity:1}
+  </style>
+</head>
+<body>
+  <video class="bg-video" autoplay muted loop playsinline preload="auto" aria-hidden="true"><source src="assets/bg-video.mp4" type="video/mp4" /></video>
+
+  <nav class="nav" id="topNav">
+    <a class="nav-logo" href="/"><img src="assets/logo-triangle.png" alt="" /><img src="assets/wordmark-umbra.png" alt="UMBRA" style="height:19px;width:auto" /></a>
+    <div class="nav-links">
+      <a href="/partners">Programa</a>
+      <a href="/tienda">Tienda</a>
+    </div>
+    <div class="nav-right">
+      <button class="nav-cta btn-login">Iniciar sesión</button>
+      <div class="user-menu" hidden>
+        <button class="nav-cta user-toggle" aria-expanded="false"><span class="user-name"></span></button>
+        <div class="user-dropdown"><button data-action="signout">Cerrar sesión</button></div>
+      </div>
+    </div>
+  </nav>
+
+  <main class="cr">
+    <div class="cr-hero">
+      <h1>Tu panel de <span class="gold">creador</span></h1>
+      <p>Tu link, tu código y lo que vas ganando con tus referidos.</p>
+    </div>
+
+    <!-- Estado: pedir login -->
+    <div class="state" id="gate" hidden>
+      <h2>Iniciá sesión</h2>
+      <p>Entrá con la cuenta de UMBRA con la que aplicaste al programa para ver tu panel.</p>
+      <button class="btn-gold btn-login">Iniciar sesión</button>
+    </div>
+
+    <!-- Estado: no es partner -->
+    <div class="state" id="notpartner" hidden>
+      <h2>Todavía no sos partner 🙌</h2>
+      <p>No encontramos un partner asociado a tu cuenta. Si ya aplicaste, esperá la aprobación; si no, aplicá al programa.</p>
+      <a class="btn-gold" href="/partners#aplicar">Aplicar al programa →</a>
+    </div>
+
+    <!-- Estado: cargando -->
+    <div class="state" id="loading"><p style="margin:0">Cargando tu panel…</p></div>
+
+    <!-- Dashboard -->
+    <div id="dash" hidden>
+      <div class="link-box">
+        <div class="lbl">Tu link de invitación</div>
+        <div class="link-row">
+          <input id="reflink" readonly />
+          <button class="btn-gold" id="copybtn">Copiar link</button>
+        </div>
+        <div class="link-meta">Código <b id="code"></b> · <span id="tierTag"></span> · comisión <b id="pct"></b> de lo que gastan tus referidos, 12 meses.</div>
+      </div>
+
+      <div class="cr-grid">
+        <div class="stat"><div class="k">Referidos</div><div class="v" id="st-ref">0</div><div class="s" id="st-conv"></div></div>
+        <div class="stat"><div class="k">Ventas generadas</div><div class="v grn" id="st-sales">$0</div><div class="s">tus referidos, neto</div></div>
+        <div class="stat"><div class="k">Comisión pendiente</div><div class="v gold" id="st-pending">$0</div><div class="s">se paga a fin de mes</div></div>
+        <div class="stat"><div class="k">Cobrado</div><div class="v" id="st-paid">$0</div><div class="s">histórico</div></div>
+      </div>
+
+      <div class="sec-title">Tus últimas comisiones</div>
+      <div class="tbl-wrap"><table id="comm"><thead><tr><th>Fecha</th><th class="num">Venta</th><th class="num">%</th><th class="num">Comisión</th><th>Estado</th></tr></thead><tbody></tbody></table></div>
+
+      <div class="sec-title" id="payTitle" hidden>Pagos recibidos</div>
+      <div class="tbl-wrap" id="payWrap" hidden><table id="pays"><thead><tr><th>Fecha</th><th>Periodo</th><th class="num">Monto</th><th>Nota</th></tr></thead><tbody></tbody></table></div>
+    </div>
+
+    <div class="cr-foot"><a href="/partners">← Volver al programa</a></div>
+  </main>
+
+  <div class="toast" id="toast">Link copiado ✓</div>
+
+  <!-- Login modal (auth.js + styles.css) -->
+  <div id="login-modal" class="login-modal" role="dialog" aria-modal="true" aria-labelledby="login-modal-title" hidden>
+    <div class="login-modal-backdrop" aria-hidden="true"></div>
+    <div class="login-modal-content">
+      <button class="login-modal-close" aria-label="Cerrar"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><line x1="4" y1="4" x2="12" y2="12"/><line x1="12" y1="4" x2="4" y2="12"/></svg></button>
+      <div class="login-modal-header"><h3 id="login-modal-title">Iniciar sesión en UMBRA</h3><p>Entrá con tu cuenta</p></div>
+      <button class="btn-google-signin">
+        <svg width="18" height="18" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.874 2.684-6.615z"/><path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.836.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332C2.438 15.983 5.482 18 9 18z"/><path fill="#FBBC05" d="M3.964 10.71A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.042l3.007-2.332z"/><path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0 5.482 0 2.438 2.017.957 4.958L3.964 7.29C4.672 5.163 6.656 3.58 9 3.58z"/></svg>
+        <span>Iniciar sesión con Google</span>
+      </button>
+      <p class="login-error" role="alert" hidden></p>
+    </div>
+  </div>
+
+  <script>
+    (function(){ var nav=document.getElementById('topNav'); var f=function(){ nav.classList.toggle('scrolled', window.scrollY>40); }; addEventListener('scroll',f,{passive:true}); f(); })();
+  </script>
+  <script src="js/auth.js" defer></script>
+  <script src="js/creador.js" defer></script>
+</body>
+</html>

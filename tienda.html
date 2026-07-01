@@ -177,6 +177,20 @@
     .s-userline{text-align:center;color:rgba(255,255,255,0.6);font-size:0.9rem;margin:0 0 2rem}
     .s-userline strong{color:#fff}
 
+    /* Programa de Partners: bonus + código de invitación */
+    .invite{max-width:520px;margin:0 auto 2rem}
+    .invite-bonus{background:rgba(127,166,62,.1);border:1px solid rgba(127,166,62,.32);border-radius:var(--r);padding:.8rem 1.1rem;font-size:.9rem;color:rgba(255,255,255,.85);text-align:center;margin-bottom:.8rem}
+    .invite-bonus b{color:var(--gold-hi)}
+    .invite-det{border:1px solid rgba(255,255,255,.12);border-radius:var(--r);background:var(--card);overflow:hidden}
+    .invite-det summary{list-style:none;cursor:pointer;padding:.8rem 1.1rem;font-size:.88rem;color:rgba(255,255,255,.7);user-select:none}
+    .invite-det summary::-webkit-details-marker{display:none}
+    .invite-det summary::before{content:'+ ';color:var(--gold-hi);font-weight:700}
+    .invite-det[open] summary::before{content:'– '}
+    .invite-det summary:hover{color:#fff}
+    .invite-row{display:flex;gap:.6rem;padding:0 1.1rem 1rem;flex-wrap:wrap}
+    .invite-row input{flex:1;min-width:160px;padding:.65rem .85rem;border-radius:var(--r-sm);background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.14);color:#fff;font-family:'JetBrains Mono',monospace;font-size:.9rem;text-transform:uppercase}
+    .invite-msg{padding:0 1.1rem 1rem;font-size:.84rem}
+
     /* Grid de packs — estilo .access-card del landing */
     .packs{max-width:1000px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1.25rem}
     .pack{
@@ -270,6 +284,19 @@
       <p data-i18n="t.lead">Consigue lingotes de aporte para mantener vivo el servidor de tu comunidad y desbloquear premium. No es una moneda: es tu forma de sostener el proyecto mientras crece.</p>
     </div>
 
+    <!-- Programa de Partners: aviso de bonus + código de invitación -->
+    <div class="invite" id="inviteBox">
+      <div class="invite-bonus" id="inviteBonus" hidden>🎁 Vas a recibir <b>+10% de lingotes</b> en tu primera recarga por venir de un creador.</div>
+      <details class="invite-det">
+        <summary>¿Vienes de un creador? Ingresa su código de invitación</summary>
+        <div class="invite-row">
+          <input id="inviteCode" placeholder="CÓDIGO" maxlength="64" autocomplete="off" spellcheck="false" />
+          <button class="btn-gold" id="inviteBtn" type="button">Aplicar</button>
+        </div>
+        <div class="invite-msg" id="inviteMsg" hidden></div>
+      </details>
+    </div>
+
     <!-- Gate: pedir login -->
     <div class="s-gate" id="login-gate" hidden>
       <p data-i18n="t.gate.text">Inicia sesión con tu cuenta de UMBRA para que los lingotes lleguen a tu wallet.</p>
@@ -345,6 +372,38 @@
       var onScroll = function(){ nav.classList.toggle('scrolled', window.scrollY > 40); };
       window.addEventListener('scroll', onScroll, { passive:true });
       onScroll();
+    })();
+
+    // ── Programa de Partners: código de invitación + aviso de bonus ──
+    (function(){
+      var API = ((document.querySelector('meta[name="umbra-api-base"]')||{}).content||'').replace(/\/$/,'') || '';
+      function token(){ try{ return (JSON.parse(localStorage.getItem('umbra:auth'))||{}).token || null; }catch(e){ return null; } }
+      function storedRef(){ try{ var p=JSON.parse(localStorage.getItem('umbra:ref')); return (p&&p.code) || null; }catch(e){ return null; } }
+      var box=document.getElementById('inviteBox'); if(!box) return;
+      var bonus=document.getElementById('inviteBonus'), btn=document.getElementById('inviteBtn'),
+          inp=document.getElementById('inviteCode'), msg=document.getElementById('inviteMsg');
+      if(storedRef()) bonus.hidden=false;
+      function say(t, ok){ msg.hidden=false; msg.textContent=t; msg.style.color = ok? '#bef07f':'#fca5a5'; }
+      btn.addEventListener('click', function(){
+        var code=(inp.value||'').trim().toUpperCase(); if(!code){ say('Escribí un código.', false); return; }
+        var t=token();
+        if(!t){
+          try{ localStorage.setItem('umbra:ref', JSON.stringify({ code:code, exp:Date.now()+60*864e5 })); }catch(e){}
+          say('Inicia sesión y aplicamos tu código automáticamente.', true);
+          if(window.umbraAuth && window.umbraAuth.open) window.umbraAuth.open();
+          return;
+        }
+        say('Aplicando…', true);
+        fetch(API + '/api/partners/attribute', { method:'POST', headers:{ 'Content-Type':'application/json', 'Authorization':'Bearer '+t }, body:JSON.stringify({ code:code }) })
+          .then(function(r){ return r.json(); })
+          .then(function(res){
+            if(res && res.attributed){ say('¡Listo! Vas a recibir +10% de lingotes en tu primera recarga 🎁', true); bonus.hidden=false; }
+            else if(res && res.reason==='already_attributed'){ say('Ya estás asociado a un creador.', true); }
+            else if(res && res.reason==='self_referral'){ say('Ese es tu propio código 😅', false); }
+            else { say('Código no válido.', false); }
+          })
+          .catch(function(){ say('No se pudo aplicar ahora, probá de nuevo.', false); });
+      });
     })();
   </script>
   <script src="js/i18n-v2.js" defer></script>
