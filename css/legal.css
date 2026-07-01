@@ -57,7 +57,7 @@ a:hover{color:var(--gold-shine,#ffeac1)}
   font-family:'Bagel Fat One',sans-serif;font-weight:400;font-size:1.1rem;
   color:#fff;text-decoration:none;
 }
-.legal-nav-logo img{width:28px;height:28px}
+.legal-nav-logo img{width:auto;height:28px}
 .legal-nav-logo .nav-wordmark{width:auto;height:18px;filter:drop-shadow(0 1px 3px rgba(0,0,0,0.5))}
 .legal-nav-back{
   font-family:'Inter',sans-serif;font-size:0.9rem;font-weight:600;
