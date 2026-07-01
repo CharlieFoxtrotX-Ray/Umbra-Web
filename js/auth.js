@@ -162,6 +162,28 @@
       const input = document.querySelector('.signup-form input[type="email"]')
       if (input && !input.value) input.value = user.email
     }
+
+    // Acceso "Panel de creador" en el menú: solo visible para partners o admins.
+    updatePartnerAccess(user)
+  }
+
+  // Muestra los enlaces .creator-link (menú de cuenta) solo si el usuario es
+  // partner (GET /me devuelve partner) o admin (isAdmin). Se apoya en el token.
+  function updatePartnerAccess(user) {
+    const links = document.querySelectorAll('.creator-link')
+    if (!links.length) return
+    const hideAll = function () { links.forEach(function (l) { l.hidden = true }) }
+    if (!user) { hideAll(); return }
+    const stored = loadStored()
+    const tk = stored && stored.token
+    if (!tk) { hideAll(); return }
+    fetch(API_BASE + '/api/partners/me', { headers: { 'Authorization': 'Bearer ' + tk } })
+      .then(function (r) { return r.ok ? r.json() : null })
+      .then(function (d) {
+        const show = !!(d && (d.partner || d.isAdmin))
+        links.forEach(function (l) { l.hidden = !show })
+      })
+      .catch(function () { /* red caída: dejamos oculto */ })
   }
 
   // ─── Modal ─────────────────────────────────────────────────

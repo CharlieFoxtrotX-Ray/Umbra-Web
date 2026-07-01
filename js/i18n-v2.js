@@ -15,7 +15,7 @@
     // ES (España) — BASE
     // ═══════════════════════════════════════════════════════════
     es: {
-      'nav.story': 'Cómo va', 'nav.audiences': 'Para quién', 'nav.plans': 'Planes', 'nav.vibe': 'Tu vibe', 'nav.faq': 'FAQ', 'nav.store': 'Tienda', 'nav.partners': 'Partners', 'nav.cta': 'Abrir UMBRA',
+      'nav.story': 'Cómo va', 'nav.audiences': 'Para quién', 'nav.plans': 'Planes', 'nav.vibe': 'Tu vibe', 'nav.faq': 'FAQ', 'nav.store': 'Tienda', 'nav.partners': 'Partners', 'nav.creatorPanel': 'Panel de creador', 'nav.cta': 'Abrir UMBRA',
 
       'hero.h1.html': 'Tu voz,<br/>tu gente, <span class="ink-blob">en su sitio.</span>',
       'hero.lead': 'UMBRA es donde tu grupo se junta, charla, planea y se organiza — sin abrir cinco apps. Salas ilimitadas, whisper entre canales, voz nítida, y un sitio que te cuida.',
@@ -299,7 +299,7 @@
     // EN — English
     // ═══════════════════════════════════════════════════════════
     en: {
-      'nav.story': 'How it works', 'nav.audiences': 'Who it\'s for', 'nav.plans': 'Plans', 'nav.vibe': 'Your vibe', 'nav.faq': 'FAQ', 'nav.store': 'Store', 'nav.partners': 'Partners', 'nav.cta': 'Open UMBRA',
+      'nav.story': 'How it works', 'nav.audiences': 'Who it\'s for', 'nav.plans': 'Plans', 'nav.vibe': 'Your vibe', 'nav.faq': 'FAQ', 'nav.store': 'Store', 'nav.partners': 'Partners', 'nav.creatorPanel': 'Creator dashboard', 'nav.cta': 'Open UMBRA',
 
       'hero.h1.html': 'Your voice,<br/>your people, <span class="ink-blob">where they belong.</span>',
       'hero.lead': 'UMBRA is where your group hangs out, talks, plans and gets organized — without opening five different apps. Unlimited rooms, cross-channel whisper, crystal-clear voice, and a place that takes care of you.',
