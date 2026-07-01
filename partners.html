@@ -12,7 +12,7 @@
 
   <link rel="icon" href="assets/logo-triangle.png" />
   <!-- styles.css aporta los estilos del modal de login (compartido con auth.js) -->
-  <link rel="stylesheet" href="css/styles.css?v=20260701" />
+  <link rel="stylesheet" href="css/styles.css?v=20260701a" />
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap');
 
@@ -339,8 +339,9 @@
       <div class="pp-cta-row">
         <a class="btn-gold" href="#aplicar" data-i18n="pp.hero.cta">Quiero unirme →</a>
         <a class="btn-ghost" href="#como" data-i18n="pp.hero.cta2">Cómo funciona</a>
+        <!-- Solo visible para partners y admins (auth.js → updatePartnerAccess) -->
+        <a class="btn-ghost creator-link" href="/creador" hidden style="border-color:rgba(127,166,62,.45);color:var(--gold-hi)" data-i18n="pp.hero.panelBtn">🎛️ Tu panel de creador →</a>
       </div>
-      <p style="margin-top:1rem;font-size:.9rem;color:rgba(255,255,255,.55)"><span data-i18n="pp.hero.already">¿Ya sos partner?</span> <a href="/creador" style="color:var(--gold-hi);font-weight:600" data-i18n="pp.hero.panel">Entrá a tu panel →</a></p>
     </section>
 
     <!-- CÓMO FUNCIONA -->
@@ -568,8 +569,8 @@
       onScroll();
     })();
   </script>
-  <script src="js/i18n-v2.js?v=20260701" defer></script>
-  <script src="js/auth.js?v=20260701" defer></script>
-  <script src="js/partners.js?v=20260701" defer></script>
+  <script src="js/i18n-v2.js?v=20260701a" defer></script>
+  <script src="js/auth.js?v=20260701a" defer></script>
+  <script src="js/partners.js?v=20260701a" defer></script>
 </body>
 </html>
