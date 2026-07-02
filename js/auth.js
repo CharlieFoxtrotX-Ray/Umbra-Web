@@ -310,10 +310,19 @@
       } catch (e) { /* network glitch — seguimos */ }
     }, POLL_INTERVAL)
 
-    // 3) Detectar si el usuario cierra el popup sin completar
+    // 3) Detectar si el usuario cierra el popup sin completar.
+    //    Damos 900ms de gracia cuando detectamos el cierre para que postMessage
+    //    pueda llegar antes de declarar cancelado (race condition: el popup
+    //    envía postMessage y se cierra casi simultáneamente; sin gracia,
+    //    closeCheck llama fail() antes de que onMessage se procese).
+    let closeGraceTimer = null
     const closeCheck = setInterval(() => {
       if (done) return
-      if (popup.closed) fail('auth.error.cancelled')
+      if (popup.closed && !closeGraceTimer) {
+        closeGraceTimer = setTimeout(() => {
+          if (!done) fail('auth.error.cancelled')
+        }, 900)
+      }
     }, 500)
 
     // 4) Timeout duro
@@ -324,6 +333,7 @@
       clearInterval(pollInterval)
       clearInterval(closeCheck)
       clearTimeout(timeoutId)
+      if (closeGraceTimer) clearTimeout(closeGraceTimer)
     }
   }
 
