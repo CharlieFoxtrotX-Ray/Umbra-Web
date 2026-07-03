@@ -38,12 +38,10 @@
       font-family:'Inter',sans-serif;background:#040407;color:#f0f0f5;line-height:1.5;
       -webkit-font-smoothing:antialiased;min-height:100vh;overflow-x:hidden;position:relative;
     }
-    /* Video oscuro de fondo — mismo lenguaje que el landing, negro predominante */
-    .bg-video{
-      position:fixed;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;pointer-events:none;
-      opacity:.5;filter:brightness(.32) contrast(1.06) saturate(.7);
-    }
-    @media (prefers-reduced-motion:reduce){ .bg-video{display:none} }
+    /* Fondo cósmico 100% CSS — mismo lenguaje que el landing, negro predominante.
+       La nebulosa vive en body::after; esto solo aporta el rescoldo del piso. */
+    .bg-cosmos{position:fixed;inset:0;z-index:0;pointer-events:none;background:
+      radial-gradient(120% 90% at 50% 118%, rgba(46,26,18,.18), transparent 55%)}
     a{color:inherit;text-decoration:none}
     button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
     img{max-width:100%;display:block}
@@ -59,9 +57,9 @@
     body::after{
       content:'';position:fixed;inset:-20%;z-index:0;pointer-events:none;mix-blend-mode:screen;will-change:transform;
       background:
-        radial-gradient(38% 44% at 80% 14%, rgba(138,110,255,.20), transparent 70%),
-        radial-gradient(34% 40% at 18% 84%, rgba(58,120,248,.15), transparent 72%),
-        radial-gradient(30% 34% at 44% 46%, rgba(176,104,236,.12), transparent 70%);
+        radial-gradient(38% 44% at 80% 14%, rgba(255,120,62,.14), transparent 70%),
+        radial-gradient(34% 40% at 18% 84%, rgba(186,72,34,.10), transparent 72%),
+        radial-gradient(30% 34% at 44% 46%, rgba(226,96,48,.08), transparent 70%);
       animation:nebDriftT 34s ease-in-out infinite;
     }
     @keyframes twinkleT{0%,100%{opacity:.36}50%{opacity:.6}}
@@ -246,9 +244,7 @@
   </style>
 </head>
 <body>
-  <video class="bg-video" autoplay muted loop playsinline preload="auto" aria-hidden="true">
-    <source src="assets/bg-video.mp4" type="video/mp4" />
-  </video>
+  <div class="bg-cosmos" aria-hidden="true"></div>
   <nav class="nav" id="topNav">
     <a class="nav-logo" href="/">
       <img src="assets/logo-triangle.png" alt="" />

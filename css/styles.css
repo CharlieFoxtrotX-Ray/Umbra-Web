@@ -110,23 +110,7 @@ body::before {
   opacity: 0.5;
 }
 
-/* ─── Video de fondo global — atmósfera detrás de todas las secciones ─── */
-/* Se mantiene fijo y se ve sutil a través de las secciones cuyo fondo
-   reducimos a rgba/transparente. El #hero lo tapa con su propio bg.       */
-
-.global-bg-video {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100vw;
-  height: 100vh;
-  object-fit: cover;
-  z-index: 0;
-  pointer-events: none;
-  opacity: 0.55;
-  filter: brightness(0.42) contrast(1.05) saturate(0.55);
-}
-
-/* Capa de oscurecimiento sobre el video para mantener legibilidad
+/* Capa de oscurecimiento de fondo para mantener legibilidad
    y un toque de tinte amber que liga con el resto del lenguaje visual. */
 body::after {
   content: '';
@@ -142,13 +126,6 @@ body::after {
       rgba(5, 5, 7, 0.30) 35%,
       rgba(5, 5, 7, 0.30) 65%,
       rgba(5, 5, 7, 0.55) 100%);
-}
-
-/* Respeto al usuario: reducir motion */
-@media (prefers-reduced-motion: reduce) {
-  .global-bg-video {
-    display: none;
-  }
 }
 
 /* ─── Splash de carga ────────────────────────────────────────── */

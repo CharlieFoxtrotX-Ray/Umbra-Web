@@ -61,32 +61,58 @@
     .grain{position:fixed;inset:0;z-index:var(--z-nav);pointer-events:none;opacity:.045;mix-blend-mode:overlay;
       background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
 
-    /* Fondo: video oscuro sobre negro casi puro — el negro predomina */
-    .cosmos{position:fixed;inset:0;z-index:var(--z-bg);overflow:hidden;background:#040407}
-    .cosmos .bg-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
-      opacity:.72;filter:brightness(.64) contrast(1.04) saturate(.92);will-change:transform}
+    /* Fondo: cosmos 100% CSS sobre negro casi puro — el negro predomina.
+       Sin video ni assets: eclipse (la "umbra", corona ámbar como la arte
+       del brand kit) + estrellas. Contenido, sin sobrecargar. */
+    .cosmos{position:fixed;inset:0;z-index:var(--z-bg);overflow:hidden;background:
+      radial-gradient(120% 90% at 50% 118%, rgba(46,26,18,.2), transparent 55%),
+      #040407}
+    /* Variante táctica: arte de materiales (fibra de carbono, nylon, hex) del
+       brand kit. El centro de la imagen es oscuro a propósito — el contenido
+       vive ahí; el velo remata la legibilidad. Activa con .cosmos.tactical */
+    .cosmos .bg-tactical{display:none;position:absolute;inset:0;
+      background:url('assets/bg-tactical.webp') center/cover no-repeat;
+      opacity:.85;filter:brightness(.78) saturate(.92)}
+    .cosmos.tactical .bg-tactical{display:block}
+    .cosmos.tactical .eclipse,.cosmos.tactical .neb,.cosmos.tactical .stars{display:none}
+    /* En modo táctico el brillo del velo es azul acero frío, no ámbar */
+    .cosmos.tactical .cosmos-veil{background:
+      radial-gradient(75% 55% at 50% -5%, rgba(74,96,148,.10), transparent 60%),
+      linear-gradient(180deg, rgba(2,2,6,.3) 0%, rgba(2,2,6,.1) 32%, rgba(2,2,6,.22) 66%, rgba(2,2,6,.66) 100%)}
+    /* La umbra: disco de eclipse asomando sobre el pliegue, con corona fina
+       cálida y halo suave. Es la marca hecha fondo. */
+    .cosmos .eclipse{position:absolute;left:50%;top:0;width:min(124vw,1060px);aspect-ratio:1;
+      transform:translate(-50%,-58%);pointer-events:none;will-change:transform,opacity;
+      background:
+        radial-gradient(closest-side, transparent 63.2%, rgba(255,236,218,.36) 64.6%, rgba(255,142,84,.5) 65.4%, rgba(230,96,46,.2) 67.2%, transparent 71%),
+        radial-gradient(closest-side, rgba(255,120,62,.13), rgba(158,58,28,.06) 46%, transparent 72%),
+        radial-gradient(closest-side, rgba(3,3,7,.97) 0 64.4%, transparent 64.9%);
+      animation:eclipseBreathe 16s ease-in-out infinite}
+    @keyframes eclipseBreathe{0%,100%{opacity:.82;transform:translate(-50%,-58%) scale(1)}
+      50%{opacity:1;transform:translate(-50%,-58%) scale(1.015)}}
     /* Capa de oscurecimiento: mantiene el negro dominante y la legibilidad,
-       con un brillo violeta MUY tenue arriba que liga con la marca. */
+       con un brillo cálido MUY tenue arriba que liga con la corona. */
     .cosmos-veil{position:absolute;inset:0;pointer-events:none;
       background:
-        radial-gradient(75% 55% at 50% -5%, rgba(91,75,214,.2), transparent 60%),
+        radial-gradient(75% 55% at 50% -5%, rgba(226,108,56,.13), transparent 60%),
         linear-gradient(180deg, rgba(2,2,6,.3) 0%, rgba(2,2,6,.1) 32%, rgba(2,2,6,.22) 66%, rgba(2,2,6,.66) 100%)}
     .cosmos .stars{position:absolute;inset:-30%;opacity:.62;will-change:transform;
       background-image:radial-gradient(1.2px 1.2px at 20% 30%,#fff,transparent),radial-gradient(1px 1px at 80% 60%,rgba(255,255,255,.7),transparent),
-        radial-gradient(1px 1px at 50% 80%,#fff,transparent),radial-gradient(1.4px 1.4px at 35% 65%,rgba(180,200,255,.8),transparent),
+        radial-gradient(1px 1px at 50% 80%,#fff,transparent),radial-gradient(1.4px 1.4px at 35% 65%,rgba(255,212,184,.8),transparent),
         radial-gradient(1px 1px at 65% 18%,#fff,transparent);background-size:260px 260px;animation:twinkle 7s ease-in-out infinite}
     .cosmos .stars2{opacity:.3;background-size:370px 370px;animation:starDrift 72s linear infinite,twinkle 9s ease-in-out infinite .6s}
     @keyframes twinkle{0%,100%{opacity:.32}50%{opacity:.6}}
     @keyframes starDrift{from{transform:translate3d(0,0,0)}to{transform:translate3d(-370px,-185px,0)}}
-    /* Nebulosa: capas de luz violeta (gradientes suaves, SIN blur → fluido) que derivan y respiran */
+    /* Nebulosa: rescoldo cálido (gradientes suaves, SIN blur → fluido) que deriva y respira.
+       Una sola capa montada — el negro manda; neb2 queda disponible por si hace falta más. */
     .cosmos .neb{position:absolute;inset:-25%;mix-blend-mode:screen;will-change:transform;pointer-events:none}
-    .cosmos .neb1{opacity:.5;background:
-        radial-gradient(40% 46% at 78% 16%, rgba(138,110,255,.22), transparent 70%),
-        radial-gradient(36% 42% at 22% 82%, rgba(58,120,248,.16), transparent 72%);
+    .cosmos .neb1{opacity:.4;background:
+        radial-gradient(40% 46% at 78% 16%, rgba(255,120,62,.13), transparent 70%),
+        radial-gradient(36% 42% at 22% 82%, rgba(186,72,34,.09), transparent 72%);
       animation:nebDrift1 30s ease-in-out infinite}
-    .cosmos .neb2{opacity:.85;background:
-        radial-gradient(32% 36% at 40% 44%, rgba(176,104,236,.34), transparent 70%),
-        radial-gradient(30% 34% at 88% 72%, rgba(96,80,230,.30), transparent 72%);
+    .cosmos .neb2{opacity:.5;background:
+        radial-gradient(32% 36% at 40% 44%, rgba(255,110,56,.12), transparent 70%),
+        radial-gradient(30% 34% at 88% 72%, rgba(150,52,26,.10), transparent 72%);
       animation:nebDrift2 40s ease-in-out infinite}
     @keyframes nebDrift1{0%,100%{transform:translate3d(0,0,0) scale(1)}50%{transform:translate3d(-5%,4%,0) scale(1.13)}}
     @keyframes nebDrift2{0%,100%{transform:translate3d(0,0,0) scale(1.05)}50%{transform:translate3d(5%,-3.5%,0) scale(.96)}}
@@ -421,7 +447,7 @@
       *{scroll-behavior:auto !important}
       [data-reveal]{opacity:1 !important;transform:none !important;transition:none !important}
       .mascot,.stars,.stars2,.neb{transform:none !important;animation:none !important}
-      .bg-video{display:none !important}
+      .eclipse{animation:none !important}
       .float-obj{animation:none !important;transform:none !important}
       .whisper-toast,.whisper-toast .wt-ic i{animation:none !important;opacity:1 !important;transform:none !important}
     }
@@ -472,10 +498,9 @@
 <body>
   <a class="skip" href="#main" data-i18n="a11y.skip">Saltar al contenido</a>
   <div class="grain" aria-hidden="true"></div>
-  <div class="cosmos" aria-hidden="true">
-    <video class="bg-video" autoplay muted loop playsinline preload="auto" poster="">
-      <source src="assets/bg-video.mp4" type="video/mp4" />
-    </video>
+  <div class="cosmos tactical" aria-hidden="true">
+    <div class="bg-tactical"></div>
+    <div class="eclipse"></div>
     <div class="cosmos-veil"></div>
     <div class="neb neb1"></div>
     <div class="stars" data-speed="0.06"></div>

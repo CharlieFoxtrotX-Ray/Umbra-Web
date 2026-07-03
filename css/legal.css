@@ -31,13 +31,18 @@ body{
   min-height:100vh;
   position:relative;
 }
-/* Fondo: video oscuro sobre negro — misma estética que el resto del sitio */
-.page-bg{position:fixed;inset:0;z-index:0;overflow:hidden;background:#040407}
-.page-bg .bg-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.5;filter:brightness(.32) contrast(1.06) saturate(.7)}
+/* Fondo: cosmos 100% CSS sobre negro — misma estética que el resto del sitio */
+.page-bg{position:fixed;inset:0;z-index:0;overflow:hidden;background:
+  radial-gradient(120% 90% at 50% 118%, rgba(46,26,18,.16), transparent 55%),
+  #040407}
+.page-bg::before{content:'';position:absolute;inset:-30%;opacity:.45;
+  background-image:radial-gradient(1.2px 1.2px at 20% 30%,#fff,transparent),radial-gradient(1px 1px at 80% 60%,rgba(255,255,255,.7),transparent),
+    radial-gradient(1px 1px at 50% 80%,#fff,transparent),radial-gradient(1.4px 1.4px at 35% 65%,rgba(200,215,255,.8),transparent),
+    radial-gradient(1px 1px at 65% 18%,#fff,transparent);
+  background-size:260px 260px}
 .page-bg .bg-veil{position:absolute;inset:0;pointer-events:none;background:
   radial-gradient(75% 40% at 50% -5%, rgba(127,166,62,.12), transparent 60%),
   linear-gradient(180deg, rgba(2,2,6,.56) 0%, rgba(2,2,6,.34) 38%, rgba(2,2,6,.72) 100%)}
-@media (prefers-reduced-motion:reduce){ .page-bg .bg-video{display:none} }
 body > *{position:relative;z-index:1}
 
 a{color:var(--gold-hi);text-decoration:underline;text-underline-offset:3px}
