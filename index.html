@@ -3,15 +3,20 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>UMBRA · El centro de mando de tu comunidad</title>
-  <meta name="description" content="Comunicación táctica y organización de alto nivel para clanes, gremios y equipos competitivos. Voz de alta fidelidad, Whisper entre salas y un espacio de trabajo donde tu equipo planea, coordina y ejecuta." />
-  <meta property="og:title" content="UMBRA · El centro de mando de tu comunidad" />
-  <meta property="og:description" content="Voz de alta fidelidad, Whisper entre salas y un espacio de trabajo para coordinar en serio. Hecho por y para gamers." />
-  <meta property="og:image" content="https://umbra.cfx-software.com/assets/umbra-screenshot-clean.png" />
+  <title>UMBRA · Chat de voz y centro de mando para tu comunidad</title>
+  <meta name="description" content="Chat de voz para clanes, gremios y orgs: Whisper entre salas, PTT con HOTAS o Stream Deck y un servidor que sostiene toda la comunidad. Gratis 15 días." />
+  <meta property="og:title" content="UMBRA · Chat de voz y centro de mando para tu comunidad" />
+  <meta property="og:description" content="Whisper entre salas, PTT con HOTAS y un servidor que sostiene toda la comunidad. Hecho por y para gamers." />
+  <meta property="og:image" content="https://umbra.cfx-software.com/assets/og-image.jpg" />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://umbra.cfx-software.com/" />
+  <meta property="og:site_name" content="UMBRA" />
+  <meta property="og:locale" content="es_ES" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:url" content="https://umbra.cfx-software.com/" />
+  <meta name="twitter:title" content="UMBRA · Chat de voz y centro de mando para tu comunidad" />
+  <meta name="twitter:description" content="Whisper entre salas, PTT con HOTAS y un servidor que sostiene toda la comunidad." />
+  <meta name="twitter:image" content="https://umbra.cfx-software.com/assets/og-image.jpg" />
   <meta name="umbra-api-base" content="https://umbra-api.cfx-software.com" />
   <link rel="canonical" href="https://umbra.cfx-software.com/" />
   <link rel="icon" href="assets/logo-triangle.png" />
@@ -483,15 +488,65 @@
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "WebSite",
-    "name": "UMBRA",
-    "url": "https://umbra.cfx-software.com/",
-    "description": "Comunicación táctica y organización de alto nivel para clanes, gremios y equipos competitivos.",
-    "publisher": {
-      "@type": "Organization",
-      "name": "CFX",
-      "url": "https://umbra.cfx-software.com/"
-    }
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://umbra.cfx-software.com/#org",
+        "name": "CFX",
+        "url": "https://umbra.cfx-software.com/",
+        "logo": "https://umbra.cfx-software.com/assets/logo-triangle.png",
+        "sameAs": ["https://x.com/UMBRACFX"]
+      },
+      {
+        "@type": "WebSite",
+        "name": "UMBRA",
+        "url": "https://umbra.cfx-software.com/",
+        "inLanguage": "es",
+        "description": "Chat de voz y centro de mando para comunidades gaming: Whisper entre salas, PTT con HOTAS y servidores sostenidos por toda la comunidad.",
+        "publisher": { "@id": "https://umbra.cfx-software.com/#org" }
+      },
+      {
+        "@type": "SoftwareApplication",
+        "name": "UMBRA",
+        "url": "https://umbra.cfx-software.com/",
+        "image": "https://umbra.cfx-software.com/assets/og-image.jpg",
+        "applicationCategory": "CommunicationApplication",
+        "operatingSystem": "Windows, Web",
+        "description": "Plataforma de chat de voz para comunidades gaming: Whisper entre salas (el command habla con cada escuadra sin salir de su canal), pulsar-para-hablar con HOTAS, mando o Stream Deck, app de mando para tablet y servidores sostenidos colectivamente por la comunidad.",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD",
+          "description": "Prueba gratuita de 15 días sin tarjeta. Después, el servidor se sostiene con lingotes de aporte de toda la comunidad, sin suscripción por usuario."
+        },
+        "publisher": { "@id": "https://umbra.cfx-software.com/#org" }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "¿Qué es un lingote?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Una unidad de aporte de UMBRA. Sirve para sostener el servidor de tu comunidad y desbloquear lo premium. No se cambia por dinero." }
+          },
+          {
+            "@type": "Question",
+            "name": "¿La prueba pide tarjeta?",
+            "acceptedAnswer": { "@type": "Answer", "text": "No. Empiezas gratis, sin tarjeta. Al día 15 termina la prueba y el servidor pasa a sostenerse con lingotes: los recargas cuando quieras, con PayPal o tarjeta, sin suscripciones ni cobros automáticos." }
+          },
+          {
+            "@type": "Question",
+            "name": "¿Y si el equipo deja de aportar?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Hay 7 días de gracia y después el servidor pasa a modo reducido; si sigue sin cubrirse, se congela. No se pierde nada: se reactiva cubriendo un mes de cuota." }
+          },
+          {
+            "@type": "Question",
+            "name": "¿Qué necesito para usarlo?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Windows hoy, y la versión web sin instalar. App para tablet y Stream Deck disponibles; macOS y Linux en camino." }
+          }
+        ]
+      }
+    ]
   }
   </script>
 </head>
@@ -516,7 +571,7 @@
       <a href="#comunicacion" data-i18n="nav.comms">Comunicación</a>
       <a href="#canvas" data-i18n="nav.canvas">Canvas</a>
       <a href="#plugins" data-i18n="nav.plugins">Plugins</a>
-      <a href="/partners.html" data-i18n="nav.partners">Partners</a>
+      <a href="/partners" data-i18n="nav.partners">Partners</a>
       <a href="/tienda" data-i18n="nav.store">Pledge Store</a>
     </div>
     <div class="nav-right">
@@ -542,7 +597,7 @@
       <a href="#comunicacion" data-i18n="nav.comms">Comunicación</a>
       <a href="#canvas" data-i18n="nav.canvas">Canvas</a>
       <a href="#plugins" data-i18n="nav.plugins">Plugins</a>
-      <a href="/partners.html" data-i18n="nav.partners">Partners</a>
+      <a href="/partners" data-i18n="nav.partners">Partners</a>
       <a href="/tienda" data-i18n="nav.store">Pledge Store</a>
       <div class="nm-sep"></div>
       <button class="drawer-login nm-login" type="button" data-i18n="t.nav.login">Iniciar sesión</button>
@@ -582,7 +637,7 @@
         </div>
         <div class="hero-visual" data-reveal style="--d:120ms">
           <div class="hero-shot" data-speed="-0.015">
-            <img src="assets/umbra-screenshot-clean.png" alt="Interfaz de UMBRA: salas de voz y espacio de trabajo" />
+            <img src="assets/umbra-screenshot-clean.webp" alt="Interfaz de UMBRA: salas de voz y espacio de trabajo" fetchpriority="high" />
           </div>
           <img class="mascot halo h-gold" src="assets/taco-hey.png" alt="" data-speed="-0.05" />
           <div class="whisper-toast" aria-hidden="true">
@@ -596,7 +651,7 @@
     <!-- PARA QUIÉN -->
     <section id="paraquien">
       <img class="float-obj fo-man" src="assets/shots/obj-mando.webp" alt="" aria-hidden="true" />
-      <img class="float-obj fo-taco" src="assets/taco-penbroke-gun.png" alt="" aria-hidden="true" />
+      <img class="float-obj fo-taco" src="assets/taco-penbroke-gun.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" />
       <div class="wrap">
         <span class="kicker" data-reveal data-i18n="fw.kicker">Para quién</span>
         <h2 data-reveal style="font-size:clamp(2rem,4.4vw,3.2rem);max-width:18ch" data-i18n="fw.title">Hecho para quienes coordinan de verdad.</h2>
@@ -626,7 +681,7 @@
             </ul>
           </div>
           <div class="panel-media tall">
-            <img class="shot" src="assets/shots/comms.jpg" alt="Salas de voz y Whisper entre salas en UMBRA" onerror="this.onerror=null;this.src='assets/umbra-screenshot-clean.png'" />
+            <img class="shot" loading="lazy" decoding="async" src="assets/shots/comms.jpg" alt="Salas de voz y Whisper entre salas en UMBRA" onerror="this.onerror=null;this.src='assets/umbra-screenshot-clean.webp'" />
             <img class="mascot-corner" src="assets/taco-normal.png" alt="TACO" />
           </div>
         </div>
@@ -647,7 +702,7 @@
             </ul>
           </div>
           <div class="panel-media tall">
-            <img class="shot" src="assets/shots/canvas.jpg" alt="Calendario, notas y pizarra del Canvas de UMBRA" onerror="this.onerror=null;this.src='assets/umbra-screenshot-clean.png'" />
+            <img class="shot" loading="lazy" decoding="async" src="assets/shots/canvas.jpg" alt="Calendario, notas y pizarra del Canvas de UMBRA" onerror="this.onerror=null;this.src='assets/umbra-screenshot-clean.webp'" />
             <img class="mascot-corner" src="assets/taco-proud.png" alt="TACO" />
           </div>
         </div>
@@ -668,7 +723,7 @@
             </ul>
           </div>
           <div class="panel-media tall">
-            <img class="shot" src="assets/shots/plugins.jpg" alt="Tienda de plugins de UMBRA" onerror="this.onerror=null;this.src='assets/umbra-screenshot-clean.png'" />
+            <img class="shot" loading="lazy" decoding="async" src="assets/shots/plugins.jpg" alt="Tienda de plugins de UMBRA" onerror="this.onerror=null;this.src='assets/umbra-screenshot-clean.webp'" />
             <img class="mascot-corner" src="assets/taco-looking.png" alt="TACO" />
           </div>
         </div>
@@ -872,15 +927,16 @@
       </div>
       <div class="foot-col">
         <h4 data-i18n="ft.h2">Recursos</h4>
-        <a href="/status.html" data-i18n="ft.status">Estado del servicio</a>
-        <a href="/partners.html" data-i18n="ft.partners">Partners · Creadores</a>
+        <a href="/status" data-i18n="ft.status">Estado del servicio</a>
+        <a href="/partners" data-i18n="ft.partners">Partners · Creadores</a>
+        <a href="/vs/teamspeak">UMBRA vs TeamSpeak</a>
         <a href="#faq" data-i18n="ft.faq">FAQ</a>
       </div>
       <div class="foot-col">
         <h4 data-i18n="ft.h3">Legal</h4>
-        <a href="/terminos.html" data-i18n="ft.terms">Términos</a>
-        <a href="/privacidad.html" data-i18n="ft.privacy">Privacidad</a>
-        <a href="/cookies.html" data-i18n="ft.cookies">Cookies</a>
+        <a href="/terminos" data-i18n="ft.terms">Términos</a>
+        <a href="/privacidad" data-i18n="ft.privacy">Privacidad</a>
+        <a href="/cookies" data-i18n="ft.cookies">Cookies</a>
       </div>
     </div>
     <div class="wrap foot-bottom">

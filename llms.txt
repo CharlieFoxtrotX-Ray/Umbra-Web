@@ -1,0 +1,19 @@
+# UMBRA
+
+> Voice chat platform for gaming communities — Star Citizen orgs, milsim units, and competitive clans. Cross-channel whisper (command talks to each squad without leaving their channel), push-to-talk on HOTAS/gamepad/Stream Deck, a tablet command app, built-in planning tools (calendar, notes, whiteboard), and community-funded servers: no per-user subscription — the whole community sustains its server with contribution units called "lingotes" (ingots), so the leader never pays alone. Runs on Windows and in the browser (no install). 15-day free trial, no credit card. In early access since July 2026, by CFX. Available in English and Spanish.
+
+Key facts:
+- Whisper between rooms is configured in seconds and works from desktop, browser and tablet.
+- Push-to-talk binds natively to HOTAS sticks, gamepads and Stream Deck keys.
+- Servers are funded collectively: members chip in ingots toward a monthly quota (~$10–$200/month equivalent depending on size).
+- If funding lapses, the server freezes but is never deleted — it comes back when refunded.
+- Not yet available: screen share, video, self-hosting, native macOS/Linux clients (browser works there).
+
+## Pages
+
+- [Home (Spanish)](https://umbra.cfx-software.com/): product overview — voice, whisper, Canvas workspace, plugins, server plans and FAQ
+- [UMBRA vs TeamSpeak (English)](https://umbra.cfx-software.com/vs/teamspeak): honest comparison for gaming communities, including where TeamSpeak is still better
+- [Partner program (Spanish)](https://umbra.cfx-software.com/partners): creator program — 10–20% recurring commission for 12 months per referral
+- [Terms of service (Spanish)](https://umbra.cfx-software.com/terminos)
+- [Privacy policy (Spanish)](https://umbra.cfx-software.com/privacidad)
+- [Service status](https://umbra.cfx-software.com/status)

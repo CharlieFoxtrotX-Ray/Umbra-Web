@@ -12,8 +12,12 @@ DRY=""
 echo "→ Sincronizando con ${REMOTE}:${REMOTE_DIR} ${DRY:+(dry-run)} ..."
 rsync -avz --delete ${DRY} \
   --exclude='.git/' \
+  --exclude='.claude/' \
   --exclude='infra/' \
   --exclude='deploy.sh' \
+  --exclude='prototipo-v2.html' \
+  --exclude='prototipo-discord.html' \
+  --exclude='brand-kit/' \
   . \
   "${REMOTE}:${REMOTE_DIR}/"
 
