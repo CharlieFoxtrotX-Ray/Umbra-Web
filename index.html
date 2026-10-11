@@ -630,7 +630,7 @@
           <h1 data-i18n-html="h.title">El centro de mando de <span class="grad">tu comunidad</span>.</h1>
           <p class="lead" data-i18n="h.sub">Voz de alta fidelidad, Whisper entre salas y un espacio de trabajo donde tu equipo planea, coordina y ejecuta. Todo en un mismo lugar, hecho para jugar en serio.</p>
           <div class="hero-cta">
-            <a class="btn btn-gold" href="https://umbra-api.cfx-software.com/downloads/Umbra-Setup.exe" download data-i18n="h.cta1">Descargar para Windows</a>
+            <a class="btn btn-gold" href="https://umbra-api.cfx-software.com/downloads/Umbra-Installer.exe" download data-i18n="h.cta1">Descargar para Windows</a>
             <a class="btn btn-ghost" href="https://umbra.mobile/" target="_blank" rel="noopener" data-i18n="h.cta2">Abrir en el navegador</a>
           </div>
           <p class="hero-plat"><span class="dot"></span><span data-i18n="h.plat">Windows · Web · Tablet · macOS y Linux en camino</span></p>
@@ -874,7 +874,7 @@
             <h2 data-i18n="cf.title">Toma el mando.</h2>
             <p class="lead" data-i18n="cf.body">Descarga UMBRA, abre tu primera sala y siente la diferencia.</p>
             <div class="row">
-              <a class="btn btn-gold" href="https://umbra-api.cfx-software.com/downloads/Umbra-Setup.exe" download data-i18n="cf.dl">↓ Descargar para Windows</a>
+              <a class="btn btn-gold" href="https://umbra-api.cfx-software.com/downloads/Umbra-Installer.exe" download data-i18n="cf.dl">↓ Descargar para Windows</a>
               <a class="btn btn-ghost" href="https://umbra.mobile/" target="_blank" rel="noopener" data-i18n="cf.web">Abrir en el navegador</a>
               <a class="btn btn-ghost" href="/tienda" data-i18n="cf.store">Pledge Store</a>
             </div>
@@ -904,7 +904,7 @@
         <li><span class="dlm-num">3</span><p data-i18n-html="dlm.s3.html">¡Listo! Sigue la instalación con normalidad. 🎉</p></li>
       </ol>
       <div class="dlm-actions">
-        <a class="btn btn-gold" id="dlmGo" href="https://umbra-api.cfx-software.com/downloads/Umbra-Setup.exe" download data-i18n="dlm.go">↓ Descargar de todas formas</a>
+        <a class="btn btn-gold" id="dlmGo" href="https://umbra-api.cfx-software.com/downloads/Umbra-Installer.exe" download data-i18n="dlm.go">↓ Descargar de todas formas</a>
         <button class="btn btn-ghost" type="button" data-dlm-close data-i18n="dlm.cancel">Ahora no</button>
       </div>
       <p class="dlm-note" data-i18n="dlm.note">Este aviso desaparecerá pronto, cuando Windows reconozca nuestra firma. Gracias por la confianza 💚</p>
@@ -1031,8 +1031,11 @@
           document.documentElement.style.overflow = '';
           if(lastFocus && lastFocus.focus) lastFocus.focus();
         };
-        // Cualquier enlace que apunte al instalador abre el modal en vez de descargar directo
-        document.querySelectorAll('a[href$="Umbra-Setup.exe"]').forEach(function(a){
+        // Cualquier enlace que apunte al instalador abre el modal en vez de descargar directo.
+        // El selector casa por carpeta y no por nombre de fichero: el instalador paso de
+        // Umbra-Setup.exe a Umbra-Installer.exe (v0.64.0) y un selector atado al nombre deja
+        // de casar en silencio, con lo que el modal no se abre y nadie ve el aviso.
+        document.querySelectorAll('a[download][href*="/downloads/Umbra-"]').forEach(function(a){
           if(a.id === 'dlmGo') return; // el botón de dentro del modal sí descarga
           a.addEventListener('click', function(e){ e.preventDefault(); openModal(); });
         });
