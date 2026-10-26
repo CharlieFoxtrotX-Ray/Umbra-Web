@@ -219,6 +219,31 @@
       font-size:0.74rem;color:rgba(255,255,255,0.5);text-align:center;padding:0.6rem;
       border:1px dashed rgba(255,255,255,0.15);border-radius:var(--r-sm);
     }
+    /* CTA de cada pack → abre el checkout en un modal con ancho correcto */
+    .pack .pack-cta{margin-top:auto;width:100%;padding:0.72rem 1rem;border-radius:var(--r-pill);
+      background:var(--gold);color:#0B1A05;font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:0.92rem;
+      display:inline-flex;align-items:center;justify-content:center;gap:0.4rem;cursor:pointer;
+      transition:background 180ms,transform 180ms,box-shadow 180ms}
+    .pack .pack-cta:hover{background:var(--gold-hi);transform:translateY(-2px);box-shadow:0 12px 26px -8px rgba(127,166,62,.55)}
+    .pack.best .pack-cta{box-shadow:0 10px 24px -8px rgba(127,166,62,.5)}
+
+    /* Checkout modal — PayPal + tarjeta (invitado) con ancho suficiente para
+       que el formulario de tarjeta no se corte ni estire la grilla de packs. */
+    .co-modal{position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;padding:1.2rem}
+    .co-backdrop{position:absolute;inset:0;background:rgba(2,3,8,.74);backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px)}
+    .co-content{position:relative;width:100%;max-width:400px;max-height:90vh;overflow-y:auto;
+      background:#0b1020;border:1px solid rgba(255,255,255,.14);border-radius:var(--r-lg);
+      padding:1.7rem 1.4rem 1.4rem;box-shadow:0 40px 90px -30px rgba(0,0,0,.85)}
+    .co-close{position:absolute;top:0.7rem;right:0.75rem;width:30px;height:30px;border-radius:50%;
+      display:grid;place-items:center;color:rgba(255,255,255,.65);background:rgba(255,255,255,.06);
+      font-size:1.25rem;line-height:1;transition:background 160ms,color 160ms}
+    .co-close:hover{background:rgba(255,255,255,.14);color:#fff}
+    .co-head{text-align:center;margin-bottom:1.3rem}
+    .co-usd{font-family:'Space Grotesk',sans-serif;font-size:2.6rem;font-weight:800;color:#fff;line-height:1}
+    .co-ling{font-size:0.9rem;color:var(--gold-hi);font-weight:600;margin-top:0.35rem}
+    .co-pp{min-height:120px}
+    .co-msg{text-align:center;color:rgba(255,255,255,.55);font-size:0.85rem;padding:1.4rem 0}
+    .co-secure{text-align:center;color:rgba(255,255,255,.42);font-size:0.72rem;margin-top:1rem;line-height:1.5}
 
     .s-note{max-width:600px;margin:2.5rem auto 0;text-align:center;color:rgba(255,255,255,0.5);font-size:0.8rem;line-height:1.55}
     .s-note strong{color:var(--gold-hi)}
@@ -334,6 +359,20 @@
       </span>
     </footer>
   </main>
+
+  <!-- Checkout modal: PayPal + tarjeta (invitado) con ancho correcto -->
+  <div id="checkout-modal" class="co-modal" role="dialog" aria-modal="true" aria-label="Pagar aporte" hidden>
+    <div class="co-backdrop"></div>
+    <div class="co-content">
+      <button class="co-close" type="button" aria-label="Cerrar">&times;</button>
+      <div class="co-head">
+        <div class="co-usd" id="co-usd"></div>
+        <div class="co-ling" id="co-ling"></div>
+      </div>
+      <div class="co-pp" id="co-pp"></div>
+      <p class="co-secure" data-i18n="t.co.secure">Pago seguro vía PayPal — con cuenta o con tarjeta como invitado.</p>
+    </div>
+  </div>
 
   <!-- Login modal (reusa el de auth.js + estilos de styles.css) -->
   <div id="login-modal" class="login-modal" role="dialog" aria-modal="true" aria-labelledby="login-modal-title" hidden>

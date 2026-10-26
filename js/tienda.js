@@ -49,7 +49,6 @@
   }
 
   let cardsRendered = false;
-  let buttonsAttached = false;
 
   // Las cards (precios) se pintan ENSEGUIDA; los botones de PayPal se inyectan
   // cuando el SDK termina de cargar. Mejor UX: el usuario ve los packs sin
@@ -67,7 +66,7 @@
         (p.bonus
           ? '<div class="bonus">' + p.base + ' + ' + p.bonus + ' <span data-i18n="t.gift">de regalo</span> &#127873;</div>'
           : '<div class="bonus base-only">&nbsp;</div>') +
-        '<div class="pp-btns" id="pp-' + p.id + '"></div>';
+        '<button class="pack-cta" type="button" data-pack="' + p.id + '"><span data-i18n="t.pack.cta">Aportar</span> &rarr;</button>';
       grid.appendChild(card);
     });
     // traducir los nodos recién creados (data-i18n dinámicos)
@@ -75,30 +74,71 @@
     cardsRendered = true;
   }
 
-  function attachButtons(userId) {
-    if (buttonsAttached || !window.paypal) return;
-    PACKS.forEach((p) => {
-      window.paypal.Buttons({
-        style: { layout: 'vertical', color: 'gold', shape: 'pill', height: 40, label: 'paypal' },
-        createOrder: (data, actions) => actions.order.create({
-          purchase_units: [{
-            amount: { value: p.usd.toFixed(2), currency_code: 'USD' },
-            custom_id: userId,
-            description: 'UMBRA — ' + p.ling + ' lingotes de aporte',
-          }],
-        }),
-        onApprove: (data, actions) => actions.order.capture().then(showThanks),
-        onError: () => alert(tr('t.error', 'Hubo un problema con el pago. Prueba de nuevo.')),
-      }).render('#pp-' + p.id);
-    });
-    buttonsAttached = true;
+  // ─── Checkout en modal ──────────────────────────────────────────
+  // Los botones de PayPal y, sobre todo, el formulario de tarjeta (que es
+  // largo) se renderizan en un modal centrado de ~400px. Antes iban dentro de
+  // la columna angosta del pack (~180px), donde el formulario se cortaba, se
+  // veía diminuto y estiraba la grilla.
+  let activeButtons = null;
+  let checkoutBound = false;
+
+  function closeCheckout() {
+    const m = el('checkout-modal');
+    if (!m) return;
+    m.hidden = true;
+    document.body.style.overflow = '';
+    if (activeButtons && activeButtons.close) { try { activeButtons.close(); } catch (e) {} }
+    activeButtons = null;
   }
 
-  function markButtonsUnavailable() {
-    PACKS.forEach((p) => {
-      const slot = el('pp-' + p.id);
-      if (slot) slot.innerHTML = '<div class="pp-disabled">' + tr('t.pp.unavailable', 'Pago no disponible ahora mismo.') + '</div>';
+  function openCheckout(pack) {
+    const user = getUser();
+    if (!user) return;
+    const m = el('checkout-modal');
+    el('co-usd').textContent = '$' + pack.usd;
+    el('co-ling').innerHTML = pack.ling + ' ' + tr('t.ling.word', 'lingotes') +
+      (pack.bonus ? ' · ' + pack.base + ' + ' + pack.bonus + ' ' + tr('t.gift', 'de regalo') + ' &#127873;' : '');
+    const slot = el('co-pp');
+    slot.innerHTML = '<div class="co-msg">' + tr('t.loading', 'Cargando pago…') + '</div>';
+    m.hidden = false;
+    document.body.style.overflow = 'hidden';
+    loadPaypalSdk().then(() => {
+      if (m.hidden) return;                 // el usuario cerró antes de que cargara
+      if (activeButtons && activeButtons.close) { try { activeButtons.close(); } catch (e) {} }
+      slot.innerHTML = '';
+      activeButtons = window.paypal.Buttons({
+        style: { layout: 'vertical', color: 'gold', shape: 'pill', height: 44, label: 'paypal' },
+        createOrder: (data, actions) => actions.order.create({
+          purchase_units: [{
+            amount: { value: pack.usd.toFixed(2), currency_code: 'USD' },
+            custom_id: user.id,
+            description: 'UMBRA — ' + pack.ling + ' lingotes de aporte',
+          }],
+        }),
+        onApprove: (data, actions) => actions.order.capture().then(() => { closeCheckout(); showThanks(); }),
+        onError: () => { slot.innerHTML = '<div class="co-msg">' + tr('t.error', 'Hubo un problema con el pago. Prueba de nuevo.') + '</div>'; },
+      });
+      activeButtons.render('#co-pp');
+    }).catch(() => {
+      slot.innerHTML = '<div class="co-msg">' + tr('t.pp.unavailable', 'Pago no disponible ahora mismo.') + '</div>';
     });
+  }
+
+  function bindCheckout() {
+    if (checkoutBound) return;
+    checkoutBound = true;
+    el('packs').addEventListener('click', (e) => {
+      const btn = e.target.closest('.pack-cta');
+      if (!btn) return;
+      const pack = PACKS.find((p) => p.id === btn.dataset.pack);
+      if (pack) openCheckout(pack);
+    });
+    const m = el('checkout-modal');
+    if (m) {
+      m.querySelector('.co-backdrop').addEventListener('click', closeCheckout);
+      m.querySelector('.co-close').addEventListener('click', closeCheckout);
+    }
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeCheckout(); });
   }
 
   function showThanks() {
@@ -128,9 +168,8 @@
     el('packs').hidden = false;
     el('packs-note').hidden = false;
     renderCards();  // precios visibles enseguida
-    loadPaypalSdk()
-      .then(() => attachButtons(user.id))
-      .catch(markButtonsUnavailable);
+    bindCheckout();
+    loadPaypalSdk().catch(() => {});  // precalienta el SDK; el modal maneja errores al abrir
   }
 
   // auth.js no emite evento de login en la misma pestaña → polleamos getUser()
@@ -140,7 +179,7 @@
     refreshUI();
     setInterval(() => {
       const id = (getUser() && getUser().id) || null;
-      if (id !== lastUserId) { lastUserId = id; cardsRendered = false; buttonsAttached = false; refreshUI(); }
+      if (id !== lastUserId) { lastUserId = id; cardsRendered = false; refreshUI(); }
     }, 800);
   }
 
