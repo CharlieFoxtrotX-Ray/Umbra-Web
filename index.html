@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>UMBRA · Chat de voz y centro de mando para tu comunidad</title>
-  <meta name="description" content="Chat de voz para clanes, gremios y orgs: Whisper entre salas, PTT con HOTAS o Stream Deck y un servidor que sostiene toda la comunidad. Gratis 15 días." />
+  <meta name="description" content="Chat de voz para clanes, gremios y orgs: Whisper entre salas, PTT con HOTAS o mando y un servidor que sostiene toda la comunidad. Gratis 15 días." />
   <meta property="og:title" content="UMBRA · Chat de voz y centro de mando para tu comunidad" />
   <meta property="og:description" content="Whisper entre salas, PTT con HOTAS y un servidor que sostiene toda la comunidad. Hecho por y para gamers." />
   <meta property="og:image" content="https://umbra.cfx-software.com/assets/og-image.jpg" />
@@ -457,33 +457,6 @@
       .whisper-toast,.whisper-toast .wt-ic i{animation:none !important;opacity:1 !important;transform:none !important}
     }
 
-    /* ── Modal de descarga (aviso de certificado / SmartScreen) ── */
-    .dlm{position:fixed;inset:0;z-index:2000;display:none;align-items:center;justify-content:center;padding:1.4rem}
-    .dlm.open{display:flex}
-    .dlm-back{position:absolute;inset:0;background:rgba(3,4,9,.72);backdrop-filter:blur(6px);animation:dlmFade .25s ease}
-    .dlm-card{position:relative;width:min(540px,100%);max-height:92vh;overflow:auto;border-radius:var(--r-lg);
-      background:var(--card);border:1px solid rgba(255,255,255,.14);backdrop-filter:blur(26px) saturate(135%);-webkit-backdrop-filter:blur(26px) saturate(135%);
-      box-shadow:var(--shadow-cosmic);padding:1.9rem 1.8rem 1.7rem;animation:dlmRise .3s cubic-bezier(.2,.8,.2,1)}
-    .dlm-close{position:absolute;top:.85rem;right:.95rem;width:34px;height:34px;border-radius:50%;border:1px solid var(--line);
-      background:var(--glass);color:var(--text-soft);font-size:1.1rem;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s,color .2s}
-    .dlm-close:hover{background:rgba(255,255,255,.08);color:#fff}
-    .dlm-head{display:flex;align-items:center;gap:1rem;margin-bottom:1.1rem}
-    .dlm-taco{width:74px;height:74px;flex:none;object-fit:contain;filter:drop-shadow(0 10px 22px rgba(127,166,62,.35))}
-    .dlm-eyebrow{font-family:'JetBrains Mono',monospace;font-size:.66rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--gold-hi);margin-bottom:.35rem}
-    .dlm-title{font-size:1.32rem;font-weight:800;line-height:1.18}
-    .dlm-body{color:var(--text-soft);font-size:.95rem;line-height:1.5;margin-bottom:1.1rem}
-    .dlm-steps{list-style:none;margin:0 0 1.3rem;padding:0;display:grid;gap:.7rem}
-    .dlm-steps li{position:relative;display:flex;gap:.8rem;align-items:flex-start;padding:.7rem .85rem;border-radius:var(--r-sm);background:rgba(127,166,62,.07);border:1px solid rgba(127,166,62,.2)}
-    .dlm-num{flex:none;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:.82rem;background:linear-gradient(135deg,var(--gold-hi),var(--gold));color:#0B1A05}
-    .dlm-steps p{font-size:.9rem;line-height:1.4;color:var(--text)}
-    .dlm-steps b{color:#fff}
-    .dlm-key{font-family:'JetBrains Mono',monospace;font-size:.82rem;background:rgba(255,255,255,.08);border:1px solid var(--line);border-radius:6px;padding:.05rem .4rem;color:var(--gold-hi);white-space:nowrap}
-    .dlm-actions{display:flex;flex-wrap:wrap;gap:.7rem}
-    .dlm-actions .btn{flex:1 1 auto;justify-content:center;text-align:center}
-    .dlm-note{margin-top:1rem;font-size:.78rem;color:var(--text-mute);line-height:1.45}
-    @keyframes dlmFade{from{opacity:0}to{opacity:1}}
-    @keyframes dlmRise{from{opacity:0;transform:translateY(18px) scale(.97)}to{opacity:1;transform:none}}
-    @media (prefers-reduced-motion:reduce){.dlm-back,.dlm-card{animation:none !important}}
   </style>
   <script type="application/ld+json">
   {
@@ -511,8 +484,8 @@
         "url": "https://umbra.cfx-software.com/",
         "image": "https://umbra.cfx-software.com/assets/og-image.jpg",
         "applicationCategory": "CommunicationApplication",
-        "operatingSystem": "Windows, Web",
-        "description": "Plataforma de chat de voz para comunidades gaming: Whisper entre salas (el command habla con cada escuadra sin salir de su canal), pulsar-para-hablar con HOTAS, mando o Stream Deck, app de mando para tablet y servidores sostenidos colectivamente por la comunidad.",
+        "operatingSystem": "Windows, Web, Android",
+        "description": "Plataforma de chat de voz para comunidades gaming: Whisper entre salas (el command habla con cada escuadra sin salir de su canal), pulsar-para-hablar con HOTAS o mando, una app de Android en pruebas (radio de campo para el móvil), que se instalará como APK descargado de la web, y servidores sostenidos colectivamente por la comunidad.",
         "offers": {
           "@type": "Offer",
           "price": "0",
@@ -542,7 +515,7 @@
           {
             "@type": "Question",
             "name": "¿Qué necesito para usarlo?",
-            "acceptedAnswer": { "@type": "Answer", "text": "Windows hoy, y la versión web sin instalar. App para tablet y Stream Deck disponibles; macOS y Linux en camino." }
+            "acceptedAnswer": { "@type": "Answer", "text": "Windows o cualquier navegador moderno, sin instalar nada. La radio de campo de Android para el móvil está construida y en pruebas, pero todavía no se puede descargar: cuando salga se instalará como APK desde umbra.cfx-software.com/descargas, porque no está en Google Play. El mando táctico para tablet (Premium) también sigue en pruebas, y macOS y Linux nativos van en camino." }
           }
         ]
       }
@@ -599,6 +572,7 @@
       <a href="#plugins" data-i18n="nav.plugins">Plugins</a>
       <a href="/partners" data-i18n="nav.partners">Partners</a>
       <a href="/tienda" data-i18n="nav.store">Pledge Store</a>
+      <a href="/descargas" data-i18n="nav.downloads">Descargas</a>
       <div class="nm-sep"></div>
       <button class="drawer-login nm-login" type="button" data-i18n="t.nav.login">Iniciar sesión</button>
       <div class="drawer-user nm-user" hidden>
@@ -633,7 +607,7 @@
             <a class="btn btn-gold" href="https://umbra-api.cfx-software.com/downloads/Umbra-Setup.exe" download data-i18n="h.cta1">Descargar para Windows</a>
             <a class="btn btn-ghost" href="https://umbra.mobile/" target="_blank" rel="noopener" data-i18n="h.cta2">Abrir en el navegador</a>
           </div>
-          <p class="hero-plat"><span class="dot"></span><span data-i18n="h.plat">Windows · Web · Tablet · macOS y Linux en camino</span></p>
+          <p class="hero-plat"><span class="dot"></span><span data-i18n="h.plat">Windows · Navegador · Android en beta · macOS y Linux en camino</span></p>
         </div>
         <div class="hero-visual" data-reveal style="--d:120ms">
           <div class="hero-shot" data-speed="-0.015">
@@ -676,7 +650,7 @@
             <ul class="feat">
               <li><span class="ic">◢</span><span data-i18n-html="c.b1"><b>Voz nítida de baja latencia</b>, pensada para el combate.</span></li>
               <li><span class="ic">◢</span><span data-i18n-html="c.b2"><b>Whisper entre salas:</b> habla con otra escuadra sin abandonar la tuya.</span></li>
-              <li><span class="ic">◢</span><span data-i18n-html="c.b3"><b>Pulsa para hablar</b> con cualquier tecla, mando, HOTAS o Stream Deck.</span></li>
+              <li><span class="ic">◢</span><span data-i18n-html="c.b3"><b>Pulsa para hablar</b> con cualquier tecla, mando o HOTAS —y con un Stream Deck configurándolo como atajo de teclado.</span></li>
               <li><span class="ic">◢</span><span data-i18n-html="c.b4"><b>Roles y permisos</b> jerárquicos para mantener el orden en plena operación.</span></li>
             </ul>
           </div>
@@ -793,7 +767,8 @@
           <div class="pi-info">
             <span class="tag" data-i18n="pn.ind.tag">Individual</span>
             <h3 data-i18n="pn.ind.name">Premium</h3>
-            <p data-i18n="pn.ind.desc">App para tablet, botones para Stream Deck, Insignia Gold (próximamente) y prioridad de acceso cuando el servidor esté lleno (próximamente).</p>
+            <p data-i18n="pn.ind.desc">App de mando para tablet Android (en pruebas, aún no descargable), Insignia Gold (próximamente), botones dedicados de Stream Deck (próximamente) y prioridad de acceso cuando el servidor esté lleno (próximamente).</p>
+            <p style="margin-top:.5rem"><a href="/descargas#android" style="color:var(--gold-hi);font-size:.88rem;font-weight:600" data-i18n="pn.ind.link">Ver el estado de la app de tablet en Descargas →</a></p>
           </div>
           <div class="pi-price"><b>3</b> <span data-i18n="pn.permonth">lingotes/mes</span></div>
         </div>
@@ -858,7 +833,7 @@
           <div class="qa" data-reveal><h3 data-i18n="faq.q1">¿Qué es un lingote?</h3><p data-i18n="faq.a1">Una unidad de aporte de UMBRA. Sirve para sostener el servidor de tu comunidad y desbloquear lo premium. No se cambia por dinero.</p></div>
           <div class="qa" data-reveal style="--d:80ms"><h3 data-i18n="faq.q2">¿La prueba pide tarjeta?</h3><p data-i18n="faq.a2">No. Empiezas gratis, sin tarjeta. Al día 15 termina la prueba y el servidor pasa a sostenerse con lingotes: los recargas cuando quieras, con PayPal o tarjeta, sin suscripciones ni cobros automáticos.</p></div>
           <div class="qa" data-reveal><h3 data-i18n="faq.q3">¿Y si el equipo deja de aportar?</h3><p data-i18n="faq.a3">Hay 7 días de gracia y después el servidor pasa a modo reducido; si sigue sin cubrirse, se congela. No se pierde nada: se reactiva cubriendo un mes de cuota.</p></div>
-          <div class="qa" data-reveal style="--d:80ms"><h3 data-i18n="faq.q4">¿Qué necesito para usarlo?</h3><p data-i18n="faq.a4">Windows hoy, y la versión web sin instalar. App para tablet y Stream Deck disponibles; macOS y Linux en camino.</p></div>
+          <div class="qa" data-reveal style="--d:80ms"><h3 data-i18n="faq.q4">¿Qué necesito para usarlo?</h3><p data-i18n="faq.a4">Windows o cualquier navegador moderno, sin instalar nada. La radio de campo de Android para el móvil está construida y en pruebas, pero todavía no se puede descargar: cuando salga se instalará como APK desde nuestra página de Descargas, porque no está en Google Play. El mando táctico para tablet (Premium) también sigue en pruebas, y macOS y Linux nativos van en camino.</p></div>
         </div>
       </div>
     </section>
@@ -878,38 +853,14 @@
               <a class="btn btn-ghost" href="https://umbra.mobile/" target="_blank" rel="noopener" data-i18n="cf.web">Abrir en el navegador</a>
               <a class="btn btn-ghost" href="/tienda" data-i18n="cf.store">Pledge Store</a>
             </div>
-            <p class="hero-plat" style="margin-top:1.4rem"><span class="dot"></span><span data-i18n="cf.plat">Windows · Web · Tablet · Stream Deck · macOS y Linux en camino</span></p>
+            <p class="hero-plat" style="margin-top:1.4rem"><span class="dot"></span><span data-i18n="cf.plat">Windows · Navegador · Android en beta · macOS y Linux en camino</span></p>
+            <p style="margin-top:.9rem"><a href="/descargas" style="color:var(--gold-hi);font-weight:600" data-i18n="cf.android">En camino: la radio de campo de Android para el móvil →</a></p>
           </div>
         </div>
       </div>
     </section>
   </main>
 
-  <!-- MODAL: aviso de certificado / SmartScreen al descargar -->
-  <div class="dlm" id="dlModal" role="dialog" aria-modal="true" aria-labelledby="dlmTitle" hidden>
-    <div class="dlm-back" data-dlm-close></div>
-    <div class="dlm-card">
-      <button class="dlm-close" type="button" aria-label="Cerrar" data-dlm-close>&times;</button>
-      <div class="dlm-head">
-        <img class="dlm-taco" src="assets/taco-proud.png" alt="TACO" />
-        <div>
-          <div class="dlm-eyebrow" data-i18n="dlm.eyebrow">Antes de instalar</div>
-          <h3 class="dlm-title" id="dlmTitle" data-i18n="dlm.title">Windows aún no nos conoce 👀</h3>
-        </div>
-      </div>
-      <p class="dlm-body" data-i18n="dlm.body">Estamos terminando nuestra verificación oficial con Windows. Mientras tanto, al abrir el instalador te saldrá un aviso azul de seguridad. Es totalmente normal y UMBRA es 100% seguro — solo hay que decirle a Windows que confíe en nosotros:</p>
-      <ol class="dlm-steps">
-        <li><span class="dlm-num">1</span><p data-i18n-html="dlm.s1.html">Cuando salga la ventana azul, pulsa <b>«Más información»</b>.</p></li>
-        <li><span class="dlm-num">2</span><p data-i18n-html="dlm.s2.html">Abajo aparecerá el botón <b>«Ejecutar de todas formas»</b>. Púlsalo.</p></li>
-        <li><span class="dlm-num">3</span><p data-i18n-html="dlm.s3.html">¡Listo! Sigue la instalación con normalidad. 🎉</p></li>
-      </ol>
-      <div class="dlm-actions">
-        <a class="btn btn-gold" id="dlmGo" href="https://umbra-api.cfx-software.com/downloads/Umbra-Setup.exe" download data-i18n="dlm.go">↓ Descargar de todas formas</a>
-        <button class="btn btn-ghost" type="button" data-dlm-close data-i18n="dlm.cancel">Ahora no</button>
-      </div>
-      <p class="dlm-note" data-i18n="dlm.note">Este aviso desaparecerá pronto, cuando Windows reconozca nuestra firma. Gracias por la confianza 💚</p>
-    </div>
-  </div>
 
   <footer>
     <div class="wrap foot-grid">
@@ -923,7 +874,7 @@
         <a href="#canvas" data-i18n="nav.canvas">Canvas</a>
         <a href="#plugins" data-i18n="nav.plugins">Plugins</a>
         <a href="/tienda" data-i18n="nav.store">Pledge Store</a>
-        <a href="#descarga" data-i18n="ft.download">Descargar</a>
+        <a href="/descargas" data-i18n="ft.download">Descargar</a>
       </div>
       <div class="foot-col">
         <h4 data-i18n="ft.h2">Recursos</h4>
@@ -941,7 +892,7 @@
     </div>
     <div class="wrap foot-bottom">
       <span data-i18n="ft.copy">© 2026 CFX · Todos los derechos reservados</span>
-      <span>Windows · Web · Tablet · Stream Deck</span>
+      <span data-i18n="ft.platforms">Windows · Navegador · Android en beta</span>
     </div>
   </footer>
 
@@ -1015,32 +966,6 @@
         window.addEventListener('resize', function(){ if(window.innerWidth >= 760) closeNav(); });
       }
 
-      // ── Modal de descarga: aviso de certificado / SmartScreen ──
-      var dlm = document.getElementById('dlModal');
-      if(dlm){
-        var dlmGo = document.getElementById('dlmGo');
-        var lastFocus = null;
-        var openModal = function(){
-          lastFocus = document.activeElement;
-          dlm.hidden = false; dlm.classList.add('open');
-          document.documentElement.style.overflow = 'hidden';
-          if(dlmGo) dlmGo.focus();
-        };
-        var closeModal = function(){
-          dlm.classList.remove('open'); dlm.hidden = true;
-          document.documentElement.style.overflow = '';
-          if(lastFocus && lastFocus.focus) lastFocus.focus();
-        };
-        // Cualquier enlace que apunte al instalador abre el modal en vez de descargar directo
-        document.querySelectorAll('a[href$="Umbra-Setup.exe"]').forEach(function(a){
-          if(a.id === 'dlmGo') return; // el botón de dentro del modal sí descarga
-          a.addEventListener('click', function(e){ e.preventDefault(); openModal(); });
-        });
-        // El botón del modal descarga y cierra
-        if(dlmGo) dlmGo.addEventListener('click', function(){ setTimeout(closeModal, 400); });
-        dlm.querySelectorAll('[data-dlm-close]').forEach(function(el){ el.addEventListener('click', closeModal); });
-        addEventListener('keydown', function(e){ if(e.key === 'Escape' && dlm.classList.contains('open')) closeModal(); });
-      }
     })();
   </script>
   <script src="js/auth.js?v=20260701a" defer></script>

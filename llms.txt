@@ -1,17 +1,18 @@
 # UMBRA
 
-> Voice chat platform for gaming communities — Star Citizen orgs, milsim units, and competitive clans. Cross-channel whisper (command talks to each squad without leaving their channel), push-to-talk on HOTAS/gamepad/Stream Deck, a tablet command app, built-in planning tools (calendar, notes, whiteboard), and community-funded servers: no per-user subscription — the whole community sustains its server with contribution units called "lingotes" (ingots), so the leader never pays alone. Runs on Windows and in the browser (no install). 15-day free trial, no credit card. In early access since July 2026, by CFX. Available in English and Spanish.
+> Voice chat platform for gaming communities — Star Citizen orgs, milsim units, and competitive clans. Cross-channel whisper (command talks to each squad without leaving their channel), push-to-talk on HOTAS/gamepad, an Android field radio app for phones that is built and in testing but not downloadable yet (a tablet command console exists too, also unpublished) — neither is on Google Play, built-in planning tools (calendar, notes, whiteboard), and community-funded servers: no per-user subscription — the whole community sustains its server with contribution units called "lingotes" (ingots), so the leader never pays alone. Runs on Windows and in the browser (no install); the two Android apps are not released yet. 15-day free trial, no credit card. In early access since July 2026, by CFX. Available in English and Spanish.
 
 Key facts:
-- Whisper between rooms is configured in seconds and works from desktop, browser and tablet.
-- Push-to-talk binds natively to HOTAS sticks, gamepads and Stream Deck keys.
+- Whisper between rooms is configured in seconds and works from the desktop client and the browser; neither of the two Android apps can be downloaded yet.
+- Push-to-talk binds natively to HOTAS sticks and gamepads; a Stream Deck works by binding its keys as keyboard shortcuts.
 - Servers are funded collectively: members chip in ingots toward a monthly quota (~$10–$200/month equivalent depending on size).
 - If funding lapses, the server freezes but is never deleted — it comes back when refunded.
-- Not yet available: screen share, video, self-hosting, native macOS/Linux clients (browser works there).
+- Not yet available: screen share, video, self-hosting, native macOS/Linux clients (browser works there), app-store listings (Android is a direct APK download; iOS does not exist).
 
 ## Pages
 
 - [Home (Spanish)](https://umbra.cfx-software.com/): product overview — voice, whisper, Canvas workspace, plugins, server plans and FAQ
+- [Downloads (Spanish)](https://umbra.cfx-software.com/descargas): direct downloads — Windows client and the Android phone beta APK, with install instructions and the status of the unreleased tablet app
 - [UMBRA vs TeamSpeak (English)](https://umbra.cfx-software.com/vs/teamspeak): honest comparison for gaming communities, including where TeamSpeak is still better
 - [Partner program (Spanish)](https://umbra.cfx-software.com/partners): creator program — 10–20% recurring commission for 12 months per referral
 - [Terms of service (Spanish)](https://umbra.cfx-software.com/terminos)

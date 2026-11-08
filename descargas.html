@@ -1,0 +1,302 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Descargas de UMBRA · Windows, navegador y apps de Android en beta</title>
+  <meta name="description" content="Descarga UMBRA: cliente de Windows, versión web sin instalar y las dos apps de Android —la radio de campo para el móvil y el mando táctico para tablet—, todavía en pruebas, con las instrucciones reales para instalar un APK fuera de Google Play el día que se puedan bajar." />
+  <link rel="canonical" href="https://umbra.cfx-software.com/descargas" />
+  <meta property="og:title" content="Descargas de UMBRA · Windows, navegador y apps de Android en beta" />
+  <meta property="og:description" content="Cliente de Windows, versión web sin instalar y las apps de Android en beta. Te contamos exactamente qué avisos te va a dar Android antes de instalar el APK." />
+  <meta property="og:image" content="https://umbra.cfx-software.com/assets/og-image.jpg" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://umbra.cfx-software.com/descargas" />
+  <meta property="og:site_name" content="UMBRA" />
+  <meta property="og:locale" content="es_ES" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Descargas de UMBRA" />
+  <meta name="twitter:description" content="Windows, navegador y apps de Android en beta, con instrucciones honestas de instalación." />
+  <meta name="twitter:image" content="https://umbra.cfx-software.com/assets/og-image.jpg" />
+  <link rel="icon" href="assets/logo-triangle.png" />
+  <link rel="stylesheet" href="css/legal.css?v=20260703a" />
+  <style>
+    /* Tarjetas de descarga — mismo lenguaje visual que el resto del sitio, CSS local */
+    .dl-grid{display:grid;gap:1.1rem;margin:1.5rem 0 0}
+    @media(min-width:820px){.dl-grid.two{grid-template-columns:1fr 1fr}}
+    .dl-card{
+      padding:1.4rem 1.5rem;border-radius:var(--r-lg);
+      background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.02));
+      border:1px solid var(--line);display:flex;flex-direction:column;
+    }
+    .dl-card.live{border-color:rgba(127,166,62,.34);background:linear-gradient(180deg,rgba(127,166,62,.10),rgba(255,255,255,.02))}
+    .dl-card.soon{opacity:.92;border-style:dashed}
+    .dl-eyebrow{
+      font-family:'JetBrains Mono',monospace;font-size:.68rem;font-weight:700;
+      letter-spacing:.14em;text-transform:uppercase;color:var(--gold-hi);
+      display:inline-block;margin-bottom:.55rem;
+    }
+    .dl-card.soon .dl-eyebrow{color:#ffba50}
+    .dl-card h3{
+      font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.3rem;
+      color:#fff;letter-spacing:-.01em;margin:0 0 .55rem;
+    }
+    .dl-card p{color:var(--text-mid);font-size:.95rem;margin-bottom:.85rem}
+    .dl-req{
+      list-style:none;margin:0 0 1.1rem;padding:.75rem .9rem;
+      background:rgba(255,255,255,.035);border:1px solid var(--line);border-radius:10px;
+      font-size:.86rem;color:var(--text-mid);
+    }
+    .dl-req li{margin:0 0 .3rem;padding-left:1.1rem;position:relative}
+    .dl-req li:last-child{margin-bottom:0}
+    .dl-req li::before{content:'◢';position:absolute;left:0;color:var(--gold);font-size:.7rem;top:.15rem}
+    .dl-req strong{color:#fff}
+    .dl-foot{margin-top:auto}
+    .dl-btn{
+      display:inline-block;padding:.8rem 1.5rem;border-radius:var(--r-pill);
+      background:#7FA63E;color:#0B1A05;font-weight:800;text-decoration:none;
+      font-size:.95rem;transition:background 180ms,transform 180ms;
+    }
+    .dl-btn:hover{background:#A8D85F;color:#0B1A05;transform:translateY(-1px)}
+    .dl-btn.ghost{background:transparent;color:var(--gold-hi);border:1px solid rgba(127,166,62,.4)}
+    .dl-btn.ghost:hover{background:rgba(127,166,62,.14);color:var(--gold-hi)}
+    .dl-btn.off{background:rgba(255,255,255,.06);color:var(--text-mute);border:1px dashed var(--line);cursor:not-allowed}
+    .dl-btn.off:hover{background:rgba(255,255,255,.06);color:var(--text-mute);transform:none}
+    .dl-meta{
+      font-family:'JetBrains Mono',monospace;font-size:.72rem;line-height:1.7;
+      color:var(--text-mute);margin-top:.8rem;word-break:break-all;
+    }
+    .dl-meta b{color:var(--text-mid);font-weight:600}
+    .steps{counter-reset:s;list-style:none;margin:1.25rem 0 0;padding:0}
+    .steps li{
+      counter-increment:s;position:relative;padding:0 0 1.15rem 3rem;
+      color:var(--text-mid);font-size:.96rem;
+    }
+    .steps li::before{
+      content:counter(s);position:absolute;left:0;top:-.1rem;
+      width:2rem;height:2rem;border-radius:50%;
+      display:flex;align-items:center;justify-content:center;
+      background:rgba(127,166,62,.14);border:1px solid rgba(127,166,62,.32);
+      color:var(--gold-hi);font-family:'JetBrains Mono',monospace;font-weight:700;font-size:.85rem;
+    }
+    .steps li b{color:#fff}
+    code.cmd{
+      font-family:'JetBrains Mono',monospace;font-size:.82rem;
+      background:rgba(255,255,255,.07);border:1px solid var(--line);
+      border-radius:5px;padding:.1rem .4rem;color:var(--gold-hi);
+    }
+  </style>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "UMBRA · Radio de campo (Android)",
+    "url": "https://umbra.cfx-software.com/descargas",
+    "operatingSystem": "Android 5.1+",
+    "applicationCategory": "CommunicationApplication",
+    "softwareVersion": "0.1.0",
+    "releaseNotes": "Primera beta pública: login con Google, salas de voz y pulsar-para-hablar con la pantalla apagada.",
+    "installUrl": "https://umbra.cfx-software.com/descargas",
+    "description": "App de Android de UMBRA para airsoft y milsim: el móvil en el chest rig, pulsar-para-hablar con un botón físico y la pantalla apagada. Se instalará como APK descargado desde la web; todavía no está en Google Play ni disponible para descarga.",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "publisher": { "@type": "Organization", "name": "CFX", "url": "https://umbra.cfx-software.com/" }
+  }
+  </script>
+</head>
+<body>
+  <div class="page-bg" aria-hidden="true">
+    <div class="bg-veil"></div>
+  </div>
+
+  <nav class="legal-nav">
+    <a class="legal-nav-logo" href="/">
+      <img src="assets/logo-triangle.png" alt="" />
+      <img class="nav-wordmark" src="assets/wordmark-umbra.png" alt="UMBRA" />
+    </a>
+    <a class="legal-nav-back" href="/">← Volver al sitio</a>
+  </nav>
+  <img class="legal-taco" src="assets/taco-hey.png" alt="" aria-hidden="true" />
+
+  <header class="legal-hero">
+    <div class="legal-eyebrow">↓ Descargas</div>
+    <h1>Descargas de UMBRA</h1>
+    <div class="updated">Actualizado: julio de 2026</div>
+  </header>
+
+  <nav class="legal-toc">
+    <strong>En esta página</strong>
+    <ul>
+      <li><a href="#windows">Cliente de Windows</a></li>
+      <li><a href="#navegador">Versión web</a></li>
+      <li><a href="#android">Apps de Android (beta)</a></li>
+      <li><a href="#instalar-apk">Instalar el APK</a></li>
+    </ul>
+  </nav>
+
+  <main class="legal-doc">
+
+    <p>UMBRA se usa hoy de tres formas: el <strong>cliente de Windows</strong>, el <strong>navegador</strong> sin instalar nada, y la <strong>app de Android para el móvil</strong>, en beta. Las dos apps de Android están construidas, pero <a href="#android">todavía no se pueden descargar</a>: no están en Google Play y estamos terminándolas de preparar. Cuando puedas bajarlas, más abajo te contamos, paso a paso y sin adornos, qué avisos te va a dar el móvil y por qué.</p>
+
+    <h2 id="windows">Cliente de Windows</h2>
+    <p>La experiencia completa: voz de baja latencia, Whisper entre salas, pulsar-para-hablar con teclado, mando o HOTAS, y el Canvas de tu comunidad.</p>
+    <div class="dl-grid">
+      <div class="dl-card live">
+        <span class="dl-eyebrow">Windows 10 y 11 · 64 bits</span>
+        <h3>Umbra para Windows</h3>
+        <p>Instalador de escritorio. Si prefieres no instalar nada, la versión web hace lo mismo desde el navegador.</p>
+        <div class="dl-foot">
+          <a class="dl-btn" href="https://umbra-api.cfx-software.com/downloads/Umbra-Setup.exe" download>↓ Descargar para Windows</a>
+          <p class="dl-meta"><b>Umbra-Setup.exe</b> · 3,7 MB · firmado · Windows 10 y 11 (64 bits)</p>
+        </div>
+      </div>
+    </div>
+    <div class="note">
+      <strong>El instalador va firmado.</strong> Windows ya reconoce nuestra firma, así que al abrirlo <strong>no sale ningún aviso azul</strong>: se instala como cualquier otro programa. Y al revés: si alguna vez descargas algo llamado UMBRA y Windows te advierte, ese fichero no es nuestro. Bájalo solo desde esta página.
+    </div>
+
+    <h2 id="navegador">En el navegador, sin instalar nada</h2>
+    <p>Funciona en Windows, macOS, Linux y ChromeOS con cualquier navegador moderno. Es la vía más rápida para que un recluta entre a una comprobación de comms sin descargar nada, y la única para macOS y Linux hasta que salgan los clientes nativos.</p>
+    <div class="dl-grid">
+      <div class="dl-card">
+        <span class="dl-eyebrow">Cualquier sistema</span>
+        <h3>Versión web</h3>
+        <p>Entras con tu cuenta y estás dentro. Sin instalador y sin permisos de administrador.</p>
+        <div class="dl-foot">
+          <a class="dl-btn ghost" href="https://umbra.mobile/" target="_blank" rel="noopener">Abrir UMBRA en el navegador →</a>
+        </div>
+      </div>
+    </div>
+
+    <h2 id="android">Apps de Android · en camino</h2>
+    <p>Son <strong>dos apps distintas</strong>, con dos propósitos distintos. Puedes tener las dos instaladas a la vez, pero casi nadie necesita las dos: lee para qué sirve cada una antes de descargar.</p>
+
+    <div class="dl-grid two">
+
+      <!-- ── Tarjeta A: radio de campo (móvil) ──
+           EN CAMINO: el APK no está en UPDATES_DIR/installers del servidor de la API.
+           Comprobado el 07-nov-2026: /downloads/Umbra-Android-Phone-0.1.0.apk → 404 seco.
+           Para activarla, y SOLO cuando ese URL responda 200:
+             1. clase "soon" → "live" y el eyebrow a "Android · Beta abierta"
+             2. el <span class="dl-btn off"> →
+                <a class="dl-btn" href="https://umbra-api.cfx-software.com/downloads/Umbra-Android-Phone-0.1.0.apk">↓ Descargar el APK</a>
+             3. regenerar el SHA-256 DEL APK QUE SE SUBA y volver a poner tamaño + hash
+                en .dl-meta (el hash de abajo es del build del 25-jul-2026)
+             4. devolver "downloadUrl" al JSON-LD de la cabecera -->
+      <div class="dl-card soon">
+        <span class="dl-eyebrow">Android · En camino</span>
+        <h3>Radio de campo</h3>
+        <p>Para airsoft y milsim: el móvil en el chest rig, pulsar-para-hablar con un botón físico y la pantalla apagada. Entras con tu cuenta de UMBRA y hablas en las salas de tu comunidad, igual que desde el PC.</p>
+        <ul class="dl-req">
+          <li><strong>Android 5.1</strong> o superior</li>
+          <li>Micrófono (es la función central de la app)</li>
+          <li><strong>Cuenta de UMBRA</strong> — entras con Google</li>
+          <li>Datos móviles o Wi-Fi: la voz va por internet, no por radio</li>
+        </ul>
+        <div class="dl-foot">
+          <span class="dl-btn off" aria-disabled="true">Todavía no descargable</span>
+          <p class="dl-meta">
+            <b>Umbra-Android-Phone-0.1.0.apk</b><br />
+            Está construida y probada en un móvil real,<br />
+            pero todavía no la servimos desde la web.
+          </p>
+          <!-- Tamaño y hash del build firmado del 25-jul-2026 (12.365.621 bytes = 11,8 MB):
+               SHA-256 bd59f42cae82650a9435b334ff20c8e72f0438536aa316e4e546767429f33acc
+               NO publicarlo sin recalcularlo sobre el APK que se suba de verdad: si el hash
+               no cuadra, la instrucción de verificación de más abajo le dice al usuario
+               que desconfíe de un fichero legítimo. -->
+          <!-- Tamaño y hash del APK firmado del 25-jul-2026 (12.365.621 bytes).
+               SI SE RECOMPILA, EL HASH CAMBIA: hay que regenerarlo con
+               `sha256sum app-release.apk` y actualizarlo aquí, o la instrucción de
+               verificación de más abajo le dice al usuario que desconfíe de un
+               fichero legítimo. -->
+
+          <p style="font-size:.86rem;margin:.7rem 0 0"><a href="#instalar-apk">Lee antes cómo se instala un APK →</a></p>
+        </div>
+      </div>
+
+      <!-- ── Tarjeta B: mando de tablet ──
+           EN CAMINO A PROPÓSITO: el APK de tablet compila pero todavía NO se ha probado
+           en una tablet real contra un PC con UMBRA abierto. En cuanto pase ese smoke test:
+             1. cambiar la clase "soon" por "live" y el eyebrow a "Android · Beta · Incluido en Premium"
+             2. sustituir el <span class="dl-btn off"> por:
+                <a class="dl-btn" href="https://umbra-api.cfx-software.com/downloads/Umbra-Android-Tablet-0.1.0.apk">↓ Descargar el APK</a>
+             3. rellenar tamaño y SHA-256 en .dl-meta
+             4. cambiar en js/i18n-v2.js las claves pn.ind.desc (ES y EN) a la variante que enlaza la descarga
+           Mientras el fichero no esté en UPDATES_DIR/installers del servidor de la API, NO poner el enlace:
+           /downloads/<fichero> devuelve un 404 seco y el usuario no entiende nada. -->
+      <div class="dl-card soon">
+        <span class="dl-eyebrow">Android · En camino · Premium</span>
+        <h3>Mando táctico para tablet</h3>
+        <p>Convierte una tablet en la consola de quien dirige la operación: ves las salas, mueves gente y das órdenes sin soltar el juego. Va por tu red local contra el cliente de escritorio.</p>
+        <ul class="dl-req">
+          <li><strong>Android 5.1</strong> o superior</li>
+          <li><strong>Premium activo</strong> (3 lingotes/mes)</li>
+          <li>Un <strong>PC con UMBRA abierto</strong> en la misma Wi-Fi</li>
+          <li>Sin ese PC encendido, la app no hace nada</li>
+        </ul>
+        <div class="dl-foot">
+          <span class="dl-btn off" aria-disabled="true">Todavía no descargable</span>
+          <p class="dl-meta">
+            <b>Umbra-Android-Tablet-0.1.0.apk</b><br />
+            Está compilada, pero no la publicamos hasta<br />
+            haberla probado en una tablet de verdad.
+          </p>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="warn">
+      <strong>Si pagas Premium hoy, lee esto.</strong> La app de tablet es la ventaja de Premium que más ilusión hace y es la que <strong>todavía no puedes descargar</strong>. Está construida y compilada, pero no la publicamos hasta probarla en una tablet real contra un PC real. El resto de las ventajas de Premium (Insignia Gold, botones dedicados de Stream Deck, prioridad de acceso cuando el servidor esté lleno) también están en camino. Si has entrado a Premium por la app de tablet, escríbenos y lo arreglamos: no queremos cobrarte por algo que aún no tienes.
+    </div>
+
+    <h2 id="instalar-apk">Instalar el APK: lo que Android te va a decir</h2>
+    <p>Estas apps todavía no están en Google Play: las estamos preparando. Hasta entonces se descargan desde nuestro propio servidor, y Android desconfía por defecto de cualquier app que no venga de Play. Vas a ver dos avisos. <strong>No dicen que la app tenga un virus: dicen que Google todavía no la ha revisado.</strong> Te contamos exactamente lo que va a salir para que no te pille por sorpresa.</p>
+
+    <ol class="steps">
+      <li><b>Descarga el archivo.</b> Chrome te avisará de que este tipo de archivo puede ser peligroso: elige <b>Descargar de todas formas</b>.</li>
+      <li><b>Ábrelo desde la notificación de descarga.</b> La primera vez, Android te pedirá permitir instalar apps desconocidas para el navegador: te lleva a Ajustes, activas el permiso y vuelves atrás. Puedes volver a desactivarlo después.</li>
+      <li><b>Play Protect te dirá que no reconoce la app.</b> Toca <b>Más detalles</b> y luego <b>Instalar de todas formas</b>. Es el aviso normal de cualquier APK fuera de Play, no un análisis que haya salido mal.</li>
+      <li><b>Al abrir la app, dale permiso de micrófono y de notificaciones.</b> El pulsar-para-hablar necesita la notificación para seguir funcionando con la pantalla apagada.</li>
+      <li><b>Si tu móvil es agresivo con la batería</b> (Samsung, Xiaomi, Huawei), quítale la optimización de batería a UMBRA. Si no, el sistema puede cortarte la voz al bloquear la pantalla.</li>
+    </ol>
+
+    <div class="note">
+      <strong>Cómo comprobar que el archivo es el nuestro.</strong> Viene firmado con nuestra clave y publicamos el SHA-256 de cada APK junto al botón. Si el hash de tu descarga no coincide, no lo instales y escríbenos. En Android puedes verlo con cualquier app de hashes; en Windows, con <code class="cmd">Get-FileHash -Algorithm SHA256 &lt;fichero&gt;</code> en PowerShell.
+    </div>
+
+    <h3>Cuando la app llegue a Google Play</h3>
+    <p>Si la instalaste desde aquí, puede que tengas que desinstalar esta versión antes de poner la de Play: Android no deja actualizar entre firmas distintas. Solo pierdes la sesión — vuelves a entrar con Google y ya. Lo avisaremos cuando toque.</p>
+
+    <h3>Desinstalar</h3>
+    <p>Es un toque: mantén pulsado el icono y <strong>Desinstalar</strong>; no deja nada detrás. Y si prefieres esperar a que esté en Google Play, es una decisión perfectamente razonable — lo anunciaremos en nuestras redes y en el <a href="/status">estado del servicio</a>.</p>
+
+    <h3>Qué permisos pide la app de móvil y para qué</h3>
+    <ul>
+      <li><strong>Micrófono</strong> — transmitir tu voz a los miembros de la sala mientras pulsas el botón de hablar. Tu voz pasa por nuestros servidores y se reenvía; <strong>no se graba</strong>.</li>
+      <li><strong>Notificaciones</strong> — la notificación permanente es lo que mantiene la voz viva con la pantalla apagada. Sin ella, Android corta la sesión.</li>
+      <li><strong>Bluetooth</strong> — solo si usas auricular o PTT Bluetooth. Es opcional.</li>
+      <li><strong>Exención de optimización de batería</strong> — opcional y la pides tú desde los ajustes de la app, cuando el móvil te esté cortando la voz.</li>
+    </ul>
+    <p>Los detalles están en nuestra <a href="/privacidad">política de privacidad</a>.</p>
+
+    <div class="note">
+      <strong>Es una beta y se comporta como una beta.</strong> Solo Android, solo voz, y el PTT por Bluetooth sigue en pruebas. Si algo se rompe, cuéntanoslo: es exactamente para eso que la publicamos así.
+    </div>
+
+  </main>
+
+  <footer class="legal-foot">
+    <p>
+      <a href="/">← Volver al sitio</a>
+      ·
+      <a href="/status">Estado del servicio</a>
+      ·
+      <a href="/terminos">Términos</a>
+      ·
+      <a href="/privacidad">Privacidad</a>
+    </p>
+    <p style="margin-top:0.85rem">© 2026 CFX · UMBRA · Windows · Navegador · Android en beta</p>
+  </footer>
+
+</body>
+</html>
