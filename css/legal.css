@@ -124,7 +124,7 @@ a:hover{color:var(--gold-shine,#ffeac1)}
   border-radius:8px;
   font-size:0.92rem;
 }
-.legal-doc .warn{
+.legal-doc .warn, .legal-doc .aviso{
   margin:1.5rem 0;padding:1.1rem 1.3rem;
   background:rgba(255,150,150,0.06);
   border:1px solid rgba(255,150,150,0.20);

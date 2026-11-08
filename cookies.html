@@ -2,9 +2,9 @@
 <html lang="es">
 <head>
   <meta charset="utf-8" />
-  <title>Política de Cookies · UMBRA</title>
+  <title>Cookies y almacenamiento local · UMBRA</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Qué cookies usa UMBRA, para qué, cómo gestionarlas y cómo darlas de baja." />
+  <meta name="description" content="UMBRA no usa cookies propias ni analítica. Esto es todo lo que guardamos en tu navegador y para qué sirve cada cosa." />
   <link rel="canonical" href="https://umbra.cfx-software.com/cookies" />
   <meta property="og:url" content="https://umbra.cfx-software.com/cookies" />
   <link rel="icon" href="assets/logo-triangle.png" />
@@ -26,75 +26,113 @@
 
   <header class="legal-hero">
     <div class="legal-eyebrow">📄 Documento legal</div>
-    <h1>Política de cookies</h1>
-    <div class="updated">Última actualización: <span class="review">[PENDIENTE DE FECHA DEFINITIVA]</span></div>
+    <h1>Cookies y almacenamiento local</h1>
+    <div class="updated">Última actualización: 28 de julio de 2026</div>
   </header>
 
   <main class="legal-doc">
 
-    <h2>¿Qué es una cookie?</h2>
-    <p>Una cookie es un pequeño archivo de texto que un sitio web guarda en tu navegador cuando lo visitas. Sirve para recordar información sobre ti — preferencias, sesión, idioma, etc. — y mejorar tu experiencia.</p>
+    <div class="note">
+      <strong>💡 La versión corta.</strong> Esta web <strong>no usa cookies</strong>. Ni propias, ni de publicidad, ni de analítica. Tampoco hay banner de cookies, porque no hay nada que pedirte que aceptes. Lo único que usamos es el <strong>almacenamiento local de tu navegador</strong> para cuatro cosas concretas, y acá abajo están las cuatro con nombre y apellido.
+    </div>
 
-    <h2>¿Qué cookies usa UMBRA?</h2>
-    <p>Solo usamos las cookies necesarias para que el servicio funcione bien. No usamos cookies publicitarias ni de seguimiento masivo de terceros.</p>
+    <h2>Cookies y almacenamiento local no son lo mismo</h2>
+    <p>Una <strong>cookie</strong> es un archivito que el sitio guarda en tu navegador y que <em>se manda al servidor en cada visita</em>. Esa es la parte que suele molestar: viaja sola y sirve para seguirte.</p>
+    <p>El <strong>almacenamiento local</strong> (<code>localStorage</code>) también guarda datos en tu navegador, pero <em>no viaja solo</em>: se queda en tu equipo y solo se usa cuando el código de la propia página lo lee. Nosotros usamos únicamente esto último.</p>
 
-    <h3>🟢 Cookies estrictamente necesarias</h3>
-    <p>Estas son imprescindibles para que UMBRA funcione. <strong>No se pueden desactivar</strong> porque sin ellas no podrías usar el servicio.</p>
+    <h2>Qué guardamos en tu navegador</h2>
+    <p>Estas son las cuatro claves que UMBRA escribe en el <code>localStorage</code> de tu navegador cuando usás esta web. No hay más.</p>
     <table>
-      <thead><tr><th>Cookie</th><th>Para qué</th><th>Duración</th></tr></thead>
+      <thead><tr><th>Clave</th><th>Qué guarda</th><th>Para qué</th><th>Cuánto dura</th></tr></thead>
       <tbody>
-        <tr><td><code>umbra_session</code></td><td>Mantener tu sesión iniciada</td><td>Sesión / 30 días si "recuérdame"</td></tr>
-        <tr><td><code>umbra_csrf</code></td><td>Protección contra ataques CSRF</td><td>Sesión</td></tr>
-        <tr><td><code>umbra_lang</code></td><td>Recordar el idioma seleccionado</td><td>1 año</td></tr>
+        <tr>
+          <td><code>umbra:auth</code></td>
+          <td>El token de tu sesión y los datos públicos de tu cuenta (nombre y avatar)</td>
+          <td>Que no tengas que iniciar sesión de nuevo en cada página</td>
+          <td>Hasta que cierres sesión</td>
+        </tr>
+        <tr>
+          <td><code>umbra:ref</code></td>
+          <td>El código del creador con el que llegaste, si venías de un enlace con <code>?ref=</code></td>
+          <td>Que la comisión del programa de partners se le acredite a quien te recomendó</td>
+          <td>60 días, o menos: en cuanto iniciás sesión, el código se envía al servidor para quedar anotado en tu cuenta y <strong>esta clave se borra sola de tu navegador</strong></td>
+        </tr>
+        <tr>
+          <td><code>umbra:lang:v2</code></td>
+          <td>El idioma que elegiste (español o inglés)</td>
+          <td>Abrir la web en tu idioma la próxima vez</td>
+          <td>Hasta que lo cambies o borres los datos del navegador</td>
+        </tr>
+        <tr>
+          <td><code>umbra:beta-signups</code></td>
+          <td>El email que escribiste en el formulario de la beta</td>
+          <td>Recordar que ya te anotaste y no volver a pedírtelo</td>
+          <td>Hasta que borres los datos del navegador</td>
+        </tr>
       </tbody>
     </table>
 
-    <h3>🟡 Cookies de funcionalidad</h3>
-    <p>Mejoran tu experiencia recordando tus preferencias. Puedes rechazarlas pero algunos detalles podrían no funcionar como esperas.</p>
-    <table>
-      <thead><tr><th>Cookie</th><th>Para qué</th><th>Duración</th></tr></thead>
-      <tbody>
-        <tr><td><code>umbra_theme</code></td><td>Recordar tu tema visual y wallpaper preferido</td><td>1 año</td></tr>
-        <tr><td><code>umbra_audio_settings</code></td><td>Recordar configuración de micro/altavoces</td><td>1 año</td></tr>
-      </tbody>
-    </table>
+    <div class="note">
+      <strong>💡 Sobre el formulario de la beta.</strong> Hoy ese formulario todavía no está conectado a ningún servidor: el email que escribís <strong>se queda en tu propio navegador</strong> y no nos llega. Cuando lo conectemos, lo vamos a decir en esta misma página y en la <a href="/privacidad">Política de privacidad</a>.
+    </div>
 
-    <h3>🟠 Cookies analíticas</h3>
-    <p>Nos ayudan a entender cómo se usa UMBRA para mejorarlo. Solo se activan si tú nos das tu consentimiento explícito.</p>
-    <table>
-      <thead><tr><th>Proveedor</th><th>Cookie</th><th>Para qué</th><th>Duración</th></tr></thead>
-      <tbody>
-        <tr><td><span class="review">[Plausible / Posthog / etc.]</span></td><td><span class="review">[según herramienta]</span></td><td>Métricas agregadas de uso, anónimas</td><td><span class="review">[según herramienta]</span></td></tr>
-      </tbody>
-    </table>
-
-    <h3>🔵 Cookies de terceros</h3>
-    <p>Algunos servicios externos integrados en UMBRA pueden establecer sus propias cookies:</p>
+    <h2>Por qué no te pedimos consentimiento</h2>
+    <p>Porque no hay nada que consentir:</p>
     <ul>
-      <li><strong>PayPal</strong> — para procesar pagos de forma segura.</li>
-      <li><strong><span class="review">[Intercom / soporte]</span></strong> — para el chat de ayuda en directo.</li>
+      <li><strong>Las tres primeras claves son necesarias</strong> para que funcione lo que vos pediste: mantener la sesión, respetar el idioma que elegiste y no romperle la comisión al creador que te trajo.</li>
+      <li><strong>La cuarta solo evita repetirte un formulario</strong> y ni sale de tu equipo.</li>
+      <li><strong>Ninguna sirve para perfilarte, seguirte entre sitios ni mostrarte publicidad</strong>, y ninguna se comparte con nadie.</li>
     </ul>
-    <p>Cada uno tiene su propia política de cookies. Te recomendamos revisarlas en sus sitios oficiales.</p>
 
-    <h2>¿Cómo gestionar tus cookies?</h2>
+    <h2>No usamos analítica</h2>
+    <p>Lo decimos claro porque casi todas las webs sí la usan: en <strong>umbra.cfx-software.com no hay ninguna herramienta de analítica instalada</strong>. Nada de Google Analytics, ni ninguna otra herramienta de métricas, de mapas de calor o de grabación de sesión, ni etiquetas de remarketing. Tampoco hay chat de soporte en vivo: el único canal de soporte es el email.</p>
+    <p>Esto puede cambiar. Si algún día instalamos una herramienta de métricas, volvemos a esta página, la nombramos con lo que hace y, si esa herramienta necesita tu consentimiento, ponemos un banner de verdad <em>antes</em> de activarla. No vamos a instalar nada en silencio y dejar esta página desactualizada.</p>
 
-    <h3>Desde el banner de UMBRA</h3>
-    <p>La primera vez que visitas UMBRA te mostramos un banner para que aceptes o rechaces las cookies opcionales. Puedes cambiar tu decisión en cualquier momento en los ajustes de tu cuenta o haciendo clic en el botón "Configurar cookies" del pie de página.</p>
-
-    <h3>Desde tu navegador</h3>
-    <p>Puedes bloquear o eliminar todas las cookies (incluyendo las necesarias) desde la configuración de tu navegador. Ten en cuenta que si lo haces, es posible que algunas partes de UMBRA dejen de funcionar.</p>
+    <h2>Servicios de terceros</h2>
+    <p>Hay dos momentos en los que salís de nuestra web hacia un servicio de otra empresa. Esa empresa sí puede poner sus propias cookies, en su propio dominio, y con su propia política:</p>
+    <p style="margin-bottom:0.4rem"><em>Y hay un tercero más, que no depende de que hagas clic en nada. Lo explicamos justo después de estos dos, en «Las tipografías».</em></p>
     <ul>
-      <li><a href="https://support.google.com/chrome/answer/95647" rel="noopener" target="_blank">Cookies en Chrome</a></li>
-      <li><a href="https://support.mozilla.org/es/kb/Borrar%20cookies" rel="noopener" target="_blank">Cookies en Firefox</a></li>
-      <li><a href="https://support.apple.com/es-es/guide/safari/sfri11471/mac" rel="noopener" target="_blank">Cookies en Safari</a></li>
-      <li><a href="https://support.microsoft.com/es-es/microsoft-edge" rel="noopener" target="_blank">Cookies en Edge</a></li>
+      <li><strong>PayPal</strong> — cuando compras un pack de lingotes, el pago se hace en PayPal. Es el único medio de cobro que usamos y podés pagar con tarjeta como invitado, sin cuenta de PayPal. UMBRA nunca ve ni guarda los datos de tu tarjeta. Sus condiciones y cookies son de PayPal: <a href="https://www.paypal.com/ar/webapps/mpp/ua/cookie-full" rel="noopener" target="_blank">política de cookies de PayPal</a>.</li>
+      <li><strong>Google</strong> — el único modo de crear cuenta en UMBRA es el inicio de sesión con Google. Cuando se abre esa ventana, estás en Google y Google usa sus cookies para reconocerte. Nosotros solo recibimos tu email, tu nombre y la dirección de tu foto de perfil; nunca tu contraseña. Ver la <a href="https://policies.google.com/technologies/cookies?hl=es" rel="noopener" target="_blank">información de Google sobre cookies</a>.</li>
     </ul>
+    <h3>Las tipografías (esto sí es un tercero, y no te pide permiso)</h3>
+    <p>Preferimos confesarlo antes de que lo descubras con el inspector del navegador. Algunas páginas de esta web —la portada, la tienda, la de partners y el panel de creador— <strong>cargan sus tipografías desde servidores ajenos</strong> en vez de desde el nuestro:</p>
+    <ul>
+      <li><strong>Google Fonts</strong> (<code>fonts.googleapis.com</code> y <code>fonts.gstatic.com</code>), para la tipografía monoespaciada.</li>
+      <li><strong>Fontshare</strong>, de Indian Type Foundry (<code>api.fontshare.com</code>), para las tipografías de los títulos de la portada.</li>
+    </ul>
+    <p>Qué implica eso, sin adornos: al abrir esas páginas, tu navegador le pide el archivo de la tipografía a esos servidores, y en esa petición van tu <strong>dirección IP</strong> y el navegador que usás. No es analítica, no lleva cookies nuestras y no nos devuelve ningún dato a nosotros —nosotros no vemos nada de eso—, pero <strong>es un tercero recibiendo tu IP sin que hayas hecho clic en nada</strong>, y eso hay que decirlo en una política de cookies en serio. Estas páginas legales que estás leyendo no cargan ninguna tipografía externa.</p>
+    <p><strong>Lo vamos a arreglar</strong>: la solución es alojar las tipografías en nuestro propio servidor, y está pendiente. Cuando esté hecho, actualizamos esta sección para decir que ya no hay terceros.</p>
+    <p>Fuera de eso, no hay ningún otro tercero incrustado en esta web: ni analítica, ni mapas, ni videos embebidos con seguimiento, ni botones sociales que te rastreen.</p>
+
+    <h2>Cómo borrar lo que guardamos</h2>
+    <ul>
+      <li><strong>Cerrar sesión</strong> borra <code>umbra:auth</code> al instante.</li>
+      <li><strong>Borrar los datos del sitio desde tu navegador</strong> elimina las cuatro claves de golpe. Buscá la opción de "datos de sitios" o "almacenamiento", no solo la de cookies: el <code>localStorage</code> se limpia desde ahí.</li>
+      <li><strong>Navegar en ventana privada o de incógnito</strong> hace que todo se borre al cerrarla.</li>
+    </ul>
+    <p>Guías oficiales de cada navegador:</p>
+    <ul>
+      <li><a href="https://support.google.com/chrome/answer/95647" rel="noopener" target="_blank">Chrome</a></li>
+      <li><a href="https://support.mozilla.org/es/kb/Borrar%20cookies" rel="noopener" target="_blank">Firefox</a></li>
+      <li><a href="https://support.apple.com/es-es/guide/safari/sfri11471/mac" rel="noopener" target="_blank">Safari</a></li>
+      <li><a href="https://support.microsoft.com/es-es/microsoft-edge" rel="noopener" target="_blank">Edge</a></li>
+    </ul>
+    <p>Si borrás <code>umbra:ref</code> <strong>antes de iniciar sesión por primera vez</strong>, el creador que te recomendó pierde la atribución. Después de ese primer inicio de sesión ya no importa: el código viajó al servidor, quedó anotado en tu cuenta y borrar la clave del navegador no cambia nada. Si borrás <code>umbra:auth</code>, simplemente tenés que volver a iniciar sesión. Nada de esto afecta a tu cuenta ni a tus lingotes, que viven en nuestro servidor y no en tu navegador.</p>
+
+    <h2>Y en las apps</h2>
+    <p>El cliente de escritorio y las apps de Android no son un navegador y no usan cookies. Guardan el token de tu sesión en el almacenamiento propio de la app, con la misma finalidad: no pedirte que inicies sesión cada vez que la abrís. El detalle de qué datos tratan esas apps está en la <a href="/privacidad">Política de privacidad</a>.</p>
 
     <h2>Cambios en esta política</h2>
-    <p>Si actualizamos esta política o introducimos nuevas cookies, te avisaremos y, cuando legalmente sea necesario, te pediremos consentimiento de nuevo.</p>
+    <p>Si cambiamos lo que guardamos en tu navegador, actualizamos esta página y la fecha de arriba. Si el cambio implicara instalar algo que necesite tu consentimiento, te lo vamos a pedir antes de activarlo, no después.</p>
 
     <h2>Contacto</h2>
-    <p>Si tienes dudas sobre nuestra política de cookies, escríbenos a <a href="mailto:privacidad@cfx.studio">privacidad@cfx.studio</a>.</p>
+    <p>UMBRA lo lleva una persona física, no una empresa. Si tenés dudas sobre esta página o querés ejercer tus derechos sobre tus datos, escribinos:</p>
+    <ul>
+      <li><strong>Responsable:</strong> Pablo Marín Silva Fernández</li>
+      <li><strong>Email para todo (privacidad, derechos, soporte y legal):</strong> <a href="mailto:umbracfxsoftware@gmail.com">umbracfxsoftware@gmail.com</a></li>
+    </ul>
+    <p>Los datos completos del responsable, los plazos de respuesta y cómo ejercer cada derecho están en la <a href="/privacidad">Política de privacidad</a>. Si lo que querés es borrar tu cuenta, tenés el procedimiento en <a href="/borrar-cuenta">Borrar tu cuenta</a>.</p>
 
   </main>
 
@@ -106,9 +144,14 @@
       ·
       <a href="/terminos">Términos</a>
       ·
+      <a href="/borrar-cuenta">Borrar tu cuenta</a>
+      ·
       <a href="/status">Estado</a>
     </p>
-    <p style="margin-top:0.85rem">© 2026 CFX · Todos los derechos reservados</p>
+    <p style="margin-top:0.85rem">
+      <a href="https://buenosaires.gob.ar/tramites/denuncia-online-defensa-al-consumidor" rel="noopener" target="_blank">Dirección General de Defensa y Protección al Consumidor</a> — para consultas y/o denuncias, ingresá aquí
+    </p>
+    <p style="margin-top:0.85rem">© 2026 UMBRA · Nombre comercial del servicio. El responsable legal es la persona física indicada arriba.</p>
   </footer>
 
 </body>
