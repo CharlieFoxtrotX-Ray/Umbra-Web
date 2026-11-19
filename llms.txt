@@ -5,7 +5,7 @@
 Key facts:
 - Whisper between rooms is configured in seconds and works from the desktop client and the browser; neither of the two Android apps can be downloaded yet.
 - Push-to-talk binds natively to HOTAS sticks and gamepads; a Stream Deck works by binding its keys as keyboard shortcuts.
-- The Community plan (up to 20 simultaneous voice slots, with whisper) is free forever — not a trial, no card required.
+- The Community plan (up to 20 simultaneous voice slots and 4 rooms, with whisper) is free forever — not a trial, no card required.
 - Larger servers are funded collectively: members chip in ingots toward a monthly quota (~$30–$200/month equivalent depending on size).
 - If funding lapses on a paid plan, the server freezes but is never deleted — it comes back when refunded.
 - Not yet available: screen share, video, self-hosting, native macOS/Linux clients (browser works there), app-store listings (Android is a direct APK download; iOS does not exist).

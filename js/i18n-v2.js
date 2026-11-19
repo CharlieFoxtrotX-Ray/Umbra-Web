@@ -18,7 +18,7 @@
       'nav.story': 'Cómo va', 'nav.audiences': 'Para quién', 'nav.plans': 'Planes', 'nav.vibe': 'Tu vibe', 'nav.faq': 'FAQ', 'nav.store': 'Tienda', 'nav.partners': 'Partners', 'nav.creatorPanel': 'Panel de creador', 'nav.cta': 'Abrir UMBRA',
 
       'hero.h1.html': 'Tu voz,<br/>tu gente, <span class="ink-blob">en su sitio.</span>',
-      'hero.lead': 'UMBRA es donde tu grupo se junta, charla, planea y se organiza — sin abrir cinco apps. Salas ilimitadas, whisper entre canales, voz nítida, y un sitio que te cuida.',
+      'hero.lead': 'UMBRA es donde tu grupo se junta, charla, planea y se organiza — sin abrir cinco apps. Salas de voz, whisper entre canales, voz nítida, y un sitio que te cuida.',
       'hero.cta.download': '↓ Descargar', 'hero.cta.web': 'Abrir en navegador',
       'hero.tag.org': 'Úsalo con tu org', 'hero.tag.mobile': 'Móvil y tablets que ya no uses', 'hero.tag.web': 'Versión web sin instalar',
 
@@ -121,7 +121,7 @@
       'ft.col2.h': 'Recursos', 'ft.col2.l1': 'FAQ', 'ft.col2.l2': 'Estado del servicio', 'ft.col2.l3': 'Roadmap', 'ft.col2.l4': 'Comunidad',
       'ft.col3.h': 'CFX', 'ft.col3.l1': 'Quiénes somos', 'ft.col3.l2': 'Contacto', 'ft.col3.l3': 'Privacidad', 'ft.col3.l4': 'Términos', 'ft.col3.l5': 'Cookies',
       'ft.copyright': '© 2026 CFX · Todos los derechos reservados',
-      'ft.platforms': 'Windows · Navegador · Android en beta',
+      'ft.platforms': 'Windows · Navegador · Android en camino',
 
       // ══ Landing v2 (rediseño premium) — sobreescribe claves viejas reutilizadas ══
       'a11y.skip': 'Saltar al contenido',
@@ -130,7 +130,7 @@
       'h.title': 'El centro de mando de <span class="grad">tu comunidad</span>.',
       'h.sub': 'Voz de alta fidelidad, Whisper entre salas y un espacio de trabajo donde tu equipo planea, coordina y ejecuta. Todo en un mismo lugar, hecho para jugar en serio.',
       'h.cta1': 'Descargar para Windows', 'h.cta2': 'Abrir en el navegador',
-      'h.plat': 'Windows · Navegador · Android en beta · macOS y Linux en camino',
+      'h.plat': 'Windows · Navegador · Android en camino · macOS y Linux en camino',
       'h.whisper': 'Whisper entrante', 'h.whisperfrom': 'Chuker desde Command',
       'fw.kicker': 'Para quién', 'fw.title': 'Hecho para quienes coordinan de verdad.',
       'fw.body': 'Operaciones de varias escuadras. Eventos competitivos. Comunidades de cientos de personas que necesitan estar en la misma página. UMBRA es para la comunicación táctica y la organización de alto nivel.',
@@ -170,19 +170,19 @@
       'pn.ind.tag': 'Individual', 'pn.ind.name': 'Premium', 'pn.ind.desc': 'App de mando para tablet Android (en pruebas, aún no descargable), Insignia Gold (próximamente), botones dedicados de Stream Deck (próximamente) y prioridad de acceso cuando el servidor esté lleno (próximamente).',
       'pn.ind.link': 'Ver el estado de la app de tablet en Descargas →',
       'pn.permonth': 'lingotes/mes', 'pn.server': 'Planes de servidor', 'pn.unlim': 'Salas y Whisper ilimitados', 'pn.cta': 'Elige tu plan en la Pledge Store →',
-      'pn.s1.price': 'Gratis', 'pn.s1.per': 'para siempre', 'pn.s1.f1': 'Hasta 20 slots', 'pn.s1.f2': 'Whisper',
+      'pn.s1.price': 'Gratis', 'pn.s1.per': 'para siempre', 'pn.s1.f1': 'Hasta 20 slots', 'pn.s1.f3': 'Hasta 4 salas', 'pn.s1.f2': 'Whisper',
       'pn.s2.f': 'Hasta 30 slots simultáneos', 'pn.s3.f': 'Hasta 60 slots simultáneos', 'pn.s4.f': 'Hasta 100 slots simultáneos', 'pn.s5.f': 'Hasta 280 slots simultáneos',
       'pn.a.tag': 'La entrada', 'pn.a.name': 'Community', 'pn.a.desc': 'Para grupos chicos. Salas, Whisper limitado y lo esencial para empezar a coordinar.', 'pn.a.cta': 'Empezar gratis',
       'pn.b.tag': '★ El más elegido', 'pn.b.name': 'Org', 'pn.b.desc': 'Para orgs que coordinan ops reales. Whisper sin límites, audio HD, roles completos y registro.', 'pn.b.cta': 'Ver en la Pledge Store',
       'pn.c.tag': 'Para los grandes', 'pn.c.name': 'Enterprise · Esports', 'pn.c.desc': 'Para ligas, eventos y gremios masivos. Región dedicada, grabación de ops y soporte prioritario.', 'pn.c.cta': 'Hablar con el equipo',
       'faq.kicker': 'Preguntas', 'faq.title': 'Lo que quieres saber.',
       'faq.q1': '¿Qué es un lingote?', 'faq.a1': 'Una unidad de aporte de UMBRA. Sirve para sostener el servidor de tu comunidad y desbloquear lo premium. No se cambia por dinero.',
-      'faq.q2': '¿Es gratis de verdad?', 'faq.a2': 'Sí. El plan Community es gratis para siempre: sin tarjeta y sin fecha de vencimiento, con hasta 20 slots de voz y Whisper. Si tu comunidad crece, pasas a un plan más grande y ese se sostiene con lingotes: los recargas cuando quieras, con PayPal o tarjeta, sin suscripciones ni cobros automáticos.',
+      'faq.q2': '¿Es gratis de verdad?', 'faq.a2': 'Sí. El plan Community es gratis para siempre: sin tarjeta y sin fecha de vencimiento, con hasta 20 slots de voz, 4 salas y Whisper. Si tu comunidad crece, pasas a un plan más grande y ese se sostiene con lingotes: los recargas cuando quieras, con PayPal o tarjeta, sin suscripciones ni cobros automáticos.',
       'faq.q3': '¿Y si el equipo deja de aportar?', 'faq.a3': 'En los planes con cuota hay 7 días de gracia y después el servidor pasa a modo reducido; si sigue sin cubrirse, se congela. No se pierde nada: se reactiva cubriendo un mes de cuota. El plan Community no tiene cuota, así que no le pasa.',
       'faq.q4': '¿Qué necesito para usarlo?', 'faq.a4': 'Windows o cualquier navegador moderno, sin instalar nada. La radio de campo de Android para el móvil está construida y en pruebas, pero todavía no se puede descargar: cuando salga se instalará como APK desde nuestra página de Descargas, porque no está en Google Play. El mando táctico para tablet (Premium) también sigue en pruebas, y macOS y Linux nativos van en camino.',
       'cf.title': 'Toma el mando.', 'cf.body': 'Descarga UMBRA, abre tu primera sala y siente la diferencia.',
       'cf.dl': '↓ Descargar para Windows', 'cf.web': 'Abrir en el navegador', 'cf.store': 'Pledge Store',
-      'cf.plat': 'Windows · Navegador · Android en beta · macOS y Linux en camino',
+      'cf.plat': 'Windows · Navegador · Android en camino · macOS y Linux en camino',
       'cf.android': 'En camino: la radio de campo de Android para el móvil →',
 
 
@@ -236,7 +236,7 @@
       'nav.story': 'How it works', 'nav.audiences': 'Who it\'s for', 'nav.plans': 'Plans', 'nav.vibe': 'Your vibe', 'nav.faq': 'FAQ', 'nav.store': 'Store', 'nav.partners': 'Partners', 'nav.creatorPanel': 'Creator dashboard', 'nav.cta': 'Open UMBRA',
 
       'hero.h1.html': 'Your voice,<br/>your people, <span class="ink-blob">where they belong.</span>',
-      'hero.lead': 'UMBRA is where your group hangs out, talks, plans and gets organized — without opening five different apps. Unlimited rooms, cross-channel whisper, crystal-clear voice, and a place that takes care of you.',
+      'hero.lead': 'UMBRA is where your group hangs out, talks, plans and gets organized — without opening five different apps. Voice rooms, cross-channel whisper, crystal-clear voice, and a place that takes care of you.',
       'hero.cta.download': '↓ Download', 'hero.cta.web': 'Open in browser',
       'hero.tag.org': 'Use it with your org', 'hero.tag.mobile': 'Works on old phones & tablets', 'hero.tag.web': 'Web version, no install',
 
@@ -339,7 +339,7 @@
       'ft.col2.h': 'Resources', 'ft.col2.l1': 'FAQ', 'ft.col2.l2': 'Service status', 'ft.col2.l3': 'Roadmap', 'ft.col2.l4': 'Community',
       'ft.col3.h': 'CFX', 'ft.col3.l1': 'About us', 'ft.col3.l2': 'Contact', 'ft.col3.l3': 'Privacy', 'ft.col3.l4': 'Terms', 'ft.col3.l5': 'Cookies',
       'ft.copyright': '© 2026 CFX · All rights reserved',
-      'ft.platforms': 'Windows · Browser · Android beta',
+      'ft.platforms': 'Windows · Browser · Android coming soon',
 
       // ══ Landing v2 (premium redesign) ══
       'a11y.skip': 'Skip to content',
@@ -348,7 +348,7 @@
       'h.title': 'The command center of <span class="grad">your community</span>.',
       'h.sub': 'High-fidelity voice, Whisper between rooms and a workspace where your team plans, coordinates and executes. All in one place, built to play for real.',
       'h.cta1': 'Download for Windows', 'h.cta2': 'Open in the browser',
-      'h.plat': 'Windows · Browser · Android beta · macOS and Linux on the way',
+      'h.plat': 'Windows · Browser · Android coming soon · macOS and Linux on the way',
       'h.whisper': 'Whisper incoming', 'h.whisperfrom': 'Chuker from Command',
       'fw.kicker': 'Who it\'s for', 'fw.title': 'Built for those who truly coordinate.',
       'fw.body': 'Multi-squad operations. Competitive events. Communities of hundreds who need to be on the same page. UMBRA is for tactical communication and high-level organization.',
@@ -388,19 +388,19 @@
       'pn.ind.tag': 'Individual', 'pn.ind.name': 'Premium', 'pn.ind.desc': 'Android tablet command app (in testing, not downloadable yet), Gold Badge (coming soon), dedicated Stream Deck buttons (coming soon) and priority access when the server is full (coming soon).',
       'pn.ind.link': 'See the tablet app status on Downloads →',
       'pn.permonth': 'lingots/mo', 'pn.server': 'Server plans', 'pn.unlim': 'Unlimited rooms & Whisper', 'pn.cta': 'Choose your plan in the Pledge Store →',
-      'pn.s1.price': 'Free', 'pn.s1.per': 'forever', 'pn.s1.f1': 'Up to 20 slots', 'pn.s1.f2': 'Whisper',
+      'pn.s1.price': 'Free', 'pn.s1.per': 'forever', 'pn.s1.f1': 'Up to 20 slots', 'pn.s1.f3': 'Up to 4 rooms', 'pn.s1.f2': 'Whisper',
       'pn.s2.f': 'Up to 30 simultaneous slots', 'pn.s3.f': 'Up to 60 simultaneous slots', 'pn.s4.f': 'Up to 100 simultaneous slots', 'pn.s5.f': 'Up to 280 simultaneous slots',
       'pn.a.tag': 'The entry', 'pn.a.name': 'Community', 'pn.a.desc': 'For small groups. Rooms, limited Whisper and the essentials to start coordinating.', 'pn.a.cta': 'Start free',
       'pn.b.tag': '★ Most picked', 'pn.b.name': 'Org', 'pn.b.desc': 'For orgs running real ops. Unlimited Whisper, HD audio, full roles and audit log.', 'pn.b.cta': 'See in the Pledge Store',
       'pn.c.tag': 'For the big ones', 'pn.c.name': 'Enterprise · Esports', 'pn.c.desc': 'For leagues, events and massive guilds. Dedicated region, op recording and priority support.', 'pn.c.cta': 'Talk to the team',
       'faq.kicker': 'Questions', 'faq.title': 'What you want to know.',
       'faq.q1': 'What is a lingot?', 'faq.a1': 'A UMBRA contribution unit. It sustains your community\'s server and unlocks premium. It can\'t be exchanged for cash.',
-      'faq.q2': 'Is it really free?', 'faq.a2': 'Yes. The Community plan is free forever: no card and no expiry date, with up to 20 voice slots and Whisper. If your community grows, you move to a bigger plan, and that one is sustained with lingotes: top up whenever you want, via PayPal or card — no subscriptions, no automatic charges.',
+      'faq.q2': 'Is it really free?', 'faq.a2': 'Yes. The Community plan is free forever: no card and no expiry date, with up to 20 voice slots, 4 rooms and Whisper. If your community grows, you move to a bigger plan, and that one is sustained with lingotes: top up whenever you want, via PayPal or card — no subscriptions, no automatic charges.',
       'faq.q3': 'What if the team stops contributing?', 'faq.a3': 'On plans with a quota there\'s a 7-day grace period, then the server enters reduced mode; if it still isn\'t covered, it freezes. Nothing is lost: reactivate it by covering one month\'s quota. The Community plan has no quota, so this never applies to it.',
       'faq.q4': 'What do I need to use it?', 'faq.a4': 'Windows or any modern browser, nothing to install. The Android field radio for phones is built and in testing, but you can’t download it yet: when it ships it will install as an APK from our Downloads page, since it’s not on Google Play. The tablet command console (Premium) is still in testing too, and native macOS and Linux are on the way.',
       'cf.title': 'Take command.', 'cf.body': 'Download UMBRA, open your first room and feel the difference.',
       'cf.dl': '↓ Download for Windows', 'cf.web': 'Open in the browser', 'cf.store': 'Pledge Store',
-      'cf.plat': 'Windows · Browser · Android beta · macOS and Linux on the way',
+      'cf.plat': 'Windows · Browser · Android coming soon · macOS and Linux on the way',
       'cf.android': 'Coming: the Android field radio for your phone →',
 
 
