@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>UMBRA · Chat de voz y centro de mando para tu comunidad</title>
-  <meta name="description" content="Chat de voz para clanes, gremios y orgs: Whisper entre salas, PTT con HOTAS o mando y un servidor que sostiene toda la comunidad. Gratis 15 días." />
+  <meta name="description" content="Chat de voz para clanes, gremios y orgs: Whisper entre salas, PTT con HOTAS o mando y un servidor que sostiene toda la comunidad. Plan Community gratis para siempre." />
   <meta property="og:title" content="UMBRA · Chat de voz y centro de mando para tu comunidad" />
   <meta property="og:description" content="Whisper entre salas, PTT con HOTAS y un servidor que sostiene toda la comunidad. Hecho por y para gamers." />
   <meta property="og:image" content="https://umbra.cfx-software.com/assets/og-image.jpg" />
@@ -403,6 +403,8 @@
     .plans-server .plan h3{font-size:1.15rem;margin:.4rem 0 .2rem}
     .plan-price{font-family:'Space Grotesk',sans-serif;margin:.1rem 0 1rem;color:var(--text-soft);font-size:.8rem}
     .plan-price b{font-size:1.7rem;color:var(--gold-hi);font-weight:800;margin-right:.15rem}
+    .plan-price.free b{display:block;margin:0;line-height:1.2}
+    .plan-price.free span{white-space:nowrap}
     .plan-feats{display:flex;flex-direction:column;gap:.4rem}
     .plan-feats li{color:var(--text-soft);font-size:.82rem;padding-left:1rem;position:relative;line-height:1.35}
     .plan-feats li::before{content:'\25E2';position:absolute;left:0;color:var(--gold);font-size:.55rem;top:.25rem}
@@ -490,7 +492,7 @@
           "@type": "Offer",
           "price": "0",
           "priceCurrency": "USD",
-          "description": "Prueba gratuita de 15 días sin tarjeta. Después, el servidor se sostiene con lingotes de aporte de toda la comunidad, sin suscripción por usuario."
+          "description": "Plan Community gratis para siempre, sin tarjeta: hasta 20 slots de voz y Whisper. Los planes más grandes se sostienen con lingotes de aporte de toda la comunidad, sin suscripción por usuario."
         },
         "publisher": { "@id": "https://umbra.cfx-software.com/#org" }
       },
@@ -504,13 +506,13 @@
           },
           {
             "@type": "Question",
-            "name": "¿La prueba pide tarjeta?",
-            "acceptedAnswer": { "@type": "Answer", "text": "No. Empiezas gratis, sin tarjeta. Al día 15 termina la prueba y el servidor pasa a sostenerse con lingotes: los recargas cuando quieras, con PayPal o tarjeta, sin suscripciones ni cobros automáticos." }
+            "name": "¿Es gratis de verdad?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Sí. El plan Community es gratis para siempre: sin tarjeta y sin fecha de vencimiento, con hasta 20 slots de voz y Whisper. Si tu comunidad crece, pasas a un plan más grande y ese se sostiene con lingotes: los recargas cuando quieras, con PayPal o tarjeta, sin suscripciones ni cobros automáticos." }
           },
           {
             "@type": "Question",
             "name": "¿Y si el equipo deja de aportar?",
-            "acceptedAnswer": { "@type": "Answer", "text": "Hay 7 días de gracia y después el servidor pasa a modo reducido; si sigue sin cubrirse, se congela. No se pierde nada: se reactiva cubriendo un mes de cuota." }
+            "acceptedAnswer": { "@type": "Answer", "text": "En los planes con cuota hay 7 días de gracia y después el servidor pasa a modo reducido; si sigue sin cubrirse, se congela. No se pierde nada: se reactiva cubriendo un mes de cuota. El plan Community no tiene cuota, así que no le pasa." }
           },
           {
             "@type": "Question",
@@ -776,12 +778,11 @@
         <h3 class="plans-sub" data-reveal data-i18n="pn.server">Planes de servidor</h3>
         <div class="plans plans-server">
           <div class="plan" data-reveal>
-            <span class="tag" data-i18n="pn.s1.tag">15 días gratis</span>
             <h3>Community</h3>
-            <div class="plan-price"><b>5</b> <span data-i18n="pn.permonth">lingotes/mes</span></div>
+            <div class="plan-price free"><b data-i18n="pn.s1.price">Gratis</b> <span data-i18n="pn.s1.per">para siempre</span></div>
             <ul class="plan-feats">
-              <li data-i18n="pn.s1.f1">Hasta 8 slots</li>
-              <li data-i18n="pn.s1.f2">Whisper entre command y 1 sala</li>
+              <li data-i18n="pn.s1.f1">Hasta 20 slots</li>
+              <li data-i18n="pn.s1.f2">Whisper</li>
             </ul>
           </div>
           <div class="plan" data-reveal style="--d:60ms">
@@ -831,8 +832,8 @@
         <h2 data-reveal style="font-size:clamp(2rem,4.2vw,3rem)" data-i18n="faq.title">Lo que quieres saber.</h2>
         <div class="faq-grid">
           <div class="qa" data-reveal><h3 data-i18n="faq.q1">¿Qué es un lingote?</h3><p data-i18n="faq.a1">Una unidad de aporte de UMBRA. Sirve para sostener el servidor de tu comunidad y desbloquear lo premium. No se cambia por dinero.</p></div>
-          <div class="qa" data-reveal style="--d:80ms"><h3 data-i18n="faq.q2">¿La prueba pide tarjeta?</h3><p data-i18n="faq.a2">No. Empiezas gratis, sin tarjeta. Al día 15 termina la prueba y el servidor pasa a sostenerse con lingotes: los recargas cuando quieras, con PayPal o tarjeta, sin suscripciones ni cobros automáticos.</p></div>
-          <div class="qa" data-reveal><h3 data-i18n="faq.q3">¿Y si el equipo deja de aportar?</h3><p data-i18n="faq.a3">Hay 7 días de gracia y después el servidor pasa a modo reducido; si sigue sin cubrirse, se congela. No se pierde nada: se reactiva cubriendo un mes de cuota.</p></div>
+          <div class="qa" data-reveal style="--d:80ms"><h3 data-i18n="faq.q2">¿Es gratis de verdad?</h3><p data-i18n="faq.a2">Sí. El plan Community es gratis para siempre: sin tarjeta y sin fecha de vencimiento, con hasta 20 slots de voz y Whisper. Si tu comunidad crece, pasas a un plan más grande y ese se sostiene con lingotes: los recargas cuando quieras, con PayPal o tarjeta, sin suscripciones ni cobros automáticos.</p></div>
+          <div class="qa" data-reveal><h3 data-i18n="faq.q3">¿Y si el equipo deja de aportar?</h3><p data-i18n="faq.a3">En los planes con cuota hay 7 días de gracia y después el servidor pasa a modo reducido; si sigue sin cubrirse, se congela. No se pierde nada: se reactiva cubriendo un mes de cuota. El plan Community no tiene cuota, así que no le pasa.</p></div>
           <div class="qa" data-reveal style="--d:80ms"><h3 data-i18n="faq.q4">¿Qué necesito para usarlo?</h3><p data-i18n="faq.a4">Windows o cualquier navegador moderno, sin instalar nada. La radio de campo de Android para el móvil está construida y en pruebas, pero todavía no se puede descargar: cuando salga se instalará como APK desde nuestra página de Descargas, porque no está en Google Play. El mando táctico para tablet (Premium) también sigue en pruebas, y macOS y Linux nativos van en camino.</p></div>
         </div>
       </div>
@@ -896,7 +897,7 @@
     </div>
   </footer>
 
-  <script src="js/i18n-v2.js?v=20260702b" defer></script>
+  <script src="js/i18n-v2.js?v=20261118b" defer></script>
   <script>
     (function(){
       'use strict';
