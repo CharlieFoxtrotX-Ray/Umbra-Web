@@ -21,6 +21,13 @@ yarn-error.log*
 .vercel/
 .env*.local
 
+# Binarios: los instaladores viven en UPDATES_DIR/installers de la API, no aquí.
+# deploy.sh hace rsync --delete de TODO el repo al sitio estático: cualquier
+# binario que caiga aquí acaba servido públicamente.
+*.apk
+*.aab
+*.exe
+
 # Source masters originales — los procesados viven en assets/
 # Comentar estas dos líneas si querés versionar los masters también
 videos/

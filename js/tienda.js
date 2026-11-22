@@ -1,7 +1,7 @@
 // ───────────────────────────────────────────────────────────────
 // UMBRA — Tienda de packs de aporte (PayPal)
 //
-// El usuario compra lingotes de aporte por PayPal; el custom_id lleva su
+// El usuario compra Volts de aporte por PayPal; el custom_id lleva su
 // UserID, y el webhook del server (POST /api/webhooks/paypal) acredita la
 // wallet server-to-server. Esta página NO toca la wallet directamente — solo
 // inicia el pago con el custom_id correcto.
@@ -53,6 +53,7 @@
   // Las cards (precios) se pintan ENSEGUIDA; los botones de PayPal se inyectan
   // cuando el SDK termina de cargar. Mejor UX: el usuario ve los packs sin
   // esperar a PayPal.
+  const VOLT = '<img class="volt-ic" src="assets/brand/volts-mini.svg" width="20" height="20" alt="">';
   function renderCards() {
     if (cardsRendered) return;
     const grid = el('packs');
@@ -62,7 +63,7 @@
       card.className = 'pack';
       card.innerHTML =
         '<div class="usd">$' + p.usd + '</div>' +
-        '<div class="ling">' + p.ling + ' <span data-i18n="t.ling.word">lingotes</span></div>' +
+        '<div class="ling">' + VOLT + p.ling + ' <span data-i18n="t.ling.word">Volts</span></div>' +
         (p.bonus
           ? '<div class="bonus">' + p.base + ' + ' + p.bonus + ' <span data-i18n="t.gift">de regalo</span> &#127873;</div>'
           : '<div class="bonus base-only">&nbsp;</div>') +
@@ -96,7 +97,7 @@
     if (!user) return;
     const m = el('checkout-modal');
     el('co-usd').textContent = '$' + pack.usd;
-    el('co-ling').innerHTML = pack.ling + ' ' + tr('t.ling.word', 'lingotes') +
+    el('co-ling').innerHTML = VOLT + pack.ling + ' ' + tr('t.ling.word', 'Volts') +
       (pack.bonus ? ' · ' + pack.base + ' + ' + pack.bonus + ' ' + tr('t.gift', 'de regalo') + ' &#127873;' : '');
     const slot = el('co-pp');
     slot.innerHTML = '<div class="co-msg">' + tr('t.loading', 'Cargando pago…') + '</div>';
@@ -112,7 +113,7 @@
           purchase_units: [{
             amount: { value: pack.usd.toFixed(2), currency_code: 'USD' },
             custom_id: user.id,
-            description: 'UMBRA — ' + pack.ling + ' lingotes de aporte',
+            description: 'UMBRA — ' + pack.ling + ' Volts de aporte',
           }],
         }),
         onApprove: (data, actions) => actions.order.capture().then(() => { closeCheckout(); showThanks(); }),

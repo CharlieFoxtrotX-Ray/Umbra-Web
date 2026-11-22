@@ -1,18 +1,27 @@
 # UMBRA
 
-> Voice chat platform for gaming communities — Star Citizen orgs, milsim units, and competitive clans. Cross-channel whisper (command talks to each squad without leaving their channel), push-to-talk on HOTAS/gamepad, an Android field radio app for phones that is built and in testing but not downloadable yet (a tablet command console exists too, also unpublished) — neither is on Google Play, built-in planning tools (calendar, notes, whiteboard), and community-funded servers: no per-user subscription — the whole community sustains its server with contribution units called "lingotes" (ingots), so the leader never pays alone. Runs on Windows and in the browser (no install); the two Android apps are not released yet. The Community server plan is free forever (up to 20 voice slots), no credit card. In early access since July 2026, by CFX. Available in English and Spanish.
+> Voice chat platform for gaming communities — Star Citizen orgs, milsim units, and competitive clans. Cross-channel whisper (command talks to each squad without leaving their channel), push-to-talk on HOTAS/gamepad, an Android field radio app for phones that is built and in testing but not downloadable yet (a tablet command console exists too, also unpublished) — neither is on Google Play, text chat, direct messages and forums with threads, built-in planning tools (event calendar with RSVP and availability, notes, whiteboard, live documents), a plugin store, and community-funded servers: no per-user subscription — the whole community sustains its server with contribution units called "Volts", so the leader never pays alone. Runs on Windows and in the browser (no install); the two Android apps are not released yet. The Community server plan is free forever (up to 20 voice slots), no credit card. In early access since July 2026, by CFX. Available in English and Spanish.
 
 Key facts:
 - Whisper between rooms is configured in seconds and works from the desktop client and the browser; neither of the two Android apps can be downloaded yet.
 - Push-to-talk binds natively to HOTAS sticks and gamepads; a Stream Deck works by binding its keys as keyboard shortcuts.
-- The Community plan (up to 20 simultaneous voice slots and 4 rooms, with whisper) is free forever — not a trial, no card required.
-- Larger servers are funded collectively: members chip in ingots toward a monthly quota (~$30–$200/month equivalent depending on size).
+- The Community plan (unlimited members, up to 20 people in voice at once and 4 rooms, with whisper) is free forever — not a trial, no card required.
+- Members join a server with an invite link, from the browser on PC or mobile, without installing anything.
+- Paid server plans are paid with Volts (between $1.54 and $2.50 each, depending on the pack), split among the community.
+- Larger servers are funded collectively: members chip in Volts toward a monthly quota (~$30–$200/month equivalent depending on size).
 - If funding lapses on a paid plan, the server freezes but is never deleted — it comes back when refunded.
-- Not yet available: screen share, video, self-hosting, native macOS/Linux clients (browser works there), app-store listings (Android is a direct APK download; iOS does not exist).
+- Screen share (with the shared app's sound, to the whole room or to one person) and camera are free; screen share is 720p on the free plan and 1080p on paid server plans (ORG and above), but during early access 1080p is unlocked for everyone. Camera is 720p/30 fps, and 1080p/60 fps with Flash.
+- Flash is the individual plan (3 Volts a month): card, name and mascot customization, Full HD camera and more, and it includes 2 Volts to contribute to your favorite server.
+- Server theming (background, accent colors, animated voice bar) and a custom invite link are free on every plan.
+- The event calendar has RSVP (going / maybe / not going), a month view, long operations split into slots, and an availability view that works out the best times of the week across time zones.
+- Each server is a canvas of windows (voice, chat, forums, calendar, whiteboard, notes, documents) with up to 4 desktops, switched with Ctrl+1…4.
+- Plugins available today: Cine y música (YouTube/Twitch/music in sync for the room), Soundboard, Pyro Timers and Quantum Intercept (both for Star Citizen). ARMA 3 Radio is in development.
+- The browser version also works on phones (chats, voice and forums), with nothing to install.
+- Not yet available: self-hosting, native macOS/Linux clients (browser works there), app-store listings (Android is a direct APK download; iOS does not exist).
 
 ## Pages
 
-- [Home (Spanish)](https://umbra.cfx-software.com/): product overview — voice, whisper, Canvas workspace, plugins, server plans and FAQ
+- [Home (Spanish)](https://umbra.cfx-software.com/): product overview — voice, whisper, Canvas desktops, event calendar, chat and forums, plugins, mobile browser version, server plans and FAQ
 - [Downloads (Spanish)](https://umbra.cfx-software.com/descargas): direct downloads — Windows client and the Android phone beta APK, with install instructions and the status of the unreleased tablet app
 - [UMBRA vs TeamSpeak (English)](https://umbra.cfx-software.com/vs/teamspeak): honest comparison for gaming communities, including where TeamSpeak is still better
 - [Partner program (Spanish)](https://umbra.cfx-software.com/partners): creator program — 10–20% recurring commission for 12 months per referral

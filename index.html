@@ -4,9 +4,9 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>UMBRA · Chat de voz y centro de mando para tu comunidad</title>
-  <meta name="description" content="Chat de voz para clanes, gremios y orgs: Whisper entre salas, PTT con HOTAS o mando y un servidor que sostiene toda la comunidad. Plan Community gratis para siempre." />
+  <meta name="description" content="Habla con otra sala sin salir de la tuya: Whisper, eventos con asistencia, foros, pantalla y cámara para tu comunidad de juego. Gratis para siempre, y tu gente entra con un enlace." />
   <meta property="og:title" content="UMBRA · Chat de voz y centro de mando para tu comunidad" />
-  <meta property="og:description" content="Whisper entre salas, PTT con HOTAS y un servidor que sostiene toda la comunidad. Hecho por y para gamers." />
+  <meta property="og:description" content="Habla con otra sala sin salir de la tuya: Whisper, eventos con asistencia, foros, pantalla y cámara para tu comunidad de juego. Gratis para siempre, y tu gente entra con un enlace." />
   <meta property="og:image" content="https://umbra.cfx-software.com/assets/og-image.jpg" />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://umbra.cfx-software.com/" />
@@ -15,7 +15,7 @@
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:url" content="https://umbra.cfx-software.com/" />
   <meta name="twitter:title" content="UMBRA · Chat de voz y centro de mando para tu comunidad" />
-  <meta name="twitter:description" content="Whisper entre salas, PTT con HOTAS y un servidor que sostiene toda la comunidad." />
+  <meta name="twitter:description" content="Habla con otra sala sin salir de la tuya: Whisper, eventos con asistencia, foros, pantalla y cámara para tu comunidad de juego. Gratis para siempre, y tu gente entra con un enlace." />
   <meta name="twitter:image" content="https://umbra.cfx-software.com/assets/og-image.jpg" />
   <meta name="umbra-api-base" content="https://umbra-api.cfx-software.com" />
   <link rel="canonical" href="https://umbra.cfx-software.com/" />
@@ -32,7 +32,7 @@
       --void:#040407; --ink-1:#0A0E1C; --ink-2:#111733; --ink-3:#1A2147;
       --nebula:#5B4BD6; --nebula-deep:#2E2566; --azure:#2C6BF0; --azure-soft:#6E93F0;
       --gold:#7FA63E; --gold-hi:#A8D85F; --gold-shine:#D6F2A8;
-      --text:#EEF1FB; --text-soft:rgba(238,241,251,.66); --text-mute:rgba(238,241,251,.42);
+      --text:#EEF1FB; --text-soft:rgba(238,241,251,.8); --text-mute:rgba(238,241,251,.58);
       --glass:rgba(255,255,255,.045); --line:rgba(255,255,255,.10);
       --card:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.02));
       --shadow-cosmic:0 30px 80px -30px rgba(46,37,102,.55);
@@ -63,7 +63,11 @@
     .skip:focus{left:0}
 
     /* Grano */
-    .grain{position:fixed;inset:0;z-index:var(--z-nav);pointer-events:none;opacity:.045;mix-blend-mode:overlay;
+    /* Las capas de textura y oscurecimiento van entre el fondo y el contenido, nunca encima del texto:
+       body::after (styles.css) tenía el mismo z-index que <main> y, al ir después, lo cubría. */
+    body::before{z-index:1}
+    body::after{z-index:0}
+    .grain{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.045;mix-blend-mode:overlay;
       background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
 
     /* Fondo: cosmos 100% CSS sobre negro casi puro — el negro predomina.
@@ -84,6 +88,28 @@
     .cosmos.tactical .cosmos-veil{background:
       radial-gradient(75% 55% at 50% -5%, rgba(74,96,148,.10), transparent 60%),
       linear-gradient(180deg, rgba(2,2,6,.3) 0%, rgba(2,2,6,.1) 32%, rgba(2,2,6,.22) 66%, rgba(2,2,6,.66) 100%)}
+    /* Variante «Shadow Comms»: la ilustración del eclipse verde con el triángulo.
+       Va sobre .tactical (misma capa de imagen) y se activa añadiendo .art;
+       quitar .art vuelve al fondo de materiales. El archivo es una versión
+       preparada de la ilustración: sin el rótulo «UMBRA» de arriba y con la
+       mitad inferior (Taco, suelo blanco y «Shadow Comms») fundida a negro,
+       porque detrás del contenido se leían como texto y mascota duplicados. */
+    .cosmos.art .bg-tactical{background-image:url('assets/bg-shadow-comms.webp');background-position:center top;
+      opacity:1;filter:brightness(.56) saturate(.95)}
+    .cosmos.art .cosmos-veil{background:
+      linear-gradient(180deg, rgba(2,4,5,.40) 0%, rgba(2,4,5,.26) 28%, rgba(2,4,5,.40) 62%, rgba(2,4,5,.70) 100%)}
+    /* .art.taco: la misma ilustración CON Taco de pie en el suelo (solo se
+       quitan los dos rótulos). Quitar .taco vuelve a la versión sin mascota. */
+    .cosmos.art.taco .bg-tactical{background-image:url('assets/bg-shadow-comms-taco.webp');background-position:center 70%;
+      filter:brightness(.62) saturate(.95)}
+    .cosmos.art.taco .cosmos-veil{background:
+      linear-gradient(180deg, rgba(2,4,5,.40) 0%, rgba(2,4,5,.26) 28%, rgba(2,4,5,.34) 62%, rgba(2,4,5,.46) 100%)}
+    /* La portada pintaba su propio fondo opaco (styles.css) y tapaba la
+       ilustración: aquí se deja ver, conservando solo el fundido de abajo. */
+    .cosmos.art ~ main #hero,.cosmos.art ~ #hero{background:transparent}
+    .cosmos.art ~ main #hero::before,.cosmos.art ~ #hero::before{background:
+      radial-gradient(ellipse 95% 42% at 50% 100%, rgba(212,160,106,.10) 0%, transparent 70%),
+      linear-gradient(180deg, transparent 78%, rgba(5,5,7,.55) 100%)}
     /* La umbra: disco de eclipse asomando sobre el pliegue, con corona fina
        cálida y halo suave. Es la marca hecha fondo. */
     .cosmos .eclipse{position:absolute;left:50%;top:0;width:min(124vw,1060px);aspect-ratio:1;
@@ -153,6 +179,10 @@
       .nav-right .lang{display:none}
     }
     .nav-links a{padding:.5rem .9rem;font-size:.92rem;font-weight:500;color:var(--text-soft);border-radius:var(--r-pill);transition:background .2s,color .2s}
+    .nav-links a.nav-flash{display:inline-flex;align-items:center;padding-top:.25rem;padding-bottom:.25rem}
+    .nav-links a.nav-flash img{display:block;height:1.8em;width:auto;transition:filter .2s}
+    .nav-links a.nav-flash:hover img{filter:drop-shadow(0 0 8px rgba(168,216,95,.45))}
+    .nav-mobile a.nm-flash img{display:block;height:30px;width:auto}
     .nav-links a:hover{background:rgba(255,255,255,.06);color:#fff}
     .nav-right{justify-self:end;display:flex;align-items:center;gap:.7rem}
     /* Botón hamburguesa: solo en móvil (<760) */
@@ -256,7 +286,9 @@
       animation:floaty 9s ease-in-out infinite;will-change:transform}
     .fo-sat{top:-2vh;right:calc(var(--edge) + .5rem);width:min(20.4vw,280px)}
     .fo-man{top:1.5rem;right:calc(var(--edge) + 1.5rem);width:min(15vw,185px);animation-delay:-3s}
-    .fo-pla{bottom:-9vh;left:calc(var(--edge) + .5rem);width:min(28vw,380px);animation-delay:-5s}
+    /* Asoma por la esquina superior derecha de la tarjeta: abajo quedaba sobre
+       los botones (a la izquierda) o sobre los tres pasos (a la derecha). */
+    .fo-pla{top:-3.2rem;right:calc(var(--edge) + .25rem);width:min(16vw,210px);animation-delay:-5s}
     /* Taco "penbroke & gun" — entre el titulo y el mando en la seccion Para quien.
        Se oculta <=1280px: ahi el hueco se cierra y se montaria sobre el texto. */
     .fo-taco{top:2rem;right:calc(var(--edge) + 16rem);height:clamp(220px,24vw,330px);animation-delay:-2s}
@@ -276,7 +308,7 @@
     .hero-plat .dot{width:7px;height:7px;border-radius:50%;background:#5BE3A0;box-shadow:0 0 8px #5BE3A0}
     .hero-visual{position:relative}
     .hero-shot{border-radius:var(--r-lg);overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow-cosmic);transform:perspective(1400px) rotateY(-7deg) rotateX(3deg)}
-    .hero-shot img{width:100%;display:block}
+    .hero-shot img{width:100%;height:auto;display:block}
     .hero .mascot{width:248px;right:0;bottom:-34px;z-index:3}
     @media(max-width:600px){.hero .mascot{width:166px;right:0;bottom:-18px}}
     /* Whisper entrante (toast animado) */
@@ -306,10 +338,43 @@
     .aud p{color:var(--text-soft);font-size:.94rem}
 
     /* Pilares (sticky stack) */
+    /* Tu estilo, tu pantalla: monitor ultrawide + móvil, con estilos de ejemplo */
+    #estilo{padding:clamp(4.5rem,9vw,8rem) 0;background:linear-gradient(180deg,transparent 0,rgba(4,6,7,.7) 12%,rgba(4,6,7,.7) 88%,transparent 100%)}
+    .sty-head{max-width:780px}
+    .sty-head h2{font-size:clamp(2rem,4.2vw,3.2rem);margin:.7rem 0 1.1rem}
+    .sty-head .hl{color:var(--gold-hi)}
+    .sty-stage{position:relative;margin-top:3rem;padding-right:clamp(0px,10vw,150px)}
+    .sty-screen{padding:10px;border-radius:16px;background:#0a0c0d;border:1px solid rgba(255,255,255,.13);
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.07),0 50px 100px -40px rgba(0,0,0,.9)}
+    .sty-screen img{display:block;width:100%;height:auto;aspect-ratio:1600/648;object-fit:cover;border-radius:7px;transition:opacity .16s ease}
+    .sty-stand{display:block;width:16%;height:16px;margin:0 auto;border-radius:0 0 12px 12px;background:linear-gradient(#16191b,#0a0c0d);box-shadow:0 18px 30px -12px rgba(0,0,0,.8)}
+    .sty-phone{position:absolute;right:0;bottom:-7%;width:clamp(118px,16vw,226px);padding:7px;border-radius:30px;background:#0a0c0d;
+      border:1px solid rgba(255,255,255,.17);box-shadow:0 34px 70px -18px rgba(0,0,0,.95)}
+    .sty-phone img{display:block;width:100%;height:auto;border-radius:24px}
+    .sty-pick{display:flex;flex-wrap:wrap;align-items:center;gap:.6rem;margin-top:3rem}
+    .sty-pick .mono{font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-hi);margin-right:.4rem}
+    .sty-chips{display:flex;flex-wrap:wrap;gap:.55rem}
+    .sty-chips button{padding:.55rem 1.05rem;border-radius:var(--r-pill);border:1px solid var(--line);background:rgba(255,255,255,.04);
+      color:var(--text-soft);font-family:inherit;font-weight:600;font-size:.86rem;line-height:1;cursor:pointer;transition:background .2s,color .2s,border-color .2s,transform .2s}
+    .sty-chips button:hover{border-color:rgba(255,255,255,.3);color:var(--text)}
+    .sty-chips button:active{transform:translateY(1px)}
+    .sty-chips button.active{background:var(--gold-hi);color:#0a0c0d;border-color:transparent}
+    .sty-chips button:focus-visible{outline:2px solid var(--gold-hi);outline-offset:3px}
+    .sty-facts{display:grid;gap:1rem;margin-top:2rem;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));list-style:none}
+    .sty-facts li{padding:1.15rem 1.25rem;border-radius:var(--r);border:1px solid var(--line);
+      background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.015)),rgba(7,10,11,.9)}
+    .sty-facts b{display:block;font-weight:600;margin-bottom:.3rem}
+    .sty-facts span{color:var(--text-soft);font-size:.9rem;line-height:1.45}
+    @media(max-width:700px){.sty-stage{padding-right:0;padding-bottom:18%}.sty-phone{width:30%;bottom:0;right:2%}}
     .pillars{position:relative;padding:3rem 0}
     .panel{position:sticky;top:8vh;margin-bottom:4vh;border-radius:var(--r-xl);overflow:visible;
-      background:var(--card);backdrop-filter:blur(26px) saturate(135%);-webkit-backdrop-filter:blur(26px) saturate(135%);border:1px solid rgba(255,255,255,0.14);
-      box-shadow:inset 0 1px 0 rgba(255,255,255,0.09),0 30px 80px -30px rgba(8,6,34,0.7)}
+      /* Casi opaco: al apilarse, el panel de abajo no debe verse a través. */
+      background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.015)),rgba(7,10,11,.96);
+      backdrop-filter:blur(26px) saturate(135%);-webkit-backdrop-filter:blur(26px) saturate(135%);border:1px solid rgba(255,255,255,0.14);
+      box-shadow:inset 0 1px 0 rgba(255,255,255,0.09),0 -24px 60px -20px rgba(0,0,0,.75),0 30px 80px -30px rgba(8,6,34,0.7)}
+    /* El apilado solo donde el panel cabe entero: un panel pegado más alto que
+       la ventana deja su parte de abajo (la captura, la demo) sin poder verse. */
+    @media(max-width:899px),(max-height:739px){.panel{position:relative;top:auto}}
     .panel-in{display:grid;gap:2.5rem;align-items:center;padding:clamp(2rem,4vw,3.6rem)}
     @media(min-width:900px){.panel-in{grid-template-columns:1fr 1fr}.panel.rev .panel-in>.panel-media{order:-1}}
     .panel h2{font-size:clamp(2rem,3.6vw,3rem);margin:.7rem 0 1.1rem}
@@ -329,9 +394,164 @@
     .panel.rev .mascot-corner{right:auto;left:-18px;transform:scaleX(-1)}
     @media(max-width:600px){.panel.rev .mascot-corner{left:-10px}}
     /* Plugins: TACO un poco más grande */
-    #plugins .mascot-corner{width:130px}
-    @media(max-width:600px){#plugins .mascot-corner{width:95px}}
+    /* Asoma por encima del borde: no debe tapar las etiquetas de la lista */
+    #plugins .mascot-corner{width:130px;top:-92px}
+    @media(max-width:600px){#plugins .mascot-corner{width:95px;top:-68px}}
     .panel-media.tall{min-height:auto}
+    /* Captura vertical (panel de Whisper): no se estira al ancho del panel */
+    .panel-media .shot.shot-portrait{width:auto;max-width:min(78%,340px);margin:1.8rem auto;border:1px solid var(--line)}
+    /* Captura con pestañas (calendario): misma caja para las tres vistas */
+    .shot-switch{width:100%}
+    .shot-switch .shot{aspect-ratio:1285/1110;object-fit:contain;object-position:center;background:#07080D;
+      border-radius:var(--r-lg) var(--r-lg) 0 0;transition:opacity .3s ease}
+    .shot-tabs{display:flex;flex-wrap:wrap;gap:.4rem;justify-content:center;padding:.75rem}
+    .shot-tabs button{padding:.38rem .8rem;border-radius:var(--r-pill);border:1px solid var(--line);background:rgba(255,255,255,.04);
+      font-family:'JetBrains Mono',monospace;font-size:.7rem;font-weight:600;letter-spacing:.06em;color:var(--text-soft);transition:background .2s,color .2s,border-color .2s}
+    .shot-tabs button:hover{color:#fff;background:rgba(255,255,255,.08)}
+    .shot-tabs button.active{background:linear-gradient(135deg,var(--gold-hi),var(--gold));border-color:transparent;color:#0B1A05}
+    .shot-tabs button:focus-visible{outline:2px solid var(--gold-hi);outline-offset:2px}
+    /* Lista de plugins (panel Plugins) */
+    .plist{width:100%;display:grid;gap:.55rem;padding:clamp(1rem,2.4vw,1.6rem)}
+    .plist li{display:grid;grid-template-columns:1fr auto;gap:.15rem 1rem;align-items:center;padding:.75rem 1rem;border-radius:var(--r);
+      background:rgba(255,255,255,.04);border:1px solid var(--line)}
+    .plist b{font-weight:600;font-size:.98rem}
+    .plist .pd{grid-column:1;color:var(--text-soft);font-size:.86rem;line-height:1.4}
+    .chip{grid-column:2;grid-row:1 / span 2;font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:600;letter-spacing:.08em;
+      text-transform:uppercase;white-space:nowrap;padding:.28rem .6rem;border-radius:var(--r-pill)}
+    .chip.ok{color:var(--gold-hi);background:rgba(127,166,62,.14);border:1px solid rgba(127,166,62,.35)}
+    .chip.dev{color:#F0B45A;background:rgba(240,180,90,.10);border:1px solid rgba(240,180,90,.32)}
+
+    /* Nav: la acción principal es descargar; iniciar sesión pasa a secundaria */
+    .nav-dl{display:none;align-items:center;padding:.6rem 1.25rem;border-radius:var(--r-pill);
+      background:linear-gradient(135deg,var(--gold-hi),var(--gold));color:#0B1A05;font-weight:700;font-size:.9rem;
+      transition:transform .18s,box-shadow .18s}
+    .nav-dl:hover{transform:translateY(-1px);box-shadow:0 10px 24px -8px rgba(127,166,62,.4)}
+    .nav-dl:active{transform:scale(.98)}
+    .nav-dl:focus-visible{outline:2px solid var(--gold-hi);outline-offset:3px}
+    @media(min-width:1100px){
+      .nav-dl{display:inline-flex}
+      .nav-right .btn-login{background:var(--glass);border:1px solid var(--line);color:var(--text);font-weight:600}
+      .nav-right .btn-login:hover{box-shadow:none;background:rgba(255,255,255,.09)}
+    }
+
+    /* Hero: garantías debajo de los botones */
+    .hero-trust{display:flex;flex-wrap:wrap;gap:.5rem 1.5rem;margin-top:1.6rem;font-size:.88rem;color:var(--text-soft)}
+    .hero-trust li{display:flex;align-items:center;gap:.5rem}
+    .hero-trust li::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--gold-hi);box-shadow:0 0 8px rgba(168,216,95,.7)}
+
+    /* El problema: titular fijo a la izquierda, dolores en lista a la derecha */
+    #problema{background:linear-gradient(180deg,transparent 0,rgba(4,6,7,.74) 9%,rgba(4,6,7,.74) 91%,transparent 100%)}
+    .pains{display:grid;gap:3rem;align-items:start}
+    @media(min-width:960px){.pains{grid-template-columns:.82fr 1.18fr;gap:5rem}.pains-head{position:sticky;top:7.5rem}}
+    .pains-head h2{font-size:clamp(2.2rem,4.6vw,3.6rem)}
+    .pains-head .lead{margin-top:1.2rem}
+    .pain{display:grid;grid-template-columns:auto 1fr;gap:.45rem 1.5rem;padding:1.75rem 0;border-top:1px solid var(--line)}
+    .pain:last-child{border-bottom:1px solid var(--line)}
+    .pain .mono{grid-row:1 / span 2;font-size:.74rem;color:var(--gold-hi);letter-spacing:.12em;padding-top:.5rem}
+    .pain h3{font-size:clamp(1.25rem,2.1vw,1.65rem);letter-spacing:-.02em;line-height:1.15}
+    .pain p{color:var(--text-soft);max-width:54ch}
+    .pains-out{margin-top:2.2rem;font-size:1.1rem;line-height:1.6;color:var(--text-soft);max-width:54ch}
+    .pains-out b{color:var(--gold-hi);font-weight:600}
+
+    /* Demo de Whisper: se mantiene pulsado un botón y la sala «recibe» */
+    .wdemo{width:100%;padding:clamp(1rem,2.4vw,1.6rem);display:grid;gap:.55rem;user-select:none;-webkit-user-select:none}
+    .wd-head{display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-bottom:.25rem;
+      font-family:'JetBrains Mono',monospace;font-size:.68rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--text-mute)}
+    .wd-room{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:.85rem;padding:.68rem .9rem;min-height:3.5rem;
+      border-radius:var(--r);background:rgba(255,255,255,.04);border:1px solid var(--line);
+      transition:border-color .2s,background .2s,box-shadow .2s}
+    .wd-room.me{border-color:rgba(127,166,62,.45);background:rgba(127,166,62,.09)}
+    .wd-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.25)}
+    .wd-room.me .wd-dot{background:var(--gold-hi);box-shadow:0 0 8px var(--gold-hi)}
+    .wd-name b{display:block;font-weight:600;line-height:1.2}
+    .wd-name span{display:block;font-size:.8rem;color:var(--text-mute)}
+    .wd-act{display:flex;align-items:center;gap:.7rem}
+    .wd-btn{font-family:'JetBrains Mono',monospace;font-size:.66rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
+      padding:.5rem .85rem;border-radius:8px;color:#F0B45A;background:rgba(240,180,90,.10);border:1px solid rgba(240,180,90,.4);
+      touch-action:none;transition:background .15s,color .15s,transform .15s}
+    .wd-btn:hover{background:rgba(240,180,90,.2)}
+    .wd-btn:focus-visible{outline:2px solid #F0B45A;outline-offset:2px}
+    .wd-btn.on{transform:scale(.96);background:#F0B45A;color:#1A1004}
+    .wd-room.rx{border-color:rgba(240,180,90,.7);background:rgba(240,180,90,.10);box-shadow:0 0 26px -8px rgba(240,180,90,.55)}
+    .wd-room.rx .wd-dot{background:#F0B45A;box-shadow:0 0 8px #F0B45A}
+    .wd-bars{display:flex;align-items:flex-end;gap:2px;height:16px;opacity:0;transition:opacity .15s}
+    .wd-room.rx .wd-bars{opacity:1}
+    .wd-bars i{display:block;width:3px;height:100%;border-radius:2px;background:#F0B45A;transform-origin:bottom;transform:scaleY(.35)}
+    .wd-room.rx .wd-bars i{animation:wtBar 1s ease-in-out infinite}
+    .wd-room.rx .wd-bars i:nth-child(2){animation-delay:.18s}
+    .wd-room.rx .wd-bars i:nth-child(3){animation-delay:.34s}
+    .wd-room.rx .wd-bars i:nth-child(4){animation-delay:.5s}
+    .wd-status{min-height:1.5em;margin-top:.5rem;font-size:.9rem;color:var(--text-soft);text-align:center}
+    .wd-status b{color:#F0B45A;font-weight:600}
+
+    /* Hecha para jugar: dos tarjetas grandes y cuatro pequeñas */
+    .bento{display:grid;gap:1rem;margin-top:2.5rem}
+    @media(min-width:700px){.bento{grid-template-columns:repeat(2,1fr)}}
+    @media(min-width:1020px){.bento{grid-template-columns:repeat(12,1fr)}.bento .aud{grid-column:span 3}.bento .aud.big{grid-column:span 6}}
+    .bento .aud.big{padding:2.1rem}
+    .bento .aud.big h3{font-size:1.5rem}
+    .bento .aud.big p{font-size:1.02rem;max-width:44ch}
+
+    /* Empezar en tres pasos */
+    .steps-title{margin-top:3.6rem;font-size:clamp(1.5rem,2.6vw,2.1rem)}
+    .steps{display:grid;gap:1.4rem;margin-top:1.8rem;list-style:none}
+    @media(min-width:820px){.steps{grid-template-columns:repeat(3,1fr);gap:2.4rem}}
+    .step{padding-top:1.3rem;border-top:1px solid var(--line)}
+    .step .mono{font-size:.72rem;letter-spacing:.14em;color:var(--gold-hi)}
+    .step h3{font-size:1.2rem;margin:.6rem 0 .4rem}
+    .step p{color:var(--text-soft);font-size:.95rem}
+
+    /* Novedades */
+    .news{display:grid;gap:3rem;align-items:start}
+    @media(min-width:960px){.news{grid-template-columns:.85fr 1.15fr;gap:5rem}}
+    .news h2{font-size:clamp(2rem,4.2vw,3rem)}
+    .rel li{display:grid;grid-template-columns:8.5rem 1fr;gap:1rem;padding:1.05rem 0;border-top:1px solid var(--line);align-items:baseline}
+    .rel li:last-child{border-bottom:1px solid var(--line)}
+    .rel .mono{font-size:.8rem;font-weight:600;color:var(--gold-hi);letter-spacing:.04em}
+    .rel .mono span{display:block;margin-top:.15rem;font-weight:500;color:var(--text-mute)}
+    .rel p{color:var(--text-soft);font-size:.98rem}
+    @media(max-width:560px){.rel li{grid-template-columns:1fr;gap:.3rem}}
+
+    /* Taco 3D: recorre el borde inferior y comenta cada sección (js/taco-guide.js).
+       Con él en pantalla sobran los Tacos de dibujo de las esquinas. */
+    .taco-guide{position:fixed;left:0;right:0;bottom:0;height:0;z-index:60;pointer-events:none}
+    .tg-actor{position:absolute;left:0;bottom:-6px;width:190px;height:230px;will-change:transform;opacity:0;transition:opacity .5s}
+    .taco-guide.ready .tg-actor{opacity:1}
+    .tg-actor canvas{position:absolute;inset:0;width:100%;height:100%}
+    .tg-shadow{position:absolute;left:50%;bottom:9px;width:100px;height:16px;margin-left:-50px;border-radius:50%;
+      background:radial-gradient(closest-side,rgba(0,0,0,.6),transparent)}
+    .tg-hit{position:absolute;left:42px;right:42px;top:74px;bottom:8px;pointer-events:auto;cursor:pointer;border-radius:40%}
+    .tg-close{position:absolute;right:20px;top:56px;width:24px;height:24px;border-radius:50%;pointer-events:auto;
+      display:grid;place-items:center;background:rgba(12,14,26,.92);border:1px solid var(--line);color:var(--text-soft);
+      font-size:.8rem;line-height:1;opacity:0;transition:opacity .2s,color .2s}
+    .tg-actor:hover .tg-close,.tg-close:focus-visible{opacity:1}
+    .tg-close:hover{color:#fff}
+    .tg-bubble{position:absolute;bottom:192px;left:50%;width:max-content;max-width:250px;padding:.62rem .9rem;border-radius:14px;
+      background:rgba(14,18,16,.95);border:1px solid rgba(168,216,95,.45);color:var(--text);font-size:.86rem;line-height:1.35;
+      box-shadow:0 14px 34px -14px rgba(0,0,0,.8);opacity:0;transform:translate(-50%,6px) scale(.97);transform-origin:bottom center;
+      transition:opacity .25s,transform .25s}
+    .tg-bubble.show{opacity:1;transform:translate(-50%,0) scale(1)}
+    .tg-bubble::after{content:'';position:absolute;left:50%;bottom:-6px;width:10px;height:10px;margin-left:-5px;background:inherit;
+      border-right:1px solid rgba(168,216,95,.45);border-bottom:1px solid rgba(168,216,95,.45);transform:rotate(45deg)}
+    .tg-actor.at-left .tg-bubble{left:36px;transform-origin:bottom left;transform:translate(0,6px) scale(.97)}
+    .tg-actor.at-left .tg-bubble.show{transform:translate(0,0) scale(1)}
+    .tg-actor.at-left .tg-bubble::after{left:58px}
+    .tg-actor.at-right .tg-bubble{left:auto;right:36px;transform-origin:bottom right;transform:translate(0,6px) scale(.97)}
+    .tg-actor.at-right .tg-bubble.show{transform:translate(0,0) scale(1)}
+    .tg-actor.at-right .tg-bubble::after{left:auto;right:58px;margin-left:0}
+    html.taco-live .mascot-corner,html.taco-live .sec-mascot,html.taco-live .hero .mascot{display:none}
+    .taco-back{display:none;color:var(--text-mute);font-size:.82rem;text-decoration:underline;text-underline-offset:3px}
+    html.taco-off .taco-back{display:inline}
+
+    /* En el móvil */
+    .mobile-sec{display:grid;gap:2.5rem;align-items:center}
+    @media(min-width:900px){.mobile-sec{grid-template-columns:.9fr 1.1fr}}
+    .mobile-sec h2{font-size:clamp(2rem,4.2vw,3rem);margin:.2rem 0 1rem}
+    .mobile-sec .lead{margin-bottom:1.6rem}
+    .mobile-sec .btn{margin-top:1.8rem}
+    .phones{display:flex;gap:clamp(.6rem,1.6vw,1.1rem);justify-content:center;align-items:flex-start}
+    .phones img{width:31%;max-width:210px;height:auto;border-radius:clamp(14px,2vw,24px);border:1px solid var(--line);box-shadow:var(--shadow-cosmic)}
+    .phones img:nth-child(2){margin-top:1.6rem}
 
     /* Demo adaptativa */
     .adapt{display:grid;gap:2.5rem;align-items:center}
@@ -365,7 +585,8 @@
 
     /* Pledge / compromiso */
     .pledge{position:relative;border-radius:var(--r-xl);overflow:hidden;border:1px solid var(--line);
-      background:radial-gradient(90% 120% at 85% 10%,rgba(63,191,143,.14),transparent 60%),linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.02))}
+      background:radial-gradient(90% 120% at 85% 10%,rgba(63,191,143,.14),transparent 60%),linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.02)),rgba(5,8,9,.78);
+      -webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
     .pledge-in{display:grid;gap:2.5rem;align-items:center;padding:clamp(2rem,4vw,3.6rem)}
     @media(min-width:900px){.pledge-in{grid-template-columns:1.1fr .9fr}}
     .perks{display:grid;gap:.9rem;margin:1.6rem 0}
@@ -374,6 +595,8 @@
       background:rgba(63,191,143,.14);border:1px solid rgba(63,191,143,.35)}
     .perk b{display:block;font-weight:600}
     .perk span{color:var(--text-soft);font-size:.92rem}
+    .perk .ic{color:#5FD3A6;font-size:.8rem}
+    .pledge .hl{color:var(--gold-hi)}
     .pledge-media{position:relative;min-height:260px;display:grid;place-items:center}
     .pledge-media .mascot{position:relative;width:min(84%,324px)}
 
@@ -405,6 +628,36 @@
     .plan-price b{font-size:1.7rem;color:var(--gold-hi);font-weight:800;margin-right:.15rem}
     .plan-price.free b{display:block;margin:0;line-height:1.2}
     .plan-price.free span{white-space:nowrap}
+    /* Planes: tabla de mejoras por plan de servidor */
+    #planes .hl{color:var(--gold-hi)}
+    .ptable-wrap{margin-top:2.4rem;overflow-x:auto;border-radius:var(--r-lg);border:1px solid var(--line);
+      background:linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.01)),rgba(7,10,11,.94)}
+    .ptable{width:100%;min-width:780px;border-collapse:collapse;font-size:.9rem}
+    .ptable th,.ptable td{padding:.9rem 1rem;text-align:center;border-bottom:1px solid rgba(255,255,255,.07);vertical-align:middle}
+    .ptable tbody tr:last-child th,.ptable tbody tr:last-child td{border-bottom:0}
+    .ptable th[scope=row]{text-align:left;font-weight:500;color:var(--text-soft);position:sticky;left:0;background:#080b0c;min-width:230px}
+    .ptable thead th{font-family:'Clash Display',sans-serif;font-size:1.08rem;font-weight:600;color:var(--text);vertical-align:bottom;padding-top:1.2rem}
+    .ptable thead th:first-child{position:sticky;left:0;background:#080b0c}
+    .ptable thead small{display:block;margin-top:.35rem;font-family:'Space Grotesk',sans-serif;font-size:.78rem;font-weight:500;color:var(--text-soft)}
+    .ptable thead small b{color:var(--gold-hi);font-size:1.05rem;font-weight:800}
+    .ptable thead em{display:block;margin-top:.2rem;font-style:normal;font-family:'JetBrains Mono',monospace;font-size:.68rem;color:var(--text-mute)}
+    .ptable td b{color:var(--text);font-weight:700}
+    .ptable .pt-free{background:rgba(127,166,62,.09)}
+    .ptable thead .pt-free{box-shadow:inset 0 2px 0 #7fa63e}
+    .ptable .ok{color:#8fbf4a;font-weight:800;font-size:1rem}
+    .pt-note{display:block;margin-top:.15rem;font-size:.7rem;color:var(--gold-hi);letter-spacing:.02em}
+    .pt-pay{margin-top:1.2rem;color:var(--text-soft);font-size:.92rem;max-width:80ch;line-height:1.55}
+    .pt-pay b{color:var(--text)}
+    .plan-ind p.pi-bonus{margin-top:.6rem;color:var(--text)}
+    .plan-ind p.pi-bonus b{color:var(--gold-hi)}
+    .pt-ea{display:block;margin-top:.2rem;font-size:.7rem;color:#8fbf4a;line-height:1.3}
+    .volt-ic{display:inline-block;width:1.05em;height:1.05em;vertical-align:-.16em;margin-right:.3em}
+    .pi-price .volt-ic{width:1.9rem;height:1.9rem;vertical-align:-.3rem;margin-right:.4rem}
+    .plan-ind .pi-logo{flex:0 0 auto;width:76px;height:76px;filter:drop-shadow(0 10px 24px rgba(127,166,62,.28))}
+    #planes h2 .t-flash{display:inline-block;height:1.45em;width:auto;vertical-align:-.36em;margin-left:.05em}
+    .ptable .pt-name{display:inline-flex;align-items:center;gap:.35rem}
+    .ptable .pt-flash{width:1.7em;height:1.7em;margin-left:-.4em}
+    .plan-usd{margin:-.75rem 0 .95rem;font-size:.74rem;color:var(--text-mute);font-family:'JetBrains Mono',monospace;letter-spacing:.02em}
     .plan-feats{display:flex;flex-direction:column;gap:.4rem}
     .plan-feats li{color:var(--text-soft);font-size:.82rem;padding-left:1rem;position:relative;line-height:1.35}
     .plan-feats li::before{content:'\25E2';position:absolute;left:0;color:var(--gold);font-size:.55rem;top:.25rem}
@@ -418,13 +671,13 @@
     /* CTA final */
     .final{text-align:left;position:relative;border-radius:var(--r-xl);overflow:hidden;padding:clamp(1.5rem,3.2vw,3rem);
       border:1px solid var(--line);background:var(--card);
-      display:grid;grid-template-columns:auto 1fr;align-items:center;gap:clamp(1rem,3vw,2.6rem)}
-    .final-content{min-width:0}
-    .final h2{font-size:clamp(2.4rem,5.4vw,4.2rem);margin-bottom:1rem}
-    .final .lead{margin:0 0 2rem}
+      display:grid;grid-template-columns:minmax(200px,40%) minmax(0,1fr);align-items:center;gap:clamp(1rem,3vw,2.6rem)}
+    .final-content{min-width:0;max-width:620px}
+    .final h2{font-size:clamp(2.4rem,4.6vw,4rem);margin-bottom:1rem;text-wrap:balance}
+    .final .lead{margin:0 0 2rem;max-width:46ch}
     .final .row{display:flex;flex-wrap:wrap;gap:.8rem;justify-content:flex-start}
-    .final-mascots{display:flex;align-self:stretch;align-items:flex-end;justify-content:center}
-    .final-mascots img{width:auto;height:100%;min-height:clamp(260px,32vw,440px);object-fit:contain;margin:0;filter:drop-shadow(0 18px 32px rgba(0,0,0,.6))}
+    .final-mascots{display:flex;align-self:end;align-items:flex-end;justify-content:center}
+    .final-mascots img{width:100%;height:auto;max-height:460px;object-fit:contain;margin:0;filter:drop-shadow(0 18px 32px rgba(0,0,0,.6))}
     @media(max-width:760px){
       .final{grid-template-columns:1fr;text-align:center}
       .final .row{justify-content:center}
@@ -470,15 +723,19 @@
         "name": "CFX",
         "url": "https://umbra.cfx-software.com/",
         "logo": "https://umbra.cfx-software.com/assets/logo-triangle.png",
-        "sameAs": ["https://x.com/UMBRACFX"]
+        "sameAs": [
+          "https://x.com/UMBRACFX"
+        ]
       },
       {
         "@type": "WebSite",
         "name": "UMBRA",
         "url": "https://umbra.cfx-software.com/",
         "inLanguage": "es",
-        "description": "Chat de voz y centro de mando para comunidades gaming: Whisper entre salas, PTT con HOTAS y servidores sostenidos por toda la comunidad.",
-        "publisher": { "@id": "https://umbra.cfx-software.com/#org" }
+        "description": "Habla con otra sala sin salir de la tuya: Whisper, eventos con asistencia, foros, pantalla y cámara para tu comunidad de juego. Gratis para siempre, y tu gente entra con un enlace.",
+        "publisher": {
+          "@id": "https://umbra.cfx-software.com/#org"
+        }
       },
       {
         "@type": "SoftwareApplication",
@@ -486,38 +743,84 @@
         "url": "https://umbra.cfx-software.com/",
         "image": "https://umbra.cfx-software.com/assets/og-image.jpg",
         "applicationCategory": "CommunicationApplication",
-        "operatingSystem": "Windows, Web, Android",
-        "description": "Plataforma de chat de voz para comunidades gaming: Whisper entre salas (el command habla con cada escuadra sin salir de su canal), pulsar-para-hablar con HOTAS o mando, una app de Android en pruebas (radio de campo para el móvil), que se instalará como APK descargado de la web, y servidores sostenidos colectivamente por la comunidad.",
+        "operatingSystem": "Windows, Web",
+        "description": "Voz, chat, foros y calendario para comunidades de juego: Whisper entre salas (el mando habla con cada escuadra sin salir de su sala), pulsar para hablar con HOTAS o mando, overlay dentro del juego, foros con hilos, calendario de eventos con disponibilidad, pizarra, notas, documentos en vivo y una tienda de plugins. Funciona en Windows y en el navegador de cualquier sistema, también en el móvil. Los miembros entran con un enlace de invitación, sin instalar nada.",
         "offers": {
           "@type": "Offer",
           "price": "0",
           "priceCurrency": "USD",
-          "description": "Plan Community gratis para siempre, sin tarjeta: hasta 20 slots de voz, 4 salas y Whisper. Los planes más grandes se sostienen con lingotes de aporte de toda la comunidad, sin suscripción por usuario."
+          "description": "Plan Community gratis para siempre, sin tarjeta: miembros sin límite, 20 personas en voz a la vez, 4 salas y Whisper. Los planes más grandes se pagan entre toda la comunidad con Volts (entre $1,54 y $2,50 cada uno según el pack), sin suscripción por usuario."
         },
-        "publisher": { "@id": "https://umbra.cfx-software.com/#org" }
+        "publisher": {
+          "@id": "https://umbra.cfx-software.com/#org"
+        }
       },
       {
         "@type": "FAQPage",
         "mainEntity": [
           {
             "@type": "Question",
-            "name": "¿Qué es un lingote?",
-            "acceptedAnswer": { "@type": "Answer", "text": "Una unidad de aporte de UMBRA. Sirve para sostener el servidor de tu comunidad y desbloquear lo premium. No se cambia por dinero." }
+            "name": "¿Qué es un Volt y cuánto cuesta?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Es la unidad de aporte de UMBRA: con Volts se pagan los planes de servidor y Flash. Se compran en packs de $5 a $100, con PayPal o tarjeta, y cada Volt sale entre $2,50 y $1,54 según el pack. No se cambian de vuelta por dinero."
+            }
           },
           {
             "@type": "Question",
             "name": "¿Es gratis de verdad?",
-            "acceptedAnswer": { "@type": "Answer", "text": "Sí. El plan Community es gratis para siempre: sin tarjeta y sin fecha de vencimiento, con hasta 20 slots de voz, 4 salas y Whisper. Si tu comunidad crece, pasas a un plan más grande y ese se sostiene con lingotes: los recargas cuando quieras, con PayPal o tarjeta, sin suscripciones ni cobros automáticos." }
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Sí. Community es gratis para siempre: sin tarjeta y sin fecha de vencimiento, con miembros sin límite, 20 personas en voz a la vez, 4 salas y Whisper. Si la comunidad crece, pueden pasar a un plan más grande y pagarlo entre todos con Volts, sin suscripciones ni cobros automáticos."
+            }
           },
           {
             "@type": "Question",
             "name": "¿Y si el equipo deja de aportar?",
-            "acceptedAnswer": { "@type": "Answer", "text": "En los planes con cuota hay 7 días de gracia y después el servidor pasa a modo reducido; si sigue sin cubrirse, se congela. No se pierde nada: se reactiva cubriendo un mes de cuota. El plan Community no tiene cuota, así que no le pasa." }
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "En los planes con cuota hay 7 días de gracia y después el servidor pasa a modo reducido; si sigue sin cubrirse, se congela. No se pierde nada: se reactiva cubriendo un mes de cuota. El plan Community no tiene cuota, así que no le pasa."
+            }
           },
           {
             "@type": "Question",
             "name": "¿Qué necesito para usarlo?",
-            "acceptedAnswer": { "@type": "Answer", "text": "Windows o cualquier navegador moderno, sin instalar nada. La radio de campo de Android para el móvil está construida y en pruebas, pero todavía no se puede descargar: cuando salga se instalará como APK desde umbra.cfx-software.com/descargas, porque no está en Google Play. El mando táctico para tablet (Premium) también sigue en pruebas, y macOS y Linux nativos van en camino." }
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Un navegador moderno en cualquier sistema: Windows, Mac, Linux o el móvil. O la app de Windows, que suma el pulsar para hablar con el juego en primer plano y el overlay. Las apps nativas para Android, Mac y Linux están en camino."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "¿En qué se diferencia de Discord o TeamSpeak?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "En que hablar a otra sala es la función central y no una opción escondida: el Whisper cruza salas con un atajo. Además junta voz, chat, foros, calendario y pizarra en una sola app, trae pulsar-para-hablar nativo con HOTAS y mandos y overlay dentro del juego, y el servidor lo sostiene la comunidad entre todos, sin suscripción por usuario."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "¿Tengo que dejar la app que ya usamos?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. Pueden empezar usando UMBRA solo para las operaciones y los eventos, y mover el resto cuando quieran. Es gratis y se entra con un enlace, así que pueden probarlo una noche con la escuadra sin tocar nada de lo que ya tienen."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "¿Qué significa que está en acceso anticipado?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Que UMBRA funciona y se usa a diario, pero sigue creciendo: sale versión nueva casi cada semana y todavía puede haber fallos. Cuando aparecen los arreglamos rápido, y lo que nos cuentan quienes la usan decide qué hacemos después."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "¿Qué plugins hay?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Hoy están Cine y música, Soundboard, Pyro Timers y Quantum Intercept, y vienen más. Se instalan con un clic desde la tienda de plugins, y cada uno funciona aislado y solo con los permisos que declara."
+            }
           }
         ]
       }
@@ -528,7 +831,7 @@
 <body>
   <a class="skip" href="#main" data-i18n="a11y.skip">Saltar al contenido</a>
   <div class="grain" aria-hidden="true"></div>
-  <div class="cosmos tactical" aria-hidden="true">
+  <div class="cosmos tactical art taco" aria-hidden="true">
     <div class="bg-tactical"></div>
     <div class="eclipse"></div>
     <div class="cosmos-veil"></div>
@@ -543,11 +846,11 @@
       <img class="nav-wordmark" src="assets/wordmark-umbra.png" alt="UMBRA" />
     </a>
     <div class="nav-links">
-      <a href="#comunicacion" data-i18n="nav.comms">Comunicación</a>
-      <a href="#canvas" data-i18n="nav.canvas">Canvas</a>
-      <a href="#plugins" data-i18n="nav.plugins">Plugins</a>
+      <a href="#problema" data-i18n="nav.why">Por qué UMBRA</a>
+      <a href="#comunicacion" data-i18n="nav.whisper">Whisper</a>
+      <a href="#calendario" data-i18n="nav.calendar">Calendario</a>
+      <a class="nav-flash" href="/tienda" aria-label="Flash · Tienda"><img src="assets/brand/flash-logo.svg" width="426" height="120" alt="Flash"></a>
       <a href="/partners" data-i18n="nav.partners">Partners</a>
-      <a href="/tienda" data-i18n="nav.store">Pledge Store</a>
     </div>
     <div class="nav-right">
       <div class="lang lang-switch" role="group" aria-label="Idioma">
@@ -555,6 +858,7 @@
         <button type="button" data-lang="en">EN</button>
       </div>
       <button class="nav-cta btn-login" data-i18n="t.nav.login">Iniciar sesión</button>
+      <a class="nav-dl" href="https://umbra-api.cfx-software.com/downloads/Umbra-Setup.exe" download data-i18n="nav.cta">Descargar</a>
       <div class="user-menu" hidden>
         <button class="nav-cta user-toggle" aria-expanded="false">
           <span class="user-name"></span>
@@ -572,8 +876,9 @@
       <a href="#comunicacion" data-i18n="nav.comms">Comunicación</a>
       <a href="#canvas" data-i18n="nav.canvas">Canvas</a>
       <a href="#plugins" data-i18n="nav.plugins">Plugins</a>
+      <a class="nm-flash" href="/tienda" aria-label="Flash · Tienda"><img src="assets/brand/flash-logo.svg" width="426" height="120" alt="Flash"></a>
       <a href="/partners" data-i18n="nav.partners">Partners</a>
-      <a href="/tienda" data-i18n="nav.store">Pledge Store</a>
+      <a href="/tienda" data-i18n="nav.store">Tienda</a>
       <a href="/descargas" data-i18n="nav.downloads">Descargas</a>
       <div class="nm-sep"></div>
       <button class="drawer-login nm-login" type="button" data-i18n="t.nav.login">Iniciar sesión</button>
@@ -598,22 +903,26 @@
 
   <main id="main">
     <!-- HERO -->
-    <header class="hero">
+    <header class="hero" id="hero">
       <img class="float-obj fo-sat" src="assets/shots/obj-satelite.webp" alt="" aria-hidden="true" />
       <div class="wrap hero-grid">
         <div data-reveal>
-          <span class="kicker" data-i18n="h.kicker">Para clanes, gremios y equipos competitivos</span>
-          <h1 data-i18n-html="h.title">El centro de mando de <span class="grad">tu comunidad</span>.</h1>
-          <p class="lead" data-i18n="h.sub">Voz de alta fidelidad, Whisper entre salas y un espacio de trabajo donde tu equipo planea, coordina y ejecuta. Todo en un mismo lugar, hecho para jugar en serio.</p>
+          <span class="kicker" data-i18n="h.kicker">Voz para comunidades que se organizan</span>
+          <h1 data-i18n-html="h.title">Habla con otra sala <span class="grad">sin salir de la tuya</span>.</h1>
+          <p class="lead" data-i18n="h.sub">UMBRA le da a tu comunidad lo que le falta: Whisper entre salas, eventos con asistencia confirmada, foros donde nada se pierde, pantalla y cámara, gratis. Y no tienen que dejar nada: su gente entra con un enlace y lo prueban una noche.</p>
           <div class="hero-cta">
-            <a class="btn btn-gold" href="https://umbra-api.cfx-software.com/downloads/Umbra-Setup.exe" download data-i18n="h.cta1">Descargar para Windows</a>
-            <a class="btn btn-ghost" href="https://umbra.mobile/" target="_blank" rel="noopener" data-i18n="h.cta2">Abrir en el navegador</a>
+            <a class="btn btn-gold" href="https://umbra.mobile/" target="_blank" rel="noopener" data-i18n="h.cta1">Crear mi servidor gratis</a>
+            <a class="btn btn-ghost" href="https://umbra-api.cfx-software.com/downloads/Umbra-Setup.exe" download data-i18n="h.cta2">Descargar para Windows</a>
           </div>
-          <p class="hero-plat"><span class="dot"></span><span data-i18n="h.plat">Windows · Navegador · Android en camino · macOS y Linux en camino</span></p>
+          <ul class="hero-trust">
+            <li data-i18n="h.t1">Gratis para siempre, sin tarjeta</li>
+            <li data-i18n="h.t2">Miembros sin límite, 20 en voz a la vez</li>
+            <li data-i18n="h.t3">Windows, navegador y móvil</li>
+          </ul>
         </div>
         <div class="hero-visual" data-reveal style="--d:120ms">
           <div class="hero-shot" data-speed="-0.015">
-            <img src="assets/umbra-screenshot-clean.webp" alt="Interfaz de UMBRA: salas de voz y espacio de trabajo" fetchpriority="high" />
+            <img src="assets/shots/app-main.webp?v=0861" width="1600" height="861" alt="Interfaz de UMBRA: salas de voz, la ficha de un evento del calendario, un documento presentándose en vivo, notas y pizarra en un mismo escritorio" fetchpriority="high" />
           </div>
           <img class="mascot halo h-gold" src="assets/taco-hey.png" alt="" data-speed="-0.05" />
           <div class="whisper-toast" aria-hidden="true">
@@ -624,61 +933,159 @@
       </div>
     </header>
 
-    <!-- PARA QUIÉN -->
-    <section id="paraquien">
-      <img class="float-obj fo-man" src="assets/shots/obj-mando.webp" alt="" aria-hidden="true" />
-      <img class="float-obj fo-taco" src="assets/taco-penbroke-gun.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" />
+    <!-- EL COMPROMISO / PLEDGE -->
+    <section id="compromiso">
+      <img class="float-obj fo-pla" src="assets/shots/obj-mundo.webp" alt="" aria-hidden="true" />
       <div class="wrap">
-        <span class="kicker" data-reveal data-i18n="fw.kicker">Para quién</span>
-        <h2 data-reveal style="font-size:clamp(2rem,4.4vw,3.2rem);max-width:18ch" data-i18n="fw.title">Hecho para quienes coordinan de verdad.</h2>
-        <p class="lead" data-reveal style="--d:80ms;margin-top:1rem" data-i18n="fw.body">Operaciones de varias escuadras. Eventos competitivos. Comunidades de cientos de personas que necesitan estar en la misma página. UMBRA es para la comunicación táctica y la organización de alto nivel.</p>
-        <div class="audiences">
-          <div class="aud" data-reveal><span class="mono">01</span><h3 data-i18n="fw.c1">Clanes competitivos</h3><p data-i18n="fw.c1d">Coordinación táctica en tiempo real para ganar la próxima.</p></div>
-          <div class="aud" data-reveal style="--d:80ms"><span class="mono">02</span><h3 data-i18n="fw.c2">Gremios y comunidades</h3><p data-i18n="fw.c2d">Cientos de personas, una sola estructura, todo en orden.</p></div>
-          <div class="aud" data-reveal style="--d:160ms"><span class="mono">03</span><h3 data-i18n="fw.c3">Equipos y staff</h3><p data-i18n="fw.c3d">Organización de alto nivel para los que mueven el barco.</p></div>
+        <div class="pledge">
+          <div class="pledge-in">
+            <div data-reveal>
+              <span class="kicker" data-i18n="pg.kicker">Tu servidor</span>
+              <h2 style="font-size:clamp(2rem,3.8vw,3rem)" data-i18n-html="pg.title"><span class="hl">GRATIS</span></h2>
+              <p class="lead" style="margin:1.1rem 0 .4rem" data-i18n="pg.body">Desde el primer día y para siempre.</p>
+              <div class="perks">
+                <div class="perk"><span class="ic">✦</span><span><b data-i18n="pg.p1">Voz para jugar en equipo</b><span data-i18n="pg.p1d">Salas de voz, whisper a otra sala sin salir de la tuya y pulsar para hablar con el teclado, el HOTAS o el mando.</span></span></div>
+                <div class="perk"><span class="ic">◆</span><span><b data-i18n="pg.p2">Pantalla y cámara</b><span data-i18n="pg.p2d">Comparte tu pantalla con toda la sala o con una sola persona, y activa la cámara. En 720p, y en 1080p para todos mientras dure el acceso anticipado.</span></span></div>
+                <div class="perk"><span class="ic">●</span><span><b data-i18n="pg.p3">El grupo organizado</b><span data-i18n="pg.p3d">Chat, foros, eventos con «voy, tal vez, no voy» y el mejor horario para todos, y pizarra, notas y documentos al lado de la voz.</span></span></div>
+                <div class="perk"><span class="ic">■</span><span><b data-i18n="pg.p4">Tu servidor, a tu manera</b><span data-i18n="pg.p4d">Enlace de invitación personalizado, fondo y colores propios y barra de voz animada.</span></span></div>
+                <div class="perk"><span class="ic">▲</span><span><b data-i18n="pg.p5">Y si crecen, crece el servidor</b><span data-i18n="pg.p5d">Gratis hablan hasta 20 a la vez en 4 salas. Si son más, el servidor sube de plan desde 15 Volts al mes y cada miembro aporta lo que quiere.</span></span></div>
+              </div>
+              <div class="hero-cta">
+                <a class="btn btn-gold" href="https://umbra.mobile/" target="_blank" rel="noopener" data-i18n="pg.cta">Crear mi servidor gratis</a>
+                <a class="btn btn-ghost" href="#planes" data-i18n="pg.cta2">Ver los planes</a>
+              </div>
+            </div>
+            <div class="pledge-media">
+              <img class="mascot halo h-mint" src="assets/taco-happy.png" alt="TACO, la mascota de UMBRA" />
+            </div>
+          </div>
+        </div>
+        <h3 class="steps-title" data-reveal data-i18n="stp.title">Esta noche ya pueden estar todos dentro.</h3>
+        <ol class="steps">
+          <li class="step" data-reveal><span class="mono">01</span><h3 data-i18n="stp.s1">Abre UMBRA</h3><p data-i18n="stp.s1d">En el navegador o con la app de Windows, y con tu cuenta de Google. La primera vez tienes un servidor de prueba para practicar sin miedo.</p></li>
+          <li class="step" data-reveal style="--d:80ms"><span class="mono">02</span><h3 data-i18n="stp.s2">Crea tu servidor</h3><p data-i18n="stp.s2d">Ponle nombre y arma las salas de voz por categorías. Es gratis y no caduca.</p></li>
+          <li class="step" data-reveal style="--d:160ms"><span class="mono">03</span><h3 data-i18n="stp.s3">Pasa el enlace</h3><p data-i18n="stp.s3d">Tu gente lo toca y entra desde el PC o el móvil, sin instalar nada. Si quieres, apruebas a cada uno antes de que entre.</p></li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- MOTIVOS PARA VENIR -->
+    <section id="problema">
+      <div class="wrap pains">
+        <div class="pains-head" data-reveal>
+          <span class="kicker" data-i18n="pb.kicker">Motivos para venir</span>
+          <h2 data-i18n="pb.title">Cinco motivos para traer a tu comunidad.</h2>
+          <p class="lead" data-i18n="pb.body">Tu comunidad ya tiene dónde chatear. Lo que le falta es dónde organizarse.</p>
+        </div>
+        <div>
+          <ul class="pain-list">
+            <li class="pain" data-reveal><span class="mono">01</span><h3 data-i18n="pb.p1">Hablar con otra sala sin cambiarte de canal.</h3><p data-i18n="pb.p1d">Con Whisper le das la orden a Bravo desde Command y sigues en tu sala. Ellos te oyen sin que se corte su conversación.</p></li>
+            <li class="pain" data-reveal><span class="mono">02</span><h3 data-i18n="pb.p2">Saber quién viene antes del sábado.</h3><p data-i18n="pb.p2d">Cada evento tiene su sala de voz y su lista de «voy, tal vez, no voy». Y si no saben cuándo jugar, UMBRA cruza la disponibilidad de todos y les marca el mejor horario.</p></li>
+            <li class="pain" data-reveal><span class="mono">03</span><h3 data-i18n="pb.p3">Hablar con el botón del HOTAS o del mando.</h3><p data-i18n="pb.p3d">Pulsar para hablar con cualquier botón de joystick, volante o mando, aunque el juego esté en primer plano. Sin programas aparte.</p></li>
+            <li class="pain" data-reveal><span class="mono">04</span><h3 data-i18n="pb.p4">Tu servidor con tu identidad, sin pagar mejoras.</h3><p data-i18n="pb.p4d">Fondo, colores, barra de voz animada y enlace de invitación personalizado vienen gratis. Y compartes pantalla con toda la sala o con una sola persona, sin armar otra llamada.</p></li>
+            <li class="pain" data-reveal><span class="mono">05</span><h3 data-i18n="pb.p5">La guía, el mapa y la voz, a la vez.</h3><p data-i18n="pb.p5d">Voz, foros, calendario, pizarra y documentos en ventanas que acomodas en la misma pantalla. La guía de la operación ya no se pierde en el chat.</p></li>
+          </ul>
+          <p class="pains-out" data-reveal data-i18n-html="pb.out">Y no es todo o nada: pueden empezar usando UMBRA solo para las operaciones y los eventos, y dejar el resto donde está. <b>Su gente entra con un enlace.</b></p>
         </div>
       </div>
     </section>
 
     <!-- PILARES -->
     <div class="pillars wrap">
-      <!-- Comunicación -->
+      <!-- Comunicación · Whisper -->
       <section class="panel" id="comunicacion" style="padding:0">
         <div class="panel-in">
           <div data-reveal>
-            <span class="kicker" data-i18n="c.kicker">Comunicación táctica</span>
-            <h2 data-i18n="c.title">Que se escuche cada orden.</h2>
-            <p class="lead" data-i18n-html="c.body">Audio de alta fidelidad y baja latencia, voz cristalina incluso con el juego a pantalla completa. Y cuando necesitas hablarle a otra escuadra sin salir de la tuya, el <b>Whisper</b> te conecta entre salas en tiempo real: un canal directo, sin ruido, sin perder el foco.</p>
+            <span class="kicker" data-i18n="c.kicker">Whisper · La función estrella</span>
+            <h2 data-i18n="c.title">Dale la orden a Bravo sin moverte de Command.</h2>
+            <p class="lead" data-i18n-html="c.body">Mantén una tecla, habla, y te oye la sala que elijas, o todas a la vez. Tu voz se mezcla con su conversación sin cortarla, y ven quién les habla. En UMBRA el <b>Whisper</b> es la función central, no una opción escondida en menús.</p>
             <ul class="feat">
-              <li><span class="ic">◢</span><span data-i18n-html="c.b1"><b>Voz nítida de baja latencia</b>, pensada para el combate.</span></li>
-              <li><span class="ic">◢</span><span data-i18n-html="c.b2"><b>Whisper entre salas:</b> habla con otra escuadra sin abandonar la tuya.</span></li>
-              <li><span class="ic">◢</span><span data-i18n-html="c.b3"><b>Pulsa para hablar</b> con cualquier tecla, mando o HOTAS —y con un Stream Deck configurándolo como atajo de teclado.</span></li>
-              <li><span class="ic">◢</span><span data-i18n-html="c.b4"><b>Roles y permisos</b> jerárquicos para mantener el orden en plena operación.</span></li>
+              <li><span class="ic">◢</span><span data-i18n-html="c.b1"><b>Whisper a una sala o a todas</b>, sin abandonar la tuya.</span></li>
+              <li><span class="ic">◢</span><span data-i18n-html="c.b2"><b>Un atajo por sala</b> con cualquier tecla, mando, HOTAS o Stream Deck (como atajo de teclado).</span></li>
+              <li><span class="ic">◢</span><span data-i18n-html="c.b3"><b>Aviso de whisper entrante</b>, también en el overlay dentro del juego.</span></li>
+              <li><span class="ic">◢</span><span data-i18n-html="c.b4"><b>Roles y permisos por sala</b> para mantener el orden en plena operación.</span></li>
             </ul>
           </div>
           <div class="panel-media tall">
-            <img class="shot" loading="lazy" decoding="async" src="assets/shots/comms.jpg" alt="Salas de voz y Whisper entre salas en UMBRA" onerror="this.onerror=null;this.src='assets/umbra-screenshot-clean.webp'" />
+            <div class="wdemo" id="wdemo">
+              <div class="wd-head"><span data-i18n="wd.head">Salas de voz · prueba</span><button type="button" class="wd-btn" data-room="all" data-i18n="wd.all">Whisper a todas</button></div>
+              <div class="wd-room me"><span class="wd-dot"></span><span class="wd-name"><b>Command</b><span data-i18n="wd.you">Tú estás aquí</span></span></div>
+              <div class="wd-room" data-room="Alpha"><span class="wd-dot"></span><span class="wd-name"><b>Alpha</b><span data-i18n="wd.n4">4 en la sala</span></span><span class="wd-act"><span class="wd-bars" aria-hidden="true"><i></i><i></i><i></i><i></i></span><button type="button" class="wd-btn" data-room="Alpha">Whisper</button></span></div>
+              <div class="wd-room" data-room="Bravo"><span class="wd-dot"></span><span class="wd-name"><b>Bravo</b><span data-i18n="wd.n6">6 en la sala</span></span><span class="wd-act"><span class="wd-bars" aria-hidden="true"><i></i><i></i><i></i><i></i></span><button type="button" class="wd-btn" data-room="Bravo">Whisper</button></span></div>
+              <div class="wd-room" data-room="Charlie"><span class="wd-dot"></span><span class="wd-name"><b>Charlie</b><span data-i18n="wd.n3">3 en la sala</span></span><span class="wd-act"><span class="wd-bars" aria-hidden="true"><i></i><i></i><i></i><i></i></span><button type="button" class="wd-btn" data-room="Charlie">Whisper</button></span></div>
+              <div class="wd-room" data-room="Delta"><span class="wd-dot"></span><span class="wd-name"><b>Delta</b><span data-i18n="wd.n5">5 en la sala</span></span><span class="wd-act"><span class="wd-bars" aria-hidden="true"><i></i><i></i><i></i><i></i></span><button type="button" class="wd-btn" data-room="Delta">Whisper</button></span></div>
+              <p class="wd-status" id="wdStatus" aria-live="polite" data-i18n="wd.hint">Mantén presionado un botón de Whisper</p>
+            </div>
             <img class="mascot-corner" src="assets/taco-normal.png" alt="TACO" />
           </div>
         </div>
       </section>
 
-      <!-- Canvas -->
-      <section class="panel rev" id="canvas" style="padding:0">
+      <!-- Calendario -->
+      <section class="panel rev" id="calendario" style="padding:0">
         <div class="panel-in">
           <div data-reveal>
-            <span class="kicker" data-i18n="cv.kicker">El Canvas · Espacio de trabajo</span>
-            <h2 data-i18n="cv.title">Tu estrategia, sobre la mesa.</h2>
-            <p class="lead" data-i18n-html="cv.body">El Canvas es donde tu comunidad piensa. Calendario de operaciones, notas compartidas y una pizarra integrada para trazar planes, marcar objetivos y dejar todo listo antes de entrar. Lo que antes vivía en cinco lugares distintos, ahora vive en uno.</p>
+            <span class="kicker" data-i18n="cal.kicker">Calendario de eventos</span>
+            <h2 data-i18n="cal.title">El sábado a las 22:00. Y esta vez van todos.</h2>
+            <p class="lead" data-i18n="cal.body">Cada evento tiene su hora, su sala de voz y la lista de quién va. Lo que está en curso sale arriba con el tiempo que queda, y entras a la sala con un clic.</p>
             <ul class="feat">
-              <li><span class="ic">◢</span><span data-i18n-html="cv.b1"><b>Calendario de operaciones</b> y eventos, con recordatorios.</span></li>
-              <li><span class="ic">◢</span><span data-i18n-html="cv.b2"><b>Notas y documentos</b> compartidos, siempre a mano.</span></li>
-              <li><span class="ic">◢</span><span data-i18n-html="cv.b3"><b>Pizarra integrada:</b> dibuja la estrategia y compártela en vivo.</span></li>
-              <li><span class="ic">◢</span><span data-i18n-html="cv.b4"><b>Todo enlazado</b> a tus salas y a tu equipo.</span></li>
+              <li><span class="ic">◢</span><span data-i18n-html="cal.b1"><b>Voy, tal vez o no voy</b>, y un aviso a todo el servidor cuando se crea un evento.</span></li>
+              <li><span class="ic">◢</span><span data-i18n-html="cal.b2"><b>¿Cuándo coincidimos?</b> Cada uno marca cuándo puede y UMBRA calcula los mejores momentos de la semana.</span></li>
+              <li><span class="ic">◢</span><span data-i18n-html="cal.b3"><b>Vista de mes y operaciones largas por franjas</b>, cada uno en su hora aunque estén en países distintos.</span></li>
+              <li><span class="ic">◢</span><span data-i18n-html="cal.b4"><b>Encuestas de fechas:</b> la fecha ganadora se convierte en un evento.</span></li>
             </ul>
           </div>
           <div class="panel-media tall">
-            <img class="shot" loading="lazy" decoding="async" src="assets/shots/canvas.jpg" alt="Calendario, notas y pizarra del Canvas de UMBRA" onerror="this.onerror=null;this.src='assets/umbra-screenshot-clean.webp'" />
+            <div class="shot-switch">
+              <img class="shot" id="calMain" loading="lazy" decoding="async" src="assets/shots/calendario-disponibilidad.webp?v=1122" width="1600" height="1041" alt="Calendario de UMBRA: ¿cuándo coincidimos? Los mejores momentos de la semana y la disponibilidad de cada miembro" />
+              <div class="shot-tabs" id="calTabs" role="group" aria-label="Vistas del calendario">
+                <button type="button" class="active" data-img="assets/shots/calendario-disponibilidad.webp?v=1122" data-i18n="cal.tab3">Disponibilidad</button>
+                <button type="button" data-img="assets/shots/calendario-agenda.webp" data-i18n="cal.tab1">Agenda</button>
+                <button type="button" data-img="assets/shots/calendario-mes.webp" data-i18n="cal.tab2">Mes</button>
+              </div>
+            </div>
+            <img class="mascot-corner" src="assets/taco-hey.png" alt="TACO" />
+          </div>
+        </div>
+      </section>
+
+      <!-- Comunidad · chat y foros -->
+      <section class="panel" id="comunidad" style="padding:0">
+        <div class="panel-in">
+          <div data-reveal>
+            <span class="kicker" data-i18n="cm.kicker">Chat y foros</span>
+            <h2 data-i18n="cm.title">La guía de la operación deja de perderse en el chat.</h2>
+            <p class="lead" data-i18n="cm.body">Lo importante va a un foro, con hilos, etiquetas y buscador. Lo del día a día, al chat. Y todo en el mismo servidor donde ya están hablando.</p>
+            <ul class="feat">
+              <li><span class="ic">◢</span><span data-i18n-html="cm.b1"><b>Foros e hilos</b> con imágenes, etiquetas, buscador y aviso de lo que no has leído.</span></li>
+              <li><span class="ic">◢</span><span data-i18n-html="cm.b2"><b>Chat con GIF, reacciones, fijados y menciones</b>, y encuestas en vivo.</span></li>
+              <li><span class="ic">◢</span><span data-i18n-html="cm.b3"><b>Amigos, mensajes directos y grupos:</b> saca un chat a su propia ventana.</span></li>
+              <li><span class="ic">◢</span><span data-i18n-html="cm.b4"><b>Perfil a tu medida:</b> banner, bio, estado «Jugando a…» y modo invisible.</span></li>
+            </ul>
+          </div>
+          <div class="panel-media tall">
+            <img class="shot" loading="lazy" decoding="async" src="assets/shots/foros.webp" width="1600" height="872" alt="Foros de UMBRA: lista de hilos con etiquetas y buscador, y una guía con imágenes abierta al lado" />
+            <img class="mascot-corner" src="assets/taco-love.png" alt="TACO" />
+          </div>
+        </div>
+      </section>
+
+      <!-- Canvas · Escritorios -->
+      <section class="panel rev" id="canvas" style="padding:0">
+        <div class="panel-in">
+          <div data-reveal>
+            <span class="kicker" data-i18n="cv.kicker">El Canvas · Escritorios</span>
+            <h2 data-i18n="cv.title">Voz, calendario y pizarra a la vez. Sin Alt+Tab.</h2>
+            <p class="lead" data-i18n-html="cv.body">Cada servidor es un lienzo con ventanas que colocas a tu gusto: voz, chat, foros, calendario, pizarra, notas y documentos. Lo que antes vivía en cinco apps distintas, ahora vive en una.</p>
+            <ul class="feat">
+              <li><span class="ic">◢</span><span data-i18n-html="cv.b1"><b>Hasta 4 escritorios</b>, cada uno con su nombre y su fondo: pasas de uno a otro con Ctrl+1…4.</span></li>
+              <li><span class="ic">◢</span><span data-i18n-html="cv.b2"><b>Dock o menú radial:</b> tus módulos y plugins, a un gesto.</span></li>
+              <li><span class="ic">◢</span><span data-i18n-html="cv.b3"><b>Ventanas minimizadas que siguen vivas</b>, con vista previa al pasar el cursor.</span></li>
+              <li><span class="ic">◢</span><span data-i18n-html="cv.b4"><b>Pizarra, notas y documentos</b> en vivo: presenta un PDF y todos ven tu misma página.</span></li>
+            </ul>
+          </div>
+          <div class="panel-media tall">
+            <img class="shot" loading="lazy" decoding="async" src="assets/shots/menu-radial.webp" width="946" height="516" alt="Menú radial de UMBRA con accesos a salas de voz, chats, pizarra, notas, documentos, calendario, foros y plugins" />
             <img class="mascot-corner" src="assets/taco-proud.png" alt="TACO" />
           </div>
         </div>
@@ -688,72 +1095,113 @@
       <section class="panel" id="plugins" style="padding:0">
         <div class="panel-in">
           <div data-reveal>
-            <span class="kicker" data-i18n="pl.kicker">Ecosistema de plugins</span>
-            <h2 data-i18n-html="pl.title">Amplía UMBRA a la medida de tu equipo.</h2>
-            <p class="lead" data-i18n="pl.body">UMBRA se adapta a cómo juega y trabaja tu comunidad. Suma plugins de gaming de alto nivel —herramientas tácticas por juego— o de productividad para tu staff. Todo desde una tienda de plugins integrada, con instalación segura y aislada.</p>
+            <span class="kicker" data-i18n="pl.kicker">Tienda de plugins</span>
+            <h2 data-i18n-html="pl.title">Noche de cine en la misma sala donde juegan.</h2>
+            <p class="lead" data-i18n="pl.body">Suma a tu servidor lo que tu comunidad necesite, del cine compartido a las herramientas de tu juego. Todo desde una tienda integrada.</p>
             <ul class="feat">
-              <li><span class="ic">◢</span><span data-i18n-html="pl.t1"><b>Gaming de alto nivel:</b> herramientas tácticas específicas por juego.</span></li>
-              <li><span class="ic">◢</span><span data-i18n-html="pl.t2"><b>Productividad:</b> plugins de gestión y organización para tu staff.</span></li>
-              <li><span class="ic">◢</span><span data-i18n-html="pl.t3"><b>Tienda de plugins integrada:</b> instala con un clic.</span></li>
-              <li><span class="ic">◢</span><span data-i18n-html="pl.t4"><b>Cada plugin corre aislado</b>, sin tocar tus datos.</span></li>
+              <li><span class="ic">◢</span><span data-i18n-html="pl.t1"><b>Instalación con un clic</b> desde la tienda integrada.</span></li>
+              <li><span class="ic">◢</span><span data-i18n-html="pl.t2"><b>Cada plugin funciona aislado</b>, solo con los permisos que declara y sin acceso a tus datos.</span></li>
             </ul>
           </div>
           <div class="panel-media tall">
-            <img class="shot" loading="lazy" decoding="async" src="assets/shots/plugins.jpg" alt="Tienda de plugins de UMBRA" onerror="this.onerror=null;this.src='assets/umbra-screenshot-clean.webp'" />
+            <ul class="plist">
+              <li><b>Cine y música</b><span class="chip ok" data-i18n="pl.ok">Disponible</span><span class="pd" data-i18n="pl.p1">YouTube, Twitch o música, sincronizados para toda la sala.</span></li>
+              <li><b>Soundboard</b><span class="chip ok" data-i18n="pl.ok">Disponible</span><span class="pd" data-i18n="pl.p2">Recorta lo último que dijo un compañero y lánzalo en la sala.</span></li>
+              <li><b>Pyro Timers</b><span class="chip ok" data-i18n="pl.ok">Disponible</span><span class="pd" data-i18n="pl.p3">Star Citizen: temporizadores de Pyro.</span></li>
+              <li><b>Quantum Intercept</b><span class="chip ok" data-i18n="pl.ok">Disponible</span><span class="pd" data-i18n="pl.p4">Star Citizen: mapa de interdicción cuántica.</span></li>
+              <li><b>ARMA 3 Radio</b><span class="chip dev" data-i18n="pl.dev">En desarrollo</span><span class="pd" data-i18n="pl.p5">Voz posicional 3D y radios por frecuencia.</span></li>
+            </ul>
             <img class="mascot-corner" src="assets/taco-looking.png" alt="TACO" />
           </div>
         </div>
       </section>
     </div>
 
-    <!-- INTERFAZ ADAPTATIVA -->
-    <section id="interfaz">
+    <!-- TU ESTILO, TU PANTALLA -->
+    <section id="estilo">
       <div class="wrap">
-        <span class="kicker" data-reveal data-i18n="ad.kicker">Interfaz adaptativa</span>
-        <h2 data-reveal style="font-size:clamp(2rem,4.2vw,3rem);max-width:16ch;margin-bottom:2rem" data-i18n="ad.title">Una interfaz que se siente tuya.</h2>
-        <div class="adapt">
-          <div class="adapt-display" data-reveal>
-            <img class="adapt-main" id="adaptMain" src="assets/shots/adapt-avion.jpg" alt="UMBRA con un fondo personalizado, la interfaz adaptada a sus colores" />
+        <div class="sty-head" data-reveal>
+          <span class="kicker" data-i18n="st.kicker">Tu estilo, tu pantalla</span>
+          <h2 data-i18n-html="st.title">Se ve como tu comunidad. <span class="hl">En cualquier pantalla.</span></h2>
+          <p class="lead" data-i18n="st.body">Fondo, color de acento, superficies y hasta una barra de voz animada: el servidor se viste con la identidad de tu comunidad. Quien lo administra elige el tema para todos, y cada uno puede ajustar el suyo.</p>
+        </div>
+        <div class="sty-stage" data-reveal style="--d:100ms">
+          <div class="sty-screen"><img id="styMain" loading="lazy" decoding="async" src="assets/shots/adapt-rojo.jpg" width="1600" height="648" alt="UMBRA en un monitor ultrawide con un fondo personalizado y las ventanas de voz, chat, foros y amigos" /></div>
+          <span class="sty-stand" aria-hidden="true"></span>
+          <div class="sty-phone"><img loading="lazy" decoding="async" src="assets/shots/movil-voz.webp" width="589" height="1280" alt="UMBRA en un teléfono en vertical: salas de voz con Whisper y un fondo personalizado" /></div>
+        </div>
+        <div class="sty-pick" data-reveal>
+          <span class="mono" data-i18n="st.hint">Prueba un estilo:</span>
+          <div class="sty-chips" id="styChips" role="group" aria-label="Estilos de ejemplo">
+            <button type="button" class="active" data-img="assets/shots/adapt-rojo.jpg" data-i18n="st.s1">Eclipse</button>
+            <button type="button" data-img="assets/shots/adapt-avion.jpg" data-i18n="st.s2">Aviador</button>
+            <button type="button" data-img="assets/shots/adapt-playa.jpg" data-i18n="st.s3">Playa</button>
+            <button type="button" data-img="assets/shots/adapt-davinci.jpg" data-i18n="st.s4">Óleo</button>
           </div>
-          <div data-reveal style="--d:80ms">
-            <p class="mono" style="font-size:.8rem;color:var(--gold-hi);letter-spacing:.1em;margin-bottom:.5rem" data-i18n="ad.hint">PRUEBA: ELIGE UN FONDO →</p>
-            <p class="lead" style="font-size:1rem;margin-bottom:1.2rem" data-i18n="ad.body2">Cada imagen reescribe el acento, los brillos y las superficies de la interfaz en tiempo real. Tu puesto de mando, con tu identidad.</p>
-            <div class="adapt-thumbs" id="adaptThumbs" role="group" aria-label="Fondos de ejemplo">
-              <button class="adapt-thumb active" data-img="assets/shots/adapt-avion.jpg" aria-label="Fondo avión"><img src="assets/shots/adapt-avion.jpg" alt="" loading="lazy" /></button>
-              <button class="adapt-thumb" data-img="assets/shots/adapt-playa.jpg" aria-label="Fondo playa"><img src="assets/shots/adapt-playa.jpg" alt="" loading="lazy" /></button>
-              <button class="adapt-thumb" data-img="assets/shots/adapt-pirata.jpg" aria-label="Fondo pirata"><img src="assets/shots/adapt-pirata.jpg" alt="" loading="lazy" /></button>
-              <button class="adapt-thumb" data-img="assets/shots/adapt-city.jpg" aria-label="Fondo ciudad"><img src="assets/shots/adapt-city.jpg" alt="" loading="lazy" /></button>
-              <button class="adapt-thumb" data-img="assets/shots/adapt-davinci.jpg" aria-label="Fondo renacimiento"><img src="assets/shots/adapt-davinci.jpg" alt="" loading="lazy" /></button>
-              <button class="adapt-thumb" data-img="assets/shots/adapt-rojo.jpg" aria-label="Fondo rojo"><img src="assets/shots/adapt-rojo.jpg" alt="" loading="lazy" /></button>
-              <button class="adapt-thumb" data-img="assets/shots/adapt-verde.jpg" aria-label="Fondo verde"><img src="assets/shots/adapt-verde.jpg" alt="" loading="lazy" /></button>
-            </div>
-          </div>
+        </div>
+        <ul class="sty-facts">
+          <li data-reveal data-i18n-html="st.f1"><b>Monitor horizontal o vertical</b><span>El lienzo se acomoda si giras la pantalla.</span></li>
+          <li data-reveal style="--d:80ms" data-i18n-html="st.f2"><b>Ultrawide, también</b><span>21:9 y 32:9, con un lienzo hasta el doble de ancho para repartir ventanas.</span></li>
+          <li data-reveal style="--d:160ms" data-i18n-html="st.f3"><b>Y en el móvil</b><span>La misma comunidad desde el navegador del teléfono, en vertical.</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- EN EL MÓVIL -->
+    <section id="movil">
+      <div class="wrap mobile-sec">
+        <div data-reveal>
+          <span class="kicker" data-i18n="mb.kicker">Sin instalar nada</span>
+          <h2 data-i18n="mb.title">Tu gente entra con un enlace.</h2>
+          <p class="lead" data-i18n="mb.body">Lo tocan en WhatsApp o donde sea y aparecen en tu servidor, desde el navegador del PC o del móvil, con su cuenta de Google. En el móvil se usa como una app de mensajería.</p>
+          <ul class="feat">
+            <li><span class="ic">◢</span><span data-i18n-html="mb.b1"><b>Chats</b> con amigos y grupos, y el chat del servidor.</span></li>
+            <li><span class="ic">◢</span><span data-i18n-html="mb.b2"><b>Voz</b> con la barra siempre a mano: micro abierto o mantener presionado.</span></li>
+            <li><span class="ic">◢</span><span data-i18n-html="mb.b3"><b>Foros</b> a pantalla completa.</span></li>
+            <li><span class="ic">◢</span><span data-i18n-html="mb.b4"><b>La pantalla no se apaga</b> mientras estás en voz.</span></li>
+          </ul>
+          <a class="btn btn-ghost" href="https://umbra.mobile/" target="_blank" rel="noopener" data-i18n="mb.cta">Probar en el navegador →</a>
+        </div>
+        <div class="phones" data-reveal style="--d:120ms">
+          <img loading="lazy" decoding="async" src="assets/shots/movil-chat.webp" width="589" height="1280" alt="UMBRA en el móvil: chat del servidor" />
+          <img loading="lazy" decoding="async" src="assets/shots/movil-voz.webp" width="589" height="1280" alt="UMBRA en el móvil: salas de voz con el botón de mantener presionado para hablar" />
+          <img loading="lazy" decoding="async" src="assets/shots/movil-foro.webp" width="589" height="1280" alt="UMBRA en el móvil: un hilo del foro a pantalla completa" />
         </div>
       </div>
     </section>
 
-    <!-- EL COMPROMISO / PLEDGE -->
-    <section id="compromiso">
-      <img class="float-obj fo-pla" src="assets/shots/obj-mundo.webp" alt="" aria-hidden="true" />
+    <!-- HECHA PARA JUGAR: audio y hardware -->
+    <section id="juego">
       <div class="wrap">
-        <div class="pledge">
-          <div class="pledge-in">
-            <div data-reveal>
-              <span class="kicker" data-i18n="pg.kicker">El compromiso</span>
-              <h2 style="font-size:clamp(2rem,3.8vw,3rem)" data-i18n="pg.title">Lo sostienen entre todos.</h2>
-              <p class="lead" style="margin:1.1rem 0 .4rem" data-i18n="pg.body">En early access, UMBRA se mantiene con el aporte de su gente. Los lingotes son tu forma de sostener el servidor de tu comunidad y desbloquear lo premium — no son una moneda, son un compromiso. El líder pone una parte, el equipo completa el resto, y nadie paga solo.</p>
-              <div class="perks">
-                <div class="perk"><span class="ic">⚡</span><span><b data-i18n="pg.p1">Prioridad de acceso (en camino)</b><span data-i18n="pg.p1d">Cuando el servidor esté lleno, el premium te saltará la fila. Llega en una próxima actualización.</span></span></div>
-                <div class="perk"><span class="ic">★</span><span><b data-i18n="pg.p2">Sé de los pioneros</b><span data-i18n="pg.p2d">Status de fundador para quienes están desde el principio.</span></span></div>
-                <div class="perk"><span class="ic">◆</span><span><b data-i18n="pg.p3">Objetos exclusivos</b><span data-i18n="pg.p3d">Cosméticos e ítems que solo consiguen los que aportan.</span></span></div>
-              </div>
-              <a class="btn btn-gold" href="/tienda" data-i18n="pg.cta">Conoce la Pledge Store →</a>
-            </div>
-            <div class="pledge-media">
-              <img class="mascot halo h-mint" src="assets/taco-happy.png" alt="TACO, la mascota de UMBRA" />
-            </div>
-          </div>
+        <span class="kicker" data-reveal data-i18n="gm.kicker">Voz, audio y hardware</span>
+        <h2 data-reveal style="font-size:clamp(2rem,4.2vw,3rem);max-width:20ch" data-i18n="gm.title">Hecha para cuando tienes las manos ocupadas.</h2>
+        <p class="lead" data-reveal style="--d:80ms;margin-top:1rem" data-i18n="gm.body">Suena limpia aunque haya ruido y se maneja sin soltar los mandos. No es un chat al que le pusieron voz.</p>
+        <div class="bento">
+          <div class="aud big" data-reveal><span class="mono">01</span><h3 data-i18n="gm.c4">PTT con cualquier mando</h3><p data-i18n="gm.c4d">HOTAS, mandos, volantes y teclas F13–F24, aunque UMBRA no esté en primer plano.</p></div>
+          <div class="aud big" data-reveal style="--d:80ms"><span class="mono">02</span><h3 data-i18n="gm.c5">Overlay dentro del juego</h3><p data-i18n="gm.c5d">Ves quién habla y los whispers que entran y salen, con la opacidad que quieras.</p></div>
+          <div class="aud" data-reveal><span class="mono">03</span><h3 data-i18n="gm.c1">Solo pasa tu voz</h3><p data-i18n="gm.c1d">La activación por voz distingue tu voz del teclado, el ventilador o la tele, sin eco ni ruido de fondo.</p></div>
+          <div class="aud" data-reveal style="--d:60ms"><span class="mono">04</span><h3 data-i18n="gm.c2">Todos al mismo volumen</h3><p data-i18n="gm.c2d">UMBRA iguala el nivel de todos, y además ajustas el volumen de cada persona.</p></div>
+          <div class="aud" data-reveal style="--d:120ms"><span class="mono">05</span><h3 data-i18n="gm.c3">Pantalla y cámara</h3><p data-i18n="gm.c3d">Comparte pantalla con el sonido del juego, o enciende la cámara en HD (Full HD a 60 fps con Flash).</p></div>
+          <div class="aud" data-reveal style="--d:180ms"><span class="mono">06</span><h3 data-i18n="gm.c6">Cada transmisión, a su volumen</h3><p data-i18n="gm.c6d">Baja el sonido de una pantalla compartida sin bajarle la voz a quien la comparte.</p></div>
         </div>
+      </div>
+    </section>
+
+    <!-- NOVEDADES: acceso anticipado a la vista -->
+    <section id="novedades">
+      <div class="wrap news">
+        <div data-reveal>
+          <span class="kicker" data-i18n="nv.kicker">Acceso anticipado</span>
+          <h2 data-i18n="nv.title">Una app que mejora cada semana.</h2>
+          <p class="lead" style="margin-top:1.1rem" data-i18n="nv.body">Cinco versiones en los últimos nueve días. UMBRA está en acceso anticipado desde julio de 2026 y la hace un equipo chico que juega lo mismo que tú: lo que nos reportas entra en las próximas versiones.</p>
+        </div>
+        <ul class="rel" data-reveal style="--d:100ms">
+          <li><span class="mono">0.86.1<span data-i18n="nv.d1">22 nov 2026</span></span><p data-i18n="nv.r1">Documentos para presentar en vivo: subes un PDF y quien te sigue ve tu misma página.</p></li>
+          <li><span class="mono">0.86.0<span data-i18n="nv.d2">21 nov 2026</span></span><p data-i18n="nv.r2">Avisos a todo el servidor cuando se crea un evento, y volumen propio para el sonido de cada transmisión.</p></li>
+          <li><span class="mono">0.85.1<span data-i18n="nv.d3">21 nov 2026</span></span><p data-i18n="nv.r3">Calendario rehecho, «¿Cuándo coincidimos?» y encuestas en el chat y en los foros.</p></li>
+          <li><span class="mono">0.85.0<span data-i18n="nv.d4">20 nov 2026</span></span><p data-i18n="nv.r4">Chats en su propia ventana, menciones en los foros y el plan Community, gratis.</p></li>
+          <li><span class="mono">0.84.10<span data-i18n="nv.d5">14 nov 2026</span></span><p data-i18n="nv.r5">Menciones con @, pantalla compartida con sonido, categorías de salas e invitaciones con aprobación.</p></li>
+        </ul>
       </div>
     </section>
 
@@ -762,65 +1210,40 @@
       <img class="sec-mascot sm-love" src="assets/taco-love.png" alt="" aria-hidden="true" />
       <div class="wrap">
         <span class="kicker" data-reveal data-i18n="pn.kicker">Planes</span>
-        <h2 data-reveal style="font-size:clamp(2rem,4.2vw,3rem);max-width:16ch" data-i18n="pn.title">Un plan para cada comunidad.</h2>
-        <p class="lead" data-reveal style="--d:80ms;margin-top:1rem" data-i18n="pn.body">Desde grupos chicos hasta gremios masivos. El plan lo sostiene la comunidad con sus aportes; el equipo entra y conecta sin pagar por su cuenta.</p>
+        <h2 data-reveal style="font-size:clamp(2rem,4.2vw,3rem);max-width:26ch" data-i18n-html="pn.title">Es <span class="hl">GRATIS</span> y puedes mejorarlo más con <img class="t-flash" src="assets/brand/flash-logo.svg" width="426" height="120" alt="Flash"></h2>
+        <p class="lead" data-reveal style="--d:80ms;margin-top:1rem" data-i18n="pn.body">Todo lo que ves en esta página viene gratis. Si tu comunidad quiere más gente hablando a la vez o transmitir en 1080p, lo mejoran entre todos.</p>
+        <div class="ptable-wrap" data-reveal style="--d:80ms">
+          <table class="ptable">
+          <thead>
+            <tr><th scope="col" data-i18n="pt.h0">Qué incluye</th><th scope="col" class="pt-free">Community<small><b data-i18n="pt.free">Gratis</b></small></th><th scope="col"><span class="pt-name"><img class="pt-flash" src="assets/brand/flash-icono.svg" width="200" height="200" alt="">ORG</span><small><img class="volt-ic" src="assets/brand/volts-mini.svg" width="20" height="20" alt="Volts"><b>15</b> <span data-i18n="pn.permonth">Volts/mes</span></small><em data-i18n="pn.s2.usd">desde $23 al mes</em></th><th scope="col"><span class="pt-name"><img class="pt-flash" src="assets/brand/flash-icono.svg" width="200" height="200" alt="">Command</span><small><img class="volt-ic" src="assets/brand/volts-mini.svg" width="20" height="20" alt="Volts"><b>30</b> <span data-i18n="pn.permonth">Volts/mes</span></small><em data-i18n="pn.s3.usd">desde $46 al mes</em></th><th scope="col"><span class="pt-name"><img class="pt-flash" src="assets/brand/flash-icono.svg" width="200" height="200" alt="">Batallón</span><small><img class="volt-ic" src="assets/brand/volts-mini.svg" width="20" height="20" alt="Volts"><b>50</b> <span data-i18n="pn.permonth">Volts/mes</span></small><em data-i18n="pn.s4.usd">desde $77 al mes</em></th><th scope="col"><span class="pt-name"><img class="pt-flash" src="assets/brand/flash-icono.svg" width="200" height="200" alt="">E-Sports</span><small><img class="volt-ic" src="assets/brand/volts-mini.svg" width="20" height="20" alt="Volts"><b>100</b> <span data-i18n="pn.permonth">Volts/mes</span></small><em data-i18n="pn.s5.usd">desde $154 al mes</em></th></tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row"><span data-i18n="pt.r1">Personas hablando a la vez</span></th><td class="pt-free"><b>20</b></td><td><b>30</b></td><td><b>60</b></td><td><b>100</b></td><td><b>280</b></td></tr>
+            <tr><th scope="row"><span data-i18n="pt.r2">Salas de voz</span></th><td class="pt-free"><b>4</b></td><td><span data-i18n="pt.unl">Ilimitadas</span></td><td><span data-i18n="pt.unl">Ilimitadas</span></td><td><span data-i18n="pt.unl">Ilimitadas</span></td><td><span data-i18n="pt.unl">Ilimitadas</span></td></tr>
+            <tr><th scope="row"><span data-i18n="pt.r3">Transmisión de pantalla</span></th><td class="pt-free"><b>720p</b><small class="pt-ea" data-i18n="pt.ea">1080p abierto en el acceso anticipado</small></td><td><b>1080p</b></td><td><b>1080p</b></td><td><b>1080p</b></td><td><b>1080p</b></td></tr>
+            <tr><th scope="row"><span data-i18n="pt.r4">Miembros sin límite</span></th><td class="pt-free"><span class="ok" data-i18n-attr="aria-label:pt.inc" aria-label="Incluido">✓</span></td><td><span class="ok" data-i18n-attr="aria-label:pt.inc" aria-label="Incluido">✓</span></td><td><span class="ok" data-i18n-attr="aria-label:pt.inc" aria-label="Incluido">✓</span></td><td><span class="ok" data-i18n-attr="aria-label:pt.inc" aria-label="Incluido">✓</span></td><td><span class="ok" data-i18n-attr="aria-label:pt.inc" aria-label="Incluido">✓</span></td></tr>
+            <tr><th scope="row"><span data-i18n="pt.r5">Whisper entre salas</span></th><td class="pt-free"><span class="ok" data-i18n-attr="aria-label:pt.inc" aria-label="Incluido">✓</span></td><td><span class="ok" data-i18n-attr="aria-label:pt.inc" aria-label="Incluido">✓</span></td><td><span class="ok" data-i18n-attr="aria-label:pt.inc" aria-label="Incluido">✓</span></td><td><span class="ok" data-i18n-attr="aria-label:pt.inc" aria-label="Incluido">✓</span></td><td><span class="ok" data-i18n-attr="aria-label:pt.inc" aria-label="Incluido">✓</span></td></tr>
+            <tr><th scope="row"><span data-i18n="pt.r6">Chat, foros, calendario y pizarra</span></th><td class="pt-free"><span class="ok" data-i18n-attr="aria-label:pt.inc" aria-label="Incluido">✓</span></td><td><span class="ok" data-i18n-attr="aria-label:pt.inc" aria-label="Incluido">✓</span></td><td><span class="ok" data-i18n-attr="aria-label:pt.inc" aria-label="Incluido">✓</span></td><td><span class="ok" data-i18n-attr="aria-label:pt.inc" aria-label="Incluido">✓</span></td><td><span class="ok" data-i18n-attr="aria-label:pt.inc" aria-label="Incluido">✓</span></td></tr>
+            <tr><th scope="row"><span data-i18n="pt.r7">Pantalla a una sola persona y cámara HD</span></th><td class="pt-free"><span class="ok" data-i18n-attr="aria-label:pt.inc" aria-label="Incluido">✓</span></td><td><span class="ok" data-i18n-attr="aria-label:pt.inc" aria-label="Incluido">✓</span></td><td><span class="ok" data-i18n-attr="aria-label:pt.inc" aria-label="Incluido">✓</span></td><td><span class="ok" data-i18n-attr="aria-label:pt.inc" aria-label="Incluido">✓</span></td><td><span class="ok" data-i18n-attr="aria-label:pt.inc" aria-label="Incluido">✓</span></td></tr>
+            <tr><th scope="row"><span data-i18n="pt.r8">Tema del servidor: fondo, colores y barra animada</span><small class="pt-note" data-i18n="pt.note">En otras apps se paga</small></th><td class="pt-free"><span class="ok" data-i18n-attr="aria-label:pt.inc" aria-label="Incluido">✓</span></td><td><span class="ok" data-i18n-attr="aria-label:pt.inc" aria-label="Incluido">✓</span></td><td><span class="ok" data-i18n-attr="aria-label:pt.inc" aria-label="Incluido">✓</span></td><td><span class="ok" data-i18n-attr="aria-label:pt.inc" aria-label="Incluido">✓</span></td><td><span class="ok" data-i18n-attr="aria-label:pt.inc" aria-label="Incluido">✓</span></td></tr>
+            <tr><th scope="row"><span data-i18n="pt.r9">Enlace de invitación personalizado</span><small class="pt-note" data-i18n="pt.note">En otras apps se paga</small></th><td class="pt-free"><span class="ok" data-i18n-attr="aria-label:pt.inc" aria-label="Incluido">✓</span></td><td><span class="ok" data-i18n-attr="aria-label:pt.inc" aria-label="Incluido">✓</span></td><td><span class="ok" data-i18n-attr="aria-label:pt.inc" aria-label="Incluido">✓</span></td><td><span class="ok" data-i18n-attr="aria-label:pt.inc" aria-label="Incluido">✓</span></td><td><span class="ok" data-i18n-attr="aria-label:pt.inc" aria-label="Incluido">✓</span></td></tr>
+          </tbody>
+          </table>
+        </div>
+        <p class="pt-pay" data-reveal data-i18n-html="pt.pay"><b>Cómo se paga:</b> con Volts, que salen entre $1,54 y $2,50 según el pack. El líder pone una parte, el resto de la comunidad aporta lo que quiere y nadie paga solo. Sin suscripciones ni cobros automáticos.</p>
         <!-- Individual -->
         <div class="plan-ind" data-reveal style="--d:60ms">
+          <img class="pi-logo" src="assets/brand/flash-insignia.svg" width="76" height="76" alt="UMBRA Flash">
           <div class="pi-info">
-            <span class="tag" data-i18n="pn.ind.tag">Individual</span>
-            <h3 data-i18n="pn.ind.name">Premium</h3>
-            <p data-i18n="pn.ind.desc">App de mando para tablet Android (en pruebas, aún no descargable), Insignia Gold (próximamente), botones dedicados de Stream Deck (próximamente) y prioridad de acceso cuando el servidor esté lleno (próximamente).</p>
-            <p style="margin-top:.5rem"><a href="/descargas#android" style="color:var(--gold-hi);font-size:.88rem;font-weight:600" data-i18n="pn.ind.link">Ver el estado de la app de tablet en Descargas →</a></p>
+            <span class="tag" data-i18n="pn.ind.tag">Para ti</span>
+            <h3 data-i18n="pn.ind.name">Flash</h3>
+            <p data-i18n="pn.ind.desc">Lo tuyo, no del servidor: personaliza tu tarjeta, tu nombre y tu mascota, enciende la cámara en Full HD a 60 fps, lleva los sonidos de tus otros servidores a la soundboard y mucho más.</p>
+            <p class="pi-bonus" data-i18n-html="pn.ind.bonus"><b>Incluye 2 Volts</b> para aportar a tu servidor favorito de UMBRA y mejorarlo.</p>
           </div>
-          <div class="pi-price"><b>3</b> <span data-i18n="pn.permonth">lingotes/mes</span></div>
-        </div>
-
-        <h3 class="plans-sub" data-reveal data-i18n="pn.server">Planes de servidor</h3>
-        <div class="plans plans-server">
-          <div class="plan" data-reveal>
-            <h3>Community</h3>
-            <div class="plan-price free"><b data-i18n="pn.s1.price">Gratis</b> <span data-i18n="pn.s1.per">para siempre</span></div>
-            <ul class="plan-feats">
-              <li data-i18n="pn.s1.f1">Hasta 20 slots</li>
-              <li data-i18n="pn.s1.f3">Hasta 4 salas</li>
-              <li data-i18n="pn.s1.f2">Whisper</li>
-            </ul>
-          </div>
-          <div class="plan" data-reveal style="--d:60ms">
-            <h3>ORG</h3>
-            <div class="plan-price"><b>15</b> <span data-i18n="pn.permonth">lingotes/mes</span></div>
-            <ul class="plan-feats">
-              <li data-i18n="pn.s2.f">Hasta 30 slots simultáneos</li>
-              <li data-i18n="pn.unlim">Salas y Whisper ilimitados</li>
-            </ul>
-          </div>
-          <div class="plan" data-reveal style="--d:120ms">
-            <h3>Command</h3>
-            <div class="plan-price"><b>30</b> <span data-i18n="pn.permonth">lingotes/mes</span></div>
-            <ul class="plan-feats">
-              <li data-i18n="pn.s3.f">Hasta 60 slots simultáneos</li>
-              <li data-i18n="pn.unlim">Salas y Whisper ilimitados</li>
-            </ul>
-          </div>
-          <div class="plan" data-reveal style="--d:180ms">
-            <h3>Batallón</h3>
-            <div class="plan-price"><b>50</b> <span data-i18n="pn.permonth">lingotes/mes</span></div>
-            <ul class="plan-feats">
-              <li data-i18n="pn.s4.f">Hasta 100 slots simultáneos</li>
-              <li data-i18n="pn.unlim">Salas y Whisper ilimitados</li>
-            </ul>
-          </div>
-          <div class="plan" data-reveal style="--d:240ms">
-            <h3>E-Sports</h3>
-            <div class="plan-price"><b>100</b> <span data-i18n="pn.permonth">lingotes/mes</span></div>
-            <ul class="plan-feats">
-              <li data-i18n="pn.s5.f">Hasta 280 slots simultáneos</li>
-              <li data-i18n="pn.unlim">Salas y Whisper ilimitados</li>
-            </ul>
-          </div>
+          <div class="pi-price"><img class="volt-ic" src="assets/brand/volts-mini.svg" width="20" height="20" alt="Volts"><b>3</b> <span data-i18n="pn.permonth">Volts/mes</span></div>
         </div>
         <p style="margin-top:1.6rem" data-reveal>
-          <a class="btn btn-gold" href="/tienda" data-i18n="pn.cta">Elige tu plan en la Pledge Store →</a>
+          <a class="btn btn-gold" href="/tienda" data-i18n="pn.cta">Elige tu plan en la tienda →</a>
         </p>
       </div>
     </section>
@@ -832,10 +1255,14 @@
         <span class="kicker" data-reveal data-i18n="faq.kicker">Preguntas</span>
         <h2 data-reveal style="font-size:clamp(2rem,4.2vw,3rem)" data-i18n="faq.title">Lo que quieres saber.</h2>
         <div class="faq-grid">
-          <div class="qa" data-reveal><h3 data-i18n="faq.q1">¿Qué es un lingote?</h3><p data-i18n="faq.a1">Una unidad de aporte de UMBRA. Sirve para sostener el servidor de tu comunidad y desbloquear lo premium. No se cambia por dinero.</p></div>
-          <div class="qa" data-reveal style="--d:80ms"><h3 data-i18n="faq.q2">¿Es gratis de verdad?</h3><p data-i18n="faq.a2">Sí. El plan Community es gratis para siempre: sin tarjeta y sin fecha de vencimiento, con hasta 20 slots de voz, 4 salas y Whisper. Si tu comunidad crece, pasas a un plan más grande y ese se sostiene con lingotes: los recargas cuando quieras, con PayPal o tarjeta, sin suscripciones ni cobros automáticos.</p></div>
+          <div class="qa" data-reveal><h3 data-i18n="faq.q1">¿Qué es un Volt y cuánto cuesta?</h3><p data-i18n="faq.a1">Es la unidad de aporte de UMBRA: con Volts se pagan los planes de servidor y Flash. Se compran en packs de $5 a $100, con PayPal o tarjeta, y cada Volt sale entre $2,50 y $1,54 según el pack. No se cambian de vuelta por dinero.</p></div>
+          <div class="qa" data-reveal style="--d:80ms"><h3 data-i18n="faq.q2">¿Es gratis de verdad?</h3><p data-i18n="faq.a2">Sí. Community es gratis para siempre: sin tarjeta y sin fecha de vencimiento, con miembros sin límite, 20 personas en voz a la vez, 4 salas y Whisper. Si la comunidad crece, pueden pasar a un plan más grande y pagarlo entre todos con Volts, sin suscripciones ni cobros automáticos.</p></div>
           <div class="qa" data-reveal><h3 data-i18n="faq.q3">¿Y si el equipo deja de aportar?</h3><p data-i18n="faq.a3">En los planes con cuota hay 7 días de gracia y después el servidor pasa a modo reducido; si sigue sin cubrirse, se congela. No se pierde nada: se reactiva cubriendo un mes de cuota. El plan Community no tiene cuota, así que no le pasa.</p></div>
-          <div class="qa" data-reveal style="--d:80ms"><h3 data-i18n="faq.q4">¿Qué necesito para usarlo?</h3><p data-i18n="faq.a4">Windows o cualquier navegador moderno, sin instalar nada. La radio de campo de Android para el móvil está construida y en pruebas, pero todavía no se puede descargar: cuando salga se instalará como APK desde nuestra página de Descargas, porque no está en Google Play. El mando táctico para tablet (Premium) también sigue en pruebas, y macOS y Linux nativos van en camino.</p></div>
+          <div class="qa" data-reveal style="--d:80ms"><h3 data-i18n="faq.q4">¿Qué necesito para usarlo?</h3><p data-i18n="faq.a4">Un navegador moderno en cualquier sistema: Windows, Mac, Linux o el móvil. O la app de Windows, que suma el pulsar para hablar con el juego en primer plano y el overlay. Las apps nativas para Android, Mac y Linux están en camino.</p></div>
+          <div class="qa" data-reveal><h3 data-i18n="faq.q5">¿En qué se diferencia de Discord o TeamSpeak?</h3><p data-i18n="faq.a5">En que hablar a otra sala es la función central y no una opción escondida: el Whisper cruza salas con un atajo. Además junta voz, chat, foros, calendario y pizarra en una sola app, trae pulsar-para-hablar nativo con HOTAS y mandos y overlay dentro del juego, y el servidor lo sostiene la comunidad entre todos, sin suscripción por usuario.</p></div>
+          <div class="qa" data-reveal><h3 data-i18n="faq.q7">¿Tengo que dejar la app que ya usamos?</h3><p data-i18n="faq.a7">No. Pueden empezar usando UMBRA solo para las operaciones y los eventos, y mover el resto cuando quieran. Es gratis y se entra con un enlace, así que pueden probarlo una noche con la escuadra sin tocar nada de lo que ya tienen.</p></div>
+          <div class="qa" data-reveal style="--d:80ms"><h3 data-i18n="faq.q8">¿Qué significa que está en acceso anticipado?</h3><p data-i18n="faq.a8">Que UMBRA funciona y se usa a diario, pero sigue creciendo: sale versión nueva casi cada semana y todavía puede haber fallos. Cuando aparecen los arreglamos rápido, y lo que nos cuentan quienes la usan decide qué hacemos después.</p></div>
+          <div class="qa" data-reveal style="--d:80ms"><h3 data-i18n="faq.q6">¿Qué plugins hay?</h3><p data-i18n="faq.a6">Hoy están Cine y música, Soundboard, Pyro Timers y Quantum Intercept, y vienen más. Se instalan con un clic desde la tienda de plugins, y cada uno funciona aislado y solo con los permisos que declara.</p></div>
         </div>
       </div>
     </section>
@@ -848,15 +1275,13 @@
             <img src="assets/taco-hello.png" alt="" />
           </div>
           <div class="final-content">
-            <h2 data-i18n="cf.title">Toma el mando.</h2>
-            <p class="lead" data-i18n="cf.body">Descarga UMBRA, abre tu primera sala y siente la diferencia.</p>
+            <h2 data-i18n="cf.title">Tu comunidad, lista esta noche.</h2>
+            <p class="lead" data-i18n="cf.body">Crea tu servidor gratis, pasa el enlace y prueben UMBRA en la próxima partida. Si no los convence, no perdieron nada.</p>
             <div class="row">
-              <a class="btn btn-gold" href="https://umbra-api.cfx-software.com/downloads/Umbra-Setup.exe" download data-i18n="cf.dl">↓ Descargar para Windows</a>
-              <a class="btn btn-ghost" href="https://umbra.mobile/" target="_blank" rel="noopener" data-i18n="cf.web">Abrir en el navegador</a>
-              <a class="btn btn-ghost" href="/tienda" data-i18n="cf.store">Pledge Store</a>
+              <a class="btn btn-gold" href="https://umbra.mobile/" target="_blank" rel="noopener" data-i18n="cf.web">Crear mi servidor gratis</a>
+              <a class="btn btn-ghost" href="https://umbra-api.cfx-software.com/downloads/Umbra-Setup.exe" download data-i18n="cf.dl">↓ Descargar para Windows</a>
             </div>
-            <p class="hero-plat" style="margin-top:1.4rem"><span class="dot"></span><span data-i18n="cf.plat">Windows · Navegador · Android en camino · macOS y Linux en camino</span></p>
-            <p style="margin-top:.9rem"><a href="/descargas" style="color:var(--gold-hi);font-weight:600" data-i18n="cf.android">En camino: la radio de campo de Android para el móvil →</a></p>
+            <p class="hero-plat" style="margin-top:1.4rem"><span class="dot"></span><span data-i18n="cf.plat">Gratis para siempre · Windows · Navegador en Mac, Linux y móvil</span></p>
           </div>
         </div>
       </div>
@@ -874,8 +1299,10 @@
         <h4 data-i18n="ft.h1">Producto</h4>
         <a href="#comunicacion" data-i18n="nav.comms">Comunicación</a>
         <a href="#canvas" data-i18n="nav.canvas">Canvas</a>
+        <a href="#calendario" data-i18n="nav.calendar">Calendario</a>
+        <a href="#comunidad" data-i18n="nav.community">Chat y foros</a>
         <a href="#plugins" data-i18n="nav.plugins">Plugins</a>
-        <a href="/tienda" data-i18n="nav.store">Pledge Store</a>
+        <a href="/tienda" data-i18n="nav.store">Tienda</a>
         <a href="/descargas" data-i18n="ft.download">Descargar</a>
       </div>
       <div class="foot-col">
@@ -894,11 +1321,12 @@
     </div>
     <div class="wrap foot-bottom">
       <span data-i18n="ft.copy">© 2026 CFX · Todos los derechos reservados</span>
-      <span data-i18n="ft.platforms">Windows · Navegador · Android en camino</span>
+      <button type="button" class="taco-back" id="tacoBack" data-i18n="tg.back">Traer a Taco de vuelta</button>
+      <span data-i18n="ft.platforms">Windows · Navegador (Mac, Linux y móvil)</span>
     </div>
   </footer>
 
-  <script src="js/i18n-v2.js?v=20261119a" defer></script>
+  <script src="js/i18n-v2.js?v=20261122t" defer></script>
   <script>
     (function(){
       'use strict';
@@ -933,22 +1361,69 @@
       // con saltos y poco responsiva al mouse). El scroll suave de las anclas
       // lo da html{scroll-behavior:smooth}.
 
-      // ── Interfaz adaptativa: cambia la captura mostrada (crossfade) ──
-      var aMain = document.getElementById('adaptMain');
-      var aThumbs = [].slice.call(document.querySelectorAll('#adaptThumbs .adapt-thumb'));
-      aThumbs.forEach(function(t){
-        t.addEventListener('click', function(){
-          if(t.classList.contains('active')) return;
-          var src = t.dataset.img;
-          var pre = new Image();
-          pre.onload = function(){
-            aMain.style.opacity = '0';
-            setTimeout(function(){ aMain.src = src; aMain.style.opacity = '1'; }, 160);
-          };
-          pre.src = src;
-          aThumbs.forEach(function(x){ x.classList.toggle('active', x===t); });
+      // ── Capturas intercambiables (crossfade): interfaz adaptativa y calendario ──
+      var wireSwitch = function(main, buttons){
+        if(!main) return;
+        buttons.forEach(function(t){
+          t.addEventListener('click', function(){
+            if(t.classList.contains('active')) return;
+            var src = t.dataset.img;
+            var pre = new Image();
+            pre.onload = function(){
+              main.style.opacity = '0';
+              setTimeout(function(){ main.src = src; main.style.opacity = '1'; }, 160);
+            };
+            pre.src = src;
+            buttons.forEach(function(x){ x.classList.toggle('active', x===t); });
+          });
         });
-      });
+      };
+      wireSwitch(document.getElementById('styMain'), [].slice.call(document.querySelectorAll('#styChips button')));
+      wireSwitch(document.getElementById('calMain'), [].slice.call(document.querySelectorAll('#calTabs button')));
+
+      // ── Demo de Whisper: mientras se mantiene pulsado un botón, esa sala (o todas) «recibe» ──
+      var wdemo = document.getElementById('wdemo');
+      if(wdemo){
+        var wRooms = [].slice.call(wdemo.querySelectorAll('.wd-room[data-room]'));
+        var wBtns = [].slice.call(wdemo.querySelectorAll('.wd-btn'));
+        var wStatus = document.getElementById('wdStatus');
+        var wAuto = 0, wTouched = false;
+        var wText = function(key){
+          var api = window.UmbraI18n, d = api && api.T[document.documentElement.lang];
+          return (d && d[key]) || (api && api.T.es[key]) || '';
+        };
+        var wSet = function(target){
+          wRooms.forEach(function(r){ r.classList.toggle('rx', target === 'all' || r.dataset.room === target); });
+          wBtns.forEach(function(b){ b.classList.toggle('on', !!target && b.dataset.room === target); });
+          if(!target) wStatus.textContent = wText('wd.hint');
+          else if(target === 'all') wStatus.innerHTML = wText('wd.rxall');
+          else wStatus.innerHTML = wText('wd.rx').replace('{room}', '<b>' + target + '</b>');
+        };
+        var wStopAuto = function(){ wTouched = true; clearInterval(wAuto); wAuto = 0; };
+        wBtns.forEach(function(b){
+          var down = function(e){
+            wStopAuto(); wSet(b.dataset.room);
+            // Con captura, soltar fuera del botón también cuenta como soltar.
+            try { if(e.pointerId !== undefined) b.setPointerCapture(e.pointerId); } catch(_){}
+          };
+          var up = function(){ if(wTouched) wSet(null); };
+          b.addEventListener('pointerdown', down);
+          b.addEventListener('pointerup', up);
+          b.addEventListener('pointercancel', up);
+          b.addEventListener('keydown', function(e){ if((e.key === ' ' || e.key === 'Enter') && !e.repeat){ e.preventDefault(); down(e); } });
+          b.addEventListener('keyup', function(e){ if(e.key === ' ' || e.key === 'Enter') up(); });
+          b.addEventListener('blur', up);
+        });
+        // Hasta que alguien la toca, la demo se enseña sola cuando entra en pantalla.
+        if(!reduce){
+          var wSeq = ['Bravo', null, 'Delta', null, 'all', null], wStep = 0;
+          new IntersectionObserver(function(es){
+            var vis = es[0].isIntersecting;
+            if(vis && !wAuto && !wTouched) wAuto = setInterval(function(){ wSet(wSeq[wStep++ % wSeq.length]); }, 1500);
+            else if(!vis && wAuto){ clearInterval(wAuto); wAuto = 0; if(!wTouched) wSet(null); }
+          }, {threshold:.5}).observe(wdemo);
+        }
+      }
 
       // ── Menú móvil (hamburguesa <760px) ──
       var burger = document.getElementById('navBurger');
@@ -971,6 +1446,7 @@
     })();
   </script>
   <script src="js/auth.js?v=20260701a" defer></script>
+  <script src="js/taco-guide.js?v=20261122f" defer></script>
 
   <!-- Login modal -->
   <div id="login-modal" class="login-modal" role="dialog" aria-modal="true" aria-labelledby="login-modal-title" hidden>

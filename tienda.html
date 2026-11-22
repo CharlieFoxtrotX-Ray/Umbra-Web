@@ -40,8 +40,11 @@
     }
     /* Fondo cósmico 100% CSS — mismo lenguaje que el landing, negro predominante.
        La nebulosa vive en body::after; esto solo aporta el rescoldo del piso. */
-    .bg-cosmos{position:fixed;inset:0;z-index:0;pointer-events:none;background:
-      radial-gradient(120% 90% at 50% 118%, rgba(46,26,18,.18), transparent 55%)}
+    .bg-cosmos{position:fixed;inset:0;z-index:0;pointer-events:none;background:#040407}
+    .bg-cosmos::before{content:'';position:absolute;inset:0;
+      background:url('assets/bg-shadow-comms-taco.webp') center 70%/cover no-repeat;filter:brightness(.62) saturate(.95)}
+    .bg-cosmos::after{content:'';position:absolute;inset:0;
+      background:linear-gradient(180deg, rgba(2,4,5,.40) 0%, rgba(2,4,5,.26) 28%, rgba(2,4,5,.34) 62%, rgba(2,4,5,.46) 100%)}
     a{color:inherit;text-decoration:none}
     button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
     img{max-width:100%;display:block}
@@ -66,6 +69,7 @@
     @keyframes sparkleDriftT{from{transform:translate3d(0,0,0)}to{transform:translate3d(-240px,-120px,0)}}
     @keyframes nebDriftT{0%,100%{transform:translate3d(0,0,0) scale(1)}50%{transform:translate3d(-4%,3%,0) scale(1.1)}}
     @media (prefers-reduced-motion:reduce){ body::before,body::after{animation:none !important;transform:none !important} }
+    body::before,body::after{display:none}
     body > *{position:relative;z-index:1}
 
     /* ── NAV (idéntico al landing) ───────────────────────────── */
@@ -80,6 +84,7 @@
       padding:0.85rem 2.5rem;border-bottom:1px solid rgba(255,255,255,0.05);
     }
     @media(max-width:880px){.nav,.nav.scrolled{padding-left:1rem;padding-right:1rem}}
+    @media(max-width:979px){.nav{grid-template-columns:auto 1fr auto}}
     .nav-logo{
       justify-self:start;display:flex;align-items:center;gap:0.6rem;color:#fff;
       font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:1.05rem;letter-spacing:-0.015em;
@@ -157,7 +162,7 @@
       letter-spacing:-0.03em;line-height:1.04;margin-bottom:1rem;
     }
     .s-hero h1 .gold{color:var(--gold-hi)}
-    .s-hero p{color:rgba(255,255,255,0.65);font-size:1.05rem;line-height:1.55;max-width:54ch;margin:0 auto}
+    .s-hero p{color:rgba(255,255,255,0.8);font-size:1.05rem;line-height:1.55;max-width:54ch;margin:0 auto}
 
     /* Gate de login */
     .s-gate{
@@ -240,6 +245,8 @@
     .co-close:hover{background:rgba(255,255,255,.14);color:#fff}
     .co-head{text-align:center;margin-bottom:1.3rem}
     .co-usd{font-family:'Space Grotesk',sans-serif;font-size:2.6rem;font-weight:800;color:#fff;line-height:1}
+    .volt-ic{display:inline-block;width:1.15em;height:1.15em;vertical-align:-.2em;margin-right:.3em}
+    .orbe-ic{display:inline-block;width:1.75em;height:1.75em;vertical-align:-.5em;margin:-.2em .2em -.2em 0}
     .co-ling{font-size:0.9rem;color:var(--gold-hi);font-weight:600;margin-top:0.35rem}
     .co-pp{min-height:120px}
     .co-msg{text-align:center;color:rgba(255,255,255,.55);font-size:0.85rem;padding:1.4rem 0}
@@ -257,6 +264,30 @@
     .s-state h2{font-family:'Space Grotesk',sans-serif;font-size:1.5rem;font-weight:800;margin-bottom:0.6rem}
     .s-state p{color:rgba(255,255,255,0.65);font-size:0.95rem;max-width:400px;margin:0 auto}
 
+    /* Flash y Volts */
+    .s-brand{display:block;height:clamp(56px,7vw,78px);width:auto;margin:0 auto 1.4rem}
+    .offer{max-width:1000px;margin:0 auto 4rem;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.25rem}
+    .of-card{position:relative;padding:1.8rem;border-radius:var(--r-lg);display:flex;flex-direction:column;gap:1rem;
+      background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.02)),rgba(7,10,11,.82);
+      border:1px solid rgba(255,255,255,.12);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}
+    .of-card.flash{border-color:rgba(127,166,62,.42);box-shadow:0 0 0 1px rgba(127,166,62,.14),0 30px 70px -30px rgba(127,166,62,.35)}
+    .of-head{display:flex;align-items:center;gap:1rem}
+    .of-head img{width:64px;height:64px;flex:0 0 auto}
+    .of-head .wm{display:block;height:50px;width:auto;margin-left:-4px}
+    .of-tag{display:block;font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-hi);margin-bottom:.35rem}
+    .of-price{margin-left:auto;text-align:right;font-family:'Space Grotesk',sans-serif;font-weight:700;color:#fff;font-size:1rem;white-space:nowrap}
+    .of-list{list-style:none;display:flex;flex-direction:column;gap:.55rem}
+    .of-list li{position:relative;padding-left:1.4rem;color:rgba(255,255,255,.82);font-size:.95rem;line-height:1.45}
+    .of-list li::before{content:'';position:absolute;left:0;top:.42em;width:.7rem;height:.7rem;
+      background:url('assets/brand/volts-mini.svg') center/contain no-repeat}
+    .of-card.flash .of-list li::before{background-image:none;content:'✓';color:var(--gold-hi);font-weight:800;width:auto;height:auto;top:0}
+    .of-list b{color:var(--gold-hi)}
+    .of-foot{margin-top:auto;padding-top:.4rem;color:rgba(255,255,255,.6);font-size:.85rem}
+    .of-foot .btn-gold{margin-top:.2rem}
+    .packs-h{display:flex;flex-direction:column;align-items:center;gap:.8rem;margin:0 auto 1.8rem;text-align:center}
+    .packs-h img{height:46px;width:auto}
+    .packs-h h2{font-family:'Space Grotesk',sans-serif;font-size:clamp(1.4rem,2.6vw,1.9rem);font-weight:800;letter-spacing:-.02em}
+    @media(max-width:560px){.of-price{margin-left:0;text-align:left;width:100%}.of-head{flex-wrap:wrap}}
     /* Footer */
     .s-foot{
       max-width:var(--container);margin:4rem auto 0;padding:2rem 1.5rem;
@@ -302,13 +333,48 @@
   <main class="store">
     <div class="s-hero">
       <img class="s-mascot" src="assets/taco-happy.png" alt="" aria-hidden="true" />
-      <h1 data-i18n-html="t.h1.html">Apoya el <span class="gold">early access</span>.</h1>
-      <p data-i18n="t.lead">Consigue lingotes de aporte para mantener vivo el servidor de tu comunidad y desbloquear premium. No es una moneda: es tu forma de sostener el proyecto mientras crece.</p>
+      <img class="s-brand" src="assets/brand/flash-logo.svg" width="426" height="120" alt="UMBRA Flash" />
+      <h1 data-i18n-html="t.h1.html">Más UMBRA, <span class="gold">para ti y para tu servidor.</span></h1>
+      <p data-i18n="t.lead">Con Volts activas Flash para ti y mejoras el plan de tu servidor. Los compras aquí, sin suscripciones ni cobros automáticos.</p>
+    </div>
+
+    <div class="offer">
+      <article class="of-card flash">
+        <div class="of-head">
+          <div><span class="of-tag" data-i18n="t.fl.tag">Para ti</span><img class="wm" src="assets/brand/flash-logo.svg" width="426" height="120" alt="Flash" /></div>
+          <div class="of-price" data-i18n="t.fl.price">3 Volts/mes</div>
+        </div>
+        <ul class="of-list">
+          <li data-i18n="t.fl.f1">Personaliza tu tarjeta, tu nombre y tu mascota</li>
+          <li data-i18n="t.fl.f2">Cámara en Full HD a 60 fps</li>
+          <li data-i18n="t.fl.f3">Los sonidos de tus otros servidores en la soundboard, y mucho más</li>
+          <li data-i18n-html="t.fl.f4"><b>Incluye 2 Volts</b> para aportar a tu servidor favorito</li>
+        </ul>
+        <p class="of-foot" data-i18n="t.fl.how">Se activa desde tu perfil en UMBRA con tus Volts.</p>
+      </article>
+      <article class="of-card">
+        <div class="of-head">
+          <div><span class="of-tag" data-i18n="t.vo.tag">Para tu servidor</span><img class="wm" src="assets/brand/volts-logo.svg" width="414" height="120" alt="Volts" /></div>
+          <div class="of-price" data-i18n="t.vo.price">desde $1,54 cada uno</div>
+        </div>
+        <ul class="of-list">
+          <li data-i18n="t.vo.f1">Activan Flash y pagan los planes del servidor</li>
+          <li data-i18n="t.vo.f2">ORG en adelante: más gente en voz, salas ilimitadas y 1080p</li>
+          <li data-i18n="t.vo.f3">Cada miembro aporta lo que quiere y nadie paga solo</li>
+          <li data-i18n-html="t.vo.f4">Se guardan en tu <img class="orbe-ic" src="assets/brand/orbe-icono.svg" width="26" height="26" alt=""><b>Orbe</b> y no vencen: apórtalos cuando y donde quieras</li>
+        </ul>
+        <div class="of-foot"><a class="btn-gold" href="#packs-sec" data-i18n="t.vo.cta">Elegir un pack ↓</a></div>
+      </article>
+    </div>
+
+    <div class="packs-h" id="packs-sec">
+      <img src="assets/brand/volts-icono.svg" width="46" height="46" alt="" />
+      <h2 data-i18n="t.packs.h">Elige tu pack de Volts</h2>
     </div>
 
     <!-- Programa de Partners: aviso de bonus + código de invitación -->
     <div class="invite" id="inviteBox">
-      <div class="invite-bonus" id="inviteBonus" hidden>🎁 Vas a recibir <b>+10% de lingotes</b> en tu primera recarga por venir de un creador.</div>
+      <div class="invite-bonus" id="inviteBonus" hidden>🎁 Vas a recibir <b>+10% de Volts</b> en tu primera recarga por venir de un creador.</div>
       <details class="invite-det">
         <summary>¿Vienes de un creador? Ingresa su código de invitación</summary>
         <div class="invite-row">
@@ -321,7 +387,7 @@
 
     <!-- Gate: pedir login -->
     <div class="s-gate" id="login-gate" hidden>
-      <p data-i18n="t.gate.text">Inicia sesión con tu cuenta de UMBRA para que los lingotes lleguen a tu wallet.</p>
+      <p data-i18n-html="t.gate.text">Inicia sesión con tu cuenta de UMBRA para que los Volts lleguen a tu <img class="orbe-ic" src="assets/brand/orbe-icono.svg" width="26" height="26" alt=""><b>Orbe</b>.</p>
       <button class="btn-gold btn-login" data-i18n="t.gate.btn">Iniciar sesión</button>
     </div>
 
@@ -339,12 +405,12 @@
     <!-- Grid de packs -->
     <div class="packs" id="packs" hidden></div>
 
-    <p class="s-note" id="packs-note" hidden data-i18n="t.note">Pago seguro vía PayPal — con cuenta o con tarjeta como invitado. Los lingotes son unidades de aporte de UMBRA: no se cambian por dinero, se usan dentro de la plataforma.</p>
+    <p class="s-note" id="packs-note" hidden data-i18n="t.note">Pago seguro vía PayPal — con cuenta o con tarjeta como invitado. Los Volts son unidades de aporte de UMBRA: no se cambian por dinero, se usan dentro de la plataforma.</p>
 
     <!-- Gracias -->
     <div class="s-state" id="state-thanks" hidden>
       <h2 data-i18n="t.thanks.h2">¡Gracias por tu aporte! 🎉</h2>
-      <p data-i18n="t.thanks.text">Tu pago se confirmó. Los lingotes aparecen en tu wallet en unos segundos — abre UMBRA y revisa tu perfil.</p>
+      <p data-i18n-html="t.thanks.text">Tu pago se confirmó. Los Volts aparecen en tu <img class="orbe-ic" src="assets/brand/orbe-icono.svg" width="26" height="26" alt=""><b>Orbe</b> en unos segundos — abre UMBRA y revisa tu perfil.</p>
       <p style="margin-top:1.25rem">
         <a class="btn-gold" href="https://umbra.mobile/" data-i18n="t.thanks.open">Abrir UMBRA</a>
       </p>
@@ -441,7 +507,7 @@
         fetch(API + '/api/partners/attribute', { method:'POST', headers:{ 'Content-Type':'application/json', 'Authorization':'Bearer '+t }, body:JSON.stringify({ code:code }) })
           .then(function(r){ return r.json(); })
           .then(function(res){
-            if(res && res.attributed){ say('¡Listo! Vas a recibir +10% de lingotes en tu primera recarga 🎁', true); bonus.hidden=false; }
+            if(res && res.attributed){ say('¡Listo! Vas a recibir +10% de Volts en tu primera recarga 🎁', true); bonus.hidden=false; }
             else if(res && res.reason==='already_attributed'){ say('Ya estás asociado a un creador.', true); }
             else if(res && res.reason==='self_referral'){ say('Ese es tu propio código 😅', false); }
             else { say('Código no válido.', false); }
@@ -450,8 +516,8 @@
       });
     })();
   </script>
-  <script src="js/i18n-v2.js?v=20261119a" defer></script>
+  <script src="js/i18n-v2.js?v=20261122q" defer></script>
   <script src="js/auth.js?v=20260701a" defer></script>
-  <script src="js/tienda.js?v=20260701a" defer></script>
+  <script src="js/tienda.js?v=20261122i" defer></script>
 </body>
 </html>
