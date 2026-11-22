@@ -1,4 +1,5 @@
 <!doctype html>
+<!-- privacidad — iteración 01: documentos «solo en vivo» (se borran a las 24 h, barrido automático del disco) y denuncias. Publicar solo cuando el server con la migración 081 esté desplegado. -->
 <html lang="es">
 <head>
   <meta charset="utf-8" />
@@ -27,7 +28,7 @@
   <header class="legal-hero">
     <div class="legal-eyebrow">📄 Documento legal</div>
     <h1>Política de privacidad</h1>
-    <div class="updated">Última actualización: 19 de noviembre de 2026</div>
+    <div class="updated">Última actualización: 22 de noviembre de 2026</div>
   </header>
 
   <nav class="legal-toc">
@@ -98,7 +99,7 @@
       <li><strong>Tus canales:</strong> de qué canales sos miembro, con qué rol y desde cuándo. <strong>En la base de datos no guardamos ningún registro de a qué sala de voz entraste ni cuándo:</strong> quién está en cada sala vive sólo en memoria mientras la sesión está viva y desaparece al cerrarla. Hay una excepción y preferimos contarla: el <strong>panel técnico de monitoreo</strong> del servidor —al que sólo entra quien administra UMBRA, con un token propio— muestra en vivo cuánta gente hay en cada sala y con qué nombre de usuario, y mientras se está midiendo la carga puede volcar ese mismo dato a un archivo técnico de rendimiento. Ese archivo anota el nombre de usuario, el identificador de la sala y la hora; <strong>no anota audio, ni mensajes, ni tu email</strong>, se borra entero al empezar la medición siguiente y no se conserva aparte. No es vigilancia: sirve para saber si el servidor aguanta.</li>
       <li><strong>Whispers que enviás:</strong> cuando usás el whisper guardamos tu usuario, la sala desde la que hablaste, la sala a la que hablaste y la hora. <strong>No guardamos quién escuchó el whisper, ni el audio.</strong> Lo usamos para diagnosticar problemas técnicos y para frenar el uso abusivo de la función, nada más: nadie de tu comunidad tiene una pantalla donde ver esto. Se borra solo a los 30 días.</li>
       <li><strong>Mensajes de texto:</strong> los mensajes que escribís en el chat de un canal o de una sala, y los mensajes directos que le mandás a otro usuario, se guardan en nuestra base de datos para que el historial siga ahí cuando volvés. Los leen las personas a las que se los mandaste. Lo decimos claro porque es la parte menos obvia: <strong>los mensajes de texto sí se guardan, la voz no.</strong></li>
-      <li><strong>Archivos y contenido de comunidad:</strong> los documentos e imágenes que subís a un canal (hasta 25 MB, sólo PDF e imágenes), lo que publicás en los foros del canal, los eventos y tu disponibilidad en el calendario, y tus amistades dentro de la plataforma.</li>
+      <li><strong>Archivos y contenido de comunidad:</strong> los documentos que subís para presentar en un canal (hasta 25 MB, sólo PDF e imágenes, se borran solos a las 24 horas), las imágenes que adjuntás en los mensajes, lo que publicás en los foros del canal, los eventos y tu disponibilidad en el calendario, y tus amistades dentro de la plataforma.</li>
       <li><strong>Lingotes y compras:</strong> tu saldo de lingotes y el movimiento de cada crédito y cada gasto, con su fecha y su motivo. Es el libro de cuentas que te permite reclamar si algo no cuadra.</li>
       <li><strong>Datos técnicos:</strong> tu dirección IP y el navegador o dispositivo desde el que te conectás. La IP la usamos para tres cosas concretas: atar el inicio de sesión con Google al mismo equipo que lo empezó (para que nadie te robe la sesión a mitad del proceso), limitar la cantidad de peticiones por minuto y frenar abuso, y porque aparece en el registro técnico del servidor. Ese uso de la IP no es analítica ni perfilado, es seguridad.</li>
       <li><strong>Nada de identificadores publicitarios.</strong> No recogemos IMEI, ni dirección MAC, ni identificador de publicidad de Android, ni ningún identificador persistente de dispositivo. De tu equipo sabemos el navegador, el modelo y la versión del sistema, porque el propio dispositivo los envía en cada petición.</li>
@@ -184,7 +185,8 @@
         <tr><td>Cuenta que pedís borrar</td><td>Se elimina y arrastra en cascada tu perfil, tus membresías, tus mensajes y mensajes directos, tus publicaciones en foros, tu saldo de lingotes con todos sus movimientos y tu registro de whispers</td></tr>
         <tr><td>Registro de whispers enviados</td><td>30 días. Se borra automáticamente, sin que tengas que pedirlo</td></tr>
         <tr><td>Mensajes de texto y mensajes directos</td><td>Mientras exista el canal o la cuenta. No hay borrado automático por antigüedad</td></tr>
-        <tr><td>Archivos y documentos subidos a un canal</td><td>Mientras exista el canal o hasta que los borres. Si borrás el documento desde la app, el archivo se elimina del disco en el mismo momento. Pero si lo que desaparece es el canal o tu cuenta, lo que se borra solo es la ficha en la base de datos: <strong>el archivo en sí queda en el disco del servidor hasta que lo borramos a mano</strong>. Lo hacemos al procesar tu pedido de borrado, y si querés te confirmamos que se hizo</td></tr>
+        <tr><td>Documentos subidos para presentar en un canal</td><td><strong>24 horas</strong> desde que se suben, y después se borran solos (ficha y archivo). Si lo borrás antes desde la app, se elimina del disco en el mismo momento. Si se borra el canal o tu cuenta, un barrido automático quita los archivos del disco en pocas horas</td></tr>
+        <tr><td>Denuncias de documentos</td><td>Mientras se revisan y 90 días después de resolverlas. Guardamos el nombre del archivo, su huella digital (SHA-256), quién lo subió, quién lo denunció y el motivo, nunca el archivo. Si un archivo se retira, su huella se guarda sin plazo para que no se pueda volver a subir; la huella sola no permite reconstruir el archivo ni saber quién lo subió</td></tr>
         <tr><td>Registro de compras de lingotes</td><td>Al menos diez años, por la obligación de conservar la documentación contable del art. 328 del Código Civil y Comercial. Sobrevive al borrado de la cuenta, pero <strong>desvinculado de tu usuario</strong>: queda el producto, el importe, la fecha y el identificador de la operación de PayPal, sin tu usuario y sin tu email. Te lo decimos exacto: <strong>no hay ninguna purga automática programada</strong> para esta tabla, así que el borrado al vencer el plazo lo hacemos a mano</td></tr>
         <tr><td>Datos del programa de partners (solicitud y ficha de partner)</td><td>Mientras el programa exista. <strong>Sobreviven al borrado de tu cuenta de usuario</strong>: se desvinculan de ella, pero la fila conserva el nombre y el email que pusiste, porque es el respaldo de las comisiones que se te liquidaron. No hay borrado automático: si querés que la borremos, pedilo y la borramos</td></tr>
         <tr><td>Registro técnico del servidor</td><td>No tiene plazo en días: es un buffer rotativo de 50&nbsp;MB (cinco archivos de 10&nbsp;MB) que se sobrescribe solo. En la práctica son días, no meses, y no guardamos copia aparte ni lo archivamos</td></tr>
@@ -227,7 +229,7 @@
       <li>El inicio de sesión con Google queda atado a la IP y al navegador que lo empezaron, para cortar el robo de sesión a mitad del proceso.</li>
       <li>Hay límites de peticiones por minuto y por cuenta para frenar el abuso y la fuerza bruta.</li>
       <li>El registro técnico del servidor borra los datos sensibles antes de escribirlos: no quedan tokens, códigos de autorización ni cabeceras de autenticación.</li>
-      <li>Las subidas de archivos están limitadas a 25&nbsp;MB y a PDF e imágenes, y sólo puede subir quien es miembro del canal.</li>
+      <li>Las subidas de documentos están limitadas a 25&nbsp;MB y a PDF e imágenes, se comprueba que el contenido sea de verdad de ese tipo, sólo puede subir quien es miembro del canal y todo se borra a las 24 horas.</li>
       <li>En la app de Android de airsoft, la copia de seguridad automática de Android está <strong>desactivada</strong> a propósito, para que tu sesión no se copie al backup de Google ni a un traspaso de dispositivo.</li>
     </ul>
     <p>Lo que no vamos a prometer: no tenemos certificaciones de seguridad, ni auditorías externas, ni cifrado extremo a extremo de la voz. El servidor descifra el audio para reenviarlo a la sala, que es cómo funciona un SFU. Preferimos decirlo antes que dejar que lo supongas.</p>
@@ -259,7 +261,7 @@
       <li>Si fuiste <strong>partner del programa de creadores</strong>, tu ficha de partner y tu solicitud. Se desvinculan de tu cuenta, pero conservan el nombre y el email que pusiste en el formulario, porque son el respaldo de las comisiones liquidadas. Si querés que las borremos también, pedilo expresamente en el mismo correo y las borramos.</li>
       <li>Las <strong>métricas agregadas</strong> del servicio, que son recuentos y totales sin ningún dato que apunte a vos.</li>
     </ul>
-    <p>Y una cosa que <strong>no</strong> se borra sola porque no está en la base de datos: los archivos que subiste a un canal viven en el disco del servidor, y ese último borrado lo hacemos a mano al procesar tu pedido. Si querés confirmación de que se hizo, pedila.</p>
+    <p>Los documentos que subiste para presentar se borran solos del disco (caducan a las 24 horas y, al borrarse la cuenta o el canal, un barrido los quita en pocas horas). Para el resto de archivos guardados en el disco del servidor, como los clips del soundboard, ese último borrado lo hacemos a mano al procesar tu pedido. Si querés confirmación de que se hizo, pedila.</p>
     <p><strong>Ojo con los lingotes:</strong> si te quedan lingotes sin gastar y borrás la cuenta, se pierden con ella. Si lo que querés es recuperar el dinero de una compra reciente que no usaste, pedí primero el reembolso y borrá la cuenta después.</p>
     <div class="note"><strong>💡 Esto no es la cascada por impago.</strong> Si dejás de cubrir el plan de tu servidor, el servidor no se borra: entra en gracia, después en modo reducido y después queda congelado hasta que lo despiertes. Eso está en los <a href="/terminos">Términos</a> y no tiene nada que ver con borrar tu cuenta.</div>
 
