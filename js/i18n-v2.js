@@ -775,7 +775,9 @@
 
   function apply(lang) {
     const dict = T[lang] || T[DEFAULT_LANG];
-    document.documentElement.lang = lang;
+    // Las páginas con un solo idioma de contenido (legales, /vs/...) marcan
+    // <html data-content-lang>: el selector traduce el header, no el idioma del documento.
+    if (!document.documentElement.hasAttribute('data-content-lang')) document.documentElement.lang = lang;
     document.querySelectorAll('[data-i18n]').forEach(el => {
       const k = el.dataset.i18n; if (dict[k] !== undefined) el.textContent = dict[k];
     });

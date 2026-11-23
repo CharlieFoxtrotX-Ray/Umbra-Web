@@ -1,0 +1,520 @@
+/* Header común de toda la web (umbra.cfx-software.com).
+   Sale del de la portada: mismo marcado en todas las páginas y mismas reglas.
+   Autocontenido: las variables van en .nav y .login-modal para que funcione
+   también en las páginas legales, que no cargan styles.css. */
+.nav,.login-modal{
+  --gold:#7FA63E; --gold-hi:#A8D85F; --gold-shine:#D6F2A8;
+  --text:#EEF1FB; --text-soft:rgba(238,241,251,.8); --text-mute:rgba(238,241,251,.58);
+  --glass:rgba(255,255,255,.045); --line:rgba(255,255,255,.10);
+  --r-sm:10px; --r:16px; --r-pill:999px; --z-nav:100;
+  --bg-elevated:#0c0c10; --bg-elevated-2:#15151a; --bg-elevated-3:#1c1c22;
+  --border:#25252c; --border-bright:#3a3a44; --border-strong:#555560;
+  --text-primary:#f4f4f7; --text-secondary:#a8a8b2; --text-tertiary:#6b6b75;
+  --silver-bright:#e0e0e8; --amber-glow:rgba(212,160,106,.35);
+  --font-display:'Space Grotesk',system-ui,sans-serif; --font-body:'Inter',system-ui,sans-serif;
+  --font-mono:'JetBrains Mono',ui-monospace,monospace;
+  --radius:8px; --radius-lg:14px;
+}
+.nav{font-family:'Satoshi',system-ui,sans-serif;line-height:1.6;color:var(--text)}
+:where(.nav,.login-modal) button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
+:where(.nav,.login-modal) a{color:inherit;text-decoration:none}
+:where(.nav,.login-modal) img{max-width:100%;display:block}
+.nav a:hover{text-decoration:none}
+.nav a.nav-dl,.nav a.nav-dl:hover{color:#0B1A05}
+.nav a.nav-logo:hover{color:#fff}
+.nav-offset{height:80px}
+.nav-right .btn-login,.nav-dl{white-space:nowrap}
+/* Entre 760 y 979 px el logo de Flash se encogía hasta desaparecer (img max-width:100% dentro de un flex) */
+.nav-links a.nav-flash{flex-shrink:0}
+.nav-links a.nav-flash img{max-width:none}
+@media(min-width:760px) and (max-width:899px){.nav-logo .nav-wordmark{display:none}}
+
+/* Botón Login del navbar (estado logged-out) */
+.btn-login {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.55rem 0.875rem;
+  background: transparent;
+  border: 1px solid var(--border-bright);
+  border-radius: var(--radius);
+  color: var(--text-secondary);
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  font-weight: 500;
+  letter-spacing: 0.005em;
+  transition: border-color 200ms ease, color 200ms ease, background 200ms ease;
+}
+
+.btn-login:hover {
+  border-color: var(--border-strong);
+  color: var(--silver-bright);
+  background: var(--bg-elevated);
+}
+
+.btn-login[hidden] { display: none; }
+
+/* User menu (estado logged-in) */
+.user-menu {
+  position: relative;
+}
+
+.user-menu[hidden] { display: none; }
+
+.user-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+  padding: 0.4rem 0.75rem 0.4rem 0.4rem;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-bright);
+  border-radius: 999px;
+  font-family: var(--font-display);
+  font-size: 0.88rem;
+  color: var(--text-primary);
+  transition: border-color 200ms ease, background 200ms ease;
+}
+
+.user-toggle:hover {
+  border-color: var(--border-strong);
+  background: var(--bg-elevated-2);
+}
+
+.user-toggle .user-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.user-toggle .user-name {
+  max-width: 110px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.user-toggle .user-chevron {
+  opacity: 0.7;
+  transition: transform 200ms ease;
+}
+
+.user-toggle[aria-expanded="true"] .user-chevron {
+  transform: rotate(180deg);
+}
+
+/* Avatar — funciona como <img> con src o como circle generado */
+.user-avatar {
+  display: inline-block;
+  background: var(--bg-elevated-3);
+  border: 1px solid var(--border-bright);
+  object-fit: cover;
+  position: relative;
+}
+
+.user-avatar.no-image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: 0.8rem;
+  color: var(--silver-bright);
+  background: hsl(var(--avatar-h, 220), 25%, 18%);
+  border-color: hsl(var(--avatar-h, 220), 25%, 30%);
+}
+
+.user-avatar.no-image::before {
+  content: attr(data-initial);
+}
+
+/* User dropdown */
+.user-dropdown {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  right: 0;
+  min-width: 180px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-bright);
+  border-radius: var(--radius);
+  box-shadow: 0 16px 40px -12px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.02) inset;
+  padding: 0.375rem;
+  z-index: 110;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-6px);
+  transition: opacity 180ms ease, transform 180ms ease, visibility 180ms ease;
+}
+
+.user-dropdown.open {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.user-option {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  width: 100%;
+  padding: 0.625rem 0.75rem;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  text-align: left;
+  border-radius: 6px;
+  transition: background 150ms ease, color 150ms ease;
+}
+
+.user-option:hover {
+  background: var(--bg-elevated-2);
+  color: var(--text-primary);
+}
+
+/* Drawer login button (mobile) */
+.drawer-login {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.625rem;
+  margin-top: 0.25rem;
+  padding: 0.875rem 1rem;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-bright);
+  border-radius: var(--radius);
+  color: var(--text-primary);
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.drawer-login[hidden] { display: none; }
+.drawer-login:hover { border-color: var(--border-strong); }
+
+/* Drawer user info (mobile, logged-in) */
+.drawer-user {
+  margin-top: 0.5rem;
+  padding: 1rem;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.drawer-user[hidden] { display: none; }
+
+.drawer-user-info {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.875rem;
+}
+
+.drawer-user-info .user-avatar {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.drawer-user-info .user-avatar.no-image { font-size: 1.05rem; }
+
+.drawer-user-meta {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.drawer-user-name {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.drawer-user-email {
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  color: var(--text-tertiary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.drawer-user-signout {
+  width: 100%;
+  padding: 0.625rem;
+  background: transparent;
+  border: 1px solid var(--border-bright);
+  border-radius: 6px;
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  transition: border-color 150ms ease, color 150ms ease;
+}
+
+.drawer-user-signout:hover {
+  border-color: var(--border-strong);
+  color: var(--text-primary);
+}
+
+/* ─── Login modal ─────────────────────────────────────────── */
+
+.login-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 220ms ease, visibility 220ms ease;
+}
+
+.login-modal[hidden] { display: none; }
+
+.login-modal.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.login-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(2, 2, 4, 0.78);
+  backdrop-filter: blur(8px) saturate(140%);
+  -webkit-backdrop-filter: blur(8px) saturate(140%);
+}
+
+.login-modal-content {
+  position: relative;
+  width: 100%;
+  max-width: 420px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-bright);
+  border-radius: var(--radius-lg);
+  padding: clamp(1.75rem, 4vw, 2.5rem);
+  box-shadow: 0 32px 80px -20px rgba(0,0,0,0.8), 0 0 60px -20px var(--amber-glow);
+  transform: translateY(8px) scale(0.98);
+  transition: transform 220ms cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.login-modal.open .login-modal-content {
+  transform: translateY(0) scale(1);
+}
+
+.login-modal-close {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  color: var(--text-tertiary);
+  transition: color 150ms ease, background 150ms ease;
+}
+
+.login-modal-close:hover {
+  color: var(--text-primary);
+  background: var(--bg-elevated-2);
+}
+
+.login-modal-header {
+  text-align: center;
+  margin-bottom: 1.75rem;
+}
+
+.login-modal-mark {
+  width: 56px;
+  height: 56px;
+  margin: 0 auto 1rem;
+  filter: drop-shadow(0 0 16px rgba(212, 160, 106, 0.18));
+}
+
+.login-modal-header h3 {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.login-modal-header p {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+}
+
+/* Botón "Sign in with Google" — estilo dark approved by Google branding */
+.btn-google-signin {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 0.875rem 1.25rem;
+  background: #f8f9fa;
+  color: #1f1f1f;
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  font-family: 'Roboto', var(--font-body);
+  font-size: 0.95rem;
+  font-weight: 500;
+  letter-spacing: 0.005em;
+  cursor: pointer;
+  transition: background 150ms ease, box-shadow 150ms ease, transform 100ms ease;
+}
+
+.btn-google-signin:hover {
+  background: #fff;
+  box-shadow: 0 4px 12px -2px rgba(255,255,255,0.1), 0 0 0 1px rgba(255,255,255,0.15);
+}
+
+.btn-google-signin:active { transform: translateY(1px); }
+
+.btn-google-signin svg { flex-shrink: 0; }
+
+.login-error {
+  margin-top: 1rem;
+  padding: 0.75rem 1rem;
+  background: rgba(220, 60, 60, 0.08);
+  border: 1px solid rgba(220, 60, 60, 0.4);
+  border-radius: var(--radius);
+  font-size: 0.88rem;
+  color: #f8a8a8;
+  text-align: center;
+}
+
+.login-error[hidden] { display: none; }
+
+.login-modal-note {
+  margin-top: 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--border);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.05em;
+  color: var(--text-tertiary);
+  text-align: center;
+  line-height: 1.5;
+}
+
+/* Mobile: navbar más compacto, ocultar botón Login (queda en drawer) */
+@media (max-width: 880px) {
+  .btn-login,
+  .user-menu {
+display: none;
+  }
+}
+
+/* Nav */
+.nav{position:fixed;top:0;left:0;right:0;z-index:var(--z-nav);display:grid;grid-template-columns:1fr auto 1fr;align-items:center;
+  padding:1.15rem 2.2rem;transition:background .3s,padding .3s,border-color .3s,backdrop-filter .3s;border-bottom:1px solid transparent}
+.nav.scrolled{background:rgba(7,9,18,.72);backdrop-filter:blur(16px) saturate(120%);border-bottom-color:var(--line);padding:.7rem 2.2rem}
+@media(max-width:880px){.nav,.nav.scrolled{padding-left:1.1rem;padding-right:1.1rem}}
+.nav-logo{justify-self:start;display:flex;align-items:center;gap:.6rem;font-family:'Clash Display',sans-serif;font-weight:700;font-size:1.1rem;letter-spacing:.01em;color:#fff}
+.nav-logo img{width:auto;height:38px;filter:drop-shadow(0 1px 5px rgba(0,0,0,.4))}
+.nav-logo .nav-wordmark{width:auto;height:22px;filter:drop-shadow(0 1px 3px rgba(0,0,0,.5))}
+.nav-links{justify-self:center;display:none;align-items:center;gap:.2rem}
+@media(min-width:760px){.nav-links{display:flex}}
+/* Entre 760 y 979 los enlaces se compactan y el nav deja de ser simétrico para que quepan */
+@media(min-width:760px) and (max-width:979px){
+  .nav{grid-template-columns:auto 1fr auto;gap:.5rem}
+  .nav-links{gap:0}
+  .nav-links a{padding:.4rem .42rem;font-size:.8rem}
+  .nav-right .lang{display:none}
+}
+.nav-links a{padding:.5rem .9rem;font-size:.92rem;font-weight:500;color:var(--text-soft);border-radius:var(--r-pill);transition:background .2s,color .2s}
+.nav-links a.nav-flash{display:inline-flex;align-items:center;padding-top:.25rem;padding-bottom:.25rem}
+.nav-links a.nav-flash img{display:block;height:1.8em;width:auto;transition:filter .2s}
+.nav-links a.nav-flash:hover img{filter:drop-shadow(0 0 8px rgba(168,216,95,.45))}
+.nav-mobile a.nm-flash img{display:block;height:30px;width:auto}
+.nav-links a:hover{background:rgba(255,255,255,.06);color:#fff}
+.nav-right{justify-self:end;display:flex;align-items:center;gap:.7rem}
+/* Botón hamburguesa: solo en móvil (<760) */
+.nav-burger{display:none;width:42px;height:42px;align-items:center;justify-content:center;flex-direction:column;
+  background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:12px;cursor:pointer;transition:background .2s}
+.nav-burger:hover{background:rgba(255,255,255,.09)}
+.nav-burger span{display:block;width:18px;height:2px;background:#fff;border-radius:2px;transition:transform .25s,opacity .2s}
+.nav-burger span+span{margin-top:4px}
+.nav-burger[aria-expanded="true"] span:nth-child(1){transform:translateY(6px) rotate(45deg)}
+.nav-burger[aria-expanded="true"] span:nth-child(2){opacity:0}
+.nav-burger[aria-expanded="true"] span:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
+@media(max-width:759px){.nav-burger{display:inline-flex}}
+/* Panel móvil desplegable — se muestra solo cuando está abierto y en móvil */
+.nav-mobile{position:absolute;top:calc(100% + 6px);right:1.1rem;width:min(260px,calc(100vw - 2.2rem));
+  background:rgba(12,14,26,.97);backdrop-filter:blur(16px) saturate(120%);-webkit-backdrop-filter:blur(16px) saturate(120%);
+  border:1px solid var(--line);border-radius:16px;box-shadow:0 24px 48px -18px rgba(0,0,0,.7);
+  padding:.6rem;flex-direction:column;gap:.15rem;display:none;transform-origin:top right}
+@media(max-width:759px){
+  .nav-mobile.open{display:flex;animation:navPop .18s ease both}
+}
+@keyframes navPop{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
+.nav-mobile a{padding:.7rem .8rem;border-radius:10px;color:var(--text-soft);font-weight:500;font-size:.95rem;transition:background .2s,color .2s}
+.nav-mobile a:hover,.nav-mobile a:focus-visible{background:rgba(255,255,255,.07);color:#fff}
+.nav-mobile .nm-sep{height:1px;background:var(--line);margin:.35rem .2rem}
+.nav-mobile .lang{display:inline-flex;align-self:flex-start;margin:.25rem .2rem 0}
+/* En móvil el nav es flex (no grid): al ocultar los enlaces, el grid movía
+   nav-right a la columna central y encimaba el logo. Con flex, logo y
+   hamburguesa quedan en los extremos. El login/usuario viven en el panel. */
+@media(max-width:759px){
+  .nav{display:flex;justify-content:space-between;align-items:center}
+  .nav-right .btn-login,.nav-right .user-menu{display:none}
+}
+.nm-login{display:flex;align-items:center;justify-content:center;gap:.4rem;width:100%;
+  padding:.72rem;border-radius:10px;border:0;cursor:pointer;
+  background:linear-gradient(135deg,var(--gold-hi),var(--gold));color:#0B1A05;font-weight:700;font-size:.95rem}
+.nm-user{display:flex;flex-direction:column;gap:.5rem;padding:.2rem}
+.nm-user-info{display:flex;align-items:center;gap:.6rem}
+.nm-user .user-avatar{width:34px;height:34px;border-radius:50%;background-color:rgba(255,255,255,.12);background-size:cover;background-position:center;flex-shrink:0}
+.nm-user-meta{display:flex;flex-direction:column;min-width:0}
+.nm-user-meta .drawer-user-name{font-weight:600;color:#fff;font-size:.9rem}
+.nm-user-meta .drawer-user-email{font-size:.76rem;color:var(--text-mute);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.nm-signout{width:100%;padding:.6rem;border-radius:10px;border:1px solid var(--line);cursor:pointer;
+  background:rgba(255,255,255,.04);color:var(--text-soft);font-weight:500;font-size:.9rem}
+.nm-signout:hover{background:rgba(255,255,255,.08);color:#fff}
+.lang{display:inline-flex;background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:var(--r-pill);padding:.18rem}
+.lang button{padding:.32rem .62rem;border-radius:var(--r-pill);font-family:'JetBrains Mono',monospace;font-size:.7rem;font-weight:600;letter-spacing:.05em;color:var(--text-mute);transition:.2s}
+.lang button:hover{color:#fff}
+.lang button.active{background:linear-gradient(135deg,var(--gold-hi),var(--gold));color:#0B1A05}
+@media(max-width:540px){.lang{display:none}}
+.nav-cta{
+  padding:0.6rem 1.3rem;border-radius:var(--r-pill);
+  background:linear-gradient(135deg,var(--gold-hi),var(--gold));color:#0B1A05;font-weight:700;font-size:0.9rem;
+  transition:transform 180ms,box-shadow 180ms;display:inline-flex;align-items:center;gap:0.35rem;
+}
+.nav-cta:hover{transform:translateY(-1px);box-shadow:0 10px 24px -8px rgba(127,166,62,0.4)}
+.user-menu{position:relative}
+.user-dropdown{
+  position:absolute;right:0;top:calc(100% + 0.5rem);min-width:160px;padding:0.4rem;
+  background:rgba(18,20,38,0.97);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  border:1px solid rgba(255,255,255,0.10);border-radius:var(--r);
+  box-shadow:0 20px 40px -16px rgba(0,0,0,0.6);
+  opacity:0;visibility:hidden;transform:translateY(-6px);
+  transition:opacity 160ms,transform 160ms,visibility 160ms;
+}
+.user-dropdown.open{opacity:1;visibility:visible;transform:translateY(0)}
+.user-dropdown button{
+  display:block;width:100%;text-align:left;padding:0.6rem 0.8rem;border-radius:var(--r-sm);
+  font-size:0.88rem;font-weight:600;color:rgba(255,255,255,0.8);
+}
+.user-dropdown button:hover{background:rgba(255,255,255,0.08);color:#fff}
+
+/* Nav: la acción principal es descargar; iniciar sesión pasa a secundaria */
+.nav-dl{display:none;align-items:center;padding:.6rem 1.25rem;border-radius:var(--r-pill);
+  background:linear-gradient(135deg,var(--gold-hi),var(--gold));color:#0B1A05;font-weight:700;font-size:.9rem;
+  transition:transform .18s,box-shadow .18s}
+.nav-dl:hover{transform:translateY(-1px);box-shadow:0 10px 24px -8px rgba(127,166,62,.4)}
+.nav-dl:active{transform:scale(.98)}
+.nav-dl:focus-visible{outline:2px solid var(--gold-hi);outline-offset:3px}
+@media(min-width:1100px){
+  .nav-dl{display:inline-flex}
+  .nav-right .btn-login{background:var(--glass);border:1px solid var(--line);color:var(--text);font-weight:600}
+  .nav-right .btn-login:hover{box-shadow:none;background:rgba(255,255,255,.09)}
+}

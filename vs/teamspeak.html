@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-content-lang>
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -34,19 +34,75 @@
   <script type="application/ld+json">
   {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is TeamSpeak still good in 2026?","acceptedAnswer":{"@type":"Answer","text":"Yes — for what it does best. TeamSpeak remains excellent for low-latency voice, granular permissions, and full self-hosting, and milsim units with ACRE2/TFAR dependencies have no real alternative. The concerns in 2026 are about direction, not quality: TeamSpeak 6 server licensing is still unsettled, the mobile apps draw persistent complaints, there is no real web client, and the classic model still puts the entire server cost on one person."}},{"@type":"Question","name":"Doesn't TeamSpeak already have whisper?","acceptedAnswer":{"@type":"Answer","text":"It does. TeamSpeak's whisper lists (since TS3) can target specific users, channels, and server groups with a dedicated hotkey. The difference with UMBRA is speed and reach: whisper is configured in seconds rather than through a multi-step menu workflow, and it works identically from the desktop client and the browser."}},{"@type":"Question","name":"Can I use UMBRA without installing anything?","acceptedAnswer":{"@type":"Answer","text":"Yes. UMBRA runs fully in the browser — join your community's server from any modern browser on Windows, macOS, or Linux with no download. There is also a native Windows client, with macOS and Linux clients in development."}},{"@type":"Question","name":"How much does UMBRA cost compared to a TeamSpeak server?","acceptedAnswer":{"@type":"Answer","text":"TeamSpeak hosted servers start around $3.99/month (one payer), with self-hosted licenses around $55/year for 64 slots plus your own hosting costs. UMBRA's Community plan is free forever (up to 20 voice slots and 4 rooms, no credit card). Larger server plans range from roughly $30 to $200/month equivalent depending on community size, but the cost is shared across the whole community through Volts rather than paid by one person, and there is no per-user fee."}},{"@type":"Question","name":"Does UMBRA have screen share or video?","acceptedAnswer":{"@type":"Answer","text":"Not yet. UMBRA is in early access and currently focuses on voice (including cross-channel whisper), hardware push-to-talk, the Android phone app (built, still in testing, not downloadable yet), and Canvas (calendar, notes, whiteboard). Screen share and video are not available today."}},{"@type":"Question","name":"What happens if my community stops paying for its UMBRA server?","acceptedAnswer":{"@type":"Answer","text":"The server freezes but is never deleted. All channels, settings, and Canvas content are preserved, and everything comes back the moment the community funds it again. You never lose your setup for missing a month."}},{"@type":"Question","name":"Can I self-host UMBRA like a TeamSpeak server?","acceptedAnswer":{"@type":"Answer","text":"No. UMBRA servers run on UMBRA's infrastructure — that is how the browser client, the Android apps, and the collective funding model work without setup on your end. If self-hosting on your own hardware is a hard requirement, TeamSpeak or Mumble remain the right tools for you."}}]}
   </script>
+  <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=clash-display@600,700&f[]=satoshi@400,500,700&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600&display=swap" />
+  <link rel="stylesheet" href="/css/nav.css?v=20261123a" />
 </head>
 <body>
   <div class="page-bg" aria-hidden="true">
     <div class="bg-veil"></div>
   </div>
 
-  <nav class="legal-nav">
-    <a class="legal-nav-logo" href="/">
-      <img src="../assets/logo-triangle.png" alt="" />
-      <img class="nav-wordmark" src="../assets/wordmark-umbra.png" alt="UMBRA" />
+  <nav class="nav" id="topNav">
+    <a class="nav-logo" href="/">
+      <img src="/assets/logo-triangle.png" alt="" />
+      <img class="nav-wordmark" src="/assets/wordmark-umbra.png" alt="UMBRA" />
     </a>
-    <a class="legal-nav-back" href="/">← umbra.cfx-software.com</a>
+    <div class="nav-links">
+      <a href="/#problema" data-i18n="nav.why">Por qué UMBRA</a>
+      <a href="/#comunicacion" data-i18n="nav.whisper">Whisper</a>
+      <a href="/#calendario" data-i18n="nav.calendar">Calendario</a>
+      <a class="nav-flash" href="/tienda" aria-label="Flash · Tienda"><img src="/assets/brand/flash-logo.svg" width="426" height="120" alt="Flash"></a>
+      <a href="/partners" data-i18n="nav.partners">Partners</a>
+    </div>
+    <div class="nav-right">
+      <div class="lang lang-switch" role="group" aria-label="Idioma">
+        <button type="button" data-lang="es" class="active">ES</button>
+        <button type="button" data-lang="en">EN</button>
+      </div>
+      <button class="nav-cta btn-login" data-i18n="t.nav.login">Iniciar sesión</button>
+      <a class="nav-dl" href="https://umbra-api.cfx-software.com/downloads/Umbra-Setup.exe" download data-i18n="nav.cta">Descargar</a>
+      <div class="user-menu" hidden>
+        <button class="nav-cta user-toggle" aria-expanded="false">
+          <span class="user-name"></span>
+        </button>
+        <div class="user-dropdown">
+          <button class="creator-link" hidden onclick="location.assign('/creador')" data-i18n="nav.creatorPanel">Panel de creador</button>
+          <button data-action="signout" data-i18n="t.nav.signout">Cerrar sesión</button>
+        </div>
+      </div>
+      <button class="nav-burger" id="navBurger" aria-label="Menú" aria-expanded="false" aria-controls="navMobile">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="nav-mobile" id="navMobile">
+      <a href="/#problema" data-i18n="nav.why">Por qué UMBRA</a>
+      <a href="/#comunicacion" data-i18n="nav.whisper">Whisper</a>
+      <a href="/#calendario" data-i18n="nav.calendar">Calendario</a>
+      <a class="nm-flash" href="/tienda" aria-label="Flash · Tienda"><img src="/assets/brand/flash-logo.svg" width="426" height="120" alt="Flash"></a>
+      <a href="/partners" data-i18n="nav.partners">Partners</a>
+      <a href="/descargas" data-i18n="nav.downloads">Descargas</a>
+      <div class="nm-sep"></div>
+      <button class="drawer-login nm-login" type="button" data-i18n="t.nav.login">Iniciar sesión</button>
+      <div class="drawer-user nm-user" hidden>
+        <div class="nm-user-info">
+          <span class="user-avatar" aria-hidden="true"></span>
+          <div class="nm-user-meta">
+            <span class="drawer-user-name"></span>
+            <span class="drawer-user-email"></span>
+          </div>
+        </div>
+        <a class="creator-link nm-signout" href="/creador" hidden style="text-align:center;text-decoration:none" data-i18n="nav.creatorPanel">Panel de creador</a>
+        <button class="drawer-user-signout nm-signout" data-action="signout" data-i18n="t.nav.signout">Cerrar sesión</button>
+      </div>
+      <div class="nm-sep"></div>
+      <div class="lang lang-switch" role="group" aria-label="Idioma">
+        <button type="button" data-lang="es">ES</button>
+        <button type="button" data-lang="en">EN</button>
+      </div>
+    </div>
   </nav>
+  <div class="nav-offset" aria-hidden="true"></div>
 
   <header class="legal-hero">
     <div class="legal-eyebrow">🎙️ Comparison</div>
@@ -189,5 +245,8 @@
     <p style="margin-top:0.85rem">© 2026 CFX · UMBRA</p>
   </footer>
 
+  <script src="/js/i18n-v2.js?v=20261123a" defer></script>
+  <script src="/js/nav.js?v=20261123a" defer></script>
+  <script src="/js/auth.js?v=20260701a" defer></script>
 </body>
 </html>

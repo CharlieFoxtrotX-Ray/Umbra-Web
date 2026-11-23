@@ -73,70 +73,8 @@
     body > *{position:relative;z-index:1}
 
     /* ── NAV (idéntico al landing) ───────────────────────────── */
-    .nav{
-      position:fixed;top:0;left:0;right:0;z-index:100;
-      display:grid;grid-template-columns:1fr auto 1fr;align-items:center;
-      padding:1.25rem 2.5rem;background:transparent;color:#fff;
-      transition:background 250ms ease,padding 250ms ease,backdrop-filter 250ms ease;
-    }
-    .nav.scrolled{
-      background:rgba(14,14,20,0.72);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
-      padding:0.85rem 2.5rem;border-bottom:1px solid rgba(255,255,255,0.05);
-    }
-    @media(max-width:880px){.nav,.nav.scrolled{padding-left:1rem;padding-right:1rem}}
-    @media(max-width:979px){.nav{grid-template-columns:auto 1fr auto}}
-    .nav-logo{
-      justify-self:start;display:flex;align-items:center;gap:0.6rem;color:#fff;
-      font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:1.05rem;letter-spacing:-0.015em;
-    }
-    .nav-logo img{width:auto;height:32px}
-    .nav-logo .nav-wordmark{width:auto;height:19px;filter:drop-shadow(0 1px 3px rgba(0,0,0,0.5))}
-    .nav-links{justify-self:center;display:none;align-items:center;gap:0.35rem}
-    @media(min-width:980px){.nav-links{display:flex}}
-    .nav-links a{
-      padding:0.5rem 1rem;font-size:0.92rem;font-weight:600;
-      color:rgba(255,255,255,0.75);border-radius:var(--r-pill);transition:background 180ms,color 180ms;
-    }
-    .nav-links a:hover{background:rgba(255,255,255,0.08);color:#fff}
-    .nav-right{justify-self:end;display:flex;align-items:center;gap:0.75rem}
-    .lang-switch{
-      display:inline-flex;background:rgba(255,255,255,0.06);
-      border:1px solid rgba(255,255,255,0.10);border-radius:var(--r-pill);padding:0.2rem;
-    }
-    .lang-switch button{
-      padding:0.35rem 0.7rem;border-radius:var(--r-pill);
-      font-family:'JetBrains Mono',monospace;font-size:0.72rem;font-weight:700;letter-spacing:0.06em;
-      color:rgba(255,255,255,0.55);background:transparent;transition:background 180ms,color 180ms;
-    }
-    .lang-switch button:hover{color:#fff}
-    .lang-switch button.active{
-      background:linear-gradient(135deg,var(--gold-hi),var(--gold));
-      color:#0B1A05;box-shadow:0 0 0 1px rgba(127,166,62,0.4);
-    }
-    @media(max-width:540px){.lang-switch{display:none}}
-    .nav-cta{
-      padding:0.6rem 1.3rem;border-radius:var(--r-pill);
-      background:linear-gradient(135deg,var(--gold-hi),var(--gold));color:#0B1A05;font-weight:700;font-size:0.9rem;
-      transition:transform 180ms,box-shadow 180ms;display:inline-flex;align-items:center;gap:0.35rem;
-    }
-    .nav-cta:hover{transform:translateY(-1px);box-shadow:0 10px 24px -8px rgba(127,166,62,0.4)}
 
     /* User menu (logueado) */
-    .user-menu{position:relative}
-    .user-dropdown{
-      position:absolute;right:0;top:calc(100% + 0.5rem);min-width:160px;padding:0.4rem;
-      background:rgba(18,20,38,0.97);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
-      border:1px solid rgba(255,255,255,0.10);border-radius:var(--r);
-      box-shadow:0 20px 40px -16px rgba(0,0,0,0.6);
-      opacity:0;visibility:hidden;transform:translateY(-6px);
-      transition:opacity 160ms,transform 160ms,visibility 160ms;
-    }
-    .user-dropdown.open{opacity:1;visibility:visible;transform:translateY(0)}
-    .user-dropdown button{
-      display:block;width:100%;text-align:left;padding:0.6rem 0.8rem;border-radius:var(--r-sm);
-      font-size:0.88rem;font-weight:600;color:rgba(255,255,255,0.8);
-    }
-    .user-dropdown button:hover{background:rgba(255,255,255,0.08);color:#fff}
 
     /* ── MAIN ─────────────────────────────────────────────────── */
     main.store{max-width:var(--container);margin:0 auto;padding:9rem 1.5rem 2rem}
@@ -298,26 +236,31 @@
     .s-foot .foot-links{display:flex;gap:1.25rem;flex-wrap:wrap}
     .s-foot a:hover{color:#fff}
   </style>
+  <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=clash-display@600,700&f[]=satoshi@400,500,700&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600&display=swap" />
+  <link rel="stylesheet" href="/css/nav.css?v=20261123a" />
 </head>
 <body>
   <div class="bg-cosmos" aria-hidden="true"></div>
   <nav class="nav" id="topNav">
     <a class="nav-logo" href="/">
-      <img src="assets/logo-triangle.png" alt="" />
-      <img class="nav-wordmark" src="assets/wordmark-umbra.png" alt="UMBRA" />
+      <img src="/assets/logo-triangle.png" alt="" />
+      <img class="nav-wordmark" src="/assets/wordmark-umbra.png" alt="UMBRA" />
     </a>
     <div class="nav-links">
-      <a href="/#comunicacion" data-i18n="nav.comms">Comunicación</a>
-      <a href="/#canvas" data-i18n="nav.canvas">Canvas</a>
-      <a href="/#plugins" data-i18n="nav.plugins">Plugins</a>
-      <a href="/#faq" data-i18n="nav.faq">FAQ</a>
+      <a href="/#problema" data-i18n="nav.why">Por qué UMBRA</a>
+      <a href="/#comunicacion" data-i18n="nav.whisper">Whisper</a>
+      <a href="/#calendario" data-i18n="nav.calendar">Calendario</a>
+      <a class="nav-flash" href="/tienda" aria-label="Flash · Tienda"><img src="/assets/brand/flash-logo.svg" width="426" height="120" alt="Flash"></a>
+      <a href="/partners" data-i18n="nav.partners">Partners</a>
     </div>
     <div class="nav-right">
-      <div class="lang-switch" role="group" aria-label="Idioma">
+      <div class="lang lang-switch" role="group" aria-label="Idioma">
         <button type="button" data-lang="es" class="active">ES</button>
         <button type="button" data-lang="en">EN</button>
       </div>
       <button class="nav-cta btn-login" data-i18n="t.nav.login">Iniciar sesión</button>
+      <a class="nav-dl" href="https://umbra-api.cfx-software.com/downloads/Umbra-Setup.exe" download data-i18n="nav.cta">Descargar</a>
       <div class="user-menu" hidden>
         <button class="nav-cta user-toggle" aria-expanded="false">
           <span class="user-name"></span>
@@ -326,6 +269,35 @@
           <button class="creator-link" hidden onclick="location.assign('/creador')" data-i18n="nav.creatorPanel">Panel de creador</button>
           <button data-action="signout" data-i18n="t.nav.signout">Cerrar sesión</button>
         </div>
+      </div>
+      <button class="nav-burger" id="navBurger" aria-label="Menú" aria-expanded="false" aria-controls="navMobile">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="nav-mobile" id="navMobile">
+      <a href="/#problema" data-i18n="nav.why">Por qué UMBRA</a>
+      <a href="/#comunicacion" data-i18n="nav.whisper">Whisper</a>
+      <a href="/#calendario" data-i18n="nav.calendar">Calendario</a>
+      <a class="nm-flash" href="/tienda" aria-label="Flash · Tienda"><img src="/assets/brand/flash-logo.svg" width="426" height="120" alt="Flash"></a>
+      <a href="/partners" data-i18n="nav.partners">Partners</a>
+      <a href="/descargas" data-i18n="nav.downloads">Descargas</a>
+      <div class="nm-sep"></div>
+      <button class="drawer-login nm-login" type="button" data-i18n="t.nav.login">Iniciar sesión</button>
+      <div class="drawer-user nm-user" hidden>
+        <div class="nm-user-info">
+          <span class="user-avatar" aria-hidden="true"></span>
+          <div class="nm-user-meta">
+            <span class="drawer-user-name"></span>
+            <span class="drawer-user-email"></span>
+          </div>
+        </div>
+        <a class="creator-link nm-signout" href="/creador" hidden style="text-align:center;text-decoration:none" data-i18n="nav.creatorPanel">Panel de creador</a>
+        <button class="drawer-user-signout nm-signout" data-action="signout" data-i18n="t.nav.signout">Cerrar sesión</button>
+      </div>
+      <div class="nm-sep"></div>
+      <div class="lang lang-switch" role="group" aria-label="Idioma">
+        <button type="button" data-lang="es">ES</button>
+        <button type="button" data-lang="en">EN</button>
       </div>
     </div>
   </nav>
@@ -517,6 +489,7 @@
     })();
   </script>
   <script src="js/i18n-v2.js?v=20261122q" defer></script>
+  <script src="/js/nav.js?v=20261123a" defer></script>
   <script src="js/auth.js?v=20260701a" defer></script>
   <script src="js/tienda.js?v=20261122i" defer></script>
 </body>
