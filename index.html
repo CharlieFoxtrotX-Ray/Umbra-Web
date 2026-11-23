@@ -161,98 +161,6 @@
     .kicker::before{content:'';width:26px;height:1px;background:linear-gradient(90deg,var(--gold),transparent)}
     .lead{color:var(--text-soft);font-size:1.12rem;max-width:60ch;line-height:1.6}
 
-    /* Nav */
-    .nav{position:fixed;top:0;left:0;right:0;z-index:var(--z-nav);display:grid;grid-template-columns:1fr auto 1fr;align-items:center;
-      padding:1.15rem 2.2rem;transition:background .3s,padding .3s,border-color .3s,backdrop-filter .3s;border-bottom:1px solid transparent}
-    .nav.scrolled{background:rgba(7,9,18,.72);backdrop-filter:blur(16px) saturate(120%);border-bottom-color:var(--line);padding:.7rem 2.2rem}
-    @media(max-width:880px){.nav,.nav.scrolled{padding-left:1.1rem;padding-right:1.1rem}}
-    .nav-logo{justify-self:start;display:flex;align-items:center;gap:.6rem;font-family:'Clash Display',sans-serif;font-weight:700;font-size:1.1rem;letter-spacing:.01em;color:#fff}
-    .nav-logo img{width:auto;height:38px;filter:drop-shadow(0 1px 5px rgba(0,0,0,.4))}
-    .nav-logo .nav-wordmark{width:auto;height:22px;filter:drop-shadow(0 1px 3px rgba(0,0,0,.5))}
-    .nav-links{justify-self:center;display:none;align-items:center;gap:.2rem}
-    @media(min-width:760px){.nav-links{display:flex}}
-    /* Entre 760 y 979 los enlaces se compactan y el nav deja de ser simétrico para que quepan */
-    @media(min-width:760px) and (max-width:979px){
-      .nav{grid-template-columns:auto 1fr auto;gap:.5rem}
-      .nav-links{gap:0}
-      .nav-links a{padding:.4rem .42rem;font-size:.8rem}
-      .nav-right .lang{display:none}
-    }
-    .nav-links a{padding:.5rem .9rem;font-size:.92rem;font-weight:500;color:var(--text-soft);border-radius:var(--r-pill);transition:background .2s,color .2s}
-    .nav-links a.nav-flash{display:inline-flex;align-items:center;padding-top:.25rem;padding-bottom:.25rem}
-    .nav-links a.nav-flash img{display:block;height:1.8em;width:auto;transition:filter .2s}
-    .nav-links a.nav-flash:hover img{filter:drop-shadow(0 0 8px rgba(168,216,95,.45))}
-    .nav-mobile a.nm-flash img{display:block;height:30px;width:auto}
-    .nav-links a:hover{background:rgba(255,255,255,.06);color:#fff}
-    .nav-right{justify-self:end;display:flex;align-items:center;gap:.7rem}
-    /* Botón hamburguesa: solo en móvil (<760) */
-    .nav-burger{display:none;width:42px;height:42px;align-items:center;justify-content:center;flex-direction:column;
-      background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:12px;cursor:pointer;transition:background .2s}
-    .nav-burger:hover{background:rgba(255,255,255,.09)}
-    .nav-burger span{display:block;width:18px;height:2px;background:#fff;border-radius:2px;transition:transform .25s,opacity .2s}
-    .nav-burger span+span{margin-top:4px}
-    .nav-burger[aria-expanded="true"] span:nth-child(1){transform:translateY(6px) rotate(45deg)}
-    .nav-burger[aria-expanded="true"] span:nth-child(2){opacity:0}
-    .nav-burger[aria-expanded="true"] span:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
-    @media(max-width:759px){.nav-burger{display:inline-flex}}
-    /* Panel móvil desplegable — se muestra solo cuando está abierto y en móvil */
-    .nav-mobile{position:absolute;top:calc(100% + 6px);right:1.1rem;width:min(260px,calc(100vw - 2.2rem));
-      background:rgba(12,14,26,.97);backdrop-filter:blur(16px) saturate(120%);-webkit-backdrop-filter:blur(16px) saturate(120%);
-      border:1px solid var(--line);border-radius:16px;box-shadow:0 24px 48px -18px rgba(0,0,0,.7);
-      padding:.6rem;flex-direction:column;gap:.15rem;display:none;transform-origin:top right}
-    @media(max-width:759px){
-      .nav-mobile.open{display:flex;animation:navPop .18s ease both}
-    }
-    @keyframes navPop{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
-    .nav-mobile a{padding:.7rem .8rem;border-radius:10px;color:var(--text-soft);font-weight:500;font-size:.95rem;transition:background .2s,color .2s}
-    .nav-mobile a:hover,.nav-mobile a:focus-visible{background:rgba(255,255,255,.07);color:#fff}
-    .nav-mobile .nm-sep{height:1px;background:var(--line);margin:.35rem .2rem}
-    .nav-mobile .lang{display:inline-flex;align-self:flex-start;margin:.25rem .2rem 0}
-    /* En móvil el nav es flex (no grid): al ocultar los enlaces, el grid movía
-       nav-right a la columna central y encimaba el logo. Con flex, logo y
-       hamburguesa quedan en los extremos. El login/usuario viven en el panel. */
-    @media(max-width:759px){
-      .nav{display:flex;justify-content:space-between;align-items:center}
-      .nav-right .btn-login,.nav-right .user-menu{display:none}
-    }
-    .nm-login{display:flex;align-items:center;justify-content:center;gap:.4rem;width:100%;
-      padding:.72rem;border-radius:10px;border:0;cursor:pointer;
-      background:linear-gradient(135deg,var(--gold-hi),var(--gold));color:#0B1A05;font-weight:700;font-size:.95rem}
-    .nm-user{display:flex;flex-direction:column;gap:.5rem;padding:.2rem}
-    .nm-user-info{display:flex;align-items:center;gap:.6rem}
-    .nm-user .user-avatar{width:34px;height:34px;border-radius:50%;background-color:rgba(255,255,255,.12);background-size:cover;background-position:center;flex-shrink:0}
-    .nm-user-meta{display:flex;flex-direction:column;min-width:0}
-    .nm-user-meta .drawer-user-name{font-weight:600;color:#fff;font-size:.9rem}
-    .nm-user-meta .drawer-user-email{font-size:.76rem;color:var(--text-mute);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-    .nm-signout{width:100%;padding:.6rem;border-radius:10px;border:1px solid var(--line);cursor:pointer;
-      background:rgba(255,255,255,.04);color:var(--text-soft);font-weight:500;font-size:.9rem}
-    .nm-signout:hover{background:rgba(255,255,255,.08);color:#fff}
-    .lang{display:inline-flex;background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:var(--r-pill);padding:.18rem}
-    .lang button{padding:.32rem .62rem;border-radius:var(--r-pill);font-family:'JetBrains Mono',monospace;font-size:.7rem;font-weight:600;letter-spacing:.05em;color:var(--text-mute);transition:.2s}
-    .lang button:hover{color:#fff}
-    .lang button.active{background:linear-gradient(135deg,var(--gold-hi),var(--gold));color:#0B1A05}
-    @media(max-width:540px){.lang{display:none}}
-    .nav-cta{
-      padding:0.6rem 1.3rem;border-radius:var(--r-pill);
-      background:linear-gradient(135deg,var(--gold-hi),var(--gold));color:#0B1A05;font-weight:700;font-size:0.9rem;
-      transition:transform 180ms,box-shadow 180ms;display:inline-flex;align-items:center;gap:0.35rem;
-    }
-    .nav-cta:hover{transform:translateY(-1px);box-shadow:0 10px 24px -8px rgba(127,166,62,0.4)}
-    .user-menu{position:relative}
-    .user-dropdown{
-      position:absolute;right:0;top:calc(100% + 0.5rem);min-width:160px;padding:0.4rem;
-      background:rgba(18,20,38,0.97);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
-      border:1px solid rgba(255,255,255,0.10);border-radius:var(--r);
-      box-shadow:0 20px 40px -16px rgba(0,0,0,0.6);
-      opacity:0;visibility:hidden;transform:translateY(-6px);
-      transition:opacity 160ms,transform 160ms,visibility 160ms;
-    }
-    .user-dropdown.open{opacity:1;visibility:visible;transform:translateY(0)}
-    .user-dropdown button{
-      display:block;width:100%;text-align:left;padding:0.6rem 0.8rem;border-radius:var(--r-sm);
-      font-size:0.88rem;font-weight:600;color:rgba(255,255,255,0.8);
-    }
-    .user-dropdown button:hover{background:rgba(255,255,255,0.08);color:#fff}
 
     .btn{display:inline-flex;align-items:center;gap:.45rem;border-radius:var(--r-pill);font-weight:600;font-size:.92rem;
       transition:transform .18s,box-shadow .18s,background .2s,border-color .2s}
@@ -421,18 +329,6 @@
     .chip.ok{color:var(--gold-hi);background:rgba(127,166,62,.14);border:1px solid rgba(127,166,62,.35)}
     .chip.dev{color:#F0B45A;background:rgba(240,180,90,.10);border:1px solid rgba(240,180,90,.32)}
 
-    /* Nav: la acción principal es descargar; iniciar sesión pasa a secundaria */
-    .nav-dl{display:none;align-items:center;padding:.6rem 1.25rem;border-radius:var(--r-pill);
-      background:linear-gradient(135deg,var(--gold-hi),var(--gold));color:#0B1A05;font-weight:700;font-size:.9rem;
-      transition:transform .18s,box-shadow .18s}
-    .nav-dl:hover{transform:translateY(-1px);box-shadow:0 10px 24px -8px rgba(127,166,62,.4)}
-    .nav-dl:active{transform:scale(.98)}
-    .nav-dl:focus-visible{outline:2px solid var(--gold-hi);outline-offset:3px}
-    @media(min-width:1100px){
-      .nav-dl{display:inline-flex}
-      .nav-right .btn-login{background:var(--glass);border:1px solid var(--line);color:var(--text);font-weight:600}
-      .nav-right .btn-login:hover{box-shadow:none;background:rgba(255,255,255,.09)}
-    }
 
     /* Hero: garantías debajo de los botones */
     .hero-trust{display:flex;flex-wrap:wrap;gap:.5rem 1.5rem;margin-top:1.6rem;font-size:.88rem;color:var(--text-soft)}
@@ -827,6 +723,7 @@
     ]
   }
   </script>
+  <link rel="stylesheet" href="/css/nav.css?v=20261123a" />
 </head>
 <body>
   <a class="skip" href="#main" data-i18n="a11y.skip">Saltar al contenido</a>
@@ -842,14 +739,14 @@
 
   <nav class="nav" id="topNav">
     <a class="nav-logo" href="/">
-      <img src="assets/logo-triangle.png" alt="" />
-      <img class="nav-wordmark" src="assets/wordmark-umbra.png" alt="UMBRA" />
+      <img src="/assets/logo-triangle.png" alt="" />
+      <img class="nav-wordmark" src="/assets/wordmark-umbra.png" alt="UMBRA" />
     </a>
     <div class="nav-links">
-      <a href="#problema" data-i18n="nav.why">Por qué UMBRA</a>
-      <a href="#comunicacion" data-i18n="nav.whisper">Whisper</a>
-      <a href="#calendario" data-i18n="nav.calendar">Calendario</a>
-      <a class="nav-flash" href="/tienda" aria-label="Flash · Tienda"><img src="assets/brand/flash-logo.svg" width="426" height="120" alt="Flash"></a>
+      <a href="/#problema" data-i18n="nav.why">Por qué UMBRA</a>
+      <a href="/#comunicacion" data-i18n="nav.whisper">Whisper</a>
+      <a href="/#calendario" data-i18n="nav.calendar">Calendario</a>
+      <a class="nav-flash" href="/tienda" aria-label="Flash · Tienda"><img src="/assets/brand/flash-logo.svg" width="426" height="120" alt="Flash"></a>
       <a href="/partners" data-i18n="nav.partners">Partners</a>
     </div>
     <div class="nav-right">
@@ -873,12 +770,11 @@
       </button>
     </div>
     <div class="nav-mobile" id="navMobile">
-      <a href="#comunicacion" data-i18n="nav.comms">Comunicación</a>
-      <a href="#canvas" data-i18n="nav.canvas">Canvas</a>
-      <a href="#plugins" data-i18n="nav.plugins">Plugins</a>
-      <a class="nm-flash" href="/tienda" aria-label="Flash · Tienda"><img src="assets/brand/flash-logo.svg" width="426" height="120" alt="Flash"></a>
+      <a href="/#problema" data-i18n="nav.why">Por qué UMBRA</a>
+      <a href="/#comunicacion" data-i18n="nav.whisper">Whisper</a>
+      <a href="/#calendario" data-i18n="nav.calendar">Calendario</a>
+      <a class="nm-flash" href="/tienda" aria-label="Flash · Tienda"><img src="/assets/brand/flash-logo.svg" width="426" height="120" alt="Flash"></a>
       <a href="/partners" data-i18n="nav.partners">Partners</a>
-      <a href="/tienda" data-i18n="nav.store">Tienda</a>
       <a href="/descargas" data-i18n="nav.downloads">Descargas</a>
       <div class="nm-sep"></div>
       <button class="drawer-login nm-login" type="button" data-i18n="t.nav.login">Iniciar sesión</button>
@@ -1333,11 +1229,6 @@
       var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
       if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
 
-      // Nav scrolled
-      var nav = document.getElementById('topNav');
-      var onNav = function(){ nav.classList.toggle('scrolled', window.scrollY > 40); };
-      addEventListener('scroll', onNav, {passive:true}); onNav();
-
       // Reveal escalonado
       var io = new IntersectionObserver(function(es){
         es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
@@ -1425,26 +1316,9 @@
         }
       }
 
-      // ── Menú móvil (hamburguesa <760px) ──
-      var burger = document.getElementById('navBurger');
-      var navMobile = document.getElementById('navMobile');
-      if(burger && navMobile){
-        var closeNav = function(){ navMobile.classList.remove('open'); burger.setAttribute('aria-expanded','false'); };
-        burger.addEventListener('click', function(e){
-          e.stopPropagation();
-          var open = navMobile.classList.toggle('open');
-          burger.setAttribute('aria-expanded', open ? 'true' : 'false');
-        });
-        navMobile.querySelectorAll('a, .drawer-login, .drawer-user-signout').forEach(function(el){ el.addEventListener('click', closeNav); });
-        document.addEventListener('click', function(e){
-          if(navMobile.classList.contains('open') && !navMobile.contains(e.target) && !burger.contains(e.target)) closeNav();
-        });
-        document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closeNav(); });
-        window.addEventListener('resize', function(){ if(window.innerWidth >= 760) closeNav(); });
-      }
-
     })();
   </script>
+  <script src="/js/nav.js?v=20261123a" defer></script>
   <script src="js/auth.js?v=20260701a" defer></script>
   <script src="js/taco-guide.js?v=20261122f" defer></script>
 

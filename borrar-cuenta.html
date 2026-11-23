@@ -1,6 +1,6 @@
 <!doctype html>
 <!-- borrar-cuenta — iteración 01: documentos «solo en vivo» (se borran a las 24 h, barrido automático del disco) y denuncias. Publicar solo cuando el server con la migración 081 esté desplegado. -->
-<html lang="es">
+<html lang="es" data-content-lang>
 <head>
   <meta charset="utf-8" />
   <title>Borrar tu cuenta de UMBRA · UMBRA</title>
@@ -10,19 +10,75 @@
   <meta property="og:url" content="https://umbra.cfx-software.com/borrar-cuenta" />
   <link rel="icon" href="assets/logo-triangle.png" />
   <link rel="stylesheet" href="css/legal.css?v=20260703a" />
+  <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=clash-display@600,700&f[]=satoshi@400,500,700&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600&display=swap" />
+  <link rel="stylesheet" href="/css/nav.css?v=20261123a" />
 </head>
 <body>
   <div class="page-bg" aria-hidden="true">
     <div class="bg-veil"></div>
   </div>
 
-  <nav class="legal-nav">
-    <a class="legal-nav-logo" href="/">
-      <img src="assets/logo-triangle.png" alt="" />
-      <img class="nav-wordmark" src="assets/wordmark-umbra.png" alt="UMBRA" />
+  <nav class="nav" id="topNav">
+    <a class="nav-logo" href="/">
+      <img src="/assets/logo-triangle.png" alt="" />
+      <img class="nav-wordmark" src="/assets/wordmark-umbra.png" alt="UMBRA" />
     </a>
-    <a class="legal-nav-back" href="/">← Volver al sitio</a>
+    <div class="nav-links">
+      <a href="/#problema" data-i18n="nav.why">Por qué UMBRA</a>
+      <a href="/#comunicacion" data-i18n="nav.whisper">Whisper</a>
+      <a href="/#calendario" data-i18n="nav.calendar">Calendario</a>
+      <a class="nav-flash" href="/tienda" aria-label="Flash · Tienda"><img src="/assets/brand/flash-logo.svg" width="426" height="120" alt="Flash"></a>
+      <a href="/partners" data-i18n="nav.partners">Partners</a>
+    </div>
+    <div class="nav-right">
+      <div class="lang lang-switch" role="group" aria-label="Idioma">
+        <button type="button" data-lang="es" class="active">ES</button>
+        <button type="button" data-lang="en">EN</button>
+      </div>
+      <button class="nav-cta btn-login" data-i18n="t.nav.login">Iniciar sesión</button>
+      <a class="nav-dl" href="https://umbra-api.cfx-software.com/downloads/Umbra-Setup.exe" download data-i18n="nav.cta">Descargar</a>
+      <div class="user-menu" hidden>
+        <button class="nav-cta user-toggle" aria-expanded="false">
+          <span class="user-name"></span>
+        </button>
+        <div class="user-dropdown">
+          <button class="creator-link" hidden onclick="location.assign('/creador')" data-i18n="nav.creatorPanel">Panel de creador</button>
+          <button data-action="signout" data-i18n="t.nav.signout">Cerrar sesión</button>
+        </div>
+      </div>
+      <button class="nav-burger" id="navBurger" aria-label="Menú" aria-expanded="false" aria-controls="navMobile">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="nav-mobile" id="navMobile">
+      <a href="/#problema" data-i18n="nav.why">Por qué UMBRA</a>
+      <a href="/#comunicacion" data-i18n="nav.whisper">Whisper</a>
+      <a href="/#calendario" data-i18n="nav.calendar">Calendario</a>
+      <a class="nm-flash" href="/tienda" aria-label="Flash · Tienda"><img src="/assets/brand/flash-logo.svg" width="426" height="120" alt="Flash"></a>
+      <a href="/partners" data-i18n="nav.partners">Partners</a>
+      <a href="/descargas" data-i18n="nav.downloads">Descargas</a>
+      <div class="nm-sep"></div>
+      <button class="drawer-login nm-login" type="button" data-i18n="t.nav.login">Iniciar sesión</button>
+      <div class="drawer-user nm-user" hidden>
+        <div class="nm-user-info">
+          <span class="user-avatar" aria-hidden="true"></span>
+          <div class="nm-user-meta">
+            <span class="drawer-user-name"></span>
+            <span class="drawer-user-email"></span>
+          </div>
+        </div>
+        <a class="creator-link nm-signout" href="/creador" hidden style="text-align:center;text-decoration:none" data-i18n="nav.creatorPanel">Panel de creador</a>
+        <button class="drawer-user-signout nm-signout" data-action="signout" data-i18n="t.nav.signout">Cerrar sesión</button>
+      </div>
+      <div class="nm-sep"></div>
+      <div class="lang lang-switch" role="group" aria-label="Idioma">
+        <button type="button" data-lang="es">ES</button>
+        <button type="button" data-lang="en">EN</button>
+      </div>
+    </div>
   </nav>
+  <div class="nav-offset" aria-hidden="true"></div>
   <img class="legal-taco" src="assets/taco-sneaky.png" alt="" aria-hidden="true" />
 
   <header class="legal-hero">
@@ -213,5 +269,8 @@
     <p style="margin-top:0.85rem">© 2026 UMBRA · Nombre comercial del servicio. El responsable legal figura en la sección 9.</p>
   </footer>
 
+  <script src="/js/i18n-v2.js?v=20261123a" defer></script>
+  <script src="/js/nav.js?v=20261123a" defer></script>
+  <script src="/js/auth.js?v=20260701a" defer></script>
 </body>
 </html>
